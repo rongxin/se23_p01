@@ -38,6 +38,7 @@ public class MainPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				AddCategoryDialog d = new AddCategoryDialog(shopApplication);
 				d.pack();
+				d.setLocationByPlatform(true);
 				d.setVisible(true);
 			}
 		});
