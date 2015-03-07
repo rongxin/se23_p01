@@ -7,6 +7,11 @@ public class Vendor {
 	private String name;
 	private String description;
 
+	public Vendor(String name, String description) {
+		this.name = name;
+		this.description = description;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -22,9 +27,9 @@ public class Vendor {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-	/*Lazy loading to be implemented*/
-	public List<Category> getCategories(){
+
+	/* Lazy loading to be implemented */
+	public List<Category> getCategories() {
 		return new LinkedList<Category>();
 	}
 
