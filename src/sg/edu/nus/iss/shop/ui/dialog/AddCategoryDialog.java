@@ -1,12 +1,15 @@
 package sg.edu.nus.iss.shop.ui.dialog;
 
+import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 
 import sg.edu.nus.iss.shop.ui.ShopApplication;
 
@@ -24,32 +27,38 @@ public class AddCategoryDialog extends OkCancelDialog {
 
 	@Override
 	protected JPanel createFormPanel() {
-		JPanel p = new JPanel();
-		GridLayout layout = new GridLayout(0, 2);
-		p.setLayout(layout);
+		JPanel p = createAddCategoryPanel();
 
-		JLabel categoryCodeLabel = new JLabel("Category Code");
-		setMargin(categoryCodeLabel);
+		JPanel mainPanel = new JPanel(new BorderLayout());
+		JLabel title = new JLabel("Add Category", SwingConstants.CENTER);
+		title.setFont(new Font("Arial", 1, 28));
+
+		mainPanel.add(title, BorderLayout.NORTH);
+		mainPanel.add(p, BorderLayout.CENTER);
+		mainPanel.add(new JLabel(), BorderLayout.SOUTH);
+		UIManager.put("title.font", new Font("Arial", Font.BOLD, 16));
+		return mainPanel;
+	}
+
+	private JPanel createAddCategoryPanel() {
+		JPanel p = new JPanel();
+		p.setLayout(new GridLayout(0, 2));
+
+		JLabel categoryCodeLabel = new JLabel("Category Code:");
 		p.add(categoryCodeLabel);
-		categoryCodeField = new JTextField();
+		categoryCodeField = new JTextField(3);
 		categoryCodeField
 		.setToolTipText("Please input three-letter code for the new category");
 		p.add(categoryCodeField);
 
-		JLabel categoryNameLabel = new JLabel("Category Name");
-		setMargin(categoryNameLabel);
-
+		JLabel categoryNameLabel = new JLabel("Category Name:");
 		p.add(categoryNameLabel);
 		categoryNameField = new JTextField(20);
 		categoryNameField.setToolTipText("Please input name for the category");
 		p.add(categoryNameField);
 
-
+		p.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		return p;
-	}
-
-	private void setMargin(JComponent component) {
-		component.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
 	}
 
 	@Override
