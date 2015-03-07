@@ -1,6 +1,7 @@
 package sg.edu.nus.iss.shop.ui.dialog;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 
@@ -19,6 +20,7 @@ public class AddCategoryDialog extends OkCancelDialog {
 	private ShopApplication shopApplication;
 	private JTextField categoryCodeField;
 	private JTextField categoryNameField;
+	private JLabel messageLabel;
 
 	public AddCategoryDialog(ShopApplication shopApplication) {
 		super(shopApplication.getMainWindow(), "Add Category");
@@ -27,45 +29,68 @@ public class AddCategoryDialog extends OkCancelDialog {
 
 	@Override
 	protected JPanel createFormPanel() {
-		JPanel p = createAddCategoryPanel();
-
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		JLabel title = new JLabel("Add Category", SwingConstants.CENTER);
 		title.setFont(new Font("Arial", 1, 28));
 
 		mainPanel.add(title, BorderLayout.NORTH);
-		mainPanel.add(p, BorderLayout.CENTER);
-		mainPanel.add(new JLabel(), BorderLayout.SOUTH);
-		UIManager.put("title.font", new Font("Arial", Font.BOLD, 16));
+		mainPanel.add(createFormLabelsPanel(), BorderLayout.WEST);
+		mainPanel.add(createFormInputFieldsPanel(), BorderLayout.CENTER);
+		mainPanel.add(createFormMessagePanel(), BorderLayout.SOUTH);
+		UIManager.put("title.font", new Font("Arial", Font.BOLD, 14));
 		return mainPanel;
 	}
 
-	private JPanel createAddCategoryPanel() {
+	private JPanel createFormMessagePanel() {
+		JPanel p = new JPanel(new GridLayout(0, 1));
+		messageLabel = new JLabel(" ");
+		messageLabel.setText("Please input category code and name.");
+		p.add(messageLabel);
+		setMargin(p);
+		return p;
+	}
+
+	private JPanel createFormLabelsPanel() {
 		JPanel p = new JPanel();
-		p.setLayout(new GridLayout(0, 2));
+		p.setLayout(new GridLayout(0, 1));
 
 		JLabel categoryCodeLabel = new JLabel("Category Code:");
 		p.add(categoryCodeLabel);
+		JLabel categoryNameLabel = new JLabel("Category Name:");
+		p.add(categoryNameLabel);
+
+		setMargin(p);
+		return p;
+	}
+
+	private void setMargin(JPanel p) {
+		p.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+	}
+
+	private JPanel createFormInputFieldsPanel() {
+		JPanel p = new JPanel();
+		p.setLayout(new GridLayout(0, 1));
+
 		categoryCodeField = new JTextField(3);
 		categoryCodeField
 		.setToolTipText("Please input three-letter code for the new category");
 		p.add(categoryCodeField);
 
-		JLabel categoryNameLabel = new JLabel("Category Name:");
-		p.add(categoryNameLabel);
 		categoryNameField = new JTextField(20);
 		categoryNameField.setToolTipText("Please input name for the category");
 		p.add(categoryNameField);
 
-		p.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		setMargin(p);
 		return p;
 	}
 
 	@Override
 	protected boolean performOkAction() {
-		String categoryCode = categoryCodeField.getText();
-		String categoryName = categoryNameField.getText();
+		String categoryCode = categoryCodeField.getText().trim();
+		String categoryName = categoryNameField.getText().trim();
 		if ((categoryCode.length() == 0) || (categoryName.length() == 0)) {
+			messageLabel.setText("Category code and  name are compulsory.");
+			messageLabel.setForeground(Color.RED);
 			return false;
 		}
 		shopApplication.addCategory (categoryCode, categoryName);
