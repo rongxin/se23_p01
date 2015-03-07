@@ -5,12 +5,13 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 
 public class ShopApplication {
-	private ShopWindow shopWindow;
+	private ShopMainWindow shopWindow;
 
 	public ShopApplication() {
-		shopWindow = new ShopWindow(this);
+		shopWindow = new ShopMainWindow(this);
 		shopWindow.pack();
 		shopWindow.setLocationRelativeTo(null);
+
 	}
 
 	public void start() {
@@ -19,6 +20,10 @@ public class ShopApplication {
 
 	public void shutdown() {
 		System.exit(0);
+	}
+
+	public ShopMainWindow getMainWindow() {
+		return shopWindow;
 	}
 
 	public static void main(String[] args) {
@@ -30,6 +35,12 @@ public class ShopApplication {
 			e.printStackTrace();
 		}
 		shop.start();
+	}
+
+	public void addCategory(String categoryCode, String categoryName) {
+		System.out.println("Add Category: " + categoryCode + ",  "
+				+ categoryName);
+		// TODO call categoryManager to perform add logic
 	}
 
 }
