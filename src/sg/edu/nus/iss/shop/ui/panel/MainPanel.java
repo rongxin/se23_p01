@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -23,19 +24,31 @@ public class MainPanel extends JPanel {
 	public MainPanel(ShopApplication shopApplication) {
 		this.shopApplication = shopApplication;
 		setLayout(new BorderLayout());
-		JLabel mainTitle = new JLabel("Souvenir Shop Management");
-		mainTitle.setFont(new Font("Arial", 1, 18));
-		mainTitle.setHorizontalAlignment(SwingConstants.CENTER);
-		add("North", mainTitle);
+		add("North", createTitlePanel());
 		add("Center", createOptionsPanel());
 	}
 
+	private void setMargin(JPanel p) {
+		p.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+	}
+
+	private JPanel createTitlePanel() {
+		JPanel p = new JPanel(new GridLayout(1, 1));
+		setMargin(p);
+		JLabel mainTitle = new JLabel("Souvenir Shop Management");
+		mainTitle.setFont(new Font("Arial", 1, 18));
+		mainTitle.setHorizontalAlignment(SwingConstants.CENTER);
+		p.add(mainTitle);
+		return p;
+	}
+
 	private JPanel createOptionsPanel() {
-		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(3, 2));
+		JPanel p = new JPanel();
+		p.setLayout(new GridLayout(3, 2));
+		setMargin(p);
 
 		JButton checkoutButton = createImageButton("Make purchase", "shopping_cart_green.png", "shopping_cart_blue.png");
-		panel.add(checkoutButton);
+		p.add(checkoutButton);
 		JButton addCategoryButton = createImageButton("Add Category", "poll_green.png", "poll_yellow.png");
 		addCategoryButton.addActionListener(new ActionListener() {
 			@Override
@@ -47,16 +60,18 @@ public class MainPanel extends JPanel {
 			}
 		});
 
-		panel.add(addCategoryButton);
+		p.add(addCategoryButton);
 		JButton addMemberButton = createImageButton("Add  new member", "puzzle_blue.png", "puzzle_red.png");
-		panel.add(addMemberButton);
+		p.add(addMemberButton);
 		JButton addProductButton = createImageButton("Add new product", "cd.png", "cd_blue.png");
-		panel.add(addProductButton);
+		p.add(addProductButton);
 		JButton addInventoryButton = createImageButton("Manage inventory", "bulb.png", "bulb_yellow.png");
-		panel.add(addInventoryButton);
+		p.add(addInventoryButton);
 		JButton reportingButton = createImageButton("View reports", "pie_chart_green.png", "pie_chart_yellow.png");
-		panel.add(reportingButton);
-		return panel;
+		p.add(reportingButton);
+
+		return p;
+
 	}
 
 	private JButton createImageButton(String tooltip, String defaultImageName, String rolloverImageName) {
