@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 
 import sg.edu.nus.iss.shop.ui.panel.MainPanel;
 
-public class ShopWindow extends JFrame {
+public class ShopMainWindow extends JFrame {
 	private ShopApplication shopApplication;
 	private MainPanel memberPanel;
 
@@ -21,7 +21,7 @@ public class ShopWindow extends JFrame {
 		}
 	};
 
-	public ShopWindow(ShopApplication shopApplication) {
+	public ShopMainWindow(ShopApplication shopApplication) {
 		super("Souvenir Shop System");
 		this.shopApplication = shopApplication;
 		memberPanel = new MainPanel(shopApplication);
