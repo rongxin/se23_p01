@@ -19,27 +19,26 @@ public class TransactionManager {
 		return transactionManager;
 	}
 
-	public static Transaction StartTransaction(Member member) {
+	public Transaction StartTransaction(Member member) {
 		Transaction t = new Transaction(0, member, new Date());
 
 		return t;
 	}
 
-	public static void addProduct(Transaction transaction, String product,
+	public void addProduct(Transaction transaction, String product, int quantity) {
+
+	}
+
+	public void adjustProduct(Transaction transaction, String product,
 			int quantity) {
 
 	}
 
-	public static void adjustProduct(Transaction transaction, String product,
-			int quantity) {
+	public void cancelTransaction(Transaction transaction) {
 
 	}
 
-	public static void cancelTransaction(Transaction transaction) {
-
-	}
-
-	public static void endTransaction(Transaction transaction, double cash,
+	public void endTransaction(Transaction transaction, double cash,
 			int loyaltyPoints) {
 
 	}
