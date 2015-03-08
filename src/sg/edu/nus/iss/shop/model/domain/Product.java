@@ -39,6 +39,14 @@ public class Product {
 		this.orderQuantity = orderQuantity;
 	}
 	
+
+	/**
+	*  Empty Constructor Stub for Product 
+	*/
+	public Product() {
+		
+	}
+
 	/**
 	 * Method to get Product ID
 	 * @return Product ID
