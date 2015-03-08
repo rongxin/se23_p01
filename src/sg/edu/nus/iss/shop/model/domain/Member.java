@@ -29,5 +29,7 @@ public class Member extends Customer {
 	public void setLoyalPoints(int loyalPoints) {
 		this.loyalPoints = loyalPoints;
 	}
+	
+
 
 }

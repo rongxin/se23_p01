@@ -1,5 +1,6 @@
 package sg.edu.nus.iss.shop.controller;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -9,6 +10,11 @@ import sg.edu.nus.iss.shop.model.domain.NonMemberCustomer;
 
 public class MemberManager {
 	private static final String NOT_SUFFICIENT_POINTS_ERROR_MESSAGE = "There is insufficient points in member's account.";
+	private static final String INVALID_ID_ERROR_MESSAGE = "Invalid ID";
+	private static final String INVALID_NAME_ERROR_MESSAGE = "Invalid Name";
+	private static final String MEMBER_EXISTS_ERROR_MESSAGE = "Member already exists.";
+	private static final int MIN_ID_LENGTH = 5;
+	private static final int MIN_NAME_LENGTH = 5;
 	private static MemberManager theOnlyMemberManager;
 
 	private MemberManager() {
@@ -22,7 +28,23 @@ public class MemberManager {
 		return MemberManager.theOnlyMemberManager;
 	}
 
-	public Member addMember(String id, String name) throws ApplicationGUIException{
+	public Member addMember(String id, String name)
+			throws ApplicationGUIException {
+		if (id == null || id.trim().length() < MemberManager.MIN_ID_LENGTH) {
+			throw new ApplicationGUIException(
+					MemberManager.INVALID_ID_ERROR_MESSAGE);
+		}
+		if (name == null
+				|| name.trim().length() < MemberManager.MIN_NAME_LENGTH) {
+			throw new ApplicationGUIException(
+					MemberManager.INVALID_NAME_ERROR_MESSAGE);
+		}
+		Member existingMember = MemberManager.getMemberManager().getMemberById(
+				id);
+		if (existingMember != null) {
+			throw new ApplicationGUIException(
+					MemberManager.MEMBER_EXISTS_ERROR_MESSAGE);
+		}
 
 		return null;
 	}
@@ -30,16 +52,33 @@ public class MemberManager {
 	public List<Member> getAllMembers() {
 		return new LinkedList<Member>();
 	}
-	
-	public NonMemberCustomer generateNonMember(){
+
+	public Member getMemberById(String id) {
+		Member result = null;
+		List<Member> allMembers = MemberManager.getMemberManager()
+				.getAllMembers();
+		Iterator<Member> it = allMembers.iterator();
+		while (it.hasNext()) {
+			Member member = it.next();
+			if (member.getId().equals(id)) {
+				result = member;
+				return result;
+			}
+		}
+		return result;
+	}
+
+	public NonMemberCustomer generateNonMember() {
 		return new NonMemberCustomer();
 	}
-	
-	public int reduceLoyalPoints(Member member, int usedPoints) throws ApplicationGUIException{
-		if (member.getLoyalPoints() < usedPoints){
-			throw new ApplicationGUIException(MemberManager.NOT_SUFFICIENT_POINTS_ERROR_MESSAGE);
+
+	public int reduceLoyalPoints(Member member, int usedPoints)
+			throws ApplicationGUIException {
+		if (member.getLoyalPoints() < usedPoints) {
+			throw new ApplicationGUIException(
+					MemberManager.NOT_SUFFICIENT_POINTS_ERROR_MESSAGE);
 		}
-		member.setLoyalPoints(member.getLoyalPoints()-usedPoints);
+		member.setLoyalPoints(member.getLoyalPoints() - usedPoints);
 		return member.getLoyalPoints();
 	}
 

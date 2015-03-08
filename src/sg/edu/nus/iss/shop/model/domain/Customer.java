@@ -15,4 +15,16 @@ public class Customer {
 		this.id = id;
 	}
 
+	@Override
+	public boolean equals(Object object) {
+		if (object == null) {
+			return false;
+		}
+		if (!this.getClass().equals(object.getClass())) {
+			return false;
+		}
+		Customer customer = (Customer) object;
+		return this.getId().equals(customer.getId());
+	}
+
 }
