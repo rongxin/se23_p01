@@ -1,3 +1,6 @@
+/**
+* @author  robincher
+*/
 package sg.edu.nus.iss.shop.model.domain;
 
 public class Product {
@@ -12,7 +15,15 @@ public class Product {
 	private int orderQuantity;
 
 	/**
-	 * Constructor for Product
+	 * Constructor for Product 
+	 * @param productId product ID
+	 * @param name product name
+	 * @param description product description
+	 * @param availableQuantity product available quantity
+	 * @param price product price
+	 * @param barcodeNumber product Barcode number
+	 * @param orderThreshold product order threshold
+	 * @param orderQuantity product order quantity
 	 */
 	public Product(String productId, String name, String description,
 			int availableQuantity, double price, String barcodeNumber,
