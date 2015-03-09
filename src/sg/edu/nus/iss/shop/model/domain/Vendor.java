@@ -27,6 +27,20 @@ public class Vendor {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	public boolean equals(Object object){
+		if (object == null){
+			return false;
+		}
+		if (!this.getClass().equals(object.getClass())){
+			return false;
+		}
+		if (this.getName() == null){
+			return false;
+		}
+		Vendor vendor = (Vendor)object;
+		return this.getName().equals(vendor.getName());
+	}
 
 	/* Lazy loading to be implemented */
 	public List<Category> getCategories() {
