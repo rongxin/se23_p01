@@ -3,7 +3,10 @@ package sg.edu.nus.iss.shop.ui.dialog;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -30,57 +33,75 @@ public class AddCategoryDialog extends OkCancelDialog {
 	@Override
 	protected JPanel createFormPanel() {
 		JPanel mainPanel = new JPanel(new BorderLayout());
-		JLabel title = new JLabel("Add Category", SwingConstants.CENTER);
-		title.setFont(new Font("Arial", 1, 28));
 
-		mainPanel.add(title, BorderLayout.NORTH);
-		mainPanel.add(createFormLabelsPanel(), BorderLayout.WEST);
-		mainPanel.add(createFormInputFieldsPanel(), BorderLayout.CENTER);
+		mainPanel.add(new JPanel(), BorderLayout.NORTH);
+		mainPanel.add(new JPanel(), BorderLayout.WEST);
+		mainPanel.add(new JPanel(), BorderLayout.EAST);
+		mainPanel.add(createInputFormPanel(), BorderLayout.CENTER);
 		mainPanel.add(createFormMessagePanel(), BorderLayout.SOUTH);
 		UIManager.put("title.font", new Font("Arial", Font.BOLD, 14));
 		return mainPanel;
 	}
 
-	private JPanel createFormMessagePanel() {
-		JPanel p = new JPanel(new GridLayout(0, 1));
-		messageLabel = new JLabel(" ");
-		messageLabel.setText("Please input category code and name.");
-		p.add(messageLabel);
-		setMargin(p);
-		return p;
+	private GridBagConstraints createCellConstraint(int x, int y) {
+		GridBagConstraints gc = new GridBagConstraints();
+		gc.gridx = x;
+		gc.gridy = y;
+		gc.gridwidth = 1;
+		gc.gridheight = 1;
+
+		boolean isLeftMostColumn = x == 0;
+		gc.anchor = isLeftMostColumn ? GridBagConstraints.WEST : GridBagConstraints.EAST;
+		// gc.fill = isLeftMostColumn ? GridBagConstraints.BOTH :
+		// GridBagConstraints.HORIZONTAL;
+
+		Insets westInset = new Insets(5, 0, 5, 5);
+		Insets eastInset = new Insets(5, 5, 5, 0);
+		gc.insets = isLeftMostColumn ? westInset : eastInset;
+		gc.weightx = isLeftMostColumn ? 0.1 : 1.0;
+		gc.weighty = 1.0;
+		return gc;
 	}
 
-	private JPanel createFormLabelsPanel() {
+	private JPanel createInputFormPanel() {
 		JPanel p = new JPanel();
-		p.setLayout(new GridLayout(0, 1));
+		p.setLayout(new GridBagLayout());
+		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(" Add Category "),
+				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+		GridBagConstraints gc = new GridBagConstraints();
 
-		JLabel categoryCodeLabel = new JLabel("Category Code:");
-		p.add(categoryCodeLabel);
-		JLabel categoryNameLabel = new JLabel("Category Name:");
-		p.add(categoryNameLabel);
+		// column 1
+		createCellConstraint(0, 0);
+		gc = createCellConstraint(0, 0);
+		JLabel categoryCodeLabel = new JLabel("Category Code: ");
+		p.add(categoryCodeLabel, gc);
 
-		setMargin(p);
-		return p;
-	}
+		gc = createCellConstraint(0, 1);
+		JLabel categoryNameLabel = new JLabel("Category Name: ");
+		p.add(categoryNameLabel, gc);
 
-	private void setMargin(JPanel p) {
-		p.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-	}
-
-	private JPanel createFormInputFieldsPanel() {
-		JPanel p = new JPanel();
-		p.setLayout(new GridLayout(0, 1));
+		// column 2
+		gc = createCellConstraint(1, 0);
+		gc.anchor = GridBagConstraints.LAST_LINE_START;
 
 		categoryCodeField = new JTextField(3);
-		categoryCodeField
-		.setToolTipText("Please input three-letter code for the new category");
-		p.add(categoryCodeField);
+		categoryCodeField.setToolTipText("Please input three-letter code for the new category");
+		p.add(categoryCodeField, gc);
 
+		gc = createCellConstraint(1, 1);
 		categoryNameField = new JTextField(20);
 		categoryNameField.setToolTipText("Please input name for the category");
-		p.add(categoryNameField);
+		p.add(categoryNameField, gc);
 
-		setMargin(p);
+		return p;
+	}
+
+	private JPanel createFormMessagePanel() {
+		JPanel p = new JPanel(new GridLayout(0, 1));
+		messageLabel = new JLabel(" ", SwingConstants.CENTER);
+		messageLabel.setText("Please input category code and name.");
+
+		p.add(messageLabel);
 		return p;
 	}
 
