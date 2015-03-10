@@ -1,5 +1,6 @@
 package sg.edu.nus.iss.shop.controller;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,6 +16,8 @@ public class VendorManager {
 	private static final String INVALID_NAME_ERROR_MESSAGE = "Invalid vendor name";
 	private static final String INVALID_DESCRIPTION_ERROR_MESSAGE = "Invalid vendor description";
 	private static final String NIL_CATEGORY_ERROR_MESSAGE = "At least one category is needed";
+	private static final String VENDOR_EXISTS_FOR_CATEGORY_ERROR_MESSAGE = "This vendor already exists for category ";
+	private static final String VENDOR_EXISTS_WITH_DIFFERENT_DESCRIPTION = "This vendor already exsits with a description: ";
 	
 	private static VendorManager theOnlyVendorManager;
 
@@ -29,12 +32,37 @@ public class VendorManager {
 		return VendorManager.theOnlyVendorManager;
 	}
 
+	/* return distinctive vendors for all categories***/
 	public List<Vendor> getAllVendors() {
-		return new LinkedList<Vendor>();
+		List<Category> categoryList = CategoryManager.getCategoryManager().getAllCategories();
+		List<Vendor> vendorList = new LinkedList<Vendor>();
+		Iterator<Category> it = categoryList.iterator();
+		while (it.hasNext()){
+			Category category = it.next();
+			List<Vendor> categoryVendorList = this.listVendorForCategory(category);
+			vendorList.removeAll(categoryVendorList);
+			vendorList.addAll(categoryVendorList);
+		}
+		return vendorList;
 	}
 
 	public List<Vendor> listVendorForCategory(Category category) {
 		return new LinkedList<Vendor>();
+	}
+	
+	private Vendor getVendorByName(String name){
+		if (name == null || name.trim().length()==0){
+			return null;
+		}
+		List<Vendor> allVendors = this.getAllVendors();
+		Iterator<Vendor> it = allVendors.iterator();
+		while (it.hasNext()){
+			Vendor existingVendor = it.next();
+			if (existingVendor.getName().equals(name)){
+				return existingVendor;
+			}
+		}
+		return null;
 	}
 
 	public Vendor addVendor(String name, String description, List<Category> categories) throws ApplicationGUIException {
@@ -46,6 +74,19 @@ public class VendorManager {
 		}
 		if (categories == null || categories.size()==0){
 			throw new ApplicationGUIException(VendorManager.NIL_CATEGORY_ERROR_MESSAGE);
+		}
+		Vendor newVendor = new Vendor(name, description);
+		Iterator<Category> it = categories.iterator(); // check if the vendor has already existed for one of the parameter categories
+		while (it.hasNext()){
+			Category category = it.next();
+			List<Vendor> categoryVendorList = this.listVendorForCategory(category);
+			if (categoryVendorList.contains(newVendor)){
+				throw new ApplicationGUIException(VendorManager.VENDOR_EXISTS_FOR_CATEGORY_ERROR_MESSAGE + category.getCode());
+			}
+		}
+		Vendor vendor = this.getVendorByName(name);      // check if the description is same as current, in case of existing vendor
+		if (vendor != null && !description.equals(vendor.getDescription())){
+			throw new ApplicationGUIException(VendorManager.VENDOR_EXISTS_WITH_DIFFERENT_DESCRIPTION + vendor.getDescription());
 		}
 		return null;
 	}
