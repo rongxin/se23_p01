@@ -11,8 +11,10 @@ import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 
 import sg.edu.nus.iss.shop.ui.ShopApplication;
@@ -132,9 +134,12 @@ public class AddProductDialog extends OkCancelDialog {
 		p.add(productNameField, gc);
 
 		gc = createCellConstraint(1, 2);
-		productDescriptionField = new JTextArea(4, 20);
+		productDescriptionField = new JTextArea(5, 20);
+		productDescriptionField.setBorder(BorderFactory.createLineBorder(Color.lightGray));
 		productDescriptionField.setToolTipText("Please input product description.");
-		p.add(productDescriptionField, gc);
+		JScrollPane productDescriptionFieldScroll = new JScrollPane(productDescriptionField);
+		productDescriptionFieldScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		p.add(productDescriptionFieldScroll, gc);
 
 		gc = createCellConstraint(1, 3);
 		productQuantityField = new JTextField(20);
