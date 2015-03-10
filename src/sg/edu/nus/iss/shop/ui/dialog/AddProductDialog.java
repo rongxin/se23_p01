@@ -2,7 +2,8 @@ package sg.edu.nus.iss.shop.ui.dialog;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
@@ -12,7 +13,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 
 import sg.edu.nus.iss.shop.ui.ShopApplication;
 
@@ -31,101 +31,134 @@ public class AddProductDialog extends OkCancelDialog {
 	private JLabel messageLabel;
 
 	public AddProductDialog(ShopApplication shopApplication) {
-		super(shopApplication.getMainWindow(), "Add Product");
+		super(shopApplication.getMainWindow(), " Add Product ");
 		this.shopApplication = shopApplication;
 	}
 
 	@Override
 	protected JPanel createFormPanel() {
 		JPanel mainPanel = new JPanel(new BorderLayout());
-		JLabel title = new JLabel("Add Product", SwingConstants.CENTER);
-		title.setFont(new Font("Arial", 1, 28));
-
-		mainPanel.add(title, BorderLayout.NORTH);
-		mainPanel.add(createFormLabelsPanel(), BorderLayout.WEST);
-		mainPanel.add(createFormInputFieldsPanel(), BorderLayout.CENTER);
+		mainPanel.add(new JPanel(), BorderLayout.NORTH);
+		mainPanel.add(new JPanel(), BorderLayout.WEST);
+		mainPanel.add(new JPanel(), BorderLayout.EAST);
+		mainPanel.add(createInputFormPanel(), BorderLayout.CENTER);
 		mainPanel.add(createFormMessagePanel(), BorderLayout.SOUTH);
-		UIManager.put("title.font", new Font("Arial", Font.BOLD, 14));
 		return mainPanel;
 	}
 
 	private JPanel createFormMessagePanel() {
 		JPanel p = new JPanel(new GridLayout(0, 1));
-		messageLabel = new JLabel(" ");
+		messageLabel = new JLabel(" ", SwingConstants.CENTER);
 		messageLabel.setText("Please input product details.");
 		p.add(messageLabel);
-		setMargin(p);
+
 		return p;
 	}
 
-	private JPanel createFormLabelsPanel() {
+	private JPanel createInputFormPanel() {
 		JPanel p = new JPanel();
-		p.setLayout(new GridLayout(0, 1));
+		p.setLayout(new GridBagLayout());
+		p.setBorder(BorderFactory.createTitledBorder("Add Product"));
+		GridBagConstraints gc = new GridBagConstraints();
 
+		gc.weightx = 1;
+		gc.weighty = 1;
+		// column 1
+		gc.gridx = 0;
+		gc.gridy = 0;
 		JLabel productCategoryLabel = new JLabel("Product Category:");
-		p.add(productCategoryLabel);
+		p.add(productCategoryLabel, gc);
+
+		gc.gridx = 0;
+		gc.gridy = 1;
+
 		JLabel productTitleLabel = new JLabel("Product Name:");
-		p.add(productTitleLabel);
+		p.add(productTitleLabel, gc);
+
+		gc.gridx = 0;
+		gc.gridy = 2;
 		JLabel productDescriptionLabel = new JLabel("Product Description:");
-		p.add(productDescriptionLabel);
+		p.add(productDescriptionLabel, gc);
+
+		gc.gridx = 0;
+		gc.gridy = 3;
 		JLabel productQuantityLabel = new JLabel("Quantity:");
-		p.add(productQuantityLabel);
+		p.add(productQuantityLabel, gc);
+
+		gc.gridx = 0;
+		gc.gridy = 4;
 		JLabel productPriceLabel = new JLabel("Price:");
-		p.add(productPriceLabel);
+		p.add(productPriceLabel, gc);
+
+		gc.gridx = 0;
+		gc.gridy = 5;
 		JLabel productBarCodeLabel = new JLabel("Barcode Number:");
-		p.add(productBarCodeLabel);
+		p.add(productBarCodeLabel, gc);
+
+		gc.gridx = 0;
+		gc.gridy = 6;
 		JLabel productReorderThresholdLabel = new JLabel("Reorder Threshold:");
-		p.add(productReorderThresholdLabel);
+		p.add(productReorderThresholdLabel, gc);
+
+		gc.gridx = 0;
+		gc.gridy = 7;
 		JLabel productOrderQuantityJLabel = new JLabel("Order Quantity:");
-		p.add(productOrderQuantityJLabel);
+		p.add(productOrderQuantityJLabel, gc);
 
-		setMargin(p);
-		return p;
-	}
+		// column 2
+		gc.anchor = GridBagConstraints.LAST_LINE_START;
 
-	private void setMargin(JPanel p) {
-		p.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-	}
-
-	private JPanel createFormInputFieldsPanel() {
-		JPanel p = new JPanel();
-		p.setLayout(new GridLayout(0, 1));
-
+		gc.gridx = 1;
+		gc.gridy = 0;
 		productCategoryCombo = new JComboBox<>();
 		productCategoryCombo.setToolTipText("Please choose a category");
-		p.add(productCategoryCombo);
+		p.add(productCategoryCombo, gc);
 
+		gc.gridx = 1;
+		gc.gridy = 1;
 		productNameField = new JTextField(20);
 		productNameField.setToolTipText("Please input the product name.");
-		p.add(productNameField);
+		p.add(productNameField, gc);
 
+		gc.gridx = 1;
+		gc.gridy = 2;
 		productDescriptionField = new JTextArea(4, 20);
 		productDescriptionField.setToolTipText("Please input product description.");
-		p.add(productDescriptionField);
+		p.add(productDescriptionField, gc);
 
+		gc.gridx = 1;
+		gc.gridy = 3;
 		productQuantityField = new JTextField(20);
 		productQuantityField.setToolTipText("Please input available product quantity.");
-		p.add(productQuantityField);
+		p.add(productQuantityField, gc);
 
+		gc.gridx = 1;
+		gc.gridy = 4;
 		productPriceField = new JTextField(20);
 		productPriceField.setToolTipText("Please input product price.");
-		p.add(productPriceField);
+		p.add(productPriceField, gc);
 
+		gc.gridx = 1;
+		gc.gridy = 5;
 		productBarCodeNumberField = new JTextField(20);
 		productBarCodeNumberField.setToolTipText("Please input the barcode number of product.");
-		p.add(productBarCodeNumberField);
+		p.add(productBarCodeNumberField, gc);
 
+		gc.gridx = 1;
+		gc.gridy = 6;
 		productReorderThresholdField = new JTextField(20);
 		productReorderThresholdField.setToolTipText("Please input threshold for reorder.");
-		p.add(productReorderThresholdField);
+		p.add(productReorderThresholdField, gc);
 
+		gc.gridx = 1;
+		gc.gridy = 7;
 		productReorderQuantityField = new JTextField(20);
 		productReorderQuantityField.setToolTipText("Please input quanity when reorder this product");
-		p.add(productReorderQuantityField);
+		p.add(productReorderQuantityField, gc);
 
-		setMargin(p);
 		return p;
 	}
+
 
 	@Override
 	protected boolean performOkAction() {

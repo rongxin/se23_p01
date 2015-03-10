@@ -32,22 +32,18 @@ public class AddCategoryDialog extends OkCancelDialog {
 	@Override
 	protected JPanel createFormPanel() {
 		JPanel mainPanel = new JPanel(new BorderLayout());
-		JLabel title = new JLabel("Add Category", SwingConstants.CENTER);
-		title.setFont(new Font("Arial", 1, 28));
-
-		// mainPanel.add(title, BorderLayout.NORTH);
-		//		mainPanel.add(createFormLabelsPanel(), BorderLayout.WEST);
 
 		mainPanel.add(new JPanel(), BorderLayout.NORTH);
 		mainPanel.add(new JPanel(), BorderLayout.WEST);
 		mainPanel.add(new JPanel(), BorderLayout.EAST);
-		mainPanel.add(createNewFormPanel(), BorderLayout.CENTER);
+		mainPanel.add(createInputFormPanel(), BorderLayout.CENTER);
 		mainPanel.add(createFormMessagePanel(), BorderLayout.SOUTH);
 		UIManager.put("title.font", new Font("Arial", Font.BOLD, 14));
 		return mainPanel;
 	}
 
-	private JPanel createNewFormPanel() {
+	
+	private JPanel createInputFormPanel() {
 		JPanel p = new JPanel();
 		p.setLayout(new GridBagLayout());
 		p.setBorder(BorderFactory.createTitledBorder("Add Category"));
