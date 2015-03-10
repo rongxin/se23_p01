@@ -3,9 +3,11 @@ package sg.edu.nus.iss.shop.controller;
 import java.util.Date;
 import java.util.List;
 
+import sg.edu.nus.iss.shop.model.domain.Customer;
 import sg.edu.nus.iss.shop.model.domain.Member;
 import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.model.domain.Transaction;
+import sg.edu.nus.iss.shop.model.domain.TransactionDetail;
 
 /**
  * 
@@ -22,9 +24,36 @@ public class TransactionManager {
 		return transactionManager;
 	}
 
-	public Transaction StartTransaction(Member member) {
-		Transaction t = new Transaction(0, member, new Date());
+	/**
+	 * Start a transaction with a non-Member (PUBLIC).
+	 * @return
+	 */
+	public Transaction StartTransaction() {
+		MemberManager mm = MemberManager.getMemberManager();
+		return StartTransaction(mm.generateNonMember());
+	}
+	
+	/**
+	 * Start a Transaction with a customer Member
+	 * @param customer
+	 * @return
+	 */
+	public Transaction StartTransaction(Customer customer) {
+		Transaction t = new Transaction(0, customer, new Date());
 		return t;
+	}
+	
+	/**
+	 * Set The member to a Transaction.
+	 * @param transaction
+	 * @param member
+	 * @return
+	 */
+	public Transaction setMember(Transaction transaction, String memberId){
+		MemberManager mm = MemberManager.getMemberManager();
+		Member member = mm.getMemberById(memberId);
+		transaction.setCustomer(member);
+		return transaction;
 	}
 
 	/**
@@ -36,17 +65,21 @@ public class TransactionManager {
 	 * @Bug 9Mar2015 Oscar Castro: Should return something more than a boolean
 	 * 
 	 */
-	public boolean addProduct(Transaction transaction, String barCode, int quantity) {
+	public Transaction addProduct(Transaction transaction, String barCode, int quantity) {
 		try {
 			Product product;
 			ProductManager pm = ProductManager.getProductManager();
 			product = pm.getProductByBarcode(barCode);
-			transaction.ChangeProductQuantity(product, quantity);
-			return true;
+			if (product.getAvailableQuantity() > quantity){
+				transaction.changeProductQuantity(product, quantity);
+			}else{
+				return null;
+			}
+			return transaction;
 		} catch (Exception e) {
 			//We should return object message.
 			e.printStackTrace();
-			return false;
+			return null;
 		}
 	}
 
@@ -63,7 +96,7 @@ public class TransactionManager {
 			Product product;
 			ProductManager pm = ProductManager.getProductManager();
 			product = pm.getProductByBarcode(barCode);
-			transaction.ChangeProductQuantity(product, quantity);
+			transaction.changeProductQuantity(product, quantity);
 			return true;
 		} catch (Exception e) {
 			//We should return object message.
@@ -73,9 +106,14 @@ public class TransactionManager {
 		
 	}
 
+	/**
+	 * I don't know what to do here, lol
+	 * @param transaction
+	 * @return
+	 */
 	public boolean cancelTransaction(Transaction transaction) {
-		transaction = null;
-		System.gc();
+		//transaction = null;
+		//System.gc();
 		return true;
 	}
 	
@@ -87,6 +125,8 @@ public class TransactionManager {
 	public double checkOut(Transaction transaction){
 		double total = 0;
 		//Call Discount Manager to calculate the Discount.
+		DiscountManager dm; 
+		//dm = DiscountManager.getInstance();
 		
 		//Return the discount
 		
@@ -108,6 +148,7 @@ public class TransactionManager {
 		//validate price against cash and loyalty points.
 		
 		//Update Product DB
+		updateProductsInTransactioDetails(transaction);
 		
 		//Update Transaction DB
 		
@@ -117,5 +158,21 @@ public class TransactionManager {
 	
 	public List<Transaction> getAllTransaction(Date startDate, Date endDate){
 		return null;
+	}
+	
+	private boolean updateProductsInTransactioDetails(Transaction transaction){
+		ProductManager pm = ProductManager.getProductManager();
+		for (TransactionDetail transactionDetail : transaction.getTransactionDetails()) {
+		    pm.adjustQuantity(transactionDetail.getProduct(), transactionDetail.getQuantity());
+		}
+		return true;
+	}
+	
+	private boolean updateMemberPoints(Transaction transaction, int loyaltyPoints, double cash){
+		MemberManager mm = MemberManager.getMemberManager();
+		//mm.reduceLoyalPoints(transaction.getCustomer(), loyaltyPoints);
+		//mm.increaseMemberPoints(transaction.getCustomer(), cash);
+		
+		return true;
 	}
 }
