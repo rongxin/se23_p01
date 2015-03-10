@@ -12,16 +12,20 @@ import java.util.Date;
  */
 public class Transaction {
 	private int id;
-	private Member member;
+	private Customer customer;
 	private ArrayList<TransactionDetail> transactionDetails;
 	private Date date;
 
-	public Transaction(int id, Member member, Date date) {
+	public Transaction(int id, Date date){
 		super();
 		this.id = id;
-		this.member = member;
 		this.date = date;
 		this.transactionDetails = new ArrayList<TransactionDetail>();
+	}
+	
+	public Transaction(int id, Customer customer, Date date) {
+		this(id, date);
+		this.customer = customer;
 	}
 
 	public int getId() {
@@ -32,12 +36,12 @@ public class Transaction {
 		this.id = id;
 	}
 
-	public Member getMember() {
-		return member;
+	public Customer getCustomer() {
+		return customer;
 	}
 
-	public void setMember(Member member) {
-		this.member = member;
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 
 	public Date getDate() {
@@ -76,7 +80,7 @@ public class Transaction {
 	 * @BugFixed 4Mar2015 Oscar Castro: Exception is not thrown for negative
 	 *           quantity
 	 */
-	public void ChangeProductQuantity(Product product, int newQuantity)
+	public void changeProductQuantity(Product product, int newQuantity)
 			throws Exception {
 		//Find Transaction Detail with the selected product
 		TransactionDetail transactionDetail;
