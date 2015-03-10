@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
@@ -17,6 +18,8 @@ import javax.swing.SwingConstants;
 import sg.edu.nus.iss.shop.ui.ShopApplication;
 
 public class AddProductDialog extends OkCancelDialog {
+	private static final Insets WEST_INSETS = new Insets(5, 0, 5, 5);
+	private static final Insets EAST_INSETS = new Insets(5, 5, 5, 0);
 
 	private static final long serialVersionUID = 1L;
 	private ShopApplication shopApplication;
@@ -55,103 +58,105 @@ public class AddProductDialog extends OkCancelDialog {
 		return p;
 	}
 
+	private GridBagConstraints createCellConstraint(int x, int y) {
+		GridBagConstraints gc = new GridBagConstraints();
+		gc.gridx = x;
+		gc.gridy = y;
+		gc.gridwidth = 1;
+		gc.gridheight = 1;
+
+		boolean isLeftMostColumn = x == 0;
+		gc.anchor = isLeftMostColumn ? GridBagConstraints.WEST : GridBagConstraints.EAST;
+		gc.fill = isLeftMostColumn ? GridBagConstraints.BOTH : GridBagConstraints.HORIZONTAL;
+
+		Insets westInset = new Insets(5, 0, 5, 5);
+		Insets eastInset = new Insets(5, 5, 5, 0);
+		gc.insets = isLeftMostColumn ? westInset : eastInset;
+		gc.weightx = isLeftMostColumn ? 0.1 : 1.0;
+		gc.weighty = 1.0;
+		return gc;
+	}
+
 	private JPanel createInputFormPanel() {
 		JPanel p = new JPanel();
 		p.setLayout(new GridBagLayout());
-		p.setBorder(BorderFactory.createTitledBorder("Add Product"));
+		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(" Add Product "),
+				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		GridBagConstraints gc = new GridBagConstraints();
 
-		gc.weightx = 1;
-		gc.weighty = 1;
+
 		// column 1
-		gc.gridx = 0;
-		gc.gridy = 0;
+		gc = createCellConstraint(0, 0);
 		JLabel productCategoryLabel = new JLabel("Product Category:");
 		p.add(productCategoryLabel, gc);
 
-		gc.gridx = 0;
-		gc.gridy = 1;
-
+		gc = createCellConstraint(0, 1);
 		JLabel productTitleLabel = new JLabel("Product Name:");
 		p.add(productTitleLabel, gc);
 
-		gc.gridx = 0;
-		gc.gridy = 2;
+		gc = createCellConstraint(0, 2);
 		JLabel productDescriptionLabel = new JLabel("Product Description:");
 		p.add(productDescriptionLabel, gc);
 
-		gc.gridx = 0;
-		gc.gridy = 3;
+		gc = createCellConstraint(0, 3);
 		JLabel productQuantityLabel = new JLabel("Quantity:");
 		p.add(productQuantityLabel, gc);
 
-		gc.gridx = 0;
-		gc.gridy = 4;
+		gc = createCellConstraint(0, 4);
 		JLabel productPriceLabel = new JLabel("Price:");
 		p.add(productPriceLabel, gc);
 
-		gc.gridx = 0;
-		gc.gridy = 5;
+		gc = createCellConstraint(0, 5);
 		JLabel productBarCodeLabel = new JLabel("Barcode Number:");
 		p.add(productBarCodeLabel, gc);
 
-		gc.gridx = 0;
-		gc.gridy = 6;
+		gc = createCellConstraint(0, 6);
 		JLabel productReorderThresholdLabel = new JLabel("Reorder Threshold:");
 		p.add(productReorderThresholdLabel, gc);
 
-		gc.gridx = 0;
-		gc.gridy = 7;
+		gc = createCellConstraint(0, 7);
 		JLabel productOrderQuantityJLabel = new JLabel("Order Quantity:");
 		p.add(productOrderQuantityJLabel, gc);
 
 		// column 2
 		gc.anchor = GridBagConstraints.LAST_LINE_START;
 
-		gc.gridx = 1;
-		gc.gridy = 0;
+		gc = createCellConstraint(1, 0);
 		productCategoryCombo = new JComboBox<>();
 		productCategoryCombo.setToolTipText("Please choose a category");
 		p.add(productCategoryCombo, gc);
 
-		gc.gridx = 1;
-		gc.gridy = 1;
+		gc = createCellConstraint(1, 1);
 		productNameField = new JTextField(20);
 		productNameField.setToolTipText("Please input the product name.");
 		p.add(productNameField, gc);
 
-		gc.gridx = 1;
-		gc.gridy = 2;
+		gc = createCellConstraint(1, 2);
 		productDescriptionField = new JTextArea(4, 20);
 		productDescriptionField.setToolTipText("Please input product description.");
 		p.add(productDescriptionField, gc);
 
-		gc.gridx = 1;
-		gc.gridy = 3;
+		gc = createCellConstraint(1, 3);
 		productQuantityField = new JTextField(20);
 		productQuantityField.setToolTipText("Please input available product quantity.");
 		p.add(productQuantityField, gc);
 
-		gc.gridx = 1;
-		gc.gridy = 4;
+		gc = createCellConstraint(1, 4);
 		productPriceField = new JTextField(20);
 		productPriceField.setToolTipText("Please input product price.");
 		p.add(productPriceField, gc);
 
-		gc.gridx = 1;
-		gc.gridy = 5;
+		gc = createCellConstraint(1, 5);
 		productBarCodeNumberField = new JTextField(20);
 		productBarCodeNumberField.setToolTipText("Please input the barcode number of product.");
 		p.add(productBarCodeNumberField, gc);
 
-		gc.gridx = 1;
-		gc.gridy = 6;
+		gc = createCellConstraint(1, 6);
 		productReorderThresholdField = new JTextField(20);
 		productReorderThresholdField.setToolTipText("Please input threshold for reorder.");
 		p.add(productReorderThresholdField, gc);
 
-		gc.gridx = 1;
-		gc.gridy = 7;
+		gc = createCellConstraint(1, 7);
 		productReorderQuantityField = new JTextField(20);
 		productReorderQuantityField.setToolTipText("Please input quanity when reorder this product");
 		p.add(productReorderQuantityField, gc);

@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -42,36 +43,52 @@ public class AddCategoryDialog extends OkCancelDialog {
 		return mainPanel;
 	}
 
-	
+	private GridBagConstraints createCellConstraint(int x, int y) {
+		GridBagConstraints gc = new GridBagConstraints();
+		gc.gridx = x;
+		gc.gridy = y;
+		gc.gridwidth = 1;
+		gc.gridheight = 1;
+
+		boolean isLeftMostColumn = x == 0;
+		gc.anchor = isLeftMostColumn ? GridBagConstraints.WEST : GridBagConstraints.EAST;
+		// gc.fill = isLeftMostColumn ? GridBagConstraints.BOTH :
+		// GridBagConstraints.HORIZONTAL;
+
+		Insets westInset = new Insets(5, 0, 5, 5);
+		Insets eastInset = new Insets(5, 5, 5, 0);
+		gc.insets = isLeftMostColumn ? westInset : eastInset;
+		gc.weightx = isLeftMostColumn ? 0.1 : 1.0;
+		gc.weighty = 1.0;
+		return gc;
+	}
+
 	private JPanel createInputFormPanel() {
 		JPanel p = new JPanel();
 		p.setLayout(new GridBagLayout());
-		p.setBorder(BorderFactory.createTitledBorder("Add Category"));
+		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(" Add Category "),
+				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		GridBagConstraints gc = new GridBagConstraints();
 
-		gc.weightx = 1;
-		gc.weighty = 1;
 		// column 1
-		gc.gridx = 0;
-		gc.gridy = 0;
-
+		createCellConstraint(0, 0);
+		gc = createCellConstraint(0, 0);
 		JLabel categoryCodeLabel = new JLabel("Category Code: ");
 		p.add(categoryCodeLabel, gc);
-		gc.gridx = 0;
-		gc.gridy = 1;
+
+		gc = createCellConstraint(0, 1);
 		JLabel categoryNameLabel = new JLabel("Category Name: ");
 		p.add(categoryNameLabel, gc);
 
 		// column 2
+		gc = createCellConstraint(1, 0);
 		gc.anchor = GridBagConstraints.LAST_LINE_START;
-		gc.gridx = 1;
-		gc.gridy = 0;
+
 		categoryCodeField = new JTextField(3);
 		categoryCodeField.setToolTipText("Please input three-letter code for the new category");
 		p.add(categoryCodeField, gc);
 
-		gc.gridx = 1;
-		gc.gridy = 1;
+		gc = createCellConstraint(1, 1);
 		categoryNameField = new JTextField(20);
 		categoryNameField.setToolTipText("Please input name for the category");
 		p.add(categoryNameField, gc);
