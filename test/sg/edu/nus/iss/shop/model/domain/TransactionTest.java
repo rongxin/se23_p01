@@ -10,7 +10,8 @@ import java.util.Date;
 
 public class TransactionTest {
 	private Transaction t;
-
+	Product product;
+	
 	private TransactionDetail findTransactionDetail(Product product,
 			ArrayList<TransactionDetail> transactionDetails) {
 		for (TransactionDetail transactionDetail : transactionDetails) {
@@ -23,6 +24,7 @@ public class TransactionTest {
 	@Before
 	public void setUp() throws Exception {
 		t = new Transaction(1, new Member("1", "Oscar"), new Date());
+		product = new Product("product", "product", "product", 1, 1, "1", 1, 1);
 	}
 
 	@Test
@@ -37,7 +39,6 @@ public class TransactionTest {
 	@Test
 	public void testAddingProducts() {
 		try {
-			Product product = new Product();
 			t.ChangeProductQuantity(product, 1);
 			ArrayList<TransactionDetail> list = t.getTransactionDetails();
 			assertFalse("List should not be Empty", list.isEmpty());
@@ -52,7 +53,7 @@ public class TransactionTest {
 			list = t.getTransactionDetails();
 			assertEquals("Value should be the same",
 					list.get(list.indexOf(transactionDetail)).getQuantity(), 5);
-			Product product2 = new Product();
+			Product product2 = new Product("product2", "product2", "product2", 1, 1, "1", 1, 1);
 			t.ChangeProductQuantity(product2, 10);
 			assertEquals("List should not be the same", list.size(), 1);
 			list = t.getTransactionDetails();
@@ -65,7 +66,6 @@ public class TransactionTest {
 	@Test
 	public void testRemovingProducts() {
 		try {
-			Product product = new Product();
 			t.ChangeProductQuantity(product, 1);
 			ArrayList<TransactionDetail> list = t.getTransactionDetails();
 			assertFalse("List should not be Empty", list.isEmpty());
@@ -80,7 +80,6 @@ public class TransactionTest {
 	@Test
 	public void testInvalidQuantity() {
 		try {
-			Product product = new Product();
 			t.ChangeProductQuantity(product, -1);
 			fail("Should crash");
 		} catch (Exception e) {

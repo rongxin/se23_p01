@@ -7,13 +7,19 @@ import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.Category;
 import sg.edu.nus.iss.shop.model.domain.Vendor;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 public class CategoryManager {
 
 	private static CategoryManager theOnlyCategoryManager;
-
+	private static final String CATEGORY_EXISTS_ERROR_MESSAGE = "Category already exists.";
+	private static final String INVALID_Code_ERROR_MESSAGE = "Invalid Code";
+	private static final String INVALID_NAME_ERROR_MESSAGE = "Invalid Name";
+	private static final int FIXED_CODE_LENGTH = 3;
+	
+	//Private Constructor to prevent Object instantiation
 	private CategoryManager() {
 
 	}
@@ -33,17 +39,54 @@ public class CategoryManager {
 	 * @return category object           
 	 * */
 	public Category createCategory(String code,String name) throws ApplicationGUIException {
+		//Check if category code is of 3 Character or null
+		if (code == null || code.trim().length() != CategoryManager.FIXED_CODE_LENGTH) {
+			throw new ApplicationGUIException(
+					CategoryManager.INVALID_Code_ERROR_MESSAGE);
+		}
+		//Check if category name is null 
+		if (name == null
+				|| name.trim().length() <= 0) {
+			throw new ApplicationGUIException(
+					CategoryManager.INVALID_NAME_ERROR_MESSAGE);
+		}
+		
+		Category existingCategory = CategoryManager.getCategoryManager().getCategory(code);
+		//Check if there's an existing category
+		if (existingCategory != null) {
+			throw new ApplicationGUIException(
+					CategoryManager.CATEGORY_EXISTS_ERROR_MESSAGE);
+		}
 		return null;
 	}
 	
 
 	/**
-	 * Method to retrieve category
+	 * Method to retrieve category by code
 	 * @param code category code 
-	 * @return category object            
+	 * @return category (null or existing category)           
 	 * */
 	public Category getCategory(String code) {
-		return null;
+		Category existingCategory = null;
+		List<Category> allCategories = CategoryManager.getCategoryManager().
+				getAllCategories();
+		Iterator<Category> it = allCategories.iterator();
+		while (it.hasNext()) {
+			Category category = it.next();
+			if (category.getCode().equals(code)) {
+				existingCategory = category;
+				return existingCategory;
+			}
+		}
+		return existingCategory;
+	}
+	
+	/**
+	 * Method to retrieve all product categories
+	 * @return all product categories           
+	 * */
+	public List<Category> getAllCategories(){
+		return new LinkedList<Category>();
 	}
 	
 	/**
