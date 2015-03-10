@@ -17,27 +17,28 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 
+import sg.edu.nus.iss.shop.model.domain.Category;
 import sg.edu.nus.iss.shop.ui.ShopApplication;
 
 public class AddProductDialog extends OkCancelDialog {
-	private static final Insets WEST_INSETS = new Insets(5, 0, 5, 5);
-	private static final Insets EAST_INSETS = new Insets(5, 5, 5, 0);
 
 	private static final long serialVersionUID = 1L;
 	private ShopApplication shopApplication;
-	private JComboBox productCategoryCombo;
-	private JTextField productNameField;
-	private JTextArea productDescriptionField;
-	private JTextField productQuantityField;
-	private JTextField productPriceField;
-	private JTextField productBarCodeNumberField;
-	private JTextField productReorderThresholdField;
-	private JTextField productReorderQuantityField;
+	private JComboBox<String> categoryCombo;
+	private JTextField nameField;
+	private JTextArea descriptionField;
+	private JTextField quantityField;
+	private JTextField priceField;
+	private JTextField barCodeNumberField;
+	private JTextField reorderThresholdField;
+	private JTextField reorderQuantityField;
 	private JLabel messageLabel;
+	private Category[] categories;
 
 	public AddProductDialog(ShopApplication shopApplication) {
 		super(shopApplication.getMainWindow(), " Add Product ");
 		this.shopApplication = shopApplication;
+		categories = this.shopApplication.getCategories();
 	}
 
 	@Override
@@ -86,7 +87,6 @@ public class AddProductDialog extends OkCancelDialog {
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		GridBagConstraints gc = new GridBagConstraints();
 
-
 		// column 1
 		gc = createCellConstraint(0, 0);
 		JLabel productCategoryLabel = new JLabel("Product Category:");
@@ -124,47 +124,51 @@ public class AddProductDialog extends OkCancelDialog {
 		gc.anchor = GridBagConstraints.LAST_LINE_START;
 
 		gc = createCellConstraint(1, 0);
-		productCategoryCombo = new JComboBox<>();
-		productCategoryCombo.setToolTipText("Please choose a category");
-		p.add(productCategoryCombo, gc);
+		// TODO hardcoded category list
+		String[] categoryNames = new String[] { "Clothing", "Mugs", "Stationary", "Diary" };
+		categoryCombo = new JComboBox<>(categoryNames);
+
+		categoryCombo.setToolTipText("Please choose a category");
+
+		p.add(categoryCombo, gc);
 
 		gc = createCellConstraint(1, 1);
-		productNameField = new JTextField(20);
-		productNameField.setToolTipText("Please input the product name.");
-		p.add(productNameField, gc);
+		nameField = new JTextField(20);
+		nameField.setToolTipText("Please input the product name.");
+		p.add(nameField, gc);
 
 		gc = createCellConstraint(1, 2);
-		productDescriptionField = new JTextArea(5, 20);
-		productDescriptionField.setBorder(BorderFactory.createLineBorder(Color.lightGray));
-		productDescriptionField.setToolTipText("Please input product description.");
-		JScrollPane productDescriptionFieldScroll = new JScrollPane(productDescriptionField);
+		descriptionField = new JTextArea(5, 20);
+		descriptionField.setBorder(BorderFactory.createLineBorder(Color.lightGray));
+		descriptionField.setToolTipText("Please input product description.");
+		JScrollPane productDescriptionFieldScroll = new JScrollPane(descriptionField);
 		productDescriptionFieldScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		p.add(productDescriptionFieldScroll, gc);
 
 		gc = createCellConstraint(1, 3);
-		productQuantityField = new JTextField(20);
-		productQuantityField.setToolTipText("Please input available product quantity.");
-		p.add(productQuantityField, gc);
+		quantityField = new JTextField(20);
+		quantityField.setToolTipText("Please input available product quantity.");
+		p.add(quantityField, gc);
 
 		gc = createCellConstraint(1, 4);
-		productPriceField = new JTextField(20);
-		productPriceField.setToolTipText("Please input product price.");
-		p.add(productPriceField, gc);
+		priceField = new JTextField(20);
+		priceField.setToolTipText("Please input product price.");
+		p.add(priceField, gc);
 
 		gc = createCellConstraint(1, 5);
-		productBarCodeNumberField = new JTextField(20);
-		productBarCodeNumberField.setToolTipText("Please input the barcode number of product.");
-		p.add(productBarCodeNumberField, gc);
+		barCodeNumberField = new JTextField(20);
+		barCodeNumberField.setToolTipText("Please input the barcode number of product.");
+		p.add(barCodeNumberField, gc);
 
 		gc = createCellConstraint(1, 6);
-		productReorderThresholdField = new JTextField(20);
-		productReorderThresholdField.setToolTipText("Please input threshold for reorder.");
-		p.add(productReorderThresholdField, gc);
+		reorderThresholdField = new JTextField(20);
+		reorderThresholdField.setToolTipText("Please input threshold for reorder.");
+		p.add(reorderThresholdField, gc);
 
 		gc = createCellConstraint(1, 7);
-		productReorderQuantityField = new JTextField(20);
-		productReorderQuantityField.setToolTipText("Please input quanity when reorder this product");
-		p.add(productReorderQuantityField, gc);
+		reorderQuantityField = new JTextField(20);
+		reorderQuantityField.setToolTipText("Please input quanity when reorder this product");
+		p.add(reorderQuantityField, gc);
 
 		return p;
 	}
@@ -172,15 +176,18 @@ public class AddProductDialog extends OkCancelDialog {
 
 	@Override
 	protected boolean performOkAction() {
-		String productCategory = productCategoryCombo.getSelectedItem().toString();
-		String productName = productNameField.getText().trim();
-		String productDescription = productDescriptionField.getText().trim();
-		String productQuantity = productQuantityField.getText().trim();
+		// String productCategory =
+		// productCategoryCombo.getSelectedItem().toString();
+		String productName = nameField.getText().trim();
+		String productDescription = descriptionField.getText().trim();
+		String productQuantity = quantityField.getText().trim();
+
 		if ((productName.length() == 0) || (productQuantity.length() == 0)) {
 			messageLabel.setText("Please input all necessary fields.");
 			messageLabel.setForeground(Color.RED);
 			return false;
 		}
+
 		// TODO call add product logic
 		// shopApplication.addProduct (productName, productQuantity);
 		return true;
