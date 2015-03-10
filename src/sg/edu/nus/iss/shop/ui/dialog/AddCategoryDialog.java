@@ -53,17 +53,17 @@ public class AddCategoryDialog extends OkCancelDialog {
 		p.setBorder(BorderFactory.createTitledBorder("Add Category"));
 		GridBagConstraints gc = new GridBagConstraints();
 
-		gc.weightx = 5;
-		gc.weighty = 5;
+		gc.weightx = 1;
+		gc.weighty = 1;
 		// column 1
 		gc.gridx = 0;
 		gc.gridy = 0;
 
-		JLabel categoryCodeLabel = new JLabel("Category Code:");
+		JLabel categoryCodeLabel = new JLabel("Category Code: ");
 		p.add(categoryCodeLabel, gc);
 		gc.gridx = 0;
 		gc.gridy = 1;
-		JLabel categoryNameLabel = new JLabel("Category Name:");
+		JLabel categoryNameLabel = new JLabel("Category Name: ");
 		p.add(categoryNameLabel, gc);
 
 		// column 2
@@ -80,7 +80,6 @@ public class AddCategoryDialog extends OkCancelDialog {
 		categoryNameField.setToolTipText("Please input name for the category");
 		p.add(categoryNameField, gc);
 
-		setMargin(p);
 		return p;
 	}
 
@@ -90,16 +89,8 @@ public class AddCategoryDialog extends OkCancelDialog {
 		messageLabel.setText("Please input category code and name.");
 
 		p.add(messageLabel);
-		setMargin(p);
 		return p;
 	}
-
-
-	private void setMargin(JPanel p) {
-		// p.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-
-	}
-
 
 	@Override
 	protected boolean performOkAction() {
