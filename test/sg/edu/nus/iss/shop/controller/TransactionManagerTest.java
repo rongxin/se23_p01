@@ -33,10 +33,14 @@ public class TransactionManagerTest {
 	public void testNonCustomerTransaction(){
 		tr = tm.StartTransaction();
 		//Start transaction without Customer
-		tr = tm.addProduct(tr, "1111", 1);
+		tr = tm.addProduct(tr, "1111");
 		assertNotNull("Object should not be null", tr);
-		tr = tm.addProduct(tr, "1111", 1000);
+		tr = tm.editProductQuantity(tr, "1111", 1000);
 		assertNull("Object should be null", tr);
+		double amount = tm.checkOut(tr);
+		assertEquals("Amount should be ", amount, 0, 1);
+		boolean bln = tm.endTransaction(tr, 100, 0);
+		assertTrue("Transaction successful", bln);
 	}
 	
 	@Test
