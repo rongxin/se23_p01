@@ -7,21 +7,14 @@ package sg.edu.nus.iss.shop.model.domain;
 public class Discount {
 	private String discountCode;
 	private String description;
-	private String startDate;
-	private String discountInDays;
 	private int discountPercentage;
-	private String applicableToMember;
 	
-	public Discount(String discountCode, String description, String startDate,
-			String discountInDays, int discountPercentage,
-			String applicableToMember) {
+	public Discount(String discountCode, String description,
+			int discountPercentage) {
 		super();
 		this.discountCode = discountCode;
 		this.description = description;
-		this.startDate = startDate;
-		this.discountInDays = discountInDays;
 		this.discountPercentage = discountPercentage;
-		this.applicableToMember = applicableToMember;
 	}
 
 	public String getDiscountCode() {
@@ -40,22 +33,6 @@ public class Discount {
 		this.description = description;
 	}
 
-	public String getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(String startDate) {
-		this.startDate = startDate;
-	}
-
-	public String getDiscountInDays() {
-		return discountInDays;
-	}
-
-	public void setDiscountInDays(String discountInDays) {
-		this.discountInDays = discountInDays;
-	}
-
 	public int getDiscountPercentage() {
 		return discountPercentage;
 	}
@@ -63,12 +40,5 @@ public class Discount {
 	public void setDiscountPercentage(int discountPercentage) {
 		this.discountPercentage = discountPercentage;
 	}
-
-	public String getApplicableToMember() {
-		return applicableToMember;
-	}
-
-	public void setApplicableToMember(String applicableToMember) {
-		this.applicableToMember = applicableToMember;
-	}
+	
 }
