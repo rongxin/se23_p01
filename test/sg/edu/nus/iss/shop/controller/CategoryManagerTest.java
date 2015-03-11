@@ -3,12 +3,14 @@
 */
 package sg.edu.nus.iss.shop.controller;
 
-import static org.junit.Assert.*;
+
+import junit.framework.TestCase;
+
 import org.junit.Before;
 import org.junit.Test;
 
 
-public class CategoryManagerTest {
+public class CategoryManagerTest extends TestCase{
 	private CategoryManager categoryManager;
 	
 	@Before
