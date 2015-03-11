@@ -16,8 +16,6 @@ public class VendorManager {
 	private static final String INVALID_NAME_ERROR_MESSAGE = "Invalid vendor name";
 	private static final String INVALID_DESCRIPTION_ERROR_MESSAGE = "Invalid vendor description";
 	private static final String NIL_CATEGORY_ERROR_MESSAGE = "At least one category is needed";
-	private static final String VENDOR_EXISTS_FOR_CATEGORY_ERROR_MESSAGE = "This vendor already exists for category ";
-	private static final String VENDOR_EXISTS_WITH_DIFFERENT_DESCRIPTION = "This vendor already exsits with a description: ";
 	
 	private static VendorManager theOnlyVendorManager;
 
