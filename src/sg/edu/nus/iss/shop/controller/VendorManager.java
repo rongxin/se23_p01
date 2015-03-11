@@ -65,6 +65,9 @@ public class VendorManager {
 		return null;
 	}
 
+	/** if the vendor already exists, new description will not be taken 
+	 *  for existing vendor, only new categories will be added
+	 * **/
 	public Vendor addVendor(String name, String description, List<Category> categories) throws ApplicationGUIException {
 		if (name == null || name.trim().length()<VendorManager.VENDOR_NAME_MIN_LENGTH || name.trim().length()>VendorManager.VENDOR_NAME_MAX_LENGTH){
 			throw new ApplicationGUIException(VendorManager.INVALID_NAME_ERROR_MESSAGE);
@@ -75,20 +78,15 @@ public class VendorManager {
 		if (categories == null || categories.size()==0){
 			throw new ApplicationGUIException(VendorManager.NIL_CATEGORY_ERROR_MESSAGE);
 		}
-		Vendor newVendor = new Vendor(name, description);
-		Iterator<Category> it = categories.iterator(); // check if the vendor has already existed for one of the parameter categories
-		while (it.hasNext()){
-			Category category = it.next();
-			List<Vendor> categoryVendorList = this.listVendorForCategory(category);
-			if (categoryVendorList.contains(newVendor)){
-				throw new ApplicationGUIException(VendorManager.VENDOR_EXISTS_FOR_CATEGORY_ERROR_MESSAGE + category.getCode());
-			}
+		Vendor vendor = this.getVendorByName(name);
+		if (vendor == null){ // new vendor
+			vendor = new Vendor(name, description);
 		}
-		Vendor vendor = this.getVendorByName(name);      // check if the description is same as current, in case of existing vendor
-		if (vendor != null && !description.equals(vendor.getDescription())){
-			throw new ApplicationGUIException(VendorManager.VENDOR_EXISTS_WITH_DIFFERENT_DESCRIPTION + vendor.getDescription());
+		else {			// existing vendor
+			List<Category> existingCategories = vendor.getCategories();
+			categories.removeAll(existingCategories);
 		}
-		return null;
+		return vendor;
 	}
 
 }
