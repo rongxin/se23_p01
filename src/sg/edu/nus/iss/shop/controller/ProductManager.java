@@ -3,6 +3,7 @@
  */
 package sg.edu.nus.iss.shop.controller;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,7 +15,14 @@ import sg.edu.nus.iss.shop.model.domain.Vendor;
 public class ProductManager {
 
 	private static ProductManager theOnlyProductManager;
-
+	private static final String INVALID_NAME_ERROR_MESSAGE = "Invalid Name";
+	private static final String INVALID_CATEGORY_ERROR_MESSAGE = "Invalid Category";
+	private static final String INVALID_AVAILABLE_QUANTITY_ERROR_MESSAGE = "Invalid Available Quantity";
+	private static final String INVALID_PRICE_ERROR_MESSAGE = "Invalid Price";
+	private static final String INVALID_BARCODE_NUMBER_ERROR_MESSAGE = "Invalid Barcode Number";
+	private static final String INVALID_ORDER_QUANTITY_ERROR_MESSAGE = "Invalid Order Quantity";
+	private static final String INVALID_ORDER_THRESHOLD_ERROR_MESSAGE = "Invalid Order Threshold";
+	
 	private ProductManager() {
 
 	}
@@ -32,7 +40,7 @@ public class ProductManager {
 	 * @param name product name
 	 * @param avaiableQuantity product avaiableQuantity
 	 * @param price product price
-	 * @param barcodeNumber product barcode number
+	 * @param barcodeNumber product Barcode number
 	 * @param orderThreshold product order threshold
 	 * @param orderQuantity product order quantity
 	 * @return product object           
@@ -41,8 +49,46 @@ public class ProductManager {
 			int avaiableQuantity, double price, String barcodeNumber,
 			int orderThreshold, int orderQuantity)
 			throws ApplicationGUIException {
-
-		// Create new category
+		
+		if (category == null){
+			throw new ApplicationGUIException(ProductManager.INVALID_CATEGORY_ERROR_MESSAGE);
+		}
+		if (name == null || name.trim().length()< 0){
+			throw new ApplicationGUIException(ProductManager.INVALID_NAME_ERROR_MESSAGE);
+		}
+		if (avaiableQuantity <= 0){
+			throw new ApplicationGUIException(ProductManager.INVALID_AVAILABLE_QUANTITY_ERROR_MESSAGE );
+		}
+		if (price  <= 0){
+			throw new ApplicationGUIException(ProductManager.INVALID_PRICE_ERROR_MESSAGE );
+		}
+		if (barcodeNumber== null || barcodeNumber.trim().length()< 0){
+			throw new ApplicationGUIException(ProductManager.INVALID_BARCODE_NUMBER_ERROR_MESSAGE);
+		}
+		if (orderThreshold  <= 0){
+			throw new ApplicationGUIException(ProductManager.INVALID_ORDER_THRESHOLD_ERROR_MESSAGE );
+		}
+		if (orderQuantity <= 0){
+			throw new ApplicationGUIException(ProductManager.INVALID_ORDER_QUANTITY_ERROR_MESSAGE);
+		}
+		
+		//Check if there an existing Product ID
+		Product existingProduct = null;
+		boolean existsProductId = true;
+		int i = 1;
+		while(existsProductId){
+			//Check Product ID for duplication
+			existingProduct = ProductManager.getProductManager().getProductById(category+"/"+Integer.toString(i));
+			
+			//Existing ProductID Found
+			if (existingProduct != null) {
+				i++;
+			} else {
+				//Insert into Data
+				existsProductId = false;
+			}
+		}
+		// Create new product
 		return null;
 	}
 	
@@ -52,7 +98,17 @@ public class ProductManager {
 	 * @return product object           
 	 * */
 	public Product getProductById(String productId) {
-		return null;
+		Product existingProduct = null;
+		List<Product> allProducts = ProductManager.getProductManager().getAllProducts();
+		Iterator<Product> it = allProducts.iterator();
+		while (it.hasNext()) {
+			Product product = it.next();
+			if (product.getProductId().equals(productId)) {
+				 existingProduct  = product;
+				return  existingProduct;
+			}
+		}
+		return  existingProduct ;
 	}
 	
 	/**
@@ -61,7 +117,17 @@ public class ProductManager {
 	 * @return product object           
 	 * */
 	public Product getProductByBarcode(String barcodeNumber) {
-		return null;
+		Product existingProduct = null;
+		List<Product> allProducts = ProductManager.getProductManager().getAllProducts();
+		Iterator<Product> it = allProducts.iterator();
+		while (it.hasNext()) {
+			Product product = it.next();
+			if (product.getBarcodeNumber().equals(barcodeNumber)) {
+				 existingProduct  = product;
+				return  existingProduct;
+			}
+		}
+		return  existingProduct ;
 	}
 	
 	/**
