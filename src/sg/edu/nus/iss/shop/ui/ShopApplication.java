@@ -1,8 +1,12 @@
 package sg.edu.nus.iss.shop.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import sg.edu.nus.iss.shop.model.domain.Category;
 
 public class ShopApplication {
 	private ShopMainWindow shopWindow;
@@ -36,6 +40,17 @@ public class ShopApplication {
 		}
 		shop.start();
 	}
+
+	// TODO use category manager to load real categories
+	public Category[] getCategories() {
+		List<Category> categories = new ArrayList<>();
+		categories.add(new Category("CLO", "Clothing"));
+		categories.add(new Category("MUG", "Mugs"));
+		categories.add(new Category("STA", "Stationary"));
+		categories.add(new Category("DTA", "Diary"));
+		return categories.toArray(new Category[categories.size()]);
+	}
+
 
 	public void addCategory(String categoryCode, String categoryName) {
 		System.out.println("Add Category: " + categoryCode + ",  "

@@ -6,12 +6,21 @@ import org.junit.Test;
 import org.junit.Before;
 import org.junit.Test;
 
+import sg.edu.nus.iss.shop.model.domain.Category;
+import sg.edu.nus.iss.shop.model.domain.Transaction;
+
 public class TransactionManagerTest {
 	private TransactionManager tm;
+	private MemberManager mm;
+	private ProductManager pm;
+	private Transaction tr;
 	
 	@Before
 	public void setUp() throws Exception {
 		tm = TransactionManager.getInstance();
+		mm = MemberManager.getMemberManager();
+		pm = ProductManager.getProductManager();
+		pm.addProduct(new Category("CAT", "CAT"), "product1", 100, 100, "1111", 10, 100);
 	}
 	
 	@Test
@@ -21,28 +30,29 @@ public class TransactionManagerTest {
 	}
 
 	@Test
-	public void testStartTransaction(){
-		
+	public void testNonCustomerTransaction(){
+		tr = tm.StartTransaction();
+		//Start transaction without Customer
+		tr = tm.addProduct(tr, "1111");
+		assertNotNull("Object should not be null", tr);
+		tr = tm.editProductQuantity(tr, "1111", 1000);
+		assertNull("Object should be null", tr);
+		double amount = tm.checkOut(tr);
+		assertEquals("Amount should be ", amount, 0, 1);
+		boolean bln = tm.endTransaction(tr, 100, 0);
+		assertTrue("Transaction successful", bln);
 	}
 	
 	@Test
-	public void testAddProducts(){
-		
-	}
-	
-	@Test
-	public void testAdjustProduct(){
+	public void testCustomerTransaction(){
 		
 	}
 	
 	@Test
 	public void testCancelTransaction(){
-		
+		tr = tm.StartTransaction();
+		assertNotNull("Transaction should not be null", tr);
+		tm.cancelTransaction(tr);
+		//Lol
 	}
-	
-	@Test
-	public void testEndTransaction(){
-		
-	}
-
 }

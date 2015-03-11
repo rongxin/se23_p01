@@ -14,7 +14,9 @@ public class MemberManager {
 	private static final String INVALID_NAME_ERROR_MESSAGE = "Invalid Name";
 	private static final String MEMBER_EXISTS_ERROR_MESSAGE = "Member already exists.";
 	private static final int MIN_ID_LENGTH = 5;
+	private static final int MAX_ID_LENGTH = 20;
 	private static final int MIN_NAME_LENGTH = 5;
+	private static final int MAX_NAME_LENGTH = 30;
 	private static MemberManager theOnlyMemberManager;
 
 	private MemberManager() {
@@ -28,22 +30,16 @@ public class MemberManager {
 		return MemberManager.theOnlyMemberManager;
 	}
 
-	public Member addMember(String id, String name)
-			throws ApplicationGUIException {
-		if (id == null || id.trim().length() < MemberManager.MIN_ID_LENGTH) {
-			throw new ApplicationGUIException(
-					MemberManager.INVALID_ID_ERROR_MESSAGE);
+	public Member addMember(String id, String name) throws ApplicationGUIException {
+		if (id == null || id.trim().length() < MemberManager.MIN_ID_LENGTH || id.trim().length() > MemberManager.MAX_ID_LENGTH) {
+			throw new ApplicationGUIException(MemberManager.INVALID_ID_ERROR_MESSAGE);
 		}
-		if (name == null
-				|| name.trim().length() < MemberManager.MIN_NAME_LENGTH) {
-			throw new ApplicationGUIException(
-					MemberManager.INVALID_NAME_ERROR_MESSAGE);
+		if (name == null || name.trim().length() < MemberManager.MIN_NAME_LENGTH || name.trim().length() > MemberManager.MAX_NAME_LENGTH) {
+			throw new ApplicationGUIException(MemberManager.INVALID_NAME_ERROR_MESSAGE);
 		}
-		Member existingMember = MemberManager.getMemberManager().getMemberById(
-				id);
+		Member existingMember = MemberManager.getMemberManager().getMemberById(id);
 		if (existingMember != null) {
-			throw new ApplicationGUIException(
-					MemberManager.MEMBER_EXISTS_ERROR_MESSAGE);
+			throw new ApplicationGUIException(MemberManager.MEMBER_EXISTS_ERROR_MESSAGE);
 		}
 
 		return null;
@@ -55,8 +51,7 @@ public class MemberManager {
 
 	public Member getMemberById(String id) {
 		Member result = null;
-		List<Member> allMembers = MemberManager.getMemberManager()
-				.getAllMembers();
+		List<Member> allMembers = MemberManager.getMemberManager().getAllMembers();
 		Iterator<Member> it = allMembers.iterator();
 		while (it.hasNext()) {
 			Member member = it.next();
@@ -72,11 +67,9 @@ public class MemberManager {
 		return new NonMemberCustomer();
 	}
 
-	public int reduceLoyalPoints(Member member, int usedPoints)
-			throws ApplicationGUIException {
+	public int reduceLoyalPoints(Member member, int usedPoints) throws ApplicationGUIException {
 		if (member.getLoyalPoints() < usedPoints) {
-			throw new ApplicationGUIException(
-					MemberManager.NOT_SUFFICIENT_POINTS_ERROR_MESSAGE);
+			throw new ApplicationGUIException(MemberManager.NOT_SUFFICIENT_POINTS_ERROR_MESSAGE);
 		}
 		member.setLoyalPoints(member.getLoyalPoints() - usedPoints);
 		return member.getLoyalPoints();

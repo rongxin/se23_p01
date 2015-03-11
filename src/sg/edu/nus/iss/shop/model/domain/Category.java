@@ -76,6 +76,25 @@ public class Category {
 	public List<Vendor> getVendorList() {
 		return this.vendorList;
 	}
-
+	
+	/**
+	 * Overriding equals() to compare two Complex objects
+	 * @param object object to be compared
+	 * @return boolean return true/false based on the comparison by category code
+	 * */
+	@Override
+	public boolean equals(Object object){
+		if (object == null){
+			return false;
+		}
+		if (!this.getClass().equals(object.getClass())){
+			return false;
+		}
+		if (this.getName() == null){
+			return false;
+		}
+		Category category = (Category)object;
+		return this.getCode().equals(category.getCode());
+	}
 	
 }

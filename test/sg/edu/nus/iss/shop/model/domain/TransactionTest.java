@@ -39,7 +39,7 @@ public class TransactionTest {
 	@Test
 	public void testAddingProducts() {
 		try {
-			t.ChangeProductQuantity(product, 1);
+			t.changeProductQuantity(product, 1);
 			ArrayList<TransactionDetail> list = t.getTransactionDetails();
 			assertFalse("List should not be Empty", list.isEmpty());
 
@@ -47,14 +47,14 @@ public class TransactionTest {
 					product, list);
 			assertEquals("Value should be the same",
 					transactionDetail.getQuantity(), 1);
-			t.ChangeProductQuantity(product, 5);
+			t.changeProductQuantity(product, 5);
 			// assertNotEquals("List should not be the same",
 			// list.get("Product").getQuantity(), 5);
 			list = t.getTransactionDetails();
 			assertEquals("Value should be the same",
 					list.get(list.indexOf(transactionDetail)).getQuantity(), 5);
 			Product product2 = new Product("product2", "product2", "product2", 1, 1, "1", 1, 1);
-			t.ChangeProductQuantity(product2, 10);
+			t.changeProductQuantity(product2, 10);
 			assertEquals("List should not be the same", list.size(), 1);
 			list = t.getTransactionDetails();
 			assertEquals("List should now have 2", list.size(), 2);
@@ -66,10 +66,10 @@ public class TransactionTest {
 	@Test
 	public void testRemovingProducts() {
 		try {
-			t.ChangeProductQuantity(product, 1);
+			t.changeProductQuantity(product, 1);
 			ArrayList<TransactionDetail> list = t.getTransactionDetails();
 			assertFalse("List should not be Empty", list.isEmpty());
-			t.ChangeProductQuantity(product, 0);
+			t.changeProductQuantity(product, 0);
 			list = t.getTransactionDetails();
 			assertTrue("List should be Empty", list.isEmpty());
 		} catch (Exception e) {
@@ -80,7 +80,7 @@ public class TransactionTest {
 	@Test
 	public void testInvalidQuantity() {
 		try {
-			t.ChangeProductQuantity(product, -1);
+			t.changeProductQuantity(product, -1);
 			fail("Should crash");
 		} catch (Exception e) {
 

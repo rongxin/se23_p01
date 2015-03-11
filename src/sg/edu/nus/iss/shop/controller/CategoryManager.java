@@ -15,7 +15,7 @@ public class CategoryManager {
 
 	private static CategoryManager theOnlyCategoryManager;
 	private static final String CATEGORY_EXISTS_ERROR_MESSAGE = "Category already exists.";
-	private static final String INVALID_Code_ERROR_MESSAGE = "Invalid Code";
+	private static final String INVALID_CODE_ERROR_MESSAGE = "Invalid Code";
 	private static final String INVALID_NAME_ERROR_MESSAGE = "Invalid Name";
 	private static final int FIXED_CODE_LENGTH = 3;
 	
@@ -42,7 +42,7 @@ public class CategoryManager {
 		//Check if category code is of 3 Character or null
 		if (code == null || code.trim().length() != CategoryManager.FIXED_CODE_LENGTH) {
 			throw new ApplicationGUIException(
-					CategoryManager.INVALID_Code_ERROR_MESSAGE);
+					CategoryManager.INVALID_CODE_ERROR_MESSAGE);
 		}
 		//Check if category name is null 
 		if (name == null

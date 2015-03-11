@@ -15,6 +15,7 @@ import javax.swing.SwingConstants;
 
 import sg.edu.nus.iss.shop.ui.ShopApplication;
 import sg.edu.nus.iss.shop.ui.dialog.AddCategoryDialog;
+import sg.edu.nus.iss.shop.ui.dialog.AddProductDialog;
 
 public class MainPanel extends JPanel {
 	private static final String ICONS_PATH = "/sg/edu/nus/iss/shop/ui/icons/";
@@ -59,11 +60,21 @@ public class MainPanel extends JPanel {
 				d.setVisible(true);
 			}
 		});
-
 		p.add(addCategoryButton);
+
 		JButton addMemberButton = createImageButton("Add  new member", "puzzle_blue.png", "puzzle_red.png");
 		p.add(addMemberButton);
 		JButton addProductButton = createImageButton("Add new product", "cd.png", "cd_blue.png");
+		addProductButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				AddProductDialog d = new AddProductDialog(shopApplication);
+				d.pack();
+				d.setLocationByPlatform(true);
+				d.setVisible(true);
+			}
+		});
+
 		p.add(addProductButton);
 		JButton addInventoryButton = createImageButton("Manage inventory", "bulb.png", "bulb_yellow.png");
 		p.add(addInventoryButton);
