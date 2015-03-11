@@ -56,29 +56,28 @@ public class VendorManagerTest {
 	@Test
 	public void addSameVendorForSameCategoryTest(){
 		List<Category> categories = CategoryManager.getCategoryManager().getAllCategories();
-		if (categories.size() == 0){
-			Assert.fail("Cannot find a category");
+		if (categories == null || categories.size() == 0){
+			Assert.fail("did not find any categories");
 			return;
 		}
-		Boolean tested = false;
+		Vendor newVendor = new Vendor("Zhu Bin " + new Random().nextLong(), "Test Vendor");
+		try{
+			VendorManager.getVendorManager().addVendor(newVendor.getName(), newVendor.getDescription(), categories);
+		}
+		catch(Exception e){
+			Assert.fail(e.toString());
+			return ;
+		}
 		Iterator<Category> it = categories.iterator();
-		while(it.hasNext()){
+		while (it.hasNext()){
 			Category category = it.next();
-			List<Category> categoryList = new LinkedList<Category>();
-			categoryList.add(category);
-			List<Vendor> existingVendors = VendorManager.getVendorManager().listVendorForCategory(category);
-			Iterator<Vendor> itVendor = existingVendors.iterator();
-			while (itVendor.hasNext()){
-				Vendor vendor = itVendor.next();
-				try{
-					VendorManager.getVendorManager().addVendor(vendor.getName(), vendor.getDescription(), categoryList);
-					Assert.fail("Exception did not occur when adding a same vendor for a category");
-				}
-				catch (ApplicationGUIException e){
-				}
+			List<Category> newVendorCategories = new LinkedList<Category>();
+			newVendorCategories.add(category);
+			try{
+				VendorManager.getVendorManager().addVendor(newVendor.getName(), newVendor.getDescription(), newVendorCategories);
+				Assert.fail("Exception did not occur when adding same vendor for same category");
 			}
-			if (!tested){
-				Assert.fail("Adding same vendor for same category is NOT tested");
+			catch(Exception e) {
 			}
 		}
 	}
