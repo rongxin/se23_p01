@@ -61,11 +61,21 @@ public class MainPanel extends JPanel {
 		p.setLayout(new GridLayout(2, 3));
 		setMargin(p);
 
-
 		JButton checkoutButton = createImageButton("Make purchase", "shopping_cart_green.png", "shopping_cart_blue.png");
+		checkoutButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				CheckoutWindow w = new CheckoutWindow(shopApplication);
+				w.pack();
+				w.setLocationByPlatform(true);
+				w.setLocationRelativeTo(null);
+				w.setVisible(true);
+			}
+		});
 		JPanel checkoutPanel = new JPanel();
 		checkoutPanel.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createTitledBorder("  Make Purchase  "), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+
 		checkoutPanel.add(checkoutButton);
 		p.add(checkoutPanel);
 
