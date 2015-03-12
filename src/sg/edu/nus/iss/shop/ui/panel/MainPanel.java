@@ -57,6 +57,23 @@ public class MainPanel extends JPanel {
 		checkoutPanel.add(checkoutButton);
 		p.add(checkoutPanel);
 
+		JButton addMemberButton = createImageButton("Register new member", "puzzle_blue.png", "puzzle_red.png");
+		addMemberButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				AddMemberDialog d = new AddMemberDialog(shopApplication);
+				d.pack();
+				d.setLocationByPlatform(true);
+				d.setVisible(true);
+			}
+		});
+		JPanel addMemberPanel = new JPanel();
+		addMemberPanel.setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createTitledBorder("  Register Member  "),
+				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+		addMemberPanel.add(addMemberButton);
+		p.add(addMemberPanel);
+
 		JButton addCategoryButton = createImageButton("Add Category", "poll_green.png", "poll_yellow.png");
 		addCategoryButton.addActionListener(new ActionListener() {
 			@Override
@@ -72,22 +89,6 @@ public class MainPanel extends JPanel {
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		categoryPanel.add(addCategoryButton);
 		p.add(categoryPanel);
-
-		JButton addMemberButton = createImageButton("Add  new member", "puzzle_blue.png", "puzzle_red.png");
-		addMemberButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				AddMemberDialog d = new AddMemberDialog(shopApplication);
-				d.pack();
-				d.setLocationByPlatform(true);
-				d.setVisible(true);
-			}
-		});
-		JPanel addMemberPanel = new JPanel();
-		addMemberPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("  Add Member  "),
-				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-		addMemberPanel.add(addMemberButton);
-		p.add(addMemberPanel);
 
 		JButton addProductButton = createImageButton("Add new product", "cd.png", "cd_blue.png");
 		addProductButton.addActionListener(new ActionListener() {
@@ -105,11 +106,11 @@ public class MainPanel extends JPanel {
 		addProductPanel.add(addProductButton);
 		p.add(addProductPanel);
 
-		JButton addInventoryButton = createImageButton("Manage inventory", "bulb.png", "bulb_yellow.png");
+		JButton checkInventoryButton = createImageButton("Manage inventory", "bulb.png", "bulb_yellow.png");
 		JPanel addInventorytPanel = new JPanel();
 		addInventorytPanel.setBorder(BorderFactory.createCompoundBorder(
-				BorderFactory.createTitledBorder("  Add Inventory  "), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-		addInventorytPanel.add(addInventoryButton);
+				BorderFactory.createTitledBorder("  Manage Inventory  "), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+		addInventorytPanel.add(checkInventoryButton);
 		p.add(addInventorytPanel);
 
 		JButton reportingButton = createImageButton("View reports", "pie_chart_green.png", "pie_chart_yellow.png");
