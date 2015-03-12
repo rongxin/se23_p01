@@ -8,18 +8,19 @@ public class MemberSubsequentDiscount extends Discount {
 	
 	public MemberSubsequentDiscount(String discountCode, String description,
 			int discountPercentage) {
-		super(discountCode, description, discountPercentage);
+		super(discountCode, description, discountPercentage, START_DATE, DISCOUNT_IN_DAYS,
+				APPLICABLE_TO_MEMBER);
 	}
 
-	public static String getStartDate() {
+	public String getStartDate() {
 		return START_DATE;
 	}
 
-	public static String getDiscountInDays() {
+	public String getDiscountInDays() {
 		return DISCOUNT_IN_DAYS;
 	}
 
-	public static String getApplicableToMember() {
+	public String getApplicableToMember() {
 		return APPLICABLE_TO_MEMBER;
 	}
 }
