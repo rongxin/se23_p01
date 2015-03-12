@@ -1,5 +1,6 @@
 package sg.edu.nus.iss.shop.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import sg.edu.nus.iss.shop.dao.adapter.CategoryRecordAdapter;
@@ -34,7 +35,7 @@ public class PersistentService
 		}
 		if(adapter != null)
 		{
-			dataWriter.writeRecord(adapter.getDataRecord());
+			dataWriter.writeRecord(recordObj.getClass().getSimpleName(), adapter.getDataRecord());
 		}
 		else
 			throw new InvalidDomainObject("Not support this object saving");
@@ -46,8 +47,24 @@ public class PersistentService
 	}
 	
 	public List<Object> retrieveAll(Class cls) throws Exception
-	{
-		throw new Exception("Not implement yet");
+	{		
+		//if(cls.newInstance() instanceof Category)
+		if(cls.getSimpleName().equals(Category.class.getSimpleName()))
+		{
+			List<Object> objects = new ArrayList<Object>();
+			DataRecordAdapter adapter = null;
+			for(DataRecord record : dataReader.getCachedData(cls.getSimpleName()))
+			{
+				adapter = new CategoryRecordAdapter(record);
+				objects.add(adapter.getDataObject());
+			}
+			return objects;			
+		}
+		else
+			throw new InvalidDomainObject("Not support this type of data retrieval");
+		
+		
+		
 	}
 	
 }

@@ -7,11 +7,13 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataReader 
+public class DataReader extends DataRespository
 {
 	public List<DataRecord> read(String dataSetName) throws Exception
 	{
-		Path tmpFilePath = Paths.get("", dataSetName,DaoConstant.EXT_DATA);
+		super.setupRepository();
+		
+		Path tmpFilePath = Paths.get(DaoConstant.RELATIVE_FOLDER, dataSetName+DaoConstant.EXT_DATA);
 		
 		FileReader r = new FileReader(tmpFilePath.toString());
 		BufferedReader br = new BufferedReader(r);

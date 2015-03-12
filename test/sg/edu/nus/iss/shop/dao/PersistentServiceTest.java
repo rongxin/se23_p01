@@ -15,6 +15,7 @@ public class PersistentServiceTest
 		
 		PersistentService service = PersistentService.getService();
 		try {
+			
 			Category category = new Category("abc","123");
 			service.saveRecord(category);
 			List<Object> objs = service.retrieveAll((category.getClass()));
