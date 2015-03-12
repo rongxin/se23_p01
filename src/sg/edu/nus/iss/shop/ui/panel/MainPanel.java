@@ -28,10 +28,22 @@ public class MainPanel extends JPanel {
 		setLayout(new BorderLayout());
 		add("North", createTitlePanel());
 		add("Center", createOptionsPanel());
+		add("South", createInformationPanel());
 	}
 
 	private void setMargin(JPanel p) {
 		p.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+	}
+
+	private JPanel createInformationPanel (){
+		JPanel p=new JPanel(new GridLayout(0,1));
+		JLabel shopKeeperInfoLabel=new JLabel();
+		shopKeeperInfoLabel.setIcon(createImageIcon("user.png"));
+		shopKeeperInfoLabel.setText("Hello Stacy");
+		shopKeeperInfoLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		p.add(shopKeeperInfoLabel);
+		setMargin(p);
+		return p;
 	}
 
 	private JPanel createTitlePanel() {
@@ -122,6 +134,11 @@ public class MainPanel extends JPanel {
 
 		return p;
 
+	}
+
+	private ImageIcon createImageIcon(String imageName) {
+		ImageIcon imageIcon = new ImageIcon(getClass().getResource(ICONS_PATH + imageName));
+		return imageIcon;
 	}
 
 	private JButton createImageButton(String tooltip, String defaultImageName, String rolloverImageName) {
