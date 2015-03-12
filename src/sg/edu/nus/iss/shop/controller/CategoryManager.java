@@ -6,6 +6,7 @@ package sg.edu.nus.iss.shop.controller;
 import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.Category;
 import sg.edu.nus.iss.shop.model.domain.Vendor;
+import sg.edu.nus.iss.shop.dao.PersistentService;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -14,7 +15,7 @@ import java.util.List;
 public class CategoryManager {
 
 	private static CategoryManager theOnlyCategoryManager;
-	private static final String CATEGORY_EXISTS_ERROR_MESSAGE = "Category already exists.";
+	private static final String CATEGORY_EXISTS_ERROR_MESSAGE = "Category already exists";
 	private static final String INVALID_CODE_ERROR_MESSAGE = "Invalid Code";
 	private static final String INVALID_NAME_ERROR_MESSAGE = "Invalid Name";
 	private static final int FIXED_CODE_LENGTH = 3;
@@ -51,13 +52,20 @@ public class CategoryManager {
 					CategoryManager.INVALID_NAME_ERROR_MESSAGE);
 		}
 		
-		Category existingCategory = CategoryManager.getCategoryManager().getCategory(code);
 		//Check if there's an existing category
+		Category existingCategory = CategoryManager.getCategoryManager().getCategory(code);
 		if (existingCategory != null) {
 			throw new ApplicationGUIException(
 					CategoryManager.CATEGORY_EXISTS_ERROR_MESSAGE);
 		}
-		return null;
+		//Save Category 
+		try {
+			PersistentService.getService().saveRecord(new Category(code,name));
+			return new Category(code,name);
+		} catch (Exception e) {
+			throw new ApplicationGUIException(e.toString());
+		}	
+		
 	}
 	
 
@@ -95,6 +103,7 @@ public class CategoryManager {
 	 * @return vendor listing for a specific category type           
 	 * */
 	public List<Vendor> getVendorListForCategory(String code){
+		
 		return new LinkedList<Vendor>();
 	}
 
