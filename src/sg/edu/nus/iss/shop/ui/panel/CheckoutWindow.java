@@ -22,7 +22,7 @@ public class CheckoutWindow extends JFrame {
 		this.shopApplication = shopApplication;
 		setLayout(new BorderLayout());
 		this.add("North", createTitlePanel());
-		this.add("Center", createFormPanel());
+		this.add("Center", createItemInfoPanel());
 		this.add("East", createRightPanel());
 		this.add("South", createMessagePanel());
 	}
@@ -112,12 +112,15 @@ public class CheckoutWindow extends JFrame {
 		return p;
 	}
 
-	private JPanel createFormPanel() {
+	private JPanel createItemInfoPanel() {
 		JPanel p = new JPanel();
+		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(" Items"),
+				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		Object columnNames[] = { "Product ID", "Product Name", "Price", "Description" };
 		Object rowData[][] = { { "CLO/1", "Centenary Jumper", 21.45, "A really nice momento" },
 				{ "MUG/1", "Centenary Mug", 10.25, "A really nice mug this time" } };
 		JTable table = new JTable(rowData, columnNames);
+		table.setName("Items");
 		table.setEnabled(false);
 		JScrollPane scrollPane = new JScrollPane(table);
 		p.add(scrollPane);
