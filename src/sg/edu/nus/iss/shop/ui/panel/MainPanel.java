@@ -65,11 +65,11 @@ public class MainPanel extends JPanel {
 		checkoutButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				CheckoutWindow d = new CheckoutWindow(shopApplication);
-				d.pack();
-				d.setLocationByPlatform(true);
-				d.setLocationRelativeTo(null);
-				d.setVisible(true);
+				CheckoutWindow w = new CheckoutWindow(shopApplication);
+				w.pack();
+				w.setLocationByPlatform(true);
+				w.setLocationRelativeTo(null);
+				w.setVisible(true);
 			}
 		});
 		JPanel checkoutPanel = new JPanel();

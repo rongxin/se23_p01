@@ -41,7 +41,6 @@ public class CheckoutWindow extends JFrame {
 		return p;
 	}
 
-
 	private JPanel createRightPanel() {
 		JPanel p = new JPanel(new GridLayout(3, 1));
 		p.add(createMemerInfoPanel());
