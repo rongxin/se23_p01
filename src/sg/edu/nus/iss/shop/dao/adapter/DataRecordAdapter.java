@@ -5,4 +5,5 @@ import sg.edu.nus.iss.shop.dao.DataRecord;
 public interface DataRecordAdapter 
 {
 	public DataRecord getDataRecord();
+	public Object getDataObject();
 }

@@ -1,17 +1,16 @@
 package sg.edu.nus.iss.shop.dao.exception;
 
-public class InvalidDomainObject extends Exception{
+public class InvalidDataFormat extends Exception{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+private String message;
 	
-	private String message;
-	
-	public InvalidDomainObject(String message)
+	public InvalidDataFormat(String message)
 	{
-		super("InvalidDomainObject");
+		super("InvalidDataFormat");
 		this.message = message;
 	}
 	
@@ -22,7 +21,7 @@ public class InvalidDomainObject extends Exception{
 	
 	public int getErrorCode()
 	{
-		return 100;
+		return 101;
 	} 
 
 }
