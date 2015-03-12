@@ -15,6 +15,7 @@ import javax.swing.SwingConstants;
 
 import sg.edu.nus.iss.shop.ui.ShopApplication;
 import sg.edu.nus.iss.shop.ui.dialog.AddCategoryDialog;
+import sg.edu.nus.iss.shop.ui.dialog.AddMemberDialog;
 import sg.edu.nus.iss.shop.ui.dialog.AddProductDialog;
 
 public class MainPanel extends JPanel {
@@ -63,7 +64,17 @@ public class MainPanel extends JPanel {
 		p.add(addCategoryButton);
 
 		JButton addMemberButton = createImageButton("Add  new member", "puzzle_blue.png", "puzzle_red.png");
+		addMemberButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				AddMemberDialog d = new AddMemberDialog(shopApplication);
+				d.pack();
+				d.setLocationByPlatform(true);
+				d.setVisible(true);
+			}
+		});
 		p.add(addMemberButton);
+
 		JButton addProductButton = createImageButton("Add new product", "cd.png", "cd_blue.png");
 		addProductButton.addActionListener(new ActionListener() {
 			@Override
