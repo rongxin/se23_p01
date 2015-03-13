@@ -39,41 +39,33 @@ public class CacheDataWriter extends DataCache
 	}	
 	
 	public void writeRecord(String dataSetName,DataRecord record) throws IOException
-	{	
-		
+	{			
 		if(!dirtyDataSets.contains(dataSetName))
 		{
 			dirtyDataSets.add(dataSetName);
 		}
 		
-		if(cahcedData.containsKey(dataSetName))
-		{
-			if(record.getIsPersistent())
-			{ 
-				//remove the old one
-				Iterator<DataRecord> it =cahcedData.get(dataSetName).iterator();
-				while(it.hasNext())
+		super.getCachedData(dataSetName); 
+		
+		if(record.getIsPersistent())
+		{ 
+			//remove the old one
+			Iterator<DataRecord> it =cahcedData.get(dataSetName).iterator();
+			while(it.hasNext())
+			{
+				if(record.getPK().equals(it.next().getPK()))
 				{
-					if(record.getPK().equals(it.next().getPK()))
-					{
-						it.remove();
-						break;
-					}
+					it.remove();
+					break;
 				}
 			}
-			
-			//add the new one
-			record.setIsPersistent(true);
-			cahcedData.get(dataSetName).add(record);
 		}
-		else
-		{
-			List<DataRecord> records = new  ArrayList<DataRecord>();
-			record.setIsPersistent(true);
-			records.add(record);
-			cahcedData.put(dataSetName,records);
-		}
-		System.out.println("cahcedData size:" + cahcedData.size() );
+		
+		//add the new one
+		record.setIsPersistent(true);
+		cahcedData.get(dataSetName).add(record);
+				 
+		//System.out.println("cahcedData size:" + cahcedData.size() );
 		if(dirtyData == null)
 		{
 			dirtyData = new ArrayList<DataRecord>();

@@ -14,20 +14,16 @@ public class DataCache
 		
 	public List<DataRecord> getCachedData(String dataSetName) throws IOException
 	{
-		if(cahcedData.containsKey(dataSetName))
-			return cahcedData.get(dataSetName);
-		else
+		if(!cahcedData.containsKey(dataSetName))
 		{
 			cacheData(dataSetName);
-			return cahcedData.get(dataSetName);
 		}
+		
+		return cahcedData.get(dataSetName);		 
 	}
 	
 	private void cacheData(String dataSetName) throws IOException  
 	{		
 		cahcedData.put(dataSetName,reader.read(dataSetName));
 	}
-	
-	
-	
 }
