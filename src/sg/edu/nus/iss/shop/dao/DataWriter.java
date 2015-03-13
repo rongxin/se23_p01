@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Iterator;
 import java.util.List;
 
 public class DataWriter extends DataRespository
@@ -17,9 +18,10 @@ public class DataWriter extends DataRespository
 		Path tmpFilePath = Paths.get(DaoConstant.RELATIVE_FOLDER, dataSetName+DaoConstant.EXT_TEMP);
 		
 		PrintWriter pw = new PrintWriter(tmpFilePath.toString());
-		for(DataRecord record: records)
+		Iterator<DataRecord> it = records.iterator();
+		while(it.hasNext())
 		{
-			pw.println(record.toString());
+			pw.println(it.next().toString());
 		}		
 		pw.close();
 		

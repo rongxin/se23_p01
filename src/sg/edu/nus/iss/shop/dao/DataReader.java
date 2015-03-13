@@ -2,6 +2,7 @@ package sg.edu.nus.iss.shop.dao;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import java.util.List;
 
 public class DataReader extends DataRespository
 {
-	public List<DataRecord> read(String dataSetName) throws Exception
+	public List<DataRecord> read(String dataSetName) throws IOException  
 	{
 		super.setupRepository();
 		
@@ -23,7 +24,7 @@ public class DataReader extends DataRespository
 		String line = null;
 		while ((line = br.readLine()) != null)
 		{
-			records.add(new DataRecord(line));			
+			records.add(new DataRecord(line,true));
 		}
 		br.close();
 		

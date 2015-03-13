@@ -37,11 +37,13 @@ public class CategoryRecordAdapter implements DataRecordAdapter
 		dataRecord.setPk(dataObj.getCode());
 	}
 	
+	@Override
 	public DataRecord getDataRecord()
 	{		
 		return dataRecord;
 	}
 	
+	@Override
 	public Object getDataObject()
 	{
 		return dataObj;
