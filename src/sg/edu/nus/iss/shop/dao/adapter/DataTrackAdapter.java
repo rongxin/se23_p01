@@ -8,16 +8,79 @@ public class DataTrackAdapter implements DataRecordAdapter
 
 	DataRecord dataRecord;
 	String dataSetName;
-	public DataTrackAdapter(String dataSetName, DataRecord record)
+	
+	/**
+	 * Convert dirty data to tracked data
+	 * @param dataSetName
+	 * @param record
+	 */
+	public DataTrackAdapter(String dataSetName, DataRecord dirtyDataRecord)
 	{
 		this.dataSetName = dataSetName; 
-		dataRecord = record;		
+		dataRecord = dirtyDataRecord;		
+	}
+	
+	/**
+	 * Recover Tracked data to dirty data  
+	 * @param record
+	 */
+	public DataTrackAdapter(DataRecord trackedDataRecord)
+	{
+		dataRecord = trackedDataRecord;
+		
+		String[] dataValues = trackedDataRecord.toString().split(DaoConstant.SEPARATOR);
+		
+		this.dataSetName = dataValues[0];
+	}
+	
+	public String getDataSetName()
+	{
+		return this.dataSetName;
+	}
+	
+	public DataRecord getDirtyDataRecord() 
+	{
+		String recordString =dataRecord.toString();
+		int pkIndx = recordString.indexOf("*#PK#*" + DaoConstant.SEPARATOR);
+		
+		System.out.println("recordString:" + recordString);
+		String dirtyData = recordString.substring(pkIndx+("*#PK#*" + DaoConstant.SEPARATOR).length());
+		System.out.println("dirtyData:" + dirtyData);
+		String pkValue = recordString.substring(0, pkIndx-1);
+		System.out.println("pkValue:" + pkValue);
+		
+		String[] pkValues = pkValue.split(DaoConstant.SEPARATOR);
+		
+		StringBuilder sbPK = new StringBuilder();
+		for(int i =1;i<pkValues.length;i++)
+		{
+			if(i >= (pkValues.length -i))
+			{
+				sbPK.append(pkValues[i]);
+			}
+			else
+			{
+				sbPK.append(pkValues[i]+DaoConstant.SEPARATOR);
+			}
+		}
+		 
+		DataRecord newRecord = new DataRecord(dirtyData);
+		newRecord.setPk(sbPK.toString());
+		System.out.println("sbPK:" + sbPK.toString());
+		
+		return newRecord;
 	}
 	
 	@Override
 	public DataRecord getDataRecord() {
 		
-		DataRecord newRecord = new DataRecord(dataSetName + DaoConstant.SEPARATOR + dataRecord.toString());
+		StringBuilder newValue = new StringBuilder();
+		newValue.append(dataSetName + DaoConstant.SEPARATOR );//append dataset name         0
+		newValue.append(dataRecord.getPK()+ DaoConstant.SEPARATOR);//append dirty record PK 1
+		newValue.append("*#PK#*"+ DaoConstant.SEPARATOR);//append PK separator              2
+		newValue.append(dataRecord.toString());//append original dirty data                 3
+		
+		DataRecord newRecord = new DataRecord(newValue.toString());
 		
 		newRecord.setPk(dataSetName + DaoConstant.SEPARATOR + dataRecord.getPK());
 		return newRecord;

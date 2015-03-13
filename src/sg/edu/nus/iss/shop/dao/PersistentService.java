@@ -62,10 +62,10 @@ public class PersistentService
 		if(isCategoryType(cls))
 		{
 			DataRecordAdapter adapter = null;
-			System.out.println(objectId);
+			//System.out.println("objectId:" + objectId);
 			for(DataRecord record : dataReader.getCachedData(cls.getSimpleName()))
 			{
-				System.out.println(record.getPK());
+				//System.out.println("PK:" + record.getPK());
 				if(objectId.equals(record.getPK()))
 				{
 					adapter = new CategoryRecordAdapter(record);
