@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import sg.edu.nus.iss.shop.dao.PersistentService;
 import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.Category;
 import sg.edu.nus.iss.shop.model.domain.Vendor;
@@ -16,6 +17,7 @@ public class VendorManager {
 	private static final String INVALID_NAME_ERROR_MESSAGE = "Invalid vendor name";
 	private static final String INVALID_DESCRIPTION_ERROR_MESSAGE = "Invalid vendor description";
 	private static final String NIL_CATEGORY_ERROR_MESSAGE = "At least one category is needed";
+	private static final String SAVE_VENDOR_FAIL_ERROR_MESSAGE = "Failed to save the vendor";
 	
 	private static VendorManager theOnlyVendorManager;
 
@@ -79,10 +81,23 @@ public class VendorManager {
 		Vendor vendor = this.getVendorByName(name);
 		if (vendor == null){ // new vendor
 			vendor = new Vendor(name, description);
+			try{
+				PersistentService.getService().saveRecord(vendor);
+			}
+			catch(Exception e){
+				throw new ApplicationGUIException(VendorManager.SAVE_VENDOR_FAIL_ERROR_MESSAGE);
+			}
 		}
 		else {			// existing vendor
 			List<Category> existingCategories = vendor.getCategories();
 			categories.removeAll(existingCategories);
+			vendor.setCategories(categories);
+			try{
+				PersistentService.getService().saveRecord(vendor);
+			}
+			catch(Exception e){
+				throw new ApplicationGUIException(VendorManager.SAVE_VENDOR_FAIL_ERROR_MESSAGE);
+			}
 		}
 		return vendor;
 	}

@@ -6,6 +6,7 @@ import java.util.List;
 public class Vendor {
 	private String name;
 	private String description;
+	private List<Category> categories;
 
 	public Vendor(String name, String description) {
 		this.name = name;
@@ -44,7 +45,14 @@ public class Vendor {
 
 	/* Lazy loading to be implemented */
 	public List<Category> getCategories() {
-		return new LinkedList<Category>();
+		if (this.categories == null){
+			//load categories
+		}
+		return this.categories;
+	}
+	
+	public void setCategories(List<Category> categories){
+		this.categories = categories;
 	}
 
 }
