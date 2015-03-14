@@ -148,7 +148,7 @@ public class ProductManager {
 	
 	/**
 	 * Method to retrieve all products from data source for a particular category
-	 * @return listing of product with low inventory    
+	 * @return listing of product with for a particular category
 	 * */
 	public List<Product> getProductsForCategory(Category category) {
 		
