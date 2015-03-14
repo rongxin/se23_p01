@@ -1,6 +1,7 @@
 package sg.edu.nus.iss.shop.ui.dialog;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -18,22 +19,33 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
+import sg.edu.nus.iss.shop.ui.IconHelper;
 import sg.edu.nus.iss.shop.ui.LayoutHelper;
 
-public class ScanMemberCardDialog extends JDialog {
+public class BarcodeScannerEmulatorDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
-	private JTextField cardNumberField;
-	public JTextField getCardNumberField() {
-		return cardNumberField;
+	private JTextField barcodeNumberField;
+
+	public String getScannedBarcodeNumber() {
+		return barcodeNumberField.getText().trim();
 	}
 
 	private JLabel messageLabel;
 	private JButton okButton;
 
-	public ScanMemberCardDialog(Container container) {
+	public BarcodeScannerEmulatorDialog(Container container) {
+		add("North", createTitlePanel());
 		add("Center", createFormPanel());
 		add("South", createButtonPanel());
+	}
+
+	private Component createTitlePanel() {
+		JPanel p = new JPanel();
+		JLabel title = new JLabel("Barcode Scanner", IconHelper.createImageIcon("barcode_scanner.png"),
+				SwingConstants.CENTER);
+		p.add(title);
+		return p;
 	}
 
 	public void addConfirmListener(ActionListener listener) {
@@ -42,7 +54,7 @@ public class ScanMemberCardDialog extends JDialog {
 
 	private JPanel createButtonPanel() {
 		JPanel p = new JPanel();
-		okButton = new JButton("OK");
+		okButton = new JButton("Scan");
 		p.add(okButton);
 
 		JButton cancelButton = new JButton("Cancel");
@@ -73,21 +85,20 @@ public class ScanMemberCardDialog extends JDialog {
 	private JPanel createInputFormPanel() {
 		JPanel p = new JPanel();
 		p.setLayout(new GridBagLayout());
-		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(" Scan  Member Card "),
+		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(""),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		GridBagConstraints gc = new GridBagConstraints();
 
 		// column 1
 		gc = LayoutHelper.createCellConstraint(0, 0);
-		JLabel memberTypeLabel = new JLabel("Member Card ID: ");
+		JLabel memberTypeLabel = new JLabel("Scanned Number: ");
 		p.add(memberTypeLabel, gc);
 
 		// column 2
 		gc = LayoutHelper.createCellConstraint(1, 0);
-
-		cardNumberField = new JTextField(20);
-		cardNumberField.setToolTipText("Please input student or staff card number.");
-		p.add(cardNumberField, gc);
+		barcodeNumberField = new JTextField(20);
+		barcodeNumberField.setToolTipText("Please input student or staff card number.");
+		p.add(barcodeNumberField, gc);
 
 		return p;
 	}
@@ -95,7 +106,7 @@ public class ScanMemberCardDialog extends JDialog {
 	private JPanel createFormMessagePanel() {
 		JPanel p = new JPanel(new GridLayout(0, 1));
 		messageLabel = new JLabel(" ", SwingConstants.CENTER);
-		messageLabel.setText("Please scan the member card id.");
+		messageLabel.setText("Please scan the barcode.");
 
 		p.add(messageLabel);
 		return p;

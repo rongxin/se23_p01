@@ -24,7 +24,7 @@ import sg.edu.nus.iss.shop.model.domain.Member;
 import sg.edu.nus.iss.shop.model.domain.NonMemberCustomer;
 import sg.edu.nus.iss.shop.ui.LayoutHelper;
 import sg.edu.nus.iss.shop.ui.ShopApplication;
-import sg.edu.nus.iss.shop.ui.dialog.ScanMemberCardDialog;
+import sg.edu.nus.iss.shop.ui.dialog.BarcodeScannerEmulatorDialog;
 
 public class CheckoutWindow extends JFrame {
 
@@ -228,14 +228,14 @@ public class CheckoutWindow extends JFrame {
 		scanMemberCardButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ScanMemberCardDialog d = new ScanMemberCardDialog(p.getParent());
+				BarcodeScannerEmulatorDialog d = new BarcodeScannerEmulatorDialog(p.getParent());
 				d.pack();
 				d.setLocationByPlatform(true);
 				d.setVisible(true);
 				d.addConfirmListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						String scannedCardNumber = d.getCardNumberField().getText().trim();
+						String scannedCardNumber = d.getScannedBarcodeNumber();
 
 						// TODO get member details by member card
 						customer = new Member("F42563743156", "Yan Martel", 100);
