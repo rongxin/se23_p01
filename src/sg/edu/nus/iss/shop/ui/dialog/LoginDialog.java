@@ -5,7 +5,6 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.Insets;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -15,6 +14,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
+import sg.edu.nus.iss.shop.ui.LayoutHelper;
 import sg.edu.nus.iss.shop.ui.ShopApplication;
 
 public class LoginDialog extends OkCancelDialog {
@@ -42,24 +42,6 @@ public class LoginDialog extends OkCancelDialog {
 		return mainPanel;
 	}
 
-	private GridBagConstraints createCellConstraint(int x, int y) {
-		GridBagConstraints gc = new GridBagConstraints();
-		gc.gridx = x;
-		gc.gridy = y;
-		gc.gridwidth = 1;
-		gc.gridheight = 1;
-
-		boolean isLeftMostColumn = x == 0;
-		gc.anchor = isLeftMostColumn ? GridBagConstraints.WEST : GridBagConstraints.EAST;
-		gc.fill = isLeftMostColumn ? GridBagConstraints.BOTH : GridBagConstraints.HORIZONTAL;
-
-		Insets westInset = new Insets(5, 0, 5, 5);
-		Insets eastInset = new Insets(5, 5, 5, 0);
-		gc.insets = isLeftMostColumn ? westInset : eastInset;
-		gc.weightx = isLeftMostColumn ? 0.1 : 1.0;
-		gc.weighty = 1.0;
-		return gc;
-	}
 
 	private JPanel createInputFormPanel() {
 		JPanel p = new JPanel();
@@ -69,17 +51,17 @@ public class LoginDialog extends OkCancelDialog {
 		GridBagConstraints gc = new GridBagConstraints();
 
 		// column 1
-		createCellConstraint(0, 0);
-		gc = createCellConstraint(0, 0);
+		LayoutHelper.createCellConstraint(0, 0);
+		gc = LayoutHelper.createCellConstraint(0, 0);
 		JLabel categoryCodeLabel = new JLabel("Username: ");
 		p.add(categoryCodeLabel, gc);
 
-		gc = createCellConstraint(0, 1);
+		gc = LayoutHelper.createCellConstraint(0, 1);
 		JLabel categoryNameLabel = new JLabel("Password: ");
 		p.add(categoryNameLabel, gc);
 
 		// column 2
-		gc = createCellConstraint(1, 0);
+		gc = LayoutHelper.createCellConstraint(1, 0);
 		gc.anchor = GridBagConstraints.LAST_LINE_START;
 
 		userNameField = new JTextField(15);
@@ -88,7 +70,7 @@ public class LoginDialog extends OkCancelDialog {
 		userNameField.setToolTipText("Please input your username.");
 		p.add(userNameField, gc);
 
-		gc = createCellConstraint(1, 1);
+		gc = LayoutHelper.createCellConstraint(1, 1);
 		passwordField = new JPasswordField(15);
 		// TODO remove later
 		passwordField.setText("test");
