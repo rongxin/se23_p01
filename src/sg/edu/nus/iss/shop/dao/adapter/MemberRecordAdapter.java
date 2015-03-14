@@ -32,11 +32,11 @@ public class MemberRecordAdapter implements DataRecordAdapter
 		}
 		else
 		{
-			dataObj = new Member(dataValues[0],dataValues[1]);
+			dataObj = new Member(dataValues[1],dataValues[0]);
 			
 			try
 			{
-				int loyaltPoint  = Integer.parseInt(dataValues[1]);
+				int loyaltPoint  = Integer.parseInt(dataValues[2]);
 				dataObj.setLoyalPoints(loyaltPoint);
 			}catch(NumberFormatException ex){}
 		}
