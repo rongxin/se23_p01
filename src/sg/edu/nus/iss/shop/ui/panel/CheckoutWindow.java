@@ -2,6 +2,7 @@ package sg.edu.nus.iss.shop.ui.panel;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -25,6 +26,8 @@ public class CheckoutWindow extends JFrame {
 
 	private static final String PAYMENT_CARD = "paymentCard";
 	private static final String CART_CARD = "cartCard";
+	private static final String CARD_SUMMARY = "summaryCard";
+
 	private static final long serialVersionUID = 1L;
 	private ShopApplication shopApplication;
 	private JPanel purchaseCardPanel;
@@ -156,8 +159,10 @@ public class CheckoutWindow extends JFrame {
 		checkOutButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// CardLayout cl = (CardLayout) (purchaseCardPanel.getLayout());
-				// cl.show(purchaseCardPanel, PAYMENT_CARD);
+				CardLayout cl = (CardLayout) (purchaseCardPanel.getLayout());
+				cl.show(purchaseCardPanel, CARD_SUMMARY);
+				checkOutButton.setEnabled(false);
+				proceedPaymentButton.setEnabled(false);
 			}
 		});
 		p.add(checkOutButton);
@@ -178,6 +183,7 @@ public class CheckoutWindow extends JFrame {
 		purchaseCardPanel.setLayout(new CardLayout());
 		purchaseCardPanel.add(createShoppingCartPanel(), CART_CARD);
 		purchaseCardPanel.add(createMakePaymentPanel(), PAYMENT_CARD);
+		purchaseCardPanel.add(createSummaryPanel(), CARD_SUMMARY);
 		return purchaseCardPanel;
 	}
 
@@ -245,6 +251,13 @@ public class CheckoutWindow extends JFrame {
 		outerPanel.add("Center", new JPanel());
 		outerPanel.add("South", new JPanel());
 
+		return p;
+	}
+
+	private Component createSummaryPanel() {
+		JPanel p = new JPanel();
+
+		p.add(new JLabel("Summary"));
 		return p;
 	}
 
