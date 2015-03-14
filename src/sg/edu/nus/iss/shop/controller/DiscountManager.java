@@ -7,6 +7,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import sg.edu.nus.iss.shop.dao.PersistentService;
+import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.Customer;
 import sg.edu.nus.iss.shop.model.domain.Discount;
 
@@ -16,7 +18,6 @@ import sg.edu.nus.iss.shop.model.domain.Discount;
  */
 public class DiscountManager {
 	private static DiscountManager theOnlyDiscountManager;
-	private static final String INVALID_DATE_ERROR_MESSAGE = "Invalid date.";
 
 	private DiscountManager() {
 
@@ -29,11 +30,26 @@ public class DiscountManager {
 		return theOnlyDiscountManager;
 	}
 
-	public List<Discount> getAllDiscounts() {
-		return new LinkedList<Discount>();
+	public List<Discount> getAllDiscounts() throws ApplicationGUIException {
+		List<Discount> discountList = new LinkedList<Discount>();
+		List<Object> objectList = null;
+		
+		try{
+			objectList = PersistentService.getService().retrieveAll(Discount.class);
+		}catch(Exception e){
+			throw new ApplicationGUIException(e.toString());
+		}
+		
+		if (objectList != null && objectList.isEmpty()){
+			Iterator<Object> iter = objectList.iterator();
+			while(iter.hasNext()){
+				discountList.add((Discount)iter.next());
+			}
+		}
+		return discountList;
 	}
 
-	public Discount getMaxDiscount(Customer customer) {
+	public Discount getMaxDiscount(Customer customer) throws ApplicationGUIException {
 		Discount maxDiscount = null;
 		List<Discount> discountList = DiscountManager.getDiscountManager().getAllDiscounts();
 		Iterator<Discount> iter = discountList.iterator();
