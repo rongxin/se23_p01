@@ -9,6 +9,8 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -22,6 +24,7 @@ import javax.swing.JTextField;
 import sg.edu.nus.iss.shop.model.domain.Customer;
 import sg.edu.nus.iss.shop.model.domain.Member;
 import sg.edu.nus.iss.shop.model.domain.NonMemberCustomer;
+import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.ui.LayoutHelper;
 import sg.edu.nus.iss.shop.ui.ShopApplication;
 import sg.edu.nus.iss.shop.ui.dialog.BarcodeScannerEmulatorDialog;
@@ -37,6 +40,7 @@ public class CheckoutWindow extends JFrame {
 	private ShopApplication shopApplication;
 	private JPanel purchaseCardPanel;
 
+	private JButton scanItemsButton;
 	private JButton checkoutButton;
 	private JButton proceedPaymentButton;
 
@@ -46,6 +50,8 @@ public class CheckoutWindow extends JFrame {
 	private JLabel memberLoyaltyPointsValueLabel;
 	private JLabel memberTypeValuelabel;
 
+	private Map<Product, Integer> scannedItems;
+
 	public CheckoutWindow(ShopApplication shopApplication) {
 		this.shopApplication = shopApplication;
 		setLayout(new BorderLayout());
@@ -53,6 +59,8 @@ public class CheckoutWindow extends JFrame {
 		this.add("Center", createPurchaseCardPanel());
 		this.add("East", createRightPanel());
 		this.add("South", createMessagePanel());
+
+		scannedItems = new HashMap<>();
 	}
 
 	private JPanel createTitlePanel() {
@@ -147,7 +155,24 @@ public class CheckoutWindow extends JFrame {
 		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(" Actions"),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
-		JButton scanItemsButton = new JButton("Scan items");
+		scanItemsButton = new JButton("Scan items");
+		scanItemsButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				BarcodeScannerEmulatorDialog d = new BarcodeScannerEmulatorDialog(p.getParent());
+				d.pack();
+				d.setLocationByPlatform(true);
+				d.setVisible(true);
+				d.addConfirmListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						String scannedId = d.getScannedBarcodeNumber();
+						System.out.println("Scanned: " + scannedId);
+						// TODO get member details by member card
+					}
+				});
+			}
+		});
 		p.add(scanItemsButton);
 
 		proceedPaymentButton = new JButton(" Payment");
@@ -190,7 +215,7 @@ public class CheckoutWindow extends JFrame {
 		purchaseCardPanel = new JPanel();
 		purchaseCardPanel.setLayout(new CardLayout());
 		purchaseCardPanel.add(createGetMemberPanel(), CARD_MEMBER);
-		purchaseCardPanel.add(createShoppingCartPanel(), CARD_CART);
+		purchaseCardPanel.add(createCartItemsPanel(), CARD_CART);
 		purchaseCardPanel.add(createMakePaymentPanel(), CARD_PAYMENT);
 		purchaseCardPanel.add(createSummaryPanel(), CARD_SUMMARY);
 		return purchaseCardPanel;
@@ -265,7 +290,7 @@ public class CheckoutWindow extends JFrame {
 		return p;
 	}
 
-	private JPanel createShoppingCartPanel() {
+	private JPanel createCartItemsPanel() {
 		JPanel p = new JPanel();
 		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(" Items"),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));

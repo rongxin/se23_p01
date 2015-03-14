@@ -57,7 +57,7 @@ public class BarcodeScannerEmulatorDialog extends JDialog {
 		okButton = new JButton("Scan");
 		p.add(okButton);
 
-		JButton cancelButton = new JButton("Cancel");
+		JButton cancelButton = new JButton("Close");
 		cancelButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -90,11 +90,6 @@ public class BarcodeScannerEmulatorDialog extends JDialog {
 		GridBagConstraints gc = new GridBagConstraints();
 
 		// column 1
-		gc = LayoutHelper.createCellConstraint(0, 0);
-		JLabel memberTypeLabel = new JLabel("Scanned Number: ");
-		p.add(memberTypeLabel, gc);
-
-		// column 2
 		gc = LayoutHelper.createCellConstraint(1, 0);
 		barcodeNumberField = new JTextField(20);
 		barcodeNumberField.setToolTipText("Please input student or staff card number.");
