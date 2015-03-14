@@ -2,6 +2,7 @@ package sg.edu.nus.iss.shop.ui.panel;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -80,6 +81,12 @@ public class CheckoutWindow extends JFrame {
 		JLabel memberNameValuelabel = new JLabel("Yan Martel");
 		p.add(memberNameValuelabel);
 
+		JLabel loyaltypointsLabel = new JLabel("Loyalty Points: ");
+		p.add(loyaltypointsLabel);
+
+		JLabel loyaltypointsValueLabel = new JLabel("0");
+		p.add(loyaltypointsValueLabel);
+
 		return p;
 	}
 
@@ -90,11 +97,25 @@ public class CheckoutWindow extends JFrame {
 		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(" Checkout  Information "),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
-		JLabel totalAmountLabel = new JLabel("Total Amount");
+		JLabel totalAmountLabel = new JLabel("Total Amount: ");
 		p.add(totalAmountLabel);
 
 		JLabel totalAmountValueLabel = new JLabel("$ 31.70");
 		p.add(totalAmountValueLabel);
+
+		JLabel discountLabel = new JLabel("Discount: ");
+		p.add(discountLabel);
+
+		JLabel discountValueLabel = new JLabel("$ 1.00");
+		p.add(discountValueLabel);
+
+		JLabel totalPayableAmountLabel = new JLabel("Total Payable: ");
+		totalPayableAmountLabel.setFont(new Font("Arial", Font.BOLD, 16));
+		p.add(totalPayableAmountLabel);
+
+		JLabel totalPayableAmountValueLabel = new JLabel("$ 30.70");
+		totalPayableAmountValueLabel.setFont(new Font("Arial", Font.BOLD, 16));
+		p.add(totalPayableAmountValueLabel);
 
 		return p;
 	}
