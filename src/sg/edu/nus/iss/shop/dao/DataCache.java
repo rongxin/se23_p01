@@ -1,6 +1,5 @@
 package sg.edu.nus.iss.shop.dao;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -16,7 +15,7 @@ public class DataCache
 
 	protected DataReader reader = new DataReader();
 		
-	public List<DataRecord> getCachedData(String dataSetName) throws IOException
+	public List<DataRecord> getCachedData(String dataSetName)
 	{
 		if(!cahcedData.containsKey(dataSetName))
 		{
@@ -26,7 +25,7 @@ public class DataCache
 		return cahcedData.get(dataSetName);		 
 	}
 	
-	private void cacheData(String dataSetName) throws IOException  
+	private void cacheData(String dataSetName)
 	{		
 		rwl.writeLock().lock();
 		cahcedData.put(dataSetName,reader.read(dataSetName));
