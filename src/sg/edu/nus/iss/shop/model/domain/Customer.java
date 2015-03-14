@@ -1,5 +1,10 @@
 package sg.edu.nus.iss.shop.model.domain;
 
+import java.util.Iterator;
+import java.util.List;
+
+import sg.edu.nus.iss.shop.controller.DiscountManager;
+
 public class Customer {
 	private String id;
 
@@ -27,4 +32,18 @@ public class Customer {
 		return this.getId().equals(customer.getId());
 	}
 
+	public Discount getMaxDiscount(){
+		Discount maxDiscount = null;
+		
+		List<Discount> discountList = DiscountManager.getDiscountManager().getAllDiscounts();
+		Iterator<Discount> iter = discountList.iterator();
+		while(iter.hasNext()){
+			Discount discount = iter.next();
+			if (discount == null || discount.getDiscountPercentage() > maxDiscount.getDiscountPercentage()){
+				maxDiscount = discount;
+			}
+		}
+		
+		return maxDiscount;
+	}
 }

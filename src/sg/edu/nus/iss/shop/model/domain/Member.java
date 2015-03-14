@@ -29,7 +29,13 @@ public class Member extends Customer {
 	public void setLoyalPoints(int loyalPoints) {
 		this.loyalPoints = loyalPoints;
 	}
-	
 
+	@Override
+	public Discount getMaxDiscount() {
+		
+		return super.getMaxDiscount();
+	}
+	
+	
 
 }
