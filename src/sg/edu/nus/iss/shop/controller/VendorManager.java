@@ -47,7 +47,17 @@ public class VendorManager {
 	}
 
 	public List<Vendor> listVendorForCategory(Category category) {
-		return new LinkedList<Vendor>();
+		if (category == null){
+			return new LinkedList<Vendor>();
+		}
+		List<Vendor> vendorList;
+		try{
+			vendorList = PersistentService.getService().retrieveVendors(category);
+		}
+		catch(Exception e){
+			vendorList = new LinkedList<Vendor>();
+		}
+		return vendorList;
 	}
 	
 	private Vendor getVendorByName(String name){
