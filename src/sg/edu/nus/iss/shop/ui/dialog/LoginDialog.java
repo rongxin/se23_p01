@@ -1,32 +1,33 @@
 package sg.edu.nus.iss.shop.ui.dialog;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
+import sg.edu.nus.iss.shop.ui.IconHelper;
 import sg.edu.nus.iss.shop.ui.LayoutHelper;
 import sg.edu.nus.iss.shop.ui.ShopApplication;
 
-public class AddCategoryDialog extends OkCancelDialog {
-
+public class LoginDialog extends OkCancelDialog {
 	private static final long serialVersionUID = 1L;
 	private ShopApplication shopApplication;
-	private JTextField categoryCodeField;
-	private JTextField categoryNameField;
 	private JLabel messageLabel;
+	private JTextField userNameField;
+	private JPasswordField passwordField;
 
-	public AddCategoryDialog(ShopApplication shopApplication) {
-		super(shopApplication.getMainWindow(), "Add Category");
+	public LoginDialog(ShopApplication shopApplication) {
+		super(shopApplication.getMainWindow(), "StoreKepper Login");
 		this.shopApplication = shopApplication;
 	}
 
@@ -34,7 +35,7 @@ public class AddCategoryDialog extends OkCancelDialog {
 	protected JPanel createFormPanel() {
 		JPanel mainPanel = new JPanel(new BorderLayout());
 
-		mainPanel.add(new JPanel(), BorderLayout.NORTH);
+		mainPanel.add(createTitlePanel(), BorderLayout.NORTH);
 		mainPanel.add(new JPanel(), BorderLayout.WEST);
 		mainPanel.add(new JPanel(), BorderLayout.EAST);
 		mainPanel.add(createInputFormPanel(), BorderLayout.CENTER);
@@ -43,35 +44,48 @@ public class AddCategoryDialog extends OkCancelDialog {
 		return mainPanel;
 	}
 
+	private JPanel createTitlePanel() {
+		JPanel p = new JPanel();
+		ImageIcon logoIcon = IconHelper.createImageIcon("bag.png");
+		JLabel title = new JLabel("", logoIcon, SwingConstants.CENTER);
+		p.add(title);
+		return p;
+	}
+
 
 	private JPanel createInputFormPanel() {
 		JPanel p = new JPanel();
 		p.setLayout(new GridBagLayout());
-		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(" Add Category "),
+		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(" Login "),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		GridBagConstraints gc = new GridBagConstraints();
 
 		// column 1
+		LayoutHelper.createCellConstraint(0, 0);
 		gc = LayoutHelper.createCellConstraint(0, 0);
-		JLabel categoryCodeLabel = new JLabel("Category Code: ");
+		JLabel categoryCodeLabel = new JLabel("Username: ");
 		p.add(categoryCodeLabel, gc);
 
 		gc = LayoutHelper.createCellConstraint(0, 1);
-		JLabel categoryNameLabel = new JLabel("Category Name: ");
+		JLabel categoryNameLabel = new JLabel("Password: ");
 		p.add(categoryNameLabel, gc);
 
 		// column 2
 		gc = LayoutHelper.createCellConstraint(1, 0);
 		gc.anchor = GridBagConstraints.LAST_LINE_START;
-		gc.fill = GridBagConstraints.NONE;
-		categoryCodeField = new JTextField(3);
-		categoryCodeField.setToolTipText("Please input three-letter code for the new category");
-		p.add(categoryCodeField, gc);
+
+		userNameField = new JTextField(15);
+		// TODO remove later
+		userNameField.setText("Stacy");
+		userNameField.setToolTipText("Please input your username.");
+		p.add(userNameField, gc);
 
 		gc = LayoutHelper.createCellConstraint(1, 1);
-		categoryNameField = new JTextField(20);
-		categoryNameField.setToolTipText("Please input name for the category");
-		p.add(categoryNameField, gc);
+		passwordField = new JPasswordField(15);
+		// TODO remove later
+		passwordField.setText("test");
+		passwordField.setToolTipText("Please input name for the category");
+		p.add(passwordField, gc);
 
 		return p;
 	}
@@ -79,7 +93,7 @@ public class AddCategoryDialog extends OkCancelDialog {
 	private JPanel createFormMessagePanel() {
 		JPanel p = new JPanel(new GridLayout(0, 1));
 		messageLabel = new JLabel(" ", SwingConstants.CENTER);
-		messageLabel.setText("Please input category code and name.");
+		messageLabel.setText("Please input your username and password.");
 
 		p.add(messageLabel);
 		return p;
@@ -87,15 +101,12 @@ public class AddCategoryDialog extends OkCancelDialog {
 
 	@Override
 	protected boolean performOkAction() {
-		String categoryCode = categoryCodeField.getText().trim();
-		String categoryName = categoryNameField.getText().trim();
-		if ((categoryCode.length() == 0) || (categoryName.length() == 0)) {
-			messageLabel.setText("Category code and  name are compulsory.");
-			messageLabel.setForeground(Color.RED);
-			return false;
-		}
-		shopApplication.addCategory (categoryCode, categoryName);
+		String userName = userNameField.getText().trim();
+		String password = new String(passwordField.getPassword());
+		System.out.println("UserName:" + userName);
+		System.out.print("Password: " + password);
+		shopApplication.login(userName, password);
 		return true;
 	}
-}
 
+}

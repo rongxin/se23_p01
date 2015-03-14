@@ -7,12 +7,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import sg.edu.nus.iss.shop.ui.IconHelper;
 import sg.edu.nus.iss.shop.ui.ShopApplication;
 import sg.edu.nus.iss.shop.ui.dialog.AddCategoryDialog;
 import sg.edu.nus.iss.shop.ui.dialog.AddMemberDialog;
@@ -38,7 +38,7 @@ public class MainPanel extends JPanel {
 	private JPanel createInformationPanel (){
 		JPanel p=new JPanel(new GridLayout(0,1));
 		JLabel shopKeeperInfoLabel=new JLabel();
-		shopKeeperInfoLabel.setIcon(createImageIcon("user.png"));
+		shopKeeperInfoLabel.setIcon(IconHelper.createImageIcon("user.png"));
 		shopKeeperInfoLabel.setText("Hello Stacy");
 		shopKeeperInfoLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		p.add(shopKeeperInfoLabel);
@@ -146,18 +146,10 @@ public class MainPanel extends JPanel {
 
 	}
 
-	private ImageIcon createImageIcon(String imageName) {
-		ImageIcon imageIcon = new ImageIcon(getClass().getResource(ICONS_PATH + imageName));
-		return imageIcon;
-	}
-
 	private JButton createImageButton(String tooltip, String defaultImageName, String rolloverImageName) {
-		JButton button = new JButton(new ImageIcon(getClass()
-				.getResource(
-						ICONS_PATH + defaultImageName)));
+		JButton button = new JButton(IconHelper.createImageIcon(defaultImageName));
 		button.setToolTipText(tooltip);
-
-		button.setRolloverIcon(new ImageIcon(getClass().getResource(ICONS_PATH + rolloverImageName)));
+		button.setRolloverIcon(IconHelper.createImageIcon(rolloverImageName));
 		button.setBorderPainted(false);
 		button.setFocusPainted(false);
 		button.setContentAreaFilled(false);
