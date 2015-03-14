@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 public abstract class OkCancelDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
+	private JButton okButton;
 
 	public OkCancelDialog(JFrame parent, String title) {
 		super (parent, title);
@@ -22,34 +23,34 @@ public abstract class OkCancelDialog extends JDialog {
 		this (parent, "");
 	}
 
+
 	private JPanel createButtonPanel () {
 		JPanel p = new JPanel ();
 
-		JButton b;
 		ActionListener l;
 
-		b = new JButton ("OK");
+		okButton = new JButton ("OK");
 		l = new ActionListener () {
 			@Override
 			public void actionPerformed (ActionEvent e) {
 				boolean success = performOkAction ();
 				if (success) {
-					destroyDialog ();
+					destroyDialog();
 				}
 			}
 		};
-		b.addActionListener (l);
-		p.add (b);
+		okButton.addActionListener (l);
+		p.add (okButton);
 
-		b = new JButton ("Cancel");
+		okButton = new JButton ("Cancel");
 		l = new ActionListener () {
 			@Override
 			public void actionPerformed (ActionEvent e) {
 				destroyDialog ();
 			}
 		};
-		b.addActionListener (l);
-		p.add (b);
+		okButton.addActionListener (l);
+		p.add (okButton);
 
 		return p;
 	}

@@ -20,9 +20,11 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import sg.edu.nus.iss.shop.model.domain.Customer;
+import sg.edu.nus.iss.shop.model.domain.Member;
 import sg.edu.nus.iss.shop.model.domain.NonMemberCustomer;
 import sg.edu.nus.iss.shop.ui.LayoutHelper;
 import sg.edu.nus.iss.shop.ui.ShopApplication;
+import sg.edu.nus.iss.shop.ui.dialog.ScanMemberCardDialog;
 
 public class CheckoutWindow extends JFrame {
 
@@ -42,6 +44,7 @@ public class CheckoutWindow extends JFrame {
 	private JLabel memberIdValuelabel;
 	private JLabel memberNameValuelabel;
 	private JLabel memberLoyaltyPointsValueLabel;
+	private JLabel memberTypeValuelabel;
 
 	public CheckoutWindow(ShopApplication shopApplication) {
 		this.shopApplication = shopApplication;
@@ -84,19 +87,19 @@ public class CheckoutWindow extends JFrame {
 		JLabel memberTypeLabel = new JLabel("Member Type: ");
 		p.add(memberTypeLabel);
 
-		JLabel membetTypeValuelabel = new JLabel("Student");
-		p.add(membetTypeValuelabel);
+		memberTypeValuelabel = new JLabel("");
+		p.add(memberTypeValuelabel);
 
 		JLabel memberIdLabel = new JLabel("Member ID: ");
 		p.add(memberIdLabel);
 
-		memberIdValuelabel = new JLabel("F42563743156");
+		memberIdValuelabel = new JLabel("");
 		p.add(memberIdValuelabel);
 
 		JLabel memberNameLabel = new JLabel("Member Name: ");
 		p.add(memberNameLabel);
 
-		memberNameValuelabel = new JLabel("Yan Martel");
+		memberNameValuelabel = new JLabel("");
 		p.add(memberNameValuelabel);
 
 		JLabel loyaltypointsLabel = new JLabel("Loyalty Points: ");
@@ -193,6 +196,28 @@ public class CheckoutWindow extends JFrame {
 		return purchaseCardPanel;
 	}
 
+	private void refreshMemberScanStep(Customer member) {
+		if (member instanceof Member) {
+			memberTypeValuelabel.setText("Member");
+			memberIdValuelabel.setText(customer.getId());
+			memberIdValuelabel.setToolTipText(customer.getId());
+			memberNameValuelabel.setText(((Member) member).getName());
+			memberLoyaltyPointsValueLabel.setText("" + ((Member) member).getLoyalPoints());
+		} else {
+			memberTypeValuelabel.setText("None Member");
+			memberIdValuelabel.setText(customer.getId().substring(0, 15));
+			memberIdValuelabel.setToolTipText(customer.getId());
+			memberNameValuelabel.setText("N.A.");
+			memberLoyaltyPointsValueLabel.setText("N.A.");
+		}
+
+		CardLayout cl = (CardLayout) (purchaseCardPanel.getLayout());
+		cl.show(purchaseCardPanel, CARD_CART);
+		checkoutButton.setEnabled(false);
+		proceedPaymentButton.setEnabled(true);
+
+	}
+
 	private Component createGetMemberPanel() {
 		JPanel p = new JPanel(new GridLayout(0, 2));
 		p.add(new JLabel(""));
@@ -200,21 +225,36 @@ public class CheckoutWindow extends JFrame {
 		p.add(new JLabel(""));
 		p.add(new JLabel(""));
 		JButton scanMemberCardButton = new JButton("Scan Member Card");
+		scanMemberCardButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ScanMemberCardDialog d = new ScanMemberCardDialog(p.getParent());
+				d.pack();
+				d.setLocationByPlatform(true);
+				d.setVisible(true);
+				d.addConfirmListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						String scannedCardNumber = d.getCardNumberField().getText().trim();
+
+						// TODO get member details by member card
+						customer = new Member("F42563743156", "Yan Martel", 100);
+						refreshMemberScanStep(customer);
+						d.setVisible(false);
+						d.dispose();
+					}
+				});
+
+			}
+		});
 		p.add(scanMemberCardButton);
+
 		JButton publicMemberButton = new JButton("Public Member");
 		publicMemberButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				CardLayout cl = (CardLayout) (purchaseCardPanel.getLayout());
-				cl.show(purchaseCardPanel, CARD_CART);
-				checkoutButton.setEnabled(false);
-				proceedPaymentButton.setEnabled(true);
-
 				customer = new NonMemberCustomer();
-				memberIdValuelabel.setText(customer.getId().substring(0, 15));
-				memberIdValuelabel.setToolTipText(customer.getId());
-				memberNameValuelabel.setText("N.A.");
-				memberLoyaltyPointsValueLabel.setText("N.A.");
+				refreshMemberScanStep(customer);
 			}
 		});
 		p.add(publicMemberButton);
