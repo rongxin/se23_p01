@@ -5,7 +5,7 @@ import java.util.List;
 
 import sg.edu.nus.iss.shop.controller.DiscountManager;
 
-public class Customer {
+public abstract class Customer {
 	private String id;
 
 	public Customer(String id) {
@@ -31,7 +31,9 @@ public class Customer {
 		Customer customer = (Customer) object;
 		return this.getId().equals(customer.getId());
 	}
-
+	
+	abstract public boolean isFirstPurchase();
+	
 	public Discount getMaxDiscount(){
 		Discount maxDiscount = null;
 		

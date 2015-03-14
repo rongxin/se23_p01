@@ -1,5 +1,7 @@
 package sg.edu.nus.iss.shop.model.domain;
 
+import java.time.LocalDate;
+
 public class PublicDiscount extends Discount {
 
 	private static final String APPLICABLE_TO_MEMBER = "A";
@@ -9,8 +11,16 @@ public class PublicDiscount extends Discount {
 		super(discountCode, description, discountPercentage, startDate, discountInDays,
 				APPLICABLE_TO_MEMBER);
 	}
-
-	public String getApplicableToMember() {
-		return APPLICABLE_TO_MEMBER;
+	
+	public boolean isApplicable(Customer customer){
+		LocalDate currentDate = LocalDate.now();
+		LocalDate startDate = LocalDate.parse(super.getStartDate());
+		LocalDate expiryDate = startDate.plusDays(Integer.parseInt(super.getDiscountInDays()));
+		
+		if (currentDate.isBefore(startDate) || currentDate.isAfter(expiryDate)){
+			return false;
+		}else{
+			return true;
+		}
 	}
 }

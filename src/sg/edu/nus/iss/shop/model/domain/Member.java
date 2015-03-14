@@ -29,7 +29,15 @@ public class Member extends Customer {
 	public void setLoyalPoints(int loyalPoints) {
 		this.loyalPoints = loyalPoints;
 	}
-
+	
+	public boolean isFirstPurchase(){
+		if (this.getLoyalPoints() < 0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
 	@Override
 	public Discount getMaxDiscount() {
 		

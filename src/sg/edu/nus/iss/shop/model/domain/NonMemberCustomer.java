@@ -9,4 +9,8 @@ public class NonMemberCustomer extends Customer {
 	public NonMemberCustomer() {
 		super(NonMemberCustomer.NON_MEMBER_CUSTOMER_ID + new Date().getTime() + new Random().nextInt());
 	}
+	
+	public boolean isFirstPurchase(){
+		return true;
+	}
 }

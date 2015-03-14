@@ -11,16 +11,12 @@ public class MemberSubsequentDiscount extends Discount {
 		super(discountCode, description, discountPercentage, START_DATE, DISCOUNT_IN_DAYS,
 				APPLICABLE_TO_MEMBER);
 	}
-
-	public String getStartDate() {
-		return START_DATE;
-	}
-
-	public String getDiscountInDays() {
-		return DISCOUNT_IN_DAYS;
-	}
-
-	public String getApplicableToMember() {
-		return APPLICABLE_TO_MEMBER;
+	
+	public boolean isApplicable(Customer customer){
+		if (customer instanceof Member && ((Member) customer).getLoyalPoints() != -1){
+				return true;
+		}else{
+			return false;
+		}
 	}
 }
