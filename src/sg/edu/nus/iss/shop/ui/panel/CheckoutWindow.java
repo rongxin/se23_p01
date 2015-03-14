@@ -3,6 +3,8 @@ package sg.edu.nus.iss.shop.ui.panel;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,7 +16,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 
+import sg.edu.nus.iss.shop.ui.LayoutHelper;
 import sg.edu.nus.iss.shop.ui.ShopApplication;
 
 public class CheckoutWindow extends JFrame {
@@ -24,6 +28,9 @@ public class CheckoutWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private ShopApplication shopApplication;
 	private JPanel purchaseCardPanel;
+
+	private JButton checkOutButton;
+	private JButton proceedPaymentButton;
 
 	public CheckoutWindow(ShopApplication shopApplication) {
 		this.shopApplication = shopApplication;
@@ -132,15 +139,37 @@ public class CheckoutWindow extends JFrame {
 		JButton scanItemsButton = new JButton("Scan items");
 		p.add(scanItemsButton);
 
-		JButton makePaymentButton = new JButton("Make Payment");
-		makePaymentButton.addActionListener(new ActionListener() {
+		proceedPaymentButton = new JButton(" Payment");
+		proceedPaymentButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				CardLayout cl = (CardLayout) (purchaseCardPanel.getLayout());
 				cl.show(purchaseCardPanel, PAYMENT_CARD);
+				checkOutButton.setEnabled(true);
+				proceedPaymentButton.setEnabled(false);
 			}
 		});
-		p.add(makePaymentButton);
+		p.add(proceedPaymentButton);
+
+		checkOutButton = new JButton("Checkout");
+		checkOutButton.setEnabled(false);
+		checkOutButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// CardLayout cl = (CardLayout) (purchaseCardPanel.getLayout());
+				// cl.show(purchaseCardPanel, PAYMENT_CARD);
+			}
+		});
+		p.add(checkOutButton);
+
+		JButton cancelButton = new JButton("Cancel");
+		cancelButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		p.add(cancelButton);
 		return p;
 	}
 
@@ -169,10 +198,53 @@ public class CheckoutWindow extends JFrame {
 	}
 
 	private JPanel createMakePaymentPanel() {
+
 		JPanel p = new JPanel();
-		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(" Payments"),
+		p.setLayout(new GridBagLayout());
+		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(" Make Payments "),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-		p.add(new JLabel("Make payment"));
+		GridBagConstraints gc = new GridBagConstraints();
+
+		// column 1
+		gc = LayoutHelper.createCellConstraint(0, 0);
+		JLabel categoryCodeLabel = new JLabel("Loyaty  Points: ");
+		p.add(categoryCodeLabel, gc);
+
+		gc = LayoutHelper.createCellConstraint(0, 1);
+		JLabel categoryNameLabel = new JLabel("Paid Amount: ");
+		p.add(categoryNameLabel, gc);
+
+		gc = LayoutHelper.createCellConstraint(0, 3);
+		p.add(new JLabel(), gc);
+		gc = LayoutHelper.createCellConstraint(0, 4);
+		p.add(new JLabel(), gc);
+		gc = LayoutHelper.createCellConstraint(0, 5);
+		p.add(new JLabel(), gc);
+		gc = LayoutHelper.createCellConstraint(0, 6);
+		p.add(new JLabel(), gc);
+		gc = LayoutHelper.createCellConstraint(0, 7);
+		p.add(new JLabel(), gc);
+		gc = LayoutHelper.createCellConstraint(0, 8);
+		p.add(new JLabel(), gc);
+		gc = LayoutHelper.createCellConstraint(0, 9);
+		p.add(new JLabel(), gc);
+
+		// column 2
+		gc = LayoutHelper.createCellConstraint(1, 0);
+		JTextField loyatyPointsField = new JTextField(15);
+		loyatyPointsField.setToolTipText("Please input points to redeem.");
+		p.add(loyatyPointsField, gc);
+
+		gc = LayoutHelper.createCellConstraint(1, 1);
+		JTextField paidAmountField = new JTextField(15);
+		paidAmountField.setToolTipText("Please input total amount paid");
+		p.add(paidAmountField, gc);
+
+		JPanel outerPanel = new JPanel(new BorderLayout());
+		outerPanel.add("North", p);
+		outerPanel.add("Center", new JPanel());
+		outerPanel.add("South", new JPanel());
+
 		return p;
 	}
 
