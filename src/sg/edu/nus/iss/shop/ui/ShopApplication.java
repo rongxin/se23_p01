@@ -24,7 +24,10 @@ public class ShopApplication {
 		loginDialog.setVisible(true);
 	}
 
-	public void login() {
+	public void login(String userName, String password) {
+		// TODO login validation here
+
+		// success to show the main application window
 		loginDialog.setVisible(false);
 		shopWindow = new ShopMainWindow(this);
 		shopWindow.pack();

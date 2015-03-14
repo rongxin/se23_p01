@@ -51,8 +51,7 @@ public class LoginDialog extends OkCancelDialog {
 
 		boolean isLeftMostColumn = x == 0;
 		gc.anchor = isLeftMostColumn ? GridBagConstraints.WEST : GridBagConstraints.EAST;
-		// gc.fill = isLeftMostColumn ? GridBagConstraints.BOTH :
-		// GridBagConstraints.HORIZONTAL;
+		gc.fill = isLeftMostColumn ? GridBagConstraints.BOTH : GridBagConstraints.HORIZONTAL;
 
 		Insets westInset = new Insets(5, 0, 5, 5);
 		Insets eastInset = new Insets(5, 5, 5, 0);
@@ -83,12 +82,16 @@ public class LoginDialog extends OkCancelDialog {
 		gc = createCellConstraint(1, 0);
 		gc.anchor = GridBagConstraints.LAST_LINE_START;
 
-		userNameField = new JTextField(3);
+		userNameField = new JTextField(15);
+		// TODO remove later
+		userNameField.setText("Stacy");
 		userNameField.setToolTipText("Please input your username.");
 		p.add(userNameField, gc);
 
 		gc = createCellConstraint(1, 1);
-		passwordField = new JPasswordField(20);
+		passwordField = new JPasswordField(15);
+		// TODO remove later
+		passwordField.setText("test");
 		passwordField.setToolTipText("Please input name for the category");
 		p.add(passwordField, gc);
 
@@ -98,7 +101,7 @@ public class LoginDialog extends OkCancelDialog {
 	private JPanel createFormMessagePanel() {
 		JPanel p = new JPanel(new GridLayout(0, 1));
 		messageLabel = new JLabel(" ", SwingConstants.CENTER);
-		messageLabel.setText("Please input category code and name.");
+		messageLabel.setText("Please input your username and password.");
 
 		p.add(messageLabel);
 		return p;
@@ -106,7 +109,11 @@ public class LoginDialog extends OkCancelDialog {
 
 	@Override
 	protected boolean performOkAction() {
-		shopApplication.login();
+		String userName = userNameField.getText().trim();
+		String password = new String(passwordField.getPassword());
+		System.out.println("UserName:" + userName);
+		System.out.print("Password: " + password);
+		shopApplication.login(userName, password);
 		return true;
 	}
 
