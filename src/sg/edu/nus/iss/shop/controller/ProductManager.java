@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import sg.edu.nus.iss.shop.dao.PersistentService;
 import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.model.domain.Category;
@@ -22,7 +23,6 @@ public class ProductManager {
 	private static final String INVALID_BARCODE_NUMBER_ERROR_MESSAGE = "Invalid Barcode Number";
 	private static final String INVALID_ORDER_QUANTITY_ERROR_MESSAGE = "Invalid Order Quantity";
 	private static final String INVALID_ORDER_THRESHOLD_ERROR_MESSAGE = "Invalid Order Threshold";
-	
 	private ProductManager() {
 
 	}
@@ -43,7 +43,8 @@ public class ProductManager {
 	 * @param barcodeNumber product Barcode number
 	 * @param orderThreshold product order threshold
 	 * @param orderQuantity product order quantity
-	 * @return product object           
+	 * @return product object     
+	 * @throws ApplicationGUIException Fields validation exceptions
 	 * */
 	public Product addProduct(Category category, String name,
 			int avaiableQuantity, double price, String barcodeNumber,
@@ -95,65 +96,104 @@ public class ProductManager {
 	/**
 	 * Method to retrieve Product based on it's ID
 	 * @param productId product ID
-	 * @return product object           
+	 * @return product object   
+	 * @throws ApplicationGUIException Exception while retrieving a product based on given productId        
 	 * */
-	public Product getProductById(String productId) {
+	public Product getProductById(String productId)throws ApplicationGUIException {
 		Product existingProduct = null;
-		List<Product> allProducts = ProductManager.getProductManager().getAllProducts();
-		Iterator<Product> it = allProducts.iterator();
-		while (it.hasNext()) {
-			Product product = it.next();
-			if (product.getProductId().equals(productId)) {
-				 existingProduct  = product;
-				return  existingProduct;
-			}
+		try {
+			existingProduct = (Product) PersistentService.getService().retrieveObject(Product.class, productId);
+		}catch (Exception e) {
+			throw new ApplicationGUIException(e.toString());
 		}
-		return  existingProduct ;
+		return existingProduct;
 	}
 	
 	/**
 	 * Method to retrieve Product based on its's barcode number
 	 * @param barcodeNumber product barcode number
 	 * @return product object           
+	 * @throws ApplicationGUIException Exception while retrieving a product based on given barcode number
 	 * */
-	public Product getProductByBarcode(String barcodeNumber) {
+	public Product getProductByBarcode(String barcodeNumber)throws ApplicationGUIException {
 		Product existingProduct = null;
-		List<Product> allProducts = ProductManager.getProductManager().getAllProducts();
-		Iterator<Product> it = allProducts.iterator();
-		while (it.hasNext()) {
-			Product product = it.next();
-			if (product.getBarcodeNumber().equals(barcodeNumber)) {
-				 existingProduct  = product;
-				return  existingProduct;
-			}
+		try {
+			existingProduct = (Product) PersistentService.getService().retrieveObject(Product.class, barcodeNumber);
+		}catch (Exception e) {
+			throw new ApplicationGUIException(e.toString());
 		}
-		return  existingProduct ;
+		return existingProduct;
 	}
 	
 	/**
 	 * Method to retrieve all products from data source
 	 * @return listing of all products
+	 * @throws ApplicationGUIException Exception while retrieving all products 
 	 * */
-	public List<Product> getAllProducts() {
-		return new LinkedList<Product>();
+	public List<Product> getAllProducts() throws ApplicationGUIException{
+		List<Product> allProducts = new LinkedList<Product>();
+		List<Object> objList = null;
+		
+		try {
+			objList = PersistentService.getService().retrieveAll(Product.class);
+		}catch (Exception e){
+			throw new ApplicationGUIException(e.toString());
+		}
+		//Check if the objects are null or empty
+		if(objList != null && !objList.isEmpty()) {
+			Iterator<Object> it = objList.iterator();
+			while (it.hasNext()) {
+				 allProducts.add((Product) it.next());
+			}
+		} 
+		return  allProducts;
 	}
 	
 	/**
 	 * Method to retrieve all products from data source that has low inventory
 	 * @return listing of product with low inventory    
+	 * @throws ApplicationGUIException Exception while retrieving all products 
 	 * */
-	public List<Product> getProductsWithLowInventory() {
-		return new LinkedList<Product>();
+	public List<Product> getProductsWithLowInventory() throws ApplicationGUIException {
+		//Retrieve all products
+		List<Product> allProducts = ProductManager.getProductManager().getAllProducts();
+		List<Product> lowInventoryProducts = new LinkedList<Product>();
+		
+		if(!allProducts.isEmpty()) {
+			Iterator<Product> it = allProducts.iterator();
+			while (it.hasNext()) {
+				//Compare Current Product Quantity against Order Threshold
+				if(it.next().getAvailableQuantity() <= it.next().getOrderThreshold()) {
+					lowInventoryProducts.add(it.next());
+				}
+			}	
+		} 
+		return lowInventoryProducts;
 	}
 	
 	/**
 	 * Method to retrieve all products from data source for a particular category
+	 * @param category Category type for the products 
 	 * @return listing of product with for a particular category
+	 * @throws ApplicationGUIException Exception while retrieving all products 
 	 * */
-	public List<Product> getProductsForCategory(Category category) {
-		
-		//retrieve from data source where substring(persistentobj.substring(3) == category.getName();) 
-		return new LinkedList<Product>();
+	public List<Product> getProductsForCategory(Category category) throws ApplicationGUIException {
+		//Retrieve all products
+		List<Product> allProducts = ProductManager.getProductManager().getAllProducts();
+		List<Product> productsWithCategory = new LinkedList<Product>();
+
+		if(!allProducts.isEmpty()) {
+			Iterator<Product> it = allProducts.iterator();
+			String productID = "";
+			while (it.hasNext()) {
+				productID = it.next().getProductId();
+				//Compare Current ProductID first 3 Characters with Category Code
+				if(productID.substring(0,2).equals(category.getCode())) {
+					productsWithCategory.add(it.next());
+				}
+			}	
+		} 
+		return productsWithCategory;
 	}
 	
 	/**
@@ -171,8 +211,16 @@ public class ProductManager {
 	 * @param product product object 
 	 * @param quantity quantity purchases
 	 * @return product object
+	 * @throws ApplicationGUIException Exception while retrieving a product based on given productId
 	 * */
-	public Product adjustQuantity(Product product, int quantity) {
-		return null;
+	public Product adjustQuantity(Product product, int quantity) throws ApplicationGUIException{
+		Product existingProduct = ProductManager.getProductManager().getProductById(product.getProductId());
+		if(existingProduct != null) {
+			//Deduct product current quantity
+			existingProduct.setAvailableQuantity(existingProduct.getAvailableQuantity() - quantity);
+		} 
+		return existingProduct;
+	
 	}
+
 }

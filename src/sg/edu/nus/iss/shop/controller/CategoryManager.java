@@ -5,7 +5,6 @@ package sg.edu.nus.iss.shop.controller;
 
 import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.Category;
-import sg.edu.nus.iss.shop.model.domain.Vendor;
 import sg.edu.nus.iss.shop.dao.PersistentService;
 
 import java.util.Iterator;
@@ -37,7 +36,8 @@ public class CategoryManager {
 	 * Method to create category 
 	 * @param code category code (MAX Input is 3 Character)
 	 * @param name category name
-	 * @return category object           
+	 * @return category object  
+	 * @throws ApplicationGUIException Fields validation exceptions   
 	 * */
 	public Category createCategory(String code,String name) throws ApplicationGUIException {
 		//Check if category code is of 3 Character or null
@@ -72,7 +72,8 @@ public class CategoryManager {
 	/**
 	 * Method to retrieve category by code
 	 * @param code category code 
-	 * @return category (null or existing category)           
+	 * @return category (null or existing category)  
+	 * @throws ApplicationGUIException Exception while retrieving a category based on given category code        
 	 * */
 	public Category getCategory(String code) throws ApplicationGUIException {
 		Category existingCategory = null;
@@ -86,10 +87,11 @@ public class CategoryManager {
 	
 	/**
 	 * Method to retrieve all product categories
-	 * @return all product categories           
+	 * @return all product categories  
+	 * @throws ApplicationGUIException Exception while retrieving all categories     
 	 * */
 	public List<Category> getAllCategories() throws ApplicationGUIException{
-		List<Category> categoryList = new LinkedList<Category>();
+		List<Category> allCategories = new LinkedList<Category>();
 		List<Object> objList = null;
 		
 		try {
@@ -98,15 +100,14 @@ public class CategoryManager {
 			throw new ApplicationGUIException(e.toString());
 		}
 		
-		if(objList != null) {
+		//Check if the objects are null or empty
+		if(objList != null && !objList.isEmpty()) {
 			Iterator<Object> it = objList.iterator();
 			while (it.hasNext()) {
-				categoryList.add((Category) it.next());
+				allCategories.add((Category) it.next());
 			}
-			return categoryList;
-		} else {
-			return categoryList = null;
-		}
+		} 
+		return allCategories;
 	}
 	
 
