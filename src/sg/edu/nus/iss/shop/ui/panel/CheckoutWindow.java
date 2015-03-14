@@ -25,6 +25,7 @@ import sg.edu.nus.iss.shop.model.domain.Customer;
 import sg.edu.nus.iss.shop.model.domain.Member;
 import sg.edu.nus.iss.shop.model.domain.NonMemberCustomer;
 import sg.edu.nus.iss.shop.model.domain.Product;
+import sg.edu.nus.iss.shop.ui.IconHelper;
 import sg.edu.nus.iss.shop.ui.LayoutHelper;
 import sg.edu.nus.iss.shop.ui.ShopApplication;
 import sg.edu.nus.iss.shop.ui.dialog.BarcodeScannerEmulatorDialog;
@@ -39,6 +40,9 @@ public class CheckoutWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private ShopApplication shopApplication;
 	private JPanel purchaseCardPanel;
+
+	private JPanel memberInfoPanel;
+	private JPanel purchaseInfoPanel;
 
 	private JButton scanItemsButton;
 	private JButton checkoutButton;
@@ -80,73 +84,75 @@ public class CheckoutWindow extends JFrame {
 	private JPanel createRightPanel() {
 		JPanel p = new JPanel(new GridLayout(3, 1));
 		p.add(createMemerInfoPanel());
-		p.add(createChecoutInfoPanel());
+		p.add(createPurchaseInfoPanel());
 		p.add(createActionButtonsPanel());
 		return p;
 	}
 
 	private JPanel createMemerInfoPanel() {
 
-		JPanel p = new JPanel(new GridLayout(0, 2));
+		memberInfoPanel = new JPanel(new GridLayout(0, 2));
+		memberInfoPanel.setVisible(false);
 
-		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(" Member Information "),
+		memberInfoPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(" Member Information "),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
 		JLabel memberTypeLabel = new JLabel("Member Type: ");
-		p.add(memberTypeLabel);
+		memberInfoPanel.add(memberTypeLabel);
 
 		memberTypeValuelabel = new JLabel("");
-		p.add(memberTypeValuelabel);
+		memberInfoPanel.add(memberTypeValuelabel);
 
 		JLabel memberIdLabel = new JLabel("Member ID: ");
-		p.add(memberIdLabel);
+		memberInfoPanel.add(memberIdLabel);
 
 		memberIdValuelabel = new JLabel("");
-		p.add(memberIdValuelabel);
+		memberInfoPanel.add(memberIdValuelabel);
 
 		JLabel memberNameLabel = new JLabel("Member Name: ");
-		p.add(memberNameLabel);
+		memberInfoPanel.add(memberNameLabel);
 
 		memberNameValuelabel = new JLabel("");
-		p.add(memberNameValuelabel);
+		memberInfoPanel.add(memberNameValuelabel);
 
 		JLabel loyaltypointsLabel = new JLabel("Loyalty Points: ");
-		p.add(loyaltypointsLabel);
+		memberInfoPanel.add(loyaltypointsLabel);
 
 		memberLoyaltyPointsValueLabel = new JLabel("0");
-		p.add(memberLoyaltyPointsValueLabel);
+		memberInfoPanel.add(memberLoyaltyPointsValueLabel);
 
-		return p;
+		return memberInfoPanel;
 	}
 
-	private JPanel createChecoutInfoPanel() {
+	private JPanel createPurchaseInfoPanel() {
 
-		JPanel p = new JPanel(new GridLayout(0, 2));
+		purchaseInfoPanel = new JPanel(new GridLayout(0, 2));
+		purchaseInfoPanel.setVisible(false);
 
-		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(" Checkout  Information "),
+		purchaseInfoPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(" Checkout  Information "),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
 		JLabel totalAmountLabel = new JLabel("Total Amount: ");
-		p.add(totalAmountLabel);
+		purchaseInfoPanel.add(totalAmountLabel);
 
 		JLabel totalAmountValueLabel = new JLabel("$ 31.70");
-		p.add(totalAmountValueLabel);
+		purchaseInfoPanel.add(totalAmountValueLabel);
 
 		JLabel discountLabel = new JLabel("Discount: ");
-		p.add(discountLabel);
+		purchaseInfoPanel.add(discountLabel);
 
 		JLabel discountValueLabel = new JLabel("$ 1.00");
-		p.add(discountValueLabel);
+		purchaseInfoPanel.add(discountValueLabel);
 
 		JLabel totalPayableAmountLabel = new JLabel("Total Payable: ");
 		totalPayableAmountLabel.setFont(new Font("Arial", Font.BOLD, 16));
-		p.add(totalPayableAmountLabel);
+		purchaseInfoPanel.add(totalPayableAmountLabel);
 
 		JLabel totalPayableAmountValueLabel = new JLabel("$ 30.70");
 		totalPayableAmountValueLabel.setFont(new Font("Arial", Font.BOLD, 16));
-		p.add(totalPayableAmountValueLabel);
+		purchaseInfoPanel.add(totalPayableAmountValueLabel);
 
-		return p;
+		return purchaseInfoPanel;
 	}
 
 	private JPanel createActionButtonsPanel() {
@@ -240,6 +246,9 @@ public class CheckoutWindow extends JFrame {
 
 		CardLayout cl = (CardLayout) (purchaseCardPanel.getLayout());
 		cl.show(purchaseCardPanel, CARD_CART);
+		memberInfoPanel.setVisible(true);
+		purchaseInfoPanel.setVisible(false);
+
 		scanItemsButton.setEnabled(true);
 		checkoutButton.setEnabled(false);
 		proceedPaymentButton.setEnabled(true);
@@ -247,12 +256,26 @@ public class CheckoutWindow extends JFrame {
 	}
 
 	private Component createGetMemberPanel() {
-		JPanel p = new JPanel(new GridLayout(0, 2));
-		p.add(new JLabel(""));
-		p.add(new JLabel(""));
-		p.add(new JLabel(""));
-		p.add(new JLabel(""));
-		JButton scanMemberCardButton = new JButton("Scan Member Card");
+		JPanel p = new JPanel(new GridBagLayout());
+		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(" Member Info "),
+				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+
+		GridBagConstraints gc = new GridBagConstraints();
+		// column 1
+		gc = LayoutHelper.createCellConstraint(0, 0);
+		p.add(new JLabel(""), gc);
+		gc = LayoutHelper.createCellConstraint(0, 1);
+		p.add(new JLabel(""), gc);
+		gc = LayoutHelper.createCellConstraint(0, 2);
+		p.add(new JLabel(""), gc);
+		gc = LayoutHelper.createCellConstraint(0, 3);
+		p.add(new JLabel(""), gc);
+
+		// column 2
+		gc = LayoutHelper.createCellConstraint(1, 0);
+		p.add(new JLabel(""), gc);
+		gc = LayoutHelper.createCellConstraint(1, 1);
+		JButton scanMemberCardButton = new JButton("Scan Member Card", IconHelper.createImageIcon("member_card.png"));
 		scanMemberCardButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -275,9 +298,10 @@ public class CheckoutWindow extends JFrame {
 
 			}
 		});
-		p.add(scanMemberCardButton);
+		p.add(scanMemberCardButton, gc);
 
-		JButton publicMemberButton = new JButton("Public Member");
+		gc = LayoutHelper.createCellConstraint(1, 2);
+		JButton publicMemberButton = new JButton("Not a Member", IconHelper.createImageIcon("non_member.png"));
 		publicMemberButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -285,10 +309,17 @@ public class CheckoutWindow extends JFrame {
 				refreshMemberScanStep(customer);
 			}
 		});
-		p.add(publicMemberButton);
+		p.add(publicMemberButton, gc);
+		gc = LayoutHelper.createCellConstraint(1, 3);
+
+		// column 4
+		gc = LayoutHelper.createCellConstraint(2, 0);
 		p.add(new JLabel(""));
+		gc = LayoutHelper.createCellConstraint(2, 1);
 		p.add(new JLabel(""));
+		gc = LayoutHelper.createCellConstraint(2, 2);
 		p.add(new JLabel(""));
+		gc = LayoutHelper.createCellConstraint(2, 3);
 		p.add(new JLabel(""));
 		return p;
 	}
