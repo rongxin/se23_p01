@@ -7,6 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -14,6 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
+import sg.edu.nus.iss.shop.ui.IconHelper;
 import sg.edu.nus.iss.shop.ui.LayoutHelper;
 import sg.edu.nus.iss.shop.ui.ShopApplication;
 
@@ -33,13 +35,21 @@ public class LoginDialog extends OkCancelDialog {
 	protected JPanel createFormPanel() {
 		JPanel mainPanel = new JPanel(new BorderLayout());
 
-		mainPanel.add(new JPanel(), BorderLayout.NORTH);
+		mainPanel.add(createTitlePanel(), BorderLayout.NORTH);
 		mainPanel.add(new JPanel(), BorderLayout.WEST);
 		mainPanel.add(new JPanel(), BorderLayout.EAST);
 		mainPanel.add(createInputFormPanel(), BorderLayout.CENTER);
 		mainPanel.add(createFormMessagePanel(), BorderLayout.SOUTH);
 		UIManager.put("title.font", new Font("Arial", Font.BOLD, 14));
 		return mainPanel;
+	}
+
+	private JPanel createTitlePanel() {
+		JPanel p = new JPanel();
+		ImageIcon logoIcon = IconHelper.createImageIcon("bag.png");
+		JLabel title = new JLabel("", logoIcon, SwingConstants.CENTER);
+		p.add(title);
+		return p;
 	}
 
 
