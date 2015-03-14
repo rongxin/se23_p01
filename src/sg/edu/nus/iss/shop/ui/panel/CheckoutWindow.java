@@ -19,21 +19,29 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import sg.edu.nus.iss.shop.model.domain.Customer;
+import sg.edu.nus.iss.shop.model.domain.NonMemberCustomer;
 import sg.edu.nus.iss.shop.ui.LayoutHelper;
 import sg.edu.nus.iss.shop.ui.ShopApplication;
 
 public class CheckoutWindow extends JFrame {
 
-	private static final String PAYMENT_CARD = "paymentCard";
-	private static final String CART_CARD = "cartCard";
+	private static final String CARD_MEMBER = "memberCard";
+	private static final String CARD_PAYMENT = "paymentCard";
+	private static final String CARD_CART = "cartCard";
 	private static final String CARD_SUMMARY = "summaryCard";
 
 	private static final long serialVersionUID = 1L;
 	private ShopApplication shopApplication;
 	private JPanel purchaseCardPanel;
 
-	private JButton checkOutButton;
+	private JButton checkoutButton;
 	private JButton proceedPaymentButton;
+
+	private Customer customer;
+	private JLabel memberIdValuelabel;
+	private JLabel memberNameValuelabel;
+	private JLabel memberLoyaltyPointsValueLabel;
 
 	public CheckoutWindow(ShopApplication shopApplication) {
 		this.shopApplication = shopApplication;
@@ -82,20 +90,20 @@ public class CheckoutWindow extends JFrame {
 		JLabel memberIdLabel = new JLabel("Member ID: ");
 		p.add(memberIdLabel);
 
-		JLabel membetIdValuelabel = new JLabel("F42563743156");
-		p.add(membetIdValuelabel);
+		memberIdValuelabel = new JLabel("F42563743156");
+		p.add(memberIdValuelabel);
 
 		JLabel memberNameLabel = new JLabel("Member Name: ");
 		p.add(memberNameLabel);
 
-		JLabel memberNameValuelabel = new JLabel("Yan Martel");
+		memberNameValuelabel = new JLabel("Yan Martel");
 		p.add(memberNameValuelabel);
 
 		JLabel loyaltypointsLabel = new JLabel("Loyalty Points: ");
 		p.add(loyaltypointsLabel);
 
-		JLabel loyaltypointsValueLabel = new JLabel("0");
-		p.add(loyaltypointsValueLabel);
+		memberLoyaltyPointsValueLabel = new JLabel("0");
+		p.add(memberLoyaltyPointsValueLabel);
 
 		return p;
 	}
@@ -136,9 +144,6 @@ public class CheckoutWindow extends JFrame {
 		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(" Actions"),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
-		JButton scanMemberInfoButton = new JButton("Scan Member Card");
-		p.add(scanMemberInfoButton);
-
 		JButton scanItemsButton = new JButton("Scan items");
 		p.add(scanItemsButton);
 
@@ -147,25 +152,25 @@ public class CheckoutWindow extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				CardLayout cl = (CardLayout) (purchaseCardPanel.getLayout());
-				cl.show(purchaseCardPanel, PAYMENT_CARD);
-				checkOutButton.setEnabled(true);
+				cl.show(purchaseCardPanel, CARD_PAYMENT);
+				checkoutButton.setEnabled(true);
 				proceedPaymentButton.setEnabled(false);
 			}
 		});
 		p.add(proceedPaymentButton);
 
-		checkOutButton = new JButton("Checkout");
-		checkOutButton.setEnabled(false);
-		checkOutButton.addActionListener(new ActionListener() {
+		checkoutButton = new JButton("Checkout");
+		checkoutButton.setEnabled(false);
+		checkoutButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				CardLayout cl = (CardLayout) (purchaseCardPanel.getLayout());
 				cl.show(purchaseCardPanel, CARD_SUMMARY);
-				checkOutButton.setEnabled(false);
+				checkoutButton.setEnabled(false);
 				proceedPaymentButton.setEnabled(false);
 			}
 		});
-		p.add(checkOutButton);
+		p.add(checkoutButton);
 
 		JButton cancelButton = new JButton("Cancel");
 		cancelButton.addActionListener(new ActionListener() {
@@ -181,10 +186,43 @@ public class CheckoutWindow extends JFrame {
 	private JPanel createPurchaseCardPanel() {
 		purchaseCardPanel = new JPanel();
 		purchaseCardPanel.setLayout(new CardLayout());
-		purchaseCardPanel.add(createShoppingCartPanel(), CART_CARD);
-		purchaseCardPanel.add(createMakePaymentPanel(), PAYMENT_CARD);
+		purchaseCardPanel.add(createGetMemberPanel(), CARD_MEMBER);
+		purchaseCardPanel.add(createShoppingCartPanel(), CARD_CART);
+		purchaseCardPanel.add(createMakePaymentPanel(), CARD_PAYMENT);
 		purchaseCardPanel.add(createSummaryPanel(), CARD_SUMMARY);
 		return purchaseCardPanel;
+	}
+
+	private Component createGetMemberPanel() {
+		JPanel p = new JPanel(new GridLayout(0, 2));
+		p.add(new JLabel(""));
+		p.add(new JLabel(""));
+		p.add(new JLabel(""));
+		p.add(new JLabel(""));
+		JButton scanMemberCardButton = new JButton("Scan Member Card");
+		p.add(scanMemberCardButton);
+		JButton publicMemberButton = new JButton("Public Member");
+		publicMemberButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				CardLayout cl = (CardLayout) (purchaseCardPanel.getLayout());
+				cl.show(purchaseCardPanel, CARD_CART);
+				checkoutButton.setEnabled(false);
+				proceedPaymentButton.setEnabled(true);
+
+				customer = new NonMemberCustomer();
+				memberIdValuelabel.setText(customer.getId().substring(0, 15));
+				memberIdValuelabel.setToolTipText(customer.getId());
+				memberNameValuelabel.setText("N.A.");
+				memberLoyaltyPointsValueLabel.setText("N.A.");
+			}
+		});
+		p.add(publicMemberButton);
+		p.add(new JLabel(""));
+		p.add(new JLabel(""));
+		p.add(new JLabel(""));
+		p.add(new JLabel(""));
+		return p;
 	}
 
 	private JPanel createShoppingCartPanel() {
@@ -256,8 +294,7 @@ public class CheckoutWindow extends JFrame {
 
 	private Component createSummaryPanel() {
 		JPanel p = new JPanel();
-
-		p.add(new JLabel("Summary"));
+		p.add(new JLabel("Transaction Completed!"));
 		return p;
 	}
 
