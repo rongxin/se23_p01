@@ -45,9 +45,18 @@ public class CategoryManagerTest extends TestCase{
 	@Test
 	public void testGetCategory() {
 		//Test Null Category
-		assertNull( categoryManager.getCategory("XXX"));
+		try { 
+			assertNull(categoryManager.getCategory("XXX"));
+		} catch (Exception e) {
+			fail("failed to create category" + ": " + e.toString());
+		}
 		//Test Valid Category
-		assertNotNull(categoryManager.getCategory("1234"));
+		try { 
+			
+			assertNotNull(categoryManager.getCategory("1234"));
+		} catch (Exception e) {
+			fail("failed to create category" + ": " + e.toString());
+		}
 	}
 	
 	//Test retreive all Category
