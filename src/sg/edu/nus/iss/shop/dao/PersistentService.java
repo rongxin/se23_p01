@@ -9,6 +9,7 @@ import sg.edu.nus.iss.shop.dao.adapter.DataRecordAdapter;
 import sg.edu.nus.iss.shop.dao.adapter.MemberRecordAdapter;
 import sg.edu.nus.iss.shop.dao.adapter.ProductRecordAdapter;
 import sg.edu.nus.iss.shop.dao.adapter.StoreKeeperRecordAdapter;
+import sg.edu.nus.iss.shop.dao.adapter.VendorRecordAdapter;
 import sg.edu.nus.iss.shop.dao.exception.InvalidDataFormat;
 import sg.edu.nus.iss.shop.dao.exception.InvalidDomainObject;
 import sg.edu.nus.iss.shop.model.domain.Category;
@@ -127,9 +128,35 @@ public class PersistentService
 		
 	}
 
-	public List<Vendor> retrieveVendors(Category category) throws Exception
+	public List<Object> retrieveVendors(Category category) throws Exception
+	{		
+		String dsName = Vendor.class.getSimpleName() + category.getCode();
+		List<Object> objects = new ArrayList<Object>();
+		DataRecordAdapter adapter = null;
+		for(DataRecord record : dataReader.getCachedData(dsName))
+		{
+			adapter = new VendorRecordAdapter(record);
+			objects.add(adapter.getDataObject());
+		}
+		return objects;
+	}
+	
+	public void saveVendors(Category category) throws Exception
 	{
-		throw new Exception("Not implement yet");
+		for(Vendor vendor:category.getVendorList())
+		{
+			saveVendor(vendor, category);
+		}
+	}
+	
+	public void saveVendor(Vendor vendor, Category category) throws IOException
+	{
+		if(vendor != null && category != null)
+		{
+			String dsName = Vendor.class.getSimpleName() + category.getCode();
+			DataRecordAdapter adapter = new VendorRecordAdapter(vendor);
+			dataWriter.writeRecord(dsName, adapter.getDataRecord());
+		}
 	}
 	
 	private boolean isCategoryType(Class cls)
@@ -173,21 +200,16 @@ public class PersistentService
 		if(hasBuildPK4Category)
 			return;
 		
-		try 
+		for(DataRecord record : dataReader.getCachedData(cls.getSimpleName()))
 		{
-			for(DataRecord record : dataReader.getCachedData(cls.getSimpleName()))
+			 try 
+			 {
+				new CategoryRecordAdapter(record);
+			} 
+			 catch (InvalidDataFormat e) 
 			{
-				 try 
-				 {
-					new CategoryRecordAdapter(record);
-				} 
-				 catch (InvalidDataFormat e) 
-				{
-					e.printStackTrace();
-				}
+				e.printStackTrace();
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 		hasBuildPK4Category = true;
 	}
@@ -197,21 +219,16 @@ public class PersistentService
 		if(hasBuildPK4Product)
 			return;
 		
-		try 
+		for(DataRecord record : dataReader.getCachedData(cls.getSimpleName()))
 		{
-			for(DataRecord record : dataReader.getCachedData(cls.getSimpleName()))
+			 try 
+			 {
+				new ProductRecordAdapter(record);
+			} 
+			 catch (InvalidDataFormat e) 
 			{
-				 try 
-				 {
-					new ProductRecordAdapter(record);
-				} 
-				 catch (InvalidDataFormat e) 
-				{
-					e.printStackTrace();
-				}
+				e.printStackTrace();
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 		hasBuildPK4Product = true;
 	}
@@ -221,21 +238,16 @@ public class PersistentService
 		if(hasBuildPK4Member)
 			return;
 		
-		try 
+		for(DataRecord record : dataReader.getCachedData(cls.getSimpleName()))
 		{
-			for(DataRecord record : dataReader.getCachedData(cls.getSimpleName()))
+			 try 
+			 {
+				new MemberRecordAdapter(record);
+			} 
+			 catch (InvalidDataFormat e) 
 			{
-				 try 
-				 {
-					new MemberRecordAdapter(record);
-				} 
-				 catch (InvalidDataFormat e) 
-				{
-					e.printStackTrace();
-				}
+				e.printStackTrace();
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 		hasBuildPK4Member = true;
 	}
@@ -245,21 +257,16 @@ public class PersistentService
 		if(hasBuildPK4StoreKeeper)
 			return;
 		
-		try 
+		for(DataRecord record : dataReader.getCachedData(cls.getSimpleName()))
 		{
-			for(DataRecord record : dataReader.getCachedData(cls.getSimpleName()))
+			 try 
+			 {
+				new StoreKeeperRecordAdapter(record);
+			} 
+			 catch (InvalidDataFormat e) 
 			{
-				 try 
-				 {
-					new StoreKeeperRecordAdapter(record);
-				} 
-				 catch (InvalidDataFormat e) 
-				{
-					e.printStackTrace();
-				}
+				e.printStackTrace();
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 		hasBuildPK4StoreKeeper = true;
 	}
@@ -383,6 +390,7 @@ public class PersistentService
 		}
 		return null;
 	}
+	
 	public void releaseService()
 	{
 		try 
