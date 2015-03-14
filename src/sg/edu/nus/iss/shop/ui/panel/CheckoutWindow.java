@@ -156,12 +156,13 @@ public class CheckoutWindow extends JFrame {
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
 		scanItemsButton = new JButton("Scan items");
+		scanItemsButton.setEnabled(false);
 		scanItemsButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				BarcodeScannerEmulatorDialog d = new BarcodeScannerEmulatorDialog(p.getParent());
 				d.pack();
-				d.setLocationByPlatform(true);
+				// d.setLocationByPlatform(true);
 				d.setVisible(true);
 				d.addConfirmListener(new ActionListener() {
 					@Override
@@ -176,6 +177,7 @@ public class CheckoutWindow extends JFrame {
 		p.add(scanItemsButton);
 
 		proceedPaymentButton = new JButton(" Payment");
+		proceedPaymentButton.setEnabled(false);
 		proceedPaymentButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -238,6 +240,7 @@ public class CheckoutWindow extends JFrame {
 
 		CardLayout cl = (CardLayout) (purchaseCardPanel.getLayout());
 		cl.show(purchaseCardPanel, CARD_CART);
+		scanItemsButton.setEnabled(true);
 		checkoutButton.setEnabled(false);
 		proceedPaymentButton.setEnabled(true);
 
