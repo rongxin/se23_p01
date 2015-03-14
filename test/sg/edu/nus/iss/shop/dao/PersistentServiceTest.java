@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import sg.edu.nus.iss.shop.model.domain.Category;
+import sg.edu.nus.iss.shop.model.domain.Member;
 
 public class PersistentServiceTest 
 {
@@ -94,6 +95,41 @@ public class PersistentServiceTest
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 			Assert.fail("failed to retrieve individual object. ");
+		}
+	}
+
+	@Test
+	public void TestRetrieveMemeberObj() {
+		
+		PersistentService service = PersistentService.getService();
+		try {
+			
+			Member member = new Member("AB1","123AB1");
+			
+			Object obj = service.retrieveObject(member.getClass(),member.getId());
+			
+			if(obj== null)
+			{
+				service.saveRecord(member);
+				obj = service.retrieveObject(member.getClass(),member.getId());
+			}
+			assertEquals(member,(Member)obj);
+			
+			Member member1 = new Member("CD1","123CD1");
+			
+			Object obj1 = service.retrieveObject(member1.getClass(),member1.getId());
+			
+			if(obj1== null)
+			{
+				service.saveRecord(member1);
+				obj1 = service.retrieveObject(member1.getClass(),member1.getId());
+			}
+			assertEquals(member,(Member)obj);
+			 
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			Assert.fail("failed to retrieve member object. ");
 		}
 	}
 

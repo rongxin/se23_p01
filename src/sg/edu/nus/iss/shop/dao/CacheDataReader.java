@@ -13,21 +13,22 @@ public class CacheDataReader extends DataCache
 		{
 			try 
 			{
+				rwl.writeLock().lock();
 				dirtyData = reader.read(DIRTYDATASETNAME);
 				if(dirtyData != null && dirtyData.size()>0)
 				{
 					//recover data from last crashed
 					DataTrackAdapter adapter = null;
-					System.out.println("recover dirtyData: " + dirtyData.size());
+					//System.out.println("recover dirtyData: " + dirtyData.size());
 					Iterator<DataRecord> it =dirtyData.iterator();
-					//for(DataRecord tracked : dirtyData)
 					while(it.hasNext())
 					{
 						adapter =new DataTrackAdapter( it.next());
 						super.getCachedData(adapter.getDataSetName()).add(adapter.getDirtyDataRecord());
-						System.out.println("recover: " + super.getCachedData(adapter.getDataSetName()).size());
+						//System.out.println("recover: " + super.getCachedData(adapter.getDataSetName()).size());
 					}					
 				}
+				rwl.writeLock().unlock();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

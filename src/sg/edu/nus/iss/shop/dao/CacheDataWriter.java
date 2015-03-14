@@ -40,6 +40,7 @@ public class CacheDataWriter extends DataCache
 	
 	public void writeRecord(String dataSetName,DataRecord record) throws IOException
 	{			
+		rwl.writeLock().lock();
 		if(!dirtyDataSets.contains(dataSetName))
 		{
 			dirtyDataSets.add(dataSetName);
@@ -50,7 +51,7 @@ public class CacheDataWriter extends DataCache
 		if(record.getIsPersistent())
 		{ 
 			//remove the old one
-			Iterator<DataRecord> it =cahcedData.get(dataSetName).iterator();
+			Iterator<DataRecord> it =super.getCachedData(dataSetName).iterator();
 			while(it.hasNext())
 			{
 				if(record.getPK().equals(it.next().getPK()))
@@ -63,7 +64,7 @@ public class CacheDataWriter extends DataCache
 		
 		//add the new one
 		record.setIsPersistent(true);
-		cahcedData.get(dataSetName).add(record);
+		super.getCachedData(dataSetName).add(record);
 				 
 		//System.out.println("cahcedData size:" + cahcedData.size() );
 		if(dirtyData == null)
@@ -86,6 +87,8 @@ public class CacheDataWriter extends DataCache
 		
 		//persistent dirty record
 		writeDirtyData();
+		
+		rwl.writeLock().unlock();
 	}
 	
 	private void writeDirtyData()
@@ -104,17 +107,19 @@ public class CacheDataWriter extends DataCache
 	
 	private void write() throws IOException
 	{		
+		rwl.writeLock().lock();
 		Iterator<String> it = dirtyDataSets.iterator();
 		String dsName = "";
 		while(it.hasNext())
 		{
 			dsName = it.next(); 
-			writer.write(dsName, cahcedData.get(dsName));
+			writer.write(dsName, super.getCachedData(dsName));
 		}
 				
 		dirtyDataSets.clear();
 		dirtyData.clear();
 		writeDirtyData();
+		rwl.writeLock().unlock();
 	}
 	
 	@Override	
