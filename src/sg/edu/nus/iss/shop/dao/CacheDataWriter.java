@@ -38,7 +38,7 @@ public class CacheDataWriter extends DataCache
 		timer.scheduleAtFixedRate(task, 2000, 30000);//2 second delay, 0.5 minute as interval
 	}	
 	
-	public void writeRecord(String dataSetName,DataRecord record) throws IOException
+	public void writeRecord(String dataSetName,DataRecord record)
 	{			
 		rwl.writeLock().lock();
 		if(!dirtyDataSets.contains(dataSetName))
