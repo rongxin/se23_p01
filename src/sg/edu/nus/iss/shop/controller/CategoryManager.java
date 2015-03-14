@@ -74,17 +74,12 @@ public class CategoryManager {
 	 * @param code category code 
 	 * @return category (null or existing category)           
 	 * */
-	public Category getCategory(String code) {
+	public Category getCategory(String code) throws ApplicationGUIException {
 		Category existingCategory = null;
-		List<Category> allCategories = CategoryManager.getCategoryManager().
-				getAllCategories();
-		Iterator<Category> it = allCategories.iterator();
-		while (it.hasNext()) {
-			Category category = it.next();
-			if (category.getCode().equals(code)) {
-				existingCategory = category;
-				return existingCategory;
-			}
+		try {
+			existingCategory = (Category) PersistentService.getService().retrieveObject(Category.class, code);
+		}catch (Exception e) {
+			throw new ApplicationGUIException(e.toString());
 		}
 		return existingCategory;
 	}
@@ -93,18 +88,27 @@ public class CategoryManager {
 	 * Method to retrieve all product categories
 	 * @return all product categories           
 	 * */
-	public List<Category> getAllCategories(){
-		return new LinkedList<Category>();
+	public List<Category> getAllCategories() throws ApplicationGUIException{
+		List<Category> categoryList = new LinkedList<Category>();
+		List<Object> objList = null;
+		
+		try {
+			objList = PersistentService.getService().retrieveAll(Category.class);
+		}catch (Exception e){
+			throw new ApplicationGUIException(e.toString());
+		}
+		
+		if(objList != null) {
+			Iterator<Object> it = objList.iterator();
+			while (it.hasNext()) {
+				categoryList.add((Category) it.next());
+			}
+			return categoryList;
+		} else {
+			return categoryList = null;
+		}
 	}
 	
-	/**
-	 * Method to retrieve vendors for a specific category
-	 * @param code category code 
-	 * @return vendor listing for a specific category type           
-	 * */
-	public List<Vendor> getVendorListForCategory(String code){
-		
-		return new LinkedList<Vendor>();
-	}
+
 
 }
