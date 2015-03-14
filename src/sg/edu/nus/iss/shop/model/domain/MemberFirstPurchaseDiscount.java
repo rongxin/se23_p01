@@ -13,7 +13,7 @@ public class MemberFirstPurchaseDiscount extends Discount {
 	}
 	
 	public boolean isApplicable(Customer customer){
-		if (customer instanceof Member && ((Member) customer).getLoyalPoints() == -1){
+		if (customer instanceof Member && ((Member) customer).isFirstPurchase()){
 				return true;
 		}else{
 			return false;
