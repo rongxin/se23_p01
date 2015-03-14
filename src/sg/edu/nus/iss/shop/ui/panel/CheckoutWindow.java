@@ -115,14 +115,15 @@ public class CheckoutWindow extends JFrame {
 		JPanel p = new JPanel();
 		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(" Items"),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-		Object columnNames[] = { "Product ID", "Product Name", "Price", "Description" };
-		Object rowData[][] = { { "CLO/1", "Centenary Jumper", 21.45, "A really nice momento" },
-				{ "MUG/1", "Centenary Mug", 10.25, "A really nice mug this time" } };
+		Object columnNames[] = { "Product ID", "Product Name", "Price", "Quantity", "SubTotal", "Description" };
+		Object rowData[][] = { { "CLO/1", "Centenary Jumper", 21.45, 1, 21.45, "A really nice momento" },
+				{ "MUG/1", "Centenary Mug", 10.25, 1, 10.25, "A really nice mug this time" } };
 		JTable table = new JTable(rowData, columnNames);
 		table.setName("Items");
 		table.setEnabled(false);
 		JScrollPane scrollPane = new JScrollPane(table);
 		p.add(scrollPane);
+		p.setSize(800, 600);
 		return p;
 	}
 
