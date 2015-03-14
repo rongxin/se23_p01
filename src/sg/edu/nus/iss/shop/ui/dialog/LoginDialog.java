@@ -103,8 +103,6 @@ public class LoginDialog extends OkCancelDialog {
 	protected boolean performOkAction() {
 		String userName = userNameField.getText().trim();
 		String password = new String(passwordField.getPassword());
-		System.out.println("UserName:" + userName);
-		System.out.print("Password: " + password);
 		shopApplication.login(userName, password);
 		return true;
 	}
