@@ -14,7 +14,8 @@ public class VendorTest {
 	
 	@Test
 	public void categoryLazyLoadTest(){
-		Vendor vendor = new Vendor("ZhuBin" + new Random().nextLong(), "Test Vendor");
+		String vendorName = "ZhuBin" + new Random().nextLong();
+		Vendor vendor = new Vendor(vendorName, "Test Vendor");
 		List<Category> categories = CategoryManager.getCategoryManager().getAllCategories();
 		if (categories == null || categories.size() == 0){
 			Assert.fail("Cannot find a category");
@@ -31,8 +32,8 @@ public class VendorTest {
 			Assert.fail("Failed to return the new vendor");
 			return ;
 		}
-		
-		List<Category> vendorCategories = vendor.getCategories();
+		Vendor retrievedVendor = VendorManager.getVendorManager().getVendorByName(vendorName);
+		List<Category> vendorCategories = retrievedVendor.getCategories();
 		Assert.assertEquals(categories.size(), vendorCategories.size());
 		
 		categories.removeAll(vendorCategories);

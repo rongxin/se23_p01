@@ -1,8 +1,13 @@
 package sg.edu.nus.iss.shop.controller;
 
+import java.util.List;
+import java.util.Random;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import sg.edu.nus.iss.shop.model.domain.Category;
 
 public class MemberManagerTest {
 
@@ -38,5 +43,7 @@ public class MemberManagerTest {
 			
 		}
 	}
+	
+
 
 }

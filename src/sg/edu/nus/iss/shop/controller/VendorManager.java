@@ -60,7 +60,8 @@ public class VendorManager {
 		return vendorList;
 	}
 	
-	private Vendor getVendorByName(String name){
+	/** returned vendor with null categories**/
+	public Vendor getVendorByName(String name){
 		if (name == null || name.trim().length()==0){
 			return null;
 		}

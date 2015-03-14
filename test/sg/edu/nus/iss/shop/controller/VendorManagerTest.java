@@ -15,7 +15,7 @@ import sg.edu.nus.iss.shop.model.domain.Vendor;
 
 public class VendorManagerTest {
 
-	/** normal case **/
+	/** add a new vendor in all categories**/
 	@Test
 	public void addVendorTest() {
 		List<Category> categories = CategoryManager.getCategoryManager().getAllCategories();
@@ -62,7 +62,7 @@ public class VendorManagerTest {
 		}
 		Vendor newVendor = new Vendor("Zhu Bin " + new Random().nextLong(), "Test Vendor");
 		try{
-			VendorManager.getVendorManager().addVendor(newVendor.getName(), newVendor.getDescription(), categories);
+			VendorManager.getVendorManager().addVendor(newVendor.getName(), newVendor.getDescription(), categories); // add the vendor for all categories
 		}
 		catch(Exception e){
 			Assert.fail(e.toString());
@@ -71,14 +71,38 @@ public class VendorManagerTest {
 		Iterator<Category> it = categories.iterator();
 		while (it.hasNext()){
 			Category category = it.next();
-			List<Category> newVendorCategories = new LinkedList<Category>();
-			newVendorCategories.add(category);
+			List<Category> individualCategory = new LinkedList<Category>();
+			individualCategory.add(category);
 			try{
-				VendorManager.getVendorManager().addVendor(newVendor.getName(), newVendor.getDescription(), newVendorCategories);
+				VendorManager.getVendorManager().addVendor(newVendor.getName(), newVendor.getDescription(), individualCategory); // try to add the vendor into individual category again
 				Assert.fail("Exception did not occur when adding same vendor for same category");
 			}
 			catch(Exception e) {
 			}
 		}
+	}
+	
+	public void TestRetrieveVendor(){
+		List<Category> allCategories = CategoryManager.getCategoryManager().getAllCategories();
+		if (allCategories == null || allCategories.size() == 0){
+			Assert.fail("Cannot find a category");
+			return ;
+		}
+		String vendorName = "ZhuBin" + new Random().nextLong();
+		String vendorDescription = "Test Vendor " + new Random().nextLong(); 
+		try{
+			VendorManager.getVendorManager().addVendor(vendorName, vendorDescription, allCategories);
+		}
+		catch(Exception e){
+			Assert.fail("failed to add a member");
+			return ;
+		}
+		Vendor retrievedVendor = VendorManager.getVendorManager().getVendorByName(vendorName);
+		Assert.assertEquals(vendorDescription, retrievedVendor.getDescription());
+		
+		List<Category> retrievedVendorCategories = retrievedVendor.getCategories();
+		Assert.assertEquals(allCategories.size(), retrievedVendorCategories.size());
+		allCategories.removeAll(retrievedVendorCategories);
+		Assert.assertEquals(allCategories.size(), 0);
 	}
 }
