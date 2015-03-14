@@ -10,12 +10,16 @@ import sg.edu.nus.iss.shop.dao.exception.InvalidDataFormat;
 import sg.edu.nus.iss.shop.dao.exception.InvalidDomainObject;
 import sg.edu.nus.iss.shop.model.domain.Category;
 import sg.edu.nus.iss.shop.model.domain.Product;
+import sg.edu.nus.iss.shop.model.domain.Vendor;
 
 public class PersistentService 
 {
 	private CacheDataReader dataReader;
 	private CacheDataWriter dataWriter;
 	private static PersistentService service;
+	
+	private boolean hasBuildPK4Category = false;
+	
 	private PersistentService()
 	{
 		dataReader = new CacheDataReader();
@@ -32,7 +36,6 @@ public class PersistentService
 				}
 		    }
 		});
-
 	}
 	
 	public static PersistentService getService()
@@ -61,6 +64,8 @@ public class PersistentService
 	{		
 		if(isCategoryType(cls))
 		{
+			buildPK4CachedCategory(cls);
+			
 			DataRecordAdapter adapter = null;
 			//System.out.println("objectId:" + objectId);
 			for(DataRecord record : dataReader.getCachedData(cls.getSimpleName()))
@@ -94,6 +99,11 @@ public class PersistentService
 		
 	}
 
+	public List<Vendor> retrieveVendors(Category category) throws Exception
+	{
+		throw new Exception("Not implement yet");
+	}
+	
 	private boolean isCategoryType(Class cls)
 	{
 		if (cls.getSimpleName().equals(Category.class.getSimpleName()))
@@ -101,6 +111,30 @@ public class PersistentService
 			return true;
 		}	 
 		return false;
+	}
+	
+	private void buildPK4CachedCategory(Class cls)
+	{
+		if(hasBuildPK4Category)
+			return;
+		
+		try 
+		{
+			for(DataRecord record : dataReader.getCachedData(cls.getSimpleName()))
+			{
+				 try 
+				 {
+					new CategoryRecordAdapter(record);
+				} 
+				 catch (InvalidDataFormat e) 
+				{
+					e.printStackTrace();
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		hasBuildPK4Category = true;
 	}
 
 	private List<Object> retrieveAllCategories(Class cls) throws IOException, InvalidDataFormat 
@@ -143,7 +177,6 @@ public class PersistentService
 			dataWriter.finalize();
 			service = null;			
 		} catch (Throwable e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

@@ -50,23 +50,44 @@ public class PersistentServiceTest
 		try {
 			
 			Category category = new Category("AB1","123AB1");
-			service.saveRecord(category);
-			Object obj = service.retrieveObject(category.getClass(),category.getCode());  
+			
+			Object obj = service.retrieveObject(category.getClass(),category.getCode());
+			
+			if(obj== null)
+			{
+				service.saveRecord(category);
+				obj = service.retrieveObject(category.getClass(),category.getCode());
+			}
 			assertEquals(category,(Category)obj);
 			
 			Category category1 = new Category("XY1","123XY1");
-			service.saveRecord(category1);
-			Object obj1 = service.retrieveObject(category1.getClass(),category1.getCode());  
+			
+			Object obj1 = service.retrieveObject(category1.getClass(),category1.getCode());
+			if(obj1 == null)
+			{
+				service.saveRecord(category1);
+				obj1 = service.retrieveObject(category1.getClass(),category1.getCode());
+			}
 			assertEquals(category1,(Category)obj1);
 			
 			Category category2 = new Category("DD1","123DD1");
-			service.saveRecord(category2);
-			Object obj2 = service.retrieveObject(category2.getClass(),category2.getCode());  
+			
+			Object obj2 = service.retrieveObject(category2.getClass(),category2.getCode());
+			if(obj2 == null)
+			{
+				service.saveRecord(category2);
+				obj2 = service.retrieveObject(category2.getClass(),category2.getCode());
+			}
 			assertEquals(category2,(Category)obj2);
 			
 			Category category3 = new Category("EE1","123EE1");
-			service.saveRecord(category3);
-			Object obj3 = service.retrieveObject(category3.getClass(),category3.getCode());  
+			
+			Object obj3 = service.retrieveObject(category3.getClass(),category3.getCode());
+			if(obj3 == null)
+			{
+				service.saveRecord(category3);
+				obj3 = service.retrieveObject(category3.getClass(),category3.getCode());
+			}
 			assertEquals(category3,(Category)obj3);
 			 
 		} catch (Exception e1) {
