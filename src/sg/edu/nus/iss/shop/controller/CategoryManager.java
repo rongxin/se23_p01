@@ -5,7 +5,6 @@ package sg.edu.nus.iss.shop.controller;
 
 import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.Category;
-import sg.edu.nus.iss.shop.model.domain.Vendor;
 import sg.edu.nus.iss.shop.dao.PersistentService;
 
 import java.util.Iterator;
@@ -37,7 +36,8 @@ public class CategoryManager {
 	 * Method to create category 
 	 * @param code category code (MAX Input is 3 Character)
 	 * @param name category name
-	 * @return category object           
+	 * @return category object  
+	 * @throws ApplicationGUIException Fields validation exceptions   
 	 * */
 	public Category createCategory(String code,String name) throws ApplicationGUIException {
 		//Check if category code is of 3 Character or null
@@ -72,39 +72,44 @@ public class CategoryManager {
 	/**
 	 * Method to retrieve category by code
 	 * @param code category code 
-	 * @return category (null or existing category)           
+	 * @return category (null or existing category)  
+	 * @throws ApplicationGUIException Exception while retrieving a category based on given category code        
 	 * */
-	public Category getCategory(String code) {
+	public Category getCategory(String code) throws ApplicationGUIException {
 		Category existingCategory = null;
-		List<Category> allCategories = CategoryManager.getCategoryManager().
-				getAllCategories();
-		Iterator<Category> it = allCategories.iterator();
-		while (it.hasNext()) {
-			Category category = it.next();
-			if (category.getCode().equals(code)) {
-				existingCategory = category;
-				return existingCategory;
-			}
+		try {
+			existingCategory = (Category) PersistentService.getService().retrieveObject(Category.class, code);
+		}catch (Exception e) {
+			throw new ApplicationGUIException(e.toString());
 		}
 		return existingCategory;
 	}
 	
 	/**
 	 * Method to retrieve all product categories
-	 * @return all product categories           
+	 * @return all product categories  
+	 * @throws ApplicationGUIException Exception while retrieving all categories     
 	 * */
-	public List<Category> getAllCategories(){
-		return new LinkedList<Category>();
+	public List<Category> getAllCategories() throws ApplicationGUIException{
+		List<Category> allCategories = new LinkedList<Category>();
+		List<Object> objList = null;
+		
+		try {
+			objList = PersistentService.getService().retrieveAll(Category.class);
+		}catch (Exception e){
+			throw new ApplicationGUIException(e.toString());
+		}
+		
+		//Check if the objects are null or empty
+		if(objList != null && !objList.isEmpty()) {
+			Iterator<Object> it = objList.iterator();
+			while (it.hasNext()) {
+				allCategories.add((Category) it.next());
+			}
+		} 
+		return allCategories;
 	}
 	
-	/**
-	 * Method to retrieve vendors for a specific category
-	 * @param code category code 
-	 * @return vendor listing for a specific category type           
-	 * */
-	public List<Vendor> getVendorListForCategory(String code){
-		
-		return new LinkedList<Vendor>();
-	}
+
 
 }

@@ -69,15 +69,6 @@ public class Category {
 	}
 	
 	/**
-	 * Method to get Vendor list 
-	 * 
-	 * @return vendor list for this category      
-	 * */
-	public List<Vendor> getVendorList() {
-		return this.vendorList;
-	}
-	
-	/**
 	 * Overriding equals() to compare two Complex objects
 	 * @param object object to be compared
 	 * @return boolean return true/false based on the comparison by category code

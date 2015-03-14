@@ -11,6 +11,7 @@ import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
 
+import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.Category;
 
 
@@ -45,16 +46,24 @@ public class CategoryManagerTest extends TestCase{
 	@Test
 	public void testGetCategory() {
 		//Test Null Category
-		assertNull( categoryManager.getCategory("XXX"));
+		try { 
+			assertNull(categoryManager.getCategory("XXX"));
+		} catch (Exception e) {
+			fail("failed to create category" + ": " + e.toString());
+		}
 		//Test Valid Category
-		assertNotNull(categoryManager.getCategory("1234"));
+		try { 
+			assertNotNull(categoryManager.getCategory("1234"));
+		} catch (Exception e) {
+			fail("failed to create category" + ": " + e.toString());
+		}
 	}
 	
 	//Test retreive all Category
 	@Test
-	public void testRetrieveAllCategories() {
+	public void testRetrieveAllCategories() throws ApplicationGUIException {
 		List<Category> categories = CategoryManager.getCategoryManager().getAllCategories();
-		if (categories == null || categories.size() == 0) {
+		if (categories == null || categories.size() == 0 || categories.isEmpty()) {
 			fail("Cannot find a category");
 		}else {
 			assertNotNull(categories);

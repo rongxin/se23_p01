@@ -22,7 +22,7 @@ public class DiscountRecordAdapter implements DataRecordAdapter
 		builder.append(DaoConstant.SEPARATOR);
 		builder.append(discount.getDiscountPercentage());
 		builder.append(DaoConstant.SEPARATOR);
-		builder.append(discount.getApplicableToMember());
+//		builder.append(discount.getApplicableToMember());
 		 
 		dataRecord = new DataRecord(builder.toString());
 		dataRecord.setPk(discount.getDiscountCode());
@@ -40,10 +40,10 @@ public class DiscountRecordAdapter implements DataRecordAdapter
 		else
 		{
 		   
-		  int percentage;
-		  percentage = Integer.parseInt(dataValues[2]);
-			dataObj = new Discount(dataValues[0],dataValues[1],percentage,
-					dataValues[3], dataValues[4],dataValues[5]);
+//		  int percentage;
+//		  percentage = Integer.parseInt(dataValues[2]);
+//			dataObj = new Discount(dataValues[0],dataValues[1],percentage,
+//					dataValues[3], dataValues[4],dataValues[5]);
 		}
 		 
 		dataRecord = record;
