@@ -1,7 +1,10 @@
 package sg.edu.nus.iss.shop.ui.panel;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -15,14 +18,17 @@ import sg.edu.nus.iss.shop.ui.ShopApplication;
 
 public class CheckoutWindow extends JFrame {
 
+	private static final String PAYMENT_CARD = "paymentCard";
+	private static final String CART_CARD = "cartCard";
 	private static final long serialVersionUID = 1L;
 	private ShopApplication shopApplication;
+	private JPanel purchaseCardPanel;
 
 	public CheckoutWindow(ShopApplication shopApplication) {
 		this.shopApplication = shopApplication;
 		setLayout(new BorderLayout());
 		this.add("North", createTitlePanel());
-		this.add("Center", createItemInfoPanel());
+		this.add("Center", createPurchaseCardPanel());
 		this.add("East", createRightPanel());
 		this.add("South", createMessagePanel());
 	}
@@ -96,7 +102,6 @@ public class CheckoutWindow extends JFrame {
 	private JPanel createActionButtonsPanel() {
 
 		JPanel p = new JPanel(new GridLayout(0, 1));
-
 		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(" Actions"),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
@@ -107,11 +112,26 @@ public class CheckoutWindow extends JFrame {
 		p.add(scanItemsButton);
 
 		JButton makePaymentButton = new JButton("Make Payment");
+		makePaymentButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				CardLayout cl = (CardLayout) (purchaseCardPanel.getLayout());
+				cl.show(purchaseCardPanel, PAYMENT_CARD);
+			}
+		});
 		p.add(makePaymentButton);
 		return p;
 	}
 
-	private JPanel createItemInfoPanel() {
+	private JPanel createPurchaseCardPanel() {
+		purchaseCardPanel = new JPanel();
+		purchaseCardPanel.setLayout(new CardLayout());
+		purchaseCardPanel.add(createShoppingCartPanel(), CART_CARD);
+		purchaseCardPanel.add(createMakePaymentPanel(), PAYMENT_CARD);
+		return purchaseCardPanel;
+	}
+
+	private JPanel createShoppingCartPanel() {
 		JPanel p = new JPanel();
 		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(" Items"),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
@@ -124,6 +144,14 @@ public class CheckoutWindow extends JFrame {
 		JScrollPane scrollPane = new JScrollPane(table);
 		p.add(scrollPane);
 		p.setSize(800, 600);
+		return p;
+	}
+
+	private JPanel createMakePaymentPanel() {
+		JPanel p = new JPanel();
+		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(" Payments"),
+				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+		p.add(new JLabel("Make payment"));
 		return p;
 	}
 
