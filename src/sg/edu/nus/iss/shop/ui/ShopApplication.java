@@ -63,7 +63,6 @@ public class ShopApplication {
 		shop.start();
 	}
 
-
 	public List<Category> getCategories() {
 		List<Category> allCategories = new ArrayList<>();
 		try {
@@ -97,6 +96,19 @@ public class ShopApplication {
 			e.printStackTrace();
 		}
 		return products;
+	}
+
+	public void addProduct(String categoryCode, String name, String description, Integer availableQuantity, Double price,
+			String barcodeNumber, Integer orderThreshold, Integer orderQuantity) {
+
+		System.out.println("Add Product ");
+		try {
+			Category category = categoryManager.getCategory(categoryCode);
+			productManager.addProduct(category, name, description, availableQuantity, price.doubleValue(),
+					barcodeNumber, orderThreshold, orderQuantity);
+		} catch (ApplicationGUIException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

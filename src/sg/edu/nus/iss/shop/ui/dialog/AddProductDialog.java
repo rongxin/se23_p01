@@ -159,20 +159,24 @@ public class AddProductDialog extends OkCancelDialog {
 
 	@Override
 	protected boolean performOkAction() {
-		// String productCategory =
-		// productCategoryCombo.getSelectedItem().toString();
-		String productName = nameField.getText().trim();
-		String productDescription = descriptionField.getText().trim();
-		String productQuantity = quantityField.getText().trim();
-
-		if ((productName.length() == 0) || (productQuantity.length() == 0)) {
+		if ((nameField.getText().trim().length() == 0) || (descriptionField.getText().length() == 0)) {
 			messageLabel.setText("Please input all necessary fields.");
 			messageLabel.setForeground(Color.RED);
 			return false;
 		}
 
+		String name = nameField.getText().trim();
+		String description = descriptionField.getText().trim();
+		Integer availableQuantity = new Integer(quantityField.getText().trim());
+		Double price = new Double(priceField.getText().trim());
+		String barcodeNumber = barCodeNumberField.getText().trim();
+		Integer orderThreshold = new Integer(reorderThresholdField.getText().trim());
+		Integer orderQuantity = new Integer(reorderQuantityField.getText().trim());
+
 		// TODO call add product logic
-		// shopApplication.addProduct (productName, productQuantity);
+		shopApplication.addProduct(categoryCombo.getSelectedItem().toString(), name, description, availableQuantity,
+				price, barcodeNumber, orderThreshold, orderQuantity);
+
 		return true;
 	}
 }
