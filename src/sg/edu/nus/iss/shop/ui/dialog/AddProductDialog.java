@@ -21,6 +21,7 @@ import javax.swing.SwingConstants;
 import sg.edu.nus.iss.shop.model.domain.Category;
 import sg.edu.nus.iss.shop.ui.LayoutHelper;
 import sg.edu.nus.iss.shop.ui.ShopApplication;
+import sg.edu.nus.iss.shop.ui.panel.ListProductPanel;
 
 public class AddProductDialog extends OkCancelDialog {
 
@@ -35,9 +36,11 @@ public class AddProductDialog extends OkCancelDialog {
 	private JTextField reorderThresholdField;
 	private JTextField reorderQuantityField;
 	private JLabel messageLabel;
+	private JPanel listPanel;
 
-	public AddProductDialog(ShopApplication shopApplication) {
+	public AddProductDialog(ShopApplication shopApplication, ListProductPanel listPanel) {
 		super(shopApplication, shopApplication.getMainWindow(), " Add Product ");
+		this.listPanel = listPanel;
 
 	}
 
@@ -179,6 +182,7 @@ public class AddProductDialog extends OkCancelDialog {
 		shopApplication.addProduct(categoryCombo.getSelectedItem().toString(), name, description, availableQuantity,
 				price, barcodeNumber, orderThreshold, orderQuantity);
 
+		listPanel.revalidate();
 		return true;
 	}
 }
