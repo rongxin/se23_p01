@@ -3,6 +3,8 @@ package sg.edu.nus.iss.shop.model.domain;
 import java.util.ArrayList;
 import java.util.Date;
 
+import sg.edu.nus.iss.shop.controller.MemberManager;
+
 /**
  * 
  * @author Oscar Castro Araya
@@ -15,12 +17,15 @@ public class Transaction {
 	private Customer customer;
 	private ArrayList<TransactionDetail> transactionDetails;
 	private Date date;
+	private double discount;
+	private int loyaltyPointsUsed;
 
 	public Transaction(int id, Date date){
 		super();
 		this.id = id;
 		this.date = date;
 		this.transactionDetails = new ArrayList<TransactionDetail>();
+		this.loyaltyPointsUsed = 0;
 	}
 	
 	public Transaction(int id, Customer customer, Date date) {
@@ -50,6 +55,42 @@ public class Transaction {
 
 	public void setDate(Date date) {
 		this.date = date;
+	}
+	
+	public void setDiscount(double discount){
+		this.discount = discount;
+	}
+	
+	public double getDiscount(){
+		return this.discount;
+	}
+	
+	public int getLoyaltyPointsUsed() {
+		return loyaltyPointsUsed;
+	}
+
+	public void setLoyaltyPointsUsed(int loyaltyPointsUsed) {
+		this.loyaltyPointsUsed = loyaltyPointsUsed;
+	}
+	
+	/**
+	 * 
+	 * @return The total amount to pay before applying discount
+	 */
+	public double getTotalPrice(){
+		double totalPrice = 0;
+		for (TransactionDetail transactionDetail : this.transactionDetails) {
+			totalPrice += transactionDetail.getTotalPrice();
+		}
+		return totalPrice;
+	}
+	
+	/**
+	 * 
+	 * @return Final price after discount is applied.
+	 */
+	public double getFinalPrice(){
+		return this.getTotalPrice() - this.discount;
 	}
 
 	/**
@@ -110,12 +151,12 @@ public class Transaction {
 	 * @param product
 	 * @return product found in the list or null if not found
 	 * 
-	 * @Bug 7Mar2015 Oscar Castro: Comparing the products references.
+	 * @BugFixed 7Mar2015 Oscar Castro: Comparing the products references.
 	 * Should it compare the product codes?
 	 */
 	private TransactionDetail findTransactionDetail(Product product){
 		for (TransactionDetail transactionDetail : transactionDetails) {
-		    if (transactionDetail.getProduct() == product)
+		    if (transactionDetail.getProduct().getProductId() == product.getProductId())
 		    	return transactionDetail;
 		}
 		return null;
