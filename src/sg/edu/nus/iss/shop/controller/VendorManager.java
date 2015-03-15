@@ -17,7 +17,6 @@ public class VendorManager {
 	private static final String INVALID_NAME_ERROR_MESSAGE = "Invalid vendor name";
 	private static final String INVALID_DESCRIPTION_ERROR_MESSAGE = "Invalid vendor description";
 	private static final String NIL_CATEGORY_ERROR_MESSAGE = "At least one category is needed";
-	private static final String SAVE_VENDOR_FAIL_ERROR_MESSAGE = "Failed to save the vendor";
 
 	private static VendorManager theOnlyVendorManager;
 
@@ -51,7 +50,6 @@ public class VendorManager {
 		}
 		return vendorList;
 	}
-
 
 	/** returned vendor with null categories **/
 	public Vendor getVendorByName(String name) {
@@ -93,26 +91,24 @@ public class VendorManager {
 		saveVendorForCategories(vendor, categories);
 		return getVendorByName(name);
 	}
-	
-	/***vendor must not be existing for the category***/
-	private void saveVendorForCategories(Vendor vendor, List<Category> categories){
+
+	/*** vendor must not be existing for the category ***/
+	private void saveVendorForCategories(Vendor vendor, List<Category> categories) {
 		Iterator<Category> it = categories.iterator();
-		while (it.hasNext()){
+		while (it.hasNext()) {
 			Category category = it.next();
-			try{
+			try {
 				saveVendorForSingleCategory(vendor, category);
-			}
-			catch(Exception e){
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 	}
-	
-	private void saveVendorForSingleCategory(Vendor vendor, Category category) throws Exception{
-		try{
+
+	private void saveVendorForSingleCategory(Vendor vendor, Category category) throws Exception {
+		try {
 			PersistentService.getService().saveVendor(vendor, category);
-		}
-		catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
 		}
