@@ -38,12 +38,9 @@ public class Member extends Customer {
 		}
 	}
 	
-	@Override
-	public Discount getMaxDiscount() {
-		
-		return super.getMaxDiscount();
-	}
-	
-	
-
+//	@Override
+//	public Discount getMaxDiscount() {
+//		
+//		return super.getMaxDiscount();
+//	}
 }
