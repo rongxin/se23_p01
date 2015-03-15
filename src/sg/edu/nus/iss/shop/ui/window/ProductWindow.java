@@ -16,10 +16,10 @@ import sg.edu.nus.iss.shop.ui.panel.ListProductPanel;
 public class ProductWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private ShopApplication shopApplication;
+	private ListProductPanel listPanel;
 
 	public ProductWindow(ShopApplication shopApplication) {
 		super();
-		this.shopApplication = shopApplication;
 		this.shopApplication = shopApplication;
 		setLayout(new BorderLayout());
 		this.add("North", createTitlePanel());
@@ -31,7 +31,7 @@ public class ProductWindow extends JFrame {
 		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("  Products  "),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
-		ListProductPanel listPanel = new ListProductPanel(shopApplication);
+		listPanel = new ListProductPanel(shopApplication);
 		p.add(listPanel);
 		return p;
 	}
@@ -46,7 +46,8 @@ public class ProductWindow extends JFrame {
 		addCategoryButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				AddProductDialog d = new AddProductDialog(shopApplication);
+				AddProductDialog d = new AddProductDialog(shopApplication, listPanel);
+
 				d.pack();
 				d.setLocationByPlatform(true);
 				d.setVisible(true);
