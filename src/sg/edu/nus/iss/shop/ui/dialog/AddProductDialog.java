@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
@@ -33,7 +34,7 @@ public class AddProductDialog extends OkCancelDialog {
 	private JTextField reorderThresholdField;
 	private JTextField reorderQuantityField;
 	private JLabel messageLabel;
-	private Category[] categories;
+	private List<Category> categories;
 
 	public AddProductDialog(ShopApplication shopApplication) {
 		super(shopApplication.getMainWindow(), " Add Product ");
