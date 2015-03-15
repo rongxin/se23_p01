@@ -247,7 +247,7 @@ public class CheckoutWindow extends JFrame {
 		CardLayout cl = (CardLayout) (purchaseCardPanel.getLayout());
 		cl.show(purchaseCardPanel, CARD_CART);
 		memberInfoPanel.setVisible(true);
-		purchaseInfoPanel.setVisible(false);
+		purchaseInfoPanel.setVisible(true);
 
 		scanItemsButton.setEnabled(true);
 		checkoutButton.setEnabled(false);
