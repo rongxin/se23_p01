@@ -11,7 +11,7 @@ import sg.edu.nus.iss.shop.model.domain.Category;
 import sg.edu.nus.iss.shop.model.domain.Discount;
 import sg.edu.nus.iss.shop.model.domain.Member;
 import sg.edu.nus.iss.shop.model.domain.Product;
-import sg.edu.nus.iss.shop.model.domain.ShopKeeper;
+import sg.edu.nus.iss.shop.model.domain.StoreKeeper;
 import sg.edu.nus.iss.shop.model.domain.Vendor;
 
 public class PersistentServiceTest 
