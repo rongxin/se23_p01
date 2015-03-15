@@ -96,14 +96,10 @@ public class MainPanel extends JPanel {
 		addMemberPanel.add(addMemberButton);
 		p.add(addMemberPanel);
 
-		JButton addCategoryButton = createImageButton("Add Category", "poll_green.png", "poll_yellow.png");
-		addCategoryButton.addActionListener(new ActionListener() {
+		JButton categoryManagementButton = createImageButton("Categories and Vendors", "poll_green.png", "poll_yellow.png");
+		categoryManagementButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// AddCategoryDialog d = new AddCategoryDialog(shopApplication);
-				// d.pack();
-				// d.setLocationByPlatform(true);
-				// d.setVisible(true);
 				CategoryWindow w = new CategoryWindow(shopApplication);
 				w.pack();
 				w.setLocationByPlatform(true);
@@ -112,9 +108,10 @@ public class MainPanel extends JPanel {
 			}
 		});
 		JPanel categoryPanel = new JPanel();
-		categoryPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(" Add Category "),
+		categoryPanel.setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createTitledBorder("Categories, Vendors "),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-		categoryPanel.add(addCategoryButton);
+		categoryPanel.add(categoryManagementButton);
 		p.add(categoryPanel);
 
 		JButton addProductButton = createImageButton("Add new product", "cd.png", "cd_blue.png");

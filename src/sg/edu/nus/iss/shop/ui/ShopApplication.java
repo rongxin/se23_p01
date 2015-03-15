@@ -59,14 +59,21 @@ public class ShopApplication {
 		shop.start();
 	}
 
-	// TODO use category manager to load real categories
-	public Category[] getCategories() {
-		List<Category> categories = new ArrayList<>();
-		categories.add(new Category("CLO", "Clothing"));
-		categories.add(new Category("MUG", "Mugs"));
-		categories.add(new Category("STA", "Stationary"));
-		categories.add(new Category("DTA", "Diary"));
-		return categories.toArray(new Category[categories.size()]);
+
+	public List<Category> getCategories() {
+		List<Category> allCategories = new ArrayList<>();
+		try {
+			allCategories = categoryManager.getAllCategories();
+		} catch (ApplicationGUIException e) {
+			e.printStackTrace();
+		}
+
+		// List<Category> categories = new ArrayList<>();
+		// categories.add(new Category("CLO", "Clothing"));
+		// categories.add(new Category("MUG", "Mugs"));
+		// categories.add(new Category("STA", "Stationary"));
+		// categories.add(new Category("DTA", "Diary"));
+		return allCategories;
 	}
 
 	public void addCategory(String categoryCode, String categoryName) {
