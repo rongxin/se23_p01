@@ -34,19 +34,19 @@ public abstract class Customer {
 	}
 	
 	abstract public boolean isFirstPurchase();
-	
-	public Discount getMaxDiscount() throws ApplicationGUIException{
-		Discount maxDiscount = null;
-		
-		List<Discount> discountList = DiscountManager.getDiscountManager().getAllDiscounts();
-		Iterator<Discount> iter = discountList.iterator();
-		while(iter.hasNext()){
-			Discount discount = iter.next();
-			if (discount == null || discount.getDiscountPercentage() > maxDiscount.getDiscountPercentage()){
-				maxDiscount = discount;
-			}
-		}
-		
-		return maxDiscount;
-	}
+	abstract public Discount getMaxDiscount();
+//	public Discount getMaxDiscount() throws ApplicationGUIException{
+//		Discount maxDiscount = null;
+//		
+//		List<Discount> discountList = DiscountManager.getDiscountManager().getAllDiscounts();
+//		Iterator<Discount> iter = discountList.iterator();
+//		while(iter.hasNext()){
+//			Discount discount = iter.next();
+//			if (discount == null || discount.getDiscountPercentage() > maxDiscount.getDiscountPercentage()){
+//				maxDiscount = discount;
+//			}
+//		}
+//		
+//		return maxDiscount;
+//	}
 }
