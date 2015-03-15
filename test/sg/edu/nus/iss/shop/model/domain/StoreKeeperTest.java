@@ -13,7 +13,7 @@ public class StoreKeeperTest {
 
 	@Before
 	public void setUp() throws Exception {
-		s= new StoreKeeper("su", "8888");
+		s= new StoreKeeper("su", "su");
 		
 	}
 

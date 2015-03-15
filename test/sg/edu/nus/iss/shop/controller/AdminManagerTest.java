@@ -19,8 +19,8 @@ public class AdminManagerTest {
 	public void setup() {
 		try {
 			adminmanager=AdminManager.getAdminManager();		
-			loginuser="gd";
-			loginpass="gd";
+			loginuser="su";
+			loginpass="su";
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -56,11 +56,11 @@ public class AdminManagerTest {
 		}
 		else
 		{			
-			assertSame("StoreKeeper.getName() should be same as loginuser",loginuser,s.getName());
-			assertSame("StoreKeeper.getPassword() should be same as loginpass",loginpass,s.getPassword());
-			
-		}
-		
+			//assertSame("StoreKeeper.getName() should be same as loginuser",loginuser,s.getName());
+			//assertSame("StoreKeeper.getPassword() should be same as loginpass",loginpass,s.getPassword());
+			assertEquals(loginuser, s.getName());
+			assertEquals(loginpass, s.getPassword());			
+		}	
 		
 	}
 	
@@ -75,8 +75,41 @@ public class AdminManagerTest {
 		}
 		else
 		{			
-			assertSame("StoreKeeper.getName() should be same as loginuser",loginuser,s.getName());
-			assertSame("StoreKeeper.getPassword() should be same as loginpass",loginpass,s.getPassword());
+			//assertSame("StoreKeeper.getName() should be same as loginuser",loginuser,s.getName());
+			//assertSame("StoreKeeper.getPassword() should be same as loginpass",loginpass,s.getPassword());
+			assertEquals(loginuser, s.getName());
+			assertEquals(loginpass, s.getPassword());
+			
+		}		
+		
+	}
+	@Test
+	public void testChangePassword() throws ApplicationGUIException {				
+	
+		StoreKeeper olds= adminmanager.login(loginuser, loginpass);
+		String newpass="11111";
+		assertNotNull("StoreKeeper  object should not be null", AdminManager.getAdminManager());
+		assertTrue("New password should not be empty", !newpass.isEmpty());
+		assertNotNull("New password should not be null", newpass);
+		
+		if(olds==null)
+		{
+			fail("StoreKeeper object is null.");
+		}
+		else
+		{
+			assertEquals(loginuser, olds.getName());
+			assertEquals(loginpass, olds.getPassword());
+			olds=adminmanager.changePassword(olds, newpass);
+			if(olds==null)
+			{
+				fail("StoreKeeper object is null after changepassword.");
+			}
+			else
+			{
+				assertEquals(loginuser, olds.getName());
+				assertEquals(newpass, olds.getPassword());
+			}
 			
 		}
 		
