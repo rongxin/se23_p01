@@ -32,7 +32,7 @@ public class VendorManagerTest {
 		Iterator<Category> it = categories.iterator();
 		while (it.hasNext()) {
 			Category category = it.next();
-			List<Vendor> existingVendors = VendorManager.getVendorManager().listVendorForCategory(category);
+			List<Vendor> existingVendors = category.getVendorList();
 			oldCount.put(category, existingVendors);
 		}
 		Vendor newVendor = new Vendor("Zhu Bin " + new Random().nextLong(), "Test Vendor");
@@ -45,7 +45,7 @@ public class VendorManagerTest {
 		it = categories.iterator();
 		while (it.hasNext()) {
 			Category category = it.next();
-			List<Vendor> newVendors = VendorManager.getVendorManager().listVendorForCategory(category);
+			List<Vendor> newVendors = category.getVendorList();
 			List<Vendor> existingVendors = oldCount.get(category);
 			newVendors.removeAll(existingVendors);
 			if (newVendors.size() != 1) {

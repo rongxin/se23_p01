@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import sg.edu.nus.iss.shop.controller.CategoryManager;
-import sg.edu.nus.iss.shop.controller.VendorManager;
 
 public class Vendor {
 	private String name;
@@ -61,16 +60,23 @@ public class Vendor {
 
 	private void loadCategories() {
 		List<Category> resultCategories = new LinkedList<Category>();
-		List<Category> allCategories = CategoryManager.getCategoryManager().getAllCategories();
+		List<Category> allCategories;
+		try {
+			allCategories = CategoryManager.getCategoryManager().getAllCategories();
+		} catch (Exception e) {
+			e.printStackTrace();
+			setCategories(resultCategories);
+			return;
+		}
 		Iterator<Category> it = allCategories.iterator();
 		while (it.hasNext()) {
 			Category category = it.next();
-			List<Vendor> allVendorsForCategory = VendorManager.getVendorManager().listVendorForCategory(category);
+			List<Vendor> allVendorsForCategory = category.getVendorList();
 			if (allVendorsForCategory.contains(this)) {
 				resultCategories.add(category);
 			}
 		}
-		setCategories(resultCategories);
+
 	}
 
 }

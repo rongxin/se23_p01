@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import sg.edu.nus.iss.shop.controller.DiscountManager;
+import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 
 public abstract class Customer {
 	private String id;
@@ -34,7 +35,7 @@ public abstract class Customer {
 	
 	abstract public boolean isFirstPurchase();
 	
-	public Discount getMaxDiscount(){
+	public Discount getMaxDiscount() throws ApplicationGUIException{
 		Discount maxDiscount = null;
 		
 		List<Discount> discountList = DiscountManager.getDiscountManager().getAllDiscounts();

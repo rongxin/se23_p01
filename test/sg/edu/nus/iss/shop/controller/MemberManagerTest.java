@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.Category;
 
 public class MemberManagerTest {
@@ -20,9 +21,10 @@ public class MemberManagerTest {
 		}
 	}
 
-	/**Test normal case**/
+	/**Test normal case
+	 * @throws ApplicationGUIException **/
 	@Test
-	public void TestRegisterMember1() {
+	public void TestRegisterMember1() throws ApplicationGUIException {
 		int oldMemberCount = MemberManager.getMemberManager().getAllMembers().size();
 		try {
 			MemberManager.getMemberManager().addMember("B0135868R", "Zhu Bin");

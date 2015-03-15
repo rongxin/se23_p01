@@ -15,7 +15,7 @@ import sg.edu.nus.iss.shop.dao.exception.InvalidDomainObject;
 import sg.edu.nus.iss.shop.model.domain.Category;
 import sg.edu.nus.iss.shop.model.domain.Member;
 import sg.edu.nus.iss.shop.model.domain.Product;
-import sg.edu.nus.iss.shop.model.domain.ShopKeeper;
+import sg.edu.nus.iss.shop.model.domain.StoreKeeper;
 import sg.edu.nus.iss.shop.model.domain.Vendor;
 
 public class PersistentService 
@@ -61,9 +61,9 @@ public class PersistentService
 		{
 			adapter = new CategoryRecordAdapter((Category)recordObj);			
 		}
-		else if(recordObj instanceof ShopKeeper)
+		else if(recordObj instanceof StoreKeeper)
 		{
-			adapter = new StoreKeeperRecordAdapter((ShopKeeper)recordObj);			
+			adapter = new StoreKeeperRecordAdapter((StoreKeeper)recordObj);			
 		}
 		else if(recordObj instanceof Member)
 		{
@@ -233,7 +233,7 @@ public class PersistentService
 	
 	private boolean isStoreKeeperType(Class cls)
 	{
-		if (cls.getSimpleName().equals(ShopKeeper.class.getSimpleName()))
+		if (cls.getSimpleName().equals(StoreKeeper.class.getSimpleName()))
 		{
 			return true;
 		}	 

@@ -26,16 +26,6 @@ public class TransactionManager {
 	}
 
 	/**
-	 * Start a transaction with a non-Member (PUBLIC).
-	 * 
-	 * @return
-	 */
-	public Transaction StartTransaction() {
-		MemberManager mm = MemberManager.getMemberManager();
-		return StartTransaction(mm.generateNonMember());
-	}
-
-	/**
 	 * Start a Transaction with a customer Member
 	 * 
 	 * @param customer
@@ -44,20 +34,6 @@ public class TransactionManager {
 	public Transaction StartTransaction(Customer customer) {
 		Transaction t = new Transaction(0, customer, new Date());
 		return t;
-	}
-
-	/**
-	 * Set The member to a Transaction.
-	 * 
-	 * @param transaction
-	 * @param member
-	 * @return
-	 */
-	public Transaction setMember(Transaction transaction, String memberId) {
-		MemberManager mm = MemberManager.getMemberManager();
-		Member member = mm.getMemberById(memberId);
-		transaction.setCustomer(member);
-		return transaction;
 	}
 
 	/**
@@ -141,9 +117,10 @@ public class TransactionManager {
 	 * @param cash
 	 * @param loyaltyPoints
 	 * @return
+	 * @throws ApplicationGUIException 
 	 */
-	public boolean endTransaction(Transaction transaction, double cash,
-			int loyaltyPoints) {
+	public Transaction endTransaction(Transaction transaction, double cash,
+			int loyaltyPoints) throws ApplicationGUIException {
 		// Get the final price
 		double total = checkOut(transaction);
 
@@ -156,21 +133,28 @@ public class TransactionManager {
 
 		// Update Member DB
 		updateMemberPoints(transaction, loyaltyPoints, cash);
-		return false;
+		return null;
 	}
 
 	public List<Transaction> getAllTransaction(Date startDate, Date endDate) {
 		return null;
 	}
 
-	private boolean updateProductsInTransactioDetails(Transaction transaction) {
+	private boolean updateProductsInTransactioDetails(Transaction transaction) throws ApplicationGUIException {
+		try {
 		ProductManager pm = ProductManager.getProductManager();
 		for (TransactionDetail transactionDetail : transaction
 				.getTransactionDetails()) {
-			pm.adjustQuantity(transactionDetail.getProduct(),
-					transactionDetail.getQuantity());
+				pm.adjustQuantity(transactionDetail.getProduct(),
+						transactionDetail.getQuantity());
+			
 		}
 		return true;
+		} catch (ApplicationGUIException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 	private boolean updateMemberPoints(Transaction transaction,
