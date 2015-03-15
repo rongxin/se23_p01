@@ -46,10 +46,12 @@ public class ProductManager {
 	 * @return product object     
 	 * @throws ApplicationGUIException Fields validation exceptions
 	 * */
-	public Product addProduct(Category category, String name,
-			int avaiableQuantity, double price, String barcodeNumber,
+	public Product addProduct(Category category, String name, String description,
+			int availableQuantity, double price, String barcodeNumber,
 			int orderThreshold, int orderQuantity)
 			throws ApplicationGUIException {
+		
+		Product newProduct;
 		
 		if (category == null){
 			throw new ApplicationGUIException(ProductManager.INVALID_CATEGORY_ERROR_MESSAGE);
@@ -57,7 +59,10 @@ public class ProductManager {
 		if (name == null || name.trim().length()< 0){
 			throw new ApplicationGUIException(ProductManager.INVALID_NAME_ERROR_MESSAGE);
 		}
-		if (avaiableQuantity <= 0){
+		if (description == null || description.trim().length()< 0){
+			throw new ApplicationGUIException(ProductManager.INVALID_NAME_ERROR_MESSAGE);
+		}
+		if (availableQuantity <= 0){
 			throw new ApplicationGUIException(ProductManager.INVALID_AVAILABLE_QUANTITY_ERROR_MESSAGE );
 		}
 		if (price  <= 0){
@@ -73,24 +78,33 @@ public class ProductManager {
 			throw new ApplicationGUIException(ProductManager.INVALID_ORDER_QUANTITY_ERROR_MESSAGE);
 		}
 		
-		//Check if there an existing Product ID
-		Product existingProduct = null;
-		boolean existsProductId = true;
-		int i = 1;
-		while(existsProductId){
-			//Check Product ID for duplication
-			existingProduct = ProductManager.getProductManager().getProductById(category+"/"+Integer.toString(i));
+		//Retrieve existing products with the given category to be added
+		List<Product> productsWithCategory= ProductManager.getProductManager().getProductsForCategory(category);
+		int maxId = 0;
+		//If no existing product for such category
+		if( productsWithCategory.isEmpty() ) {
+			newProduct = new Product(category.getCode()+"/1",name,description,
+						availableQuantity,price,barcodeNumber,orderThreshold,orderQuantity);
+		} else {
 			
-			//Existing ProductID Found
-			if (existingProduct != null) {
-				i++;
-			} else {
-				//Insert into Data
-				existsProductId = false;
+			Iterator<Product> it =  productsWithCategory.iterator();
+			while (it.hasNext()) {
+				int tempNum = Integer.parseInt(it.next().getProductId().substring(4)); // Code format eg MUG/1
+				if (tempNum > maxId) {
+					maxId = tempNum;
+				}
 			}
+			newProduct = new Product(category.getCode()+"/"+(maxId+1),name,description,
+					availableQuantity,price,barcodeNumber,orderThreshold,orderQuantity);
 		}
-		// Create new product
-		return null;
+		
+		//Save Product 
+		try {
+			PersistentService.getService().saveRecord(newProduct);
+			return newProduct;
+		} catch (Exception e) {
+			throw new ApplicationGUIException(e.toString());
+		}		
 	}
 	
 	/**
@@ -132,19 +146,10 @@ public class ProductManager {
 	 * */
 	public List<Product> getAllProducts() throws ApplicationGUIException{
 		List<Product> allProducts = new LinkedList<Product>();
-		List<Object> objList = null;
-		
 		try {
-			objList = PersistentService.getService().retrieveAll(Product.class);
+			allProducts  = PersistentService.getService().retrieveAll(Product.class);
 		}catch (Exception e){
 			throw new ApplicationGUIException(e.toString());
-		}
-		//Check if the objects are null or empty
-		if(objList != null && !objList.isEmpty()) {
-			Iterator<Object> it = objList.iterator();
-			while (it.hasNext()) {
-				 allProducts.add((Product) it.next());
-			}
 		} 
 		return  allProducts;
 	}
@@ -159,7 +164,7 @@ public class ProductManager {
 		List<Product> allProducts = ProductManager.getProductManager().getAllProducts();
 		List<Product> lowInventoryProducts = new LinkedList<Product>();
 		
-		if(!allProducts.isEmpty()) {
+		if(!allProducts.isEmpty() && allProducts != null) {
 			Iterator<Product> it = allProducts.iterator();
 			while (it.hasNext()) {
 				//Compare Current Product Quantity against Order Threshold
@@ -182,7 +187,7 @@ public class ProductManager {
 		List<Product> allProducts = ProductManager.getProductManager().getAllProducts();
 		List<Product> productsWithCategory = new LinkedList<Product>();
 
-		if(!allProducts.isEmpty()) {
+		if(!allProducts.isEmpty() && allProducts != null) {
 			Iterator<Product> it = allProducts.iterator();
 			String productID = "";
 			while (it.hasNext()) {
