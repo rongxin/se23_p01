@@ -1,11 +1,11 @@
 package sg.edu.nus.iss.shop.model.domain;
 
-public class ShopKeeper {
+public class StoreKeeper {
 	
 	private String name;
 	private String password;
 	
-	public ShopKeeper(String name, String password) {
+	public StoreKeeper(String name, String password) {
 		this.setName(name);
 		this.setPassword(password);
 	}

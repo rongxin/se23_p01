@@ -3,13 +3,13 @@ package sg.edu.nus.iss.shop.dao.adapter;
 import sg.edu.nus.iss.shop.dao.DaoConstant;
 import sg.edu.nus.iss.shop.dao.DataRecord;
 import sg.edu.nus.iss.shop.dao.exception.InvalidDataFormat;
-import sg.edu.nus.iss.shop.model.domain.ShopKeeper;
+import sg.edu.nus.iss.shop.model.domain.StoreKeeper;
 
 public class StoreKeeperRecordAdapter implements DataRecordAdapter
 {
 	DataRecord dataRecord;
-	ShopKeeper dataObj;
-	public StoreKeeperRecordAdapter(ShopKeeper keeper)
+	StoreKeeper dataObj;
+	public StoreKeeperRecordAdapter(StoreKeeper keeper)
 	{
 		StringBuilder builder = new StringBuilder();
 		builder.append(keeper.getName());
@@ -30,7 +30,7 @@ public class StoreKeeperRecordAdapter implements DataRecordAdapter
 		}
 		else
 		{
-			dataObj = new ShopKeeper(dataValues[0],dataValues[1]);
+			dataObj = new StoreKeeper(dataValues[0],dataValues[1]);
 		}
 		 
 		dataRecord = record;
