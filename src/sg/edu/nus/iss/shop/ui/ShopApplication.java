@@ -7,14 +7,17 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import sg.edu.nus.iss.shop.controller.CategoryManager;
+import sg.edu.nus.iss.shop.controller.ProductManager;
 import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.Category;
+import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.ui.dialog.LoginDialog;
 
 public class ShopApplication {
 	private ShopMainWindow shopWindow;
 	private LoginDialog loginDialog;
 	private CategoryManager categoryManager;
+	private ProductManager productManager;
 
 	public ShopApplication() {
 		loginDialog = new LoginDialog(this);
@@ -23,6 +26,7 @@ public class ShopApplication {
 		loginDialog.setVisible(true);
 
 		categoryManager = CategoryManager.getCategoryManager();
+		productManager = ProductManager.getProductManager();
 	}
 
 	public void start() {
@@ -83,6 +87,16 @@ public class ShopApplication {
 		} catch (ApplicationGUIException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public List<Product> getProducts() {
+		List<Product> products = new ArrayList<>();
+		try {
+			products = productManager.getAllProducts();
+		} catch (ApplicationGUIException e) {
+			e.printStackTrace();
+		}
+		return products;
 	}
 
 }
