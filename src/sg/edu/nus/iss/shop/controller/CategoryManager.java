@@ -5,10 +5,8 @@ package sg.edu.nus.iss.shop.controller;
 
 import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.Category;
-import sg.edu.nus.iss.shop.model.domain.Vendor;
 import sg.edu.nus.iss.shop.dao.PersistentService;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -97,14 +95,12 @@ public class CategoryManager {
 	 * */
 	public List<Category> getAllCategories() throws ApplicationGUIException {
 		List<Category> allCategories = new LinkedList<Category>();
-
 		try {
 			allCategories = PersistentService.getService().retrieveAll(Category.class);
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new ApplicationGUIException(e.toString());
-
 		}
-
 		return allCategories;
 	}
 

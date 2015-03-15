@@ -45,7 +45,7 @@ public class CategoryManagerTest extends TestCase{
 	//Test Create Category
 	@Test
 	public void testGetCategory() {
-		//Test Null Category
+		//Test Empty Category
 		try { 
 			assertNull(categoryManager.getCategory("XXX"));
 		} catch (Exception e) {
