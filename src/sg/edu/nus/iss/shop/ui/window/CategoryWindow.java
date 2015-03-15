@@ -3,15 +3,16 @@ package sg.edu.nus.iss.shop.ui.window;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Panel;
-import java.awt.event.KeyEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
 
 import sg.edu.nus.iss.shop.ui.ShopApplication;
-import sg.edu.nus.iss.shop.ui.panel.AddCategoryPanel;
+import sg.edu.nus.iss.shop.ui.dialog.AddCategoryDialog;
 import sg.edu.nus.iss.shop.ui.panel.ListCategoryPanel;
 
 public class CategoryWindow extends JFrame {
@@ -31,18 +32,18 @@ public class CategoryWindow extends JFrame {
 
 	private Component createMainPanel() {
 		Panel p = new Panel();
-
-
-		AddCategoryPanel addPanel = new AddCategoryPanel();
-		JTabbedPane tabbedPane = new JTabbedPane();
-		tabbedPane.addTab("Add Category", addPanel);
-		tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
-
 		ListCategoryPanel listPanel = new ListCategoryPanel();
-		tabbedPane.addTab("View Categories", listPanel);
-		tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
-
-		p.add(tabbedPane);
+		p.add(listPanel);
+		// JTabbedPane tabbedPane = new JTabbedPane();
+		// AddCategoryPanel addPanel = new AddCategoryPanel();
+		// tabbedPane.addTab("Add Category", addPanel);
+		// tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
+		//
+		// ListCategoryPanel listPanel = new ListCategoryPanel();
+		// tabbedPane.addTab("View Categories", listPanel);
+		// tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
+		//
+		// p.add(tabbedPane);
 		return p;
 	}
 
@@ -62,6 +63,17 @@ public class CategoryWindow extends JFrame {
 	private JPanel createTitlePanel() {
 		JPanel p = new JPanel();
 		p.add(new JLabel("Manage Categories"));
+		JButton addCategoryButton = new JButton("Add Category");
+		addCategoryButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				AddCategoryDialog d = new AddCategoryDialog(shopApplication);
+				d.pack();
+				d.setLocationByPlatform(true);
+				d.setVisible(true);
+			}
+		});
+		p.add(addCategoryButton);
 		return p;
 	}
 

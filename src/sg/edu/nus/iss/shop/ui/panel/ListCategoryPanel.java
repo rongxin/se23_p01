@@ -14,7 +14,6 @@ public class ListCategoryPanel extends JPanel {
 	private JTextField categoryCodeField;
 	private JTextField categoryNameField;
 
-
 	public ListCategoryPanel() {
 		super();
 
