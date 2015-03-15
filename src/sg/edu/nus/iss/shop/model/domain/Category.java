@@ -3,8 +3,10 @@
 */
 package sg.edu.nus.iss.shop.model.domain;
 
+import java.util.LinkedList;
 import java.util.List;
 
+import sg.edu.nus.iss.shop.dao.PersistentService;
 import sg.edu.nus.iss.shop.model.domain.Vendor;
 
 public class Category {
@@ -93,7 +95,35 @@ public class Category {
 	 * @return vendor list for this category      
 	 * */
 	public List<Vendor> getVendorList() {
+		if (this.vendorList == null || this.vendorList.isEmpty()) { // Vendor list not loaded yet
+			loadVendorList();
+		}
 		return this.vendorList;
+	
 	}
+	
+	/**
+	 * Method to set Vendor list for this particular category
+	 * @param vendor list for this category that has been retrieved     
+	 * */
+	public void setVendorList(List<Vendor> vendorList) {
+ 		this.vendorList = vendorList;
+ 	}
+	
+	/**
+	 * Method to load Vendor list for this category by calling persistent service    
+	 * */
+	private void loadVendorList() {
+		
+		try {
+			this.vendorList = PersistentService.getService().retrieveVendors(this);
+		} catch (Exception e) {
+			e.printStackTrace();
+			this.vendorList = new LinkedList<Vendor>();
+		}
+		
+		setVendorList(this.vendorList);
+	}
+
 	
 }

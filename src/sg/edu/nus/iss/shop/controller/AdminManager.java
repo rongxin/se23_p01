@@ -9,9 +9,6 @@ import sg.edu.nus.iss.shop.model.domain.StoreKeeper;
 public class AdminManager {
 
 	private static AdminManager theOnlyAdminManager;
-	private static final String INVALID_LOGIN_MESSAGE = "Invalid userid or password.";
-	private static final String EMPTY_USERNAME_MESSAGE = "Please enter username.";
-	private static final String EMPTY_PASSWORD_MESSAGE = "Please enter password.";
 	
 	private AdminManager() {
 	}
@@ -24,12 +21,9 @@ public class AdminManager {
 	
 	public StoreKeeper login(String username,String password) throws ApplicationGUIException
 	{
-		if (username == null || username.trim().length() == 0) {
-			throw new ApplicationGUIException(AdminManager.EMPTY_USERNAME_MESSAGE);
-		}
-		if (password == null || password.trim().length()==0) {
-			throw new ApplicationGUIException(AdminManager.EMPTY_PASSWORD_MESSAGE);
-		}
+		if (username.isEmpty() || password.isEmpty()) {			
+			return null;
+		}		
 		List<StoreKeeper> storeKeepers = getAllStoreKeepers();
 		Iterator<StoreKeeper> it = storeKeepers.iterator();
 		while (it.hasNext()) {
@@ -37,12 +31,16 @@ public class AdminManager {
 			if (storekeeper.getName().equals(username) && storekeeper.getPassword().equals(password)) {
 				return storekeeper;
 			}else
-			{
-				throw new ApplicationGUIException(AdminManager.INVALID_LOGIN_MESSAGE);				
+			{			
+				return null;
 			}
 		}
 		return null;
 	
+	}
+	public StoreKeeper logout()
+	{
+		return null;
 	}
 	public List<StoreKeeper> getAllStoreKeepers() {
 		

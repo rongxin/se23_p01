@@ -31,7 +31,7 @@ public class ProductManagerTest extends TestCase{
 	@Test
 	public void testCreateProduct() {
 		try { 
-			 productManager.addProduct(new Category("STA","Stationary"),"Testing Product",100,11.00,"19111",30,50);
+			 productManager.addProduct(new Category("STA","Stationary"),"Testing Product","Testing Product 123",100,11.00,"19111",30,50);
 		} catch (Exception e) {
 			fail("failed to create category");
 		}
