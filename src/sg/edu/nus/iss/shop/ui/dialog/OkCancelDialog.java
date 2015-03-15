@@ -1,59 +1,77 @@
 package sg.edu.nus.iss.shop.ui.dialog;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import sg.edu.nus.iss.shop.ui.ShopApplication;
 
 public abstract class OkCancelDialog extends JDialog {
 
-    public OkCancelDialog (JFrame parent, String title) {
-        super (parent, title);
-        add ("Center", createFormPanel());
-        add ("South",  createButtonPanel());
-    }
+	private static final long serialVersionUID = 1L;
+	private JButton okButton;
+	protected ShopApplication shopApplication;
 
-    public OkCancelDialog (JFrame parent) {
-        this (parent, "");
-    }
+	public OkCancelDialog(ShopApplication shopApplication, JFrame parent, String title) {
+		super(parent, title);
+		this.shopApplication = shopApplication;
+		add("Center", createFormPanel());
+		add("South", createButtonPanel());
+	}
 
-    private JPanel createButtonPanel () {
-        JPanel p = new JPanel ();
+	public OkCancelDialog(JFrame parent, String title) {
+		super (parent, title);
+		add ("Center", createFormPanel());
+		add ("South",  createButtonPanel());
+	}
 
-        JButton b;
-        ActionListener l;
+	public OkCancelDialog (JFrame parent) {
+		this (parent, "");
+	}
 
-        b = new JButton ("OK");
-        l = new ActionListener () {
-            public void actionPerformed (ActionEvent e) {
-                boolean success = performOkAction ();
-                if (success) {
-                    destroyDialog ();
-                }
-            }
-        };
-        b.addActionListener (l);
-        p.add (b);
 
-        b = new JButton ("Cancel");
-        l = new ActionListener () {
-            public void actionPerformed (ActionEvent e) {
-                destroyDialog ();
-            }
-        };
-        b.addActionListener (l);
-        p.add (b);
+	private JPanel createButtonPanel () {
+		JPanel p = new JPanel ();
 
-        return p;
-    }
+		ActionListener l;
 
-    private void destroyDialog () {
-        setVisible (false);
-        dispose();
-    }
+		okButton = new JButton ("OK");
+		l = new ActionListener () {
+			@Override
+			public void actionPerformed (ActionEvent e) {
+				boolean success = performOkAction ();
+				if (success) {
+					destroyDialog();
+				}
+			}
+		};
+		okButton.addActionListener (l);
+		p.add (okButton);
 
-    protected abstract JPanel createFormPanel () ;
+		okButton = new JButton ("Cancel");
+		l = new ActionListener () {
+			@Override
+			public void actionPerformed (ActionEvent e) {
+				destroyDialog ();
+			}
+		};
+		okButton.addActionListener (l);
+		p.add (okButton);
 
-    protected abstract boolean performOkAction () ;
+		return p;
+	}
+
+	private void destroyDialog () {
+		setVisible (false);
+		dispose();
+	}
+
+	protected abstract JPanel createFormPanel () ;
+
+	protected abstract boolean performOkAction () ;
 
 }

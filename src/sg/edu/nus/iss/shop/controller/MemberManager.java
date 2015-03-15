@@ -4,7 +4,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import sg.edu.nus.iss.shop.dao.PersistentService;
 import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
+import sg.edu.nus.iss.shop.model.domain.Discount;
 import sg.edu.nus.iss.shop.model.domain.Member;
 import sg.edu.nus.iss.shop.model.domain.NonMemberCustomer;
 
@@ -45,11 +47,26 @@ public class MemberManager {
 		return null;
 	}
 
-	public List<Member> getAllMembers() {
-		return new LinkedList<Member>();
+	public List<Member> getAllMembers() throws ApplicationGUIException {
+		List<Member> memberList = new LinkedList<Member>();
+		List<Object> objectList = null;
+		
+		try{
+			objectList = PersistentService.getService().retrieveAll(Member.class);
+		}catch(Exception e){
+			throw new ApplicationGUIException(e.toString());
+		}
+		
+		if (objectList != null && objectList.isEmpty()){
+			Iterator<Object> iter = objectList.iterator();
+			while(iter.hasNext()){
+				memberList.add((Member)iter.next());
+			}
+		}
+		return memberList;
 	}
 
-	public Member getMemberById(String id) {
+	public Member getMemberById(String id) throws ApplicationGUIException {
 		Member result = null;
 		List<Member> allMembers = MemberManager.getMemberManager().getAllMembers();
 		Iterator<Member> it = allMembers.iterator();
@@ -74,5 +91,15 @@ public class MemberManager {
 		member.setLoyalPoints(member.getLoyalPoints() - usedPoints);
 		return member.getLoyalPoints();
 	}
+	
+	public int adjustLoyalPoints(Member member, int points) throws ApplicationGUIException {
+		if (points >= 0 && member.getLoyalPoints() < points){
+			throw new ApplicationGUIException(MemberManager.NOT_SUFFICIENT_POINTS_ERROR_MESSAGE);
+		}else if(points < 0){
 
+		}
+
+		member.setLoyalPoints(member.getLoyalPoints() - points);
+		return member.getLoyalPoints();
+	}
 }

@@ -5,7 +5,8 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.Insets;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
@@ -18,12 +19,14 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 
 import sg.edu.nus.iss.shop.model.domain.Category;
+import sg.edu.nus.iss.shop.ui.LayoutHelper;
 import sg.edu.nus.iss.shop.ui.ShopApplication;
+import sg.edu.nus.iss.shop.ui.panel.ListProductPanel;
 
 public class AddProductDialog extends OkCancelDialog {
 
 	private static final long serialVersionUID = 1L;
-	private ShopApplication shopApplication;
+
 	private JComboBox<String> categoryCombo;
 	private JTextField nameField;
 	private JTextArea descriptionField;
@@ -33,12 +36,12 @@ public class AddProductDialog extends OkCancelDialog {
 	private JTextField reorderThresholdField;
 	private JTextField reorderQuantityField;
 	private JLabel messageLabel;
-	private Category[] categories;
+	private JPanel listPanel;
 
-	public AddProductDialog(ShopApplication shopApplication) {
-		super(shopApplication.getMainWindow(), " Add Product ");
-		this.shopApplication = shopApplication;
-		categories = this.shopApplication.getCategories();
+	public AddProductDialog(ShopApplication shopApplication, ListProductPanel listPanel) {
+		super(shopApplication, shopApplication.getMainWindow(), " Add Product ");
+		this.listPanel = listPanel;
+
 	}
 
 	@Override
@@ -61,24 +64,6 @@ public class AddProductDialog extends OkCancelDialog {
 		return p;
 	}
 
-	private GridBagConstraints createCellConstraint(int x, int y) {
-		GridBagConstraints gc = new GridBagConstraints();
-		gc.gridx = x;
-		gc.gridy = y;
-		gc.gridwidth = 1;
-		gc.gridheight = 1;
-
-		boolean isLeftMostColumn = x == 0;
-		gc.anchor = isLeftMostColumn ? GridBagConstraints.WEST : GridBagConstraints.EAST;
-		gc.fill = isLeftMostColumn ? GridBagConstraints.BOTH : GridBagConstraints.HORIZONTAL;
-
-		Insets westInset = new Insets(5, 0, 5, 5);
-		Insets eastInset = new Insets(5, 5, 5, 0);
-		gc.insets = isLeftMostColumn ? westInset : eastInset;
-		gc.weightx = isLeftMostColumn ? 0.1 : 1.0;
-		gc.weighty = 1.0;
-		return gc;
-	}
 
 	private JPanel createInputFormPanel() {
 		JPanel p = new JPanel();
@@ -88,56 +73,59 @@ public class AddProductDialog extends OkCancelDialog {
 		GridBagConstraints gc = new GridBagConstraints();
 
 		// column 1
-		gc = createCellConstraint(0, 0);
+		gc = LayoutHelper.createCellConstraint(0, 0);
 		JLabel productCategoryLabel = new JLabel("Product Category:");
 		p.add(productCategoryLabel, gc);
 
-		gc = createCellConstraint(0, 1);
+		gc = LayoutHelper.createCellConstraint(0, 1);
 		JLabel productTitleLabel = new JLabel("Product Name:");
 		p.add(productTitleLabel, gc);
 
-		gc = createCellConstraint(0, 2);
+		gc = LayoutHelper.createCellConstraint(0, 2);
 		JLabel productDescriptionLabel = new JLabel("Product Description:");
 		p.add(productDescriptionLabel, gc);
 
-		gc = createCellConstraint(0, 3);
+		gc = LayoutHelper.createCellConstraint(0, 3);
 		JLabel productQuantityLabel = new JLabel("Quantity:");
 		p.add(productQuantityLabel, gc);
 
-		gc = createCellConstraint(0, 4);
+		gc = LayoutHelper.createCellConstraint(0, 4);
 		JLabel productPriceLabel = new JLabel("Price:");
 		p.add(productPriceLabel, gc);
 
-		gc = createCellConstraint(0, 5);
+		gc = LayoutHelper.createCellConstraint(0, 5);
 		JLabel productBarCodeLabel = new JLabel("Barcode Number:");
 		p.add(productBarCodeLabel, gc);
 
-		gc = createCellConstraint(0, 6);
+		gc = LayoutHelper.createCellConstraint(0, 6);
 		JLabel productReorderThresholdLabel = new JLabel("Reorder Threshold:");
 		p.add(productReorderThresholdLabel, gc);
 
-		gc = createCellConstraint(0, 7);
+		gc = LayoutHelper.createCellConstraint(0, 7);
 		JLabel productOrderQuantityJLabel = new JLabel("Order Quantity:");
 		p.add(productOrderQuantityJLabel, gc);
 
 		// column 2
 		gc.anchor = GridBagConstraints.LAST_LINE_START;
 
-		gc = createCellConstraint(1, 0);
-		// TODO hardcoded category list
-		String[] categoryNames = new String[] { "Clothing", "Mugs", "Stationary", "Diary" };
-		categoryCombo = new JComboBox<>(categoryNames);
+		gc = LayoutHelper.createCellConstraint(1, 0);
+		List<Category> categories = shopApplication.getCategories();
+		List<String> categoryCodes = new ArrayList<>();
+		for (Category category : categories) {
+			categoryCodes.add(category.getCode());
+		}
+		categoryCombo = new JComboBox<>(categoryCodes.toArray(new String[categoryCodes.size()]));
 
 		categoryCombo.setToolTipText("Please choose a category");
 
 		p.add(categoryCombo, gc);
 
-		gc = createCellConstraint(1, 1);
+		gc = LayoutHelper.createCellConstraint(1, 1);
 		nameField = new JTextField(20);
 		nameField.setToolTipText("Please input the product name.");
 		p.add(nameField, gc);
 
-		gc = createCellConstraint(1, 2);
+		gc = LayoutHelper.createCellConstraint(1, 2);
 		descriptionField = new JTextArea(5, 20);
 		descriptionField.setBorder(BorderFactory.createLineBorder(Color.lightGray));
 		descriptionField.setToolTipText("Please input product description.");
@@ -145,27 +133,27 @@ public class AddProductDialog extends OkCancelDialog {
 		productDescriptionFieldScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		p.add(productDescriptionFieldScroll, gc);
 
-		gc = createCellConstraint(1, 3);
+		gc = LayoutHelper.createCellConstraint(1, 3);
 		quantityField = new JTextField(20);
 		quantityField.setToolTipText("Please input available product quantity.");
 		p.add(quantityField, gc);
 
-		gc = createCellConstraint(1, 4);
+		gc = LayoutHelper.createCellConstraint(1, 4);
 		priceField = new JTextField(20);
 		priceField.setToolTipText("Please input product price.");
 		p.add(priceField, gc);
 
-		gc = createCellConstraint(1, 5);
+		gc = LayoutHelper.createCellConstraint(1, 5);
 		barCodeNumberField = new JTextField(20);
 		barCodeNumberField.setToolTipText("Please input the barcode number of product.");
 		p.add(barCodeNumberField, gc);
 
-		gc = createCellConstraint(1, 6);
+		gc = LayoutHelper.createCellConstraint(1, 6);
 		reorderThresholdField = new JTextField(20);
 		reorderThresholdField.setToolTipText("Please input threshold for reorder.");
 		p.add(reorderThresholdField, gc);
 
-		gc = createCellConstraint(1, 7);
+		gc = LayoutHelper.createCellConstraint(1, 7);
 		reorderQuantityField = new JTextField(20);
 		reorderQuantityField.setToolTipText("Please input quanity when reorder this product");
 		p.add(reorderQuantityField, gc);
@@ -176,20 +164,25 @@ public class AddProductDialog extends OkCancelDialog {
 
 	@Override
 	protected boolean performOkAction() {
-		// String productCategory =
-		// productCategoryCombo.getSelectedItem().toString();
-		String productName = nameField.getText().trim();
-		String productDescription = descriptionField.getText().trim();
-		String productQuantity = quantityField.getText().trim();
-
-		if ((productName.length() == 0) || (productQuantity.length() == 0)) {
+		if ((nameField.getText().trim().length() == 0) || (descriptionField.getText().length() == 0)) {
 			messageLabel.setText("Please input all necessary fields.");
 			messageLabel.setForeground(Color.RED);
 			return false;
 		}
 
+		String name = nameField.getText().trim();
+		String description = descriptionField.getText().trim();
+		Integer availableQuantity = new Integer(quantityField.getText().trim());
+		Double price = new Double(priceField.getText().trim());
+		String barcodeNumber = barCodeNumberField.getText().trim();
+		Integer orderThreshold = new Integer(reorderThresholdField.getText().trim());
+		Integer orderQuantity = new Integer(reorderQuantityField.getText().trim());
+
 		// TODO call add product logic
-		// shopApplication.addProduct (productName, productQuantity);
+		shopApplication.addProduct(categoryCombo.getSelectedItem().toString(), name, description, availableQuantity,
+				price, barcodeNumber, orderThreshold, orderQuantity);
+
+		listPanel.revalidate();
 		return true;
 	}
 }

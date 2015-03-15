@@ -23,8 +23,6 @@ public class InvalidDomainObject extends Exception{
 	public int getErrorCode()
 	{
 		return 100;
-	}
-	
-	
+	} 
 
 }
