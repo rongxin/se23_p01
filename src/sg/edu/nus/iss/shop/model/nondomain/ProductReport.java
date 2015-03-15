@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sg.edu.nus.iss.shop.controller.ProductManager;
+import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.Member;
 import sg.edu.nus.iss.shop.model.domain.Product;
 
@@ -27,7 +28,7 @@ public class ProductReport extends Report{
 	}
 	
 	@Override
-	public List<String[]> retreiveAndGenerateReportData() {
+	public List<String[]> retreiveAndGenerateReportData() throws ApplicationGUIException {
 		List<Product> productssList = null;
 		List<String[]> returnProductsList = new ArrayList<String[]>();
 		String[] productArray = null;

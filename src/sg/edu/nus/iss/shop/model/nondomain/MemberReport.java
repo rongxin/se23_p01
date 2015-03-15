@@ -5,6 +5,7 @@ import java.util.List;
 
 import sg.edu.nus.iss.shop.controller.CategoryManager;
 import sg.edu.nus.iss.shop.controller.MemberManager;
+import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.Category;
 import sg.edu.nus.iss.shop.model.domain.Member;
 import sg.edu.nus.iss.shop.model.domain.Vendor;
@@ -29,7 +30,7 @@ public class MemberReport extends Report {
 	}
 	
 	@Override
-	public List<String[]> retreiveAndGenerateReportData() {
+	public List<String[]> retreiveAndGenerateReportData() throws ApplicationGUIException {
 		List<Member> membersList = null;
 		List<String[]> returnMembersList = new ArrayList<String[]>();
 		String[] memberArray = null;

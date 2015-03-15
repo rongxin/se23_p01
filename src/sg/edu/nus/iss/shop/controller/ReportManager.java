@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.nondomain.CategoryReport;
 import sg.edu.nus.iss.shop.model.nondomain.MemberReport;
 import sg.edu.nus.iss.shop.model.nondomain.ProductReport;
@@ -38,9 +39,10 @@ public class ReportManager {
 	 * 
 	 * @return categoriesList
 	 * @author lokeshkanna-b
+	 * @throws ApplicationGUIException 
 	 *
 	 * */
-	public List<String[]> getCategoryreport(){
+	public List<String[]> getCategoryreport() throws ApplicationGUIException{
 		List<String[]> categoriesList = null;
 		
 		CategoryReport categoryReport = CategoryReport.getCategoryReport();
@@ -53,9 +55,10 @@ public class ReportManager {
 	 * 
 	 * @return membersList
 	 * @author lokeshkanna-b
+	 * @throws ApplicationGUIException 
 	 * 
 	 * */
-	public List<String[]> getMemberReport(){
+	public List<String[]> getMemberReport() throws ApplicationGUIException{
 		List<String[]> membersList = null;
 		
 		MemberReport memberReport = MemberReport.getMemberReport();
@@ -68,9 +71,10 @@ public class ReportManager {
 	 * 
 	 * @return productsList
 	 * @author lokeshkanna-b
+	 * @throws ApplicationGUIException 
 	 * 
 	 * */
-	public List<String[]> getProductReport(){
+	public List<String[]> getProductReport() throws ApplicationGUIException{
 		List<String[]> productsList = null;
 		
 		ProductReport productReport = ProductReport.getProductReport();
