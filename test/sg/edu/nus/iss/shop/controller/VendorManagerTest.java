@@ -34,7 +34,7 @@ public class VendorManagerTest {
 			List<Vendor> existingVendors = category.getVendorList();
 			oldCount.put(category, existingVendors.size());
 		}
-		Vendor newVendor = new Vendor("Zhu Bin " + new Random().nextLong(), "Test Vendor");
+		Vendor newVendor = new Vendor("ZhuBin" + new Random().nextLong(), "Test Vendor");
 		try {
 			VendorManager.getVendorManager().addVendor(newVendor.getName(), newVendor.getDescription(), categories);
 		} catch (Exception e) {
@@ -46,7 +46,9 @@ public class VendorManagerTest {
 			Category category = it.next();
 			List<Vendor> newVendors = category.getVendorList();
 			int oldVendorCount = oldCount.get(category);
-			Assert.assertEquals(oldVendorCount + 1, newVendors.size());
+			int newVendorCount = newVendors.size();
+			System.out.println("old: " + oldVendorCount + " new: " + newVendorCount);
+			Assert.assertEquals(oldVendorCount + 1, newVendorCount);
 		}
 
 	}
