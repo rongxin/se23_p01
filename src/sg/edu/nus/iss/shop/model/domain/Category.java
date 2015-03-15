@@ -95,11 +95,9 @@ public class Category {
 	 * @return vendor list for this category      
 	 * */
 	public List<Vendor> getVendorList() {
-		if (this.vendorList == null || this.vendorList.isEmpty()) { // Vendor list not loaded yet
-			loadVendorList();
-		}
+		//Lazy load vendorlist
+		loadVendorList();
 		return this.vendorList;
-	
 	}
 	
 	/**

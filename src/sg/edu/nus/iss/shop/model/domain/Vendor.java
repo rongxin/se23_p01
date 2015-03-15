@@ -48,9 +48,7 @@ public class Vendor {
 
 	/* Lazy loading to be implemented */
 	public List<Category> getCategories() {
-		if (this.categories == null) { // categories not loaded yet
-			loadCategories();
-		}
+		loadCategories();
 		return this.categories;
 	}
 
@@ -76,7 +74,7 @@ public class Vendor {
 				resultCategories.add(category);
 			}
 		}
-
+		setCategories(resultCategories);
 	}
 
 }

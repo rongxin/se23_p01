@@ -118,6 +118,7 @@ public class ProductManager {
 		try {
 			existingProduct = (Product) PersistentService.getService().retrieveObject(Product.class, productId);
 		}catch (Exception e) {
+			e.printStackTrace();
 			throw new ApplicationGUIException(e.toString());
 		}
 		return existingProduct;
@@ -134,6 +135,7 @@ public class ProductManager {
 		try {
 			existingProduct = (Product) PersistentService.getService().retrieveObject(Product.class, barcodeNumber);
 		}catch (Exception e) {
+			e.printStackTrace();
 			throw new ApplicationGUIException(e.toString());
 		}
 		return existingProduct;
@@ -194,7 +196,7 @@ public class ProductManager {
 			while (it.hasNext()) {
 				productID = it.next().getProductId();
 				//Compare Current ProductID first 3 Characters with Category Code
-				if(productID.substring(0,2).equals(category.getCode())) {
+				if(productID.substring(0,category.getCode().length()).equals(category.getCode())) {
 					productsWithCategory.add(it.next());
 				}
 			}
@@ -228,6 +230,7 @@ public class ProductManager {
 			try {
 				PersistentService.getService().saveRecord(existingProduct);
 			}catch(Exception e){
+				e.printStackTrace();
 				throw new ApplicationGUIException(e.toString());
 			}
 		}
