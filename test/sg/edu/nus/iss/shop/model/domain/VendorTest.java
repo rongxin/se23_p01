@@ -1,4 +1,4 @@
-package sg.edu.nus.iss.shop.controller;
+package sg.edu.nus.iss.shop.model.domain;
 
 import java.util.List;
 import java.util.Random;
@@ -6,6 +6,8 @@ import java.util.Random;
 import org.junit.Assert;
 import org.junit.Test;
 
+import sg.edu.nus.iss.shop.controller.CategoryManager;
+import sg.edu.nus.iss.shop.controller.VendorManager;
 import sg.edu.nus.iss.shop.model.domain.Category;
 import sg.edu.nus.iss.shop.model.domain.Vendor;
 
@@ -29,6 +31,7 @@ public class VendorTest {
 		try {
 			vendor = VendorManager.getVendorManager().addVendor(vendor.getName(), vendor.getDescription(), categories);
 		} catch (Exception e) {
+			e.printStackTrace();
 			Assert.fail("Failed to add a new vendor");
 			return;
 		}

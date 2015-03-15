@@ -11,7 +11,7 @@ import sg.edu.nus.iss.shop.model.domain.Vendor;
 
 public class VendorManager {
 	private static final int VENDOR_NAME_MIN_LENGTH = 5;
-	private static final int VENDOR_NAME_MAX_LENGTH = 20;
+	private static final int VENDOR_NAME_MAX_LENGTH = 40;
 	private static final int VENDOR_DESCRIPTION_MIN_LENGTH = 5;
 	private static final int VENDOR_DESCRIPTION_MAX_LENGTH = 40;
 	private static final String INVALID_NAME_ERROR_MESSAGE = "Invalid vendor name";
