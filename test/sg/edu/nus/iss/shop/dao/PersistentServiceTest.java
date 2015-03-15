@@ -198,22 +198,22 @@ public class PersistentServiceTest
 		PersistentService service = PersistentService.getService();
 		try {
 			
-			ShopKeeper keeper = new ShopKeeper("ABB","123AB1");				
+			StoreKeeper keeper = new StoreKeeper("ABB","123AB1");				
 			service.saveRecord(keeper);	
 			
-			ShopKeeper keeper1 = new ShopKeeper("ABB1","123AB1");			
+			StoreKeeper keeper1 = new StoreKeeper("ABB1","123AB1");			
 			service.saveRecord(keeper1);	
 			
-			ShopKeeper keeper2 = new ShopKeeper("ABB2","123AB1");			
+			StoreKeeper keeper2 = new StoreKeeper("ABB2","123AB1");			
 			service.saveRecord(keeper2);	
 			
-			ShopKeeper keeper3 = new ShopKeeper("ABB3","123AB1");			
+			StoreKeeper keeper3 = new StoreKeeper("ABB3","123AB1");			
 			service.saveRecord(keeper3);	
 			
-			ShopKeeper keeper4 = new ShopKeeper("ABB4","123AB1");			
+			StoreKeeper keeper4 = new StoreKeeper("ABB4","123AB1");			
 			service.saveRecord(keeper4);			
 			
-			ShopKeeper keeper5 = new ShopKeeper("ABB5","123AB1");			
+			StoreKeeper keeper5 = new StoreKeeper("ABB5","123AB1");			
 			service.saveRecord(keeper5);	 
 			 
 		} catch (Exception e1) {
