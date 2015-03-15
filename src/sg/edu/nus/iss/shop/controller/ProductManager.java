@@ -218,6 +218,12 @@ public class ProductManager {
 		if(existingProduct != null) {
 			//Deduct product current quantity
 			existingProduct.setAvailableQuantity(existingProduct.getAvailableQuantity() - quantity);
+			//Save product with new quantity
+			try {
+				PersistentService.getService().saveRecord(existingProduct);
+			}catch(Exception e){
+				throw new ApplicationGUIException(e.toString());
+			}
 		} 
 		return existingProduct;
 	
