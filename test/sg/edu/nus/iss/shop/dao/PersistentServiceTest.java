@@ -34,10 +34,10 @@ public class PersistentServiceTest
 			Category category3 = new Category("EEE","123EEE");
 			service.saveRecord(category3);
 			
-			List<Object> objs = service.retrieveAll((category.getClass()));
-			for(Object obj:objs)
+			List<Category> objs = service.retrieveAll((category.getClass()));
+			for(Category obj:objs)
 			{
-				Category cat = (Category)obj;
+				Category cat =  obj;
 				System.out.println(cat.getCode()+":" + cat.getName());
 			}
 			//assertEquals(category,(Category)objs.get(0));
@@ -57,34 +57,34 @@ public class PersistentServiceTest
 			
 			Category category = new Category("ABB","123AB1");
 			
-			Object obj = service.retrieveObject(category.getClass(),category.getCode());
+			Category obj = service.retrieveObject(category.getClass(),category.getCode());
 			
 			if(obj== null)
 			{
 				service.saveRecord(category);
 				obj = service.retrieveObject(category.getClass(),category.getCode());
 			}
-			assertEquals(category,(Category)obj);
+			assertEquals(category,obj);
 			
 			Category category1 = new Category("XYY","123XY1");
 			
-			Object obj1 = service.retrieveObject(category1.getClass(),category1.getCode());
+			Category obj1 = service.retrieveObject(category1.getClass(),category1.getCode());
 			if(obj1 == null)
 			{
 				service.saveRecord(category1);
 				obj1 = service.retrieveObject(category1.getClass(),category1.getCode());
 			}
-			assertEquals(category1,(Category)obj1);
+			assertEquals(category1,obj1);
 			
 			Category category2 = new Category("DDE","123DD1");
 			
-			Object obj2 = service.retrieveObject(category2.getClass(),category2.getCode());
+			Category obj2 = service.retrieveObject(category2.getClass(),category2.getCode());
 			if(obj2 == null)
 			{
 				service.saveRecord(category2);
 				obj2 = service.retrieveObject(category2.getClass(),category2.getCode());
 			}
-			assertEquals(category2,(Category)obj2);
+			assertEquals(category2,obj2);
 			
 			Category category3 = new Category("EED","123EE1");
 			
@@ -139,7 +139,7 @@ public class PersistentServiceTest
 	}
 
 	@Test
-	public void TestVendor() {
+	public void TestVendorSave() {
 		
 		PersistentService service = PersistentService.getService();
 		try {
@@ -159,6 +159,29 @@ public class PersistentServiceTest
 			
 			Vendor vendor3 = new Vendor("Name3","Description3"); 
 			service.saveVendor(vendor3, category);
+			
+			 
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			Assert.fail("failed to retrieve member object. ");
+		}
+	}
+	
+	@Test
+	public void TestVendorRetrival() {
+		
+		PersistentService service = PersistentService.getService();
+		try {
+			
+			Category category = new Category("ABB","123AB1");			
+			 
+			List<Vendor> vendors = service.retrieveVendors(category);			
+			
+			for(Vendor vendor: vendors)
+			{
+				System.out.println(vendor.getName() +":" + vendor.getDescription());
+			} 
 			
 			 
 		} catch (Exception e1) {

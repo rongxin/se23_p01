@@ -81,73 +81,118 @@ public class PersistentService
 			throw new InvalidDomainObject("Not support this object saving");
 	}
 	
-	public Object retrieveObject(Class cls, String objectId) throws InvalidDomainObject, InvalidDataFormat, IOException
+//	public Object retrieveObject(Class cls, String objectId) throws InvalidDomainObject, InvalidDataFormat, IOException
+//	{		
+//		if(isCategoryType(cls))
+//		{
+//			return retrieveCategory(cls, objectId); 			
+//		}
+//		else if(isProductType(cls))
+//		{
+//			return retrieveProduct(cls, objectId); 			
+//		}
+//		else if(isMemberType(cls))
+//		{
+//			return retrieveMember(cls, objectId); 			
+//		}
+//		else if(isStoreKeeperType(cls))
+//		{
+//			return retrieveStoreKeeper(cls, objectId); 			
+//		}
+//		else
+//			throw new InvalidDomainObject("Not support this type of data retrieval");
+//	}	
+	
+	public <T> T retrieveObject(Class cls, String objectId) throws InvalidDomainObject, InvalidDataFormat, IOException
 	{		
 		if(isCategoryType(cls))
 		{
-			return retrieveCategory(cls, objectId); 			
+			return (T) retrieveCategory(cls, objectId); 			
 		}
 		else if(isProductType(cls))
 		{
-			return retrieveProduct(cls, objectId); 			
+			return (T) retrieveProduct(cls, objectId); 			
 		}
 		else if(isMemberType(cls))
 		{
-			return retrieveMember(cls, objectId); 			
+			return (T) retrieveMember(cls, objectId); 			
 		}
 		else if(isStoreKeeperType(cls))
 		{
-			return retrieveStoreKeeper(cls, objectId); 			
+			return (T) retrieveStoreKeeper(cls, objectId); 			
 		}
 		else
 			throw new InvalidDomainObject("Not support this type of data retrieval");
-	}
+	}	
 	
+//	public List<Object> retrieveAll(Class cls) throws IOException, InvalidDataFormat, InvalidDomainObject  
+//	{		
+//		//if(cls.newInstance() instanceof Category)
+//		if(isCategoryType(cls))
+//		{
+//			return retrieveAllCategories(cls);			
+//		}
+//		else if(isProductType(cls))
+//		{
+//			return retrieveAllProducts(cls);
+//		}
+//		else if(isMemberType(cls))
+//		{
+//			return retrieveAllMembers(cls);
+//		}
+//		else if(isStoreKeeperType(cls))
+//		{
+//			return retrieveAllStoreKeepers(cls);
+//		}
+//		else
+//			throw new InvalidDomainObject("Not support this type of data retrieval");
+//		
+//	}
 	
-	public List<Object> retrieveAll(Class cls) throws IOException, InvalidDataFormat, InvalidDomainObject  
+	public <T> List<T> retrieveAll(Class cls) throws IOException, InvalidDataFormat, InvalidDomainObject  
 	{		
 		//if(cls.newInstance() instanceof Category)
 		if(isCategoryType(cls))
 		{
-			return retrieveAllCategories(cls);			
+			return (List<T>) retrieveAllCategories(cls);			
 		}
 		else if(isProductType(cls))
 		{
-			return retrieveAllProducts(cls);
+			return (List<T>) retrieveAllProducts(cls);
 		}
 		else if(isMemberType(cls))
 		{
-			return retrieveAllMembers(cls);
+			return (List<T>) retrieveAllMembers(cls);
 		}
 		else if(isStoreKeeperType(cls))
 		{
-			return retrieveAllStoreKeepers(cls);
+			return (List<T>) retrieveAllStoreKeepers(cls);
 		}
 		else
 			throw new InvalidDomainObject("Not support this type of data retrieval");
 		
-	}
+	} 
 
-	public List<Object> retrieveVendors(Category category) throws Exception
+	public List<Vendor> retrieveVendors(Category category) throws Exception
 	{		
 		String dsName = Vendor.class.getSimpleName() + category.getCode();
-		List<Object> objects = new ArrayList<Object>();
+		List<Vendor> objects = new ArrayList<Vendor>();
 		DataRecordAdapter adapter = null;
 		for(DataRecord record : dataReader.getCachedData(dsName))
 		{
 			adapter = new VendorRecordAdapter(record);
-			objects.add(adapter.getDataObject());
+			objects.add((Vendor)adapter.getDataObject());
 		}
 		return objects;
-	}
+	} 
 	
-	public void saveVendors(Category category) throws Exception
-	{
-		for(Vendor vendor:category.getVendorList())
-		{
-			saveVendor(vendor, category);
-		}
-	}
+//	public void saveVendors(Category category) throws Exception
+//	{
+//		for(Vendor vendor:category.getVendorList())
+//		{
+//			saveVendor(vendor, category);
+//		}
+//	}
 	
 	public void saveVendor(Vendor vendor, Category category) throws IOException
 	{
