@@ -1,5 +1,7 @@
 package sg.edu.nus.iss.shop.model.domain;
 
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -8,8 +10,6 @@ import org.junit.Test;
 
 import sg.edu.nus.iss.shop.controller.CategoryManager;
 import sg.edu.nus.iss.shop.controller.VendorManager;
-import sg.edu.nus.iss.shop.model.domain.Category;
-import sg.edu.nus.iss.shop.model.domain.Vendor;
 
 public class VendorTest {
 
@@ -45,5 +45,40 @@ public class VendorTest {
 
 		categories.removeAll(vendorCategories);
 		Assert.assertEquals(categories.size(), 0);
+	}
+	
+	@Test
+	public void getVendorFromCategoryTest(){
+		List<Category> categoryList = new LinkedList<Category>();
+		try{
+			categoryList = CategoryManager.getCategoryManager().getAllCategories();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return ;
+		}
+		Iterator<Category> it = categoryList.iterator();
+		while (it.hasNext()){
+			Category category = it.next();
+			System.out.println(category.getVendorList().size());
+		}
+	}
+	
+	@Test
+	public void equalTest(){
+		Vendor vendor1 = new Vendor("ZhuBin", "Test Vendor");
+		Vendor vendor2 = new Vendor("ZhuBin", "Test Vendor");
+		Assert.assertEquals(vendor1, vendor2);
+	}
+	
+	@Test
+	public void getCategoriesTest(){
+		List<Vendor> vendorList = VendorManager.getVendorManager().getAllVendors();
+		if (vendorList.isEmpty()){
+			Assert.fail("there is no vendor existing in systme");
+			return ;
+		}
+		List<Category> categoryList = vendorList.get(0).getCategories();
+		Assert.assertNotEquals(categoryList.size(), 0);
 	}
 }

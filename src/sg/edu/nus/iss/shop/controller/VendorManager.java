@@ -84,11 +84,19 @@ public class VendorManager {
 		Vendor vendor = this.getVendorByName(name);
 		if (vendor == null) { // new vendor
 			vendor = new Vendor(name, description);
+			saveVendorForCategories(vendor, categories);
 		} else { // existing vendor, need to filter out exiting categories
 			List<Category> existingCategories = vendor.getCategories();
-			categories.removeAll(existingCategories);
+			List<Category> newCategories = new LinkedList<Category>();
+			Iterator<Category> it = categories.iterator();
+			while (it.hasNext()){
+				Category category = it.next();
+				if (!existingCategories.contains(category)){
+					newCategories.add(category);
+				}
+			}
+			saveVendorForCategories(vendor, newCategories);
 		}
-		saveVendorForCategories(vendor, categories);
 		return getVendorByName(name);
 	}
 

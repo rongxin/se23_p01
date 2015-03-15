@@ -2,7 +2,6 @@ package sg.edu.nus.iss.shop.controller;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -28,12 +27,12 @@ public class VendorManagerTest {
 			org.junit.Assert.fail("Cannot find a category");
 			return;
 		}
-		HashMap<Category, List<Vendor>> oldCount = new HashMap<Category, List<Vendor>>();
+		HashMap<Category, Integer> oldCount = new HashMap<Category, Integer>();
 		Iterator<Category> it = categories.iterator();
 		while (it.hasNext()) {
 			Category category = it.next();
 			List<Vendor> existingVendors = category.getVendorList();
-			oldCount.put(category, existingVendors);
+			oldCount.put(category, existingVendors.size());
 		}
 		Vendor newVendor = new Vendor("Zhu Bin " + new Random().nextLong(), "Test Vendor");
 		try {
@@ -46,13 +45,8 @@ public class VendorManagerTest {
 		while (it.hasNext()) {
 			Category category = it.next();
 			List<Vendor> newVendors = category.getVendorList();
-			List<Vendor> existingVendors = oldCount.get(category);
-			newVendors.removeAll(existingVendors);
-			if (newVendors.size() != 1) {
-				Assert.fail("did not find new vendor for category" + category.getCode());
-				return;
-			}
-			Assert.assertEquals(newVendor, newVendors.get(0));
+			int oldVendorCount = oldCount.get(category);
+			Assert.assertEquals(oldVendorCount + 1, newVendors.size());
 		}
 
 	}
@@ -71,34 +65,30 @@ public class VendorManagerTest {
 			Assert.fail("did not find any categories");
 			return;
 		}
-		Vendor newVendor = new Vendor("Zhu Bin " + new Random().nextLong(), "Test Vendor");
+		Vendor newVendor = new Vendor("Zhu Bin" + new Random().nextLong(), "Test Vendor");
+		int categoryCountBeforeFirstAdd = newVendor.getCategories().size();
 		try {
 			VendorManager.getVendorManager().addVendor(newVendor.getName(), newVendor.getDescription(), categories);
 		} catch (Exception e) {
-			Assert.fail(e.toString());
+			e.printStackTrace();
+			Assert.fail("failed to add a new vendor");
 			return;
 		}
-		Iterator<Category> it = categories.iterator();
-		while (it.hasNext()) {
-			Category category = it.next();
-			List<Category> individualCategory = new LinkedList<Category>();
-			individualCategory.add(category);
-			try {
-				VendorManager.getVendorManager().addVendor(newVendor.getName(), newVendor.getDescription(), individualCategory); // try
-																																	// to
-																																	// add
-																																	// the
-																																	// vendor
-																																	// into
-																																	// individual
-																																	// category
-																																	// again
-				Assert.fail("Exception did not occur when adding same vendor for same category");
-			} catch (Exception e) {
-			}
+		int categoryCountAfterFirstAdd = newVendor.getCategories().size();
+		Assert.assertEquals(categoryCountBeforeFirstAdd + categories.size(), categoryCountAfterFirstAdd);
+
+		try {
+			VendorManager.getVendorManager().addVendor(newVendor.getName(), newVendor.getDescription(), categories);
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail("failed to add a new vendor");
+			return;
 		}
+		int categoryCountAfterSecondAdd = newVendor.getCategories().size();
+		Assert.assertEquals(categoryCountAfterFirstAdd, categoryCountAfterSecondAdd);
 	}
 
+	@Test
 	public void TestRetrieveVendor() {
 		List<Category> allCategories;
 		try {
@@ -126,5 +116,22 @@ public class VendorManagerTest {
 		Assert.assertEquals(allCategories.size(), retrievedVendorCategories.size());
 		allCategories.removeAll(retrievedVendorCategories);
 		Assert.assertEquals(allCategories.size(), 0);
+	}
+
+	@Test
+	public void getAllVendorsTest() {
+		List<Vendor> vendorList = VendorManager.getVendorManager().getAllVendors();
+		Assert.assertNotEquals(vendorList.size(), 0);
+	}
+
+	@Test
+	public void getVendorByNameTest() {
+		List<Vendor> vendorList = VendorManager.getVendorManager().getAllVendors();
+		if (vendorList.isEmpty()) {
+			Assert.fail("No vendor exists in system");
+			return;
+		}
+		Vendor vendor = VendorManager.getVendorManager().getVendorByName(vendorList.get(0).getName());
+		Assert.assertNotNull(vendor);
 	}
 }
