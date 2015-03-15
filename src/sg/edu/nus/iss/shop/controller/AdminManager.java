@@ -1,11 +1,7 @@
 package sg.edu.nus.iss.shop.controller;
-import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-
-import com.sun.org.apache.bcel.internal.generic.StoreInstruction;
-
 import sg.edu.nus.iss.shop.dao.PersistentService;
 import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.StoreKeeper;
