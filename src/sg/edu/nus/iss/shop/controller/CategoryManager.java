@@ -93,34 +93,13 @@ public class CategoryManager {
 	 * */
 	public List<Category> getAllCategories() throws ApplicationGUIException{
 		List<Category> allCategories = new LinkedList<Category>();
-		List<Object> objList = null;
-		
 		try {
-			objList = PersistentService.getService().retrieveAll(Category.class);
+			allCategories  = PersistentService.getService().retrieveAll(Category.class);
 		}catch (Exception e){
 			throw new ApplicationGUIException(e.toString());
 		}
 		
-		//Check if the objects are null or empty
-		if(objList != null && !objList.isEmpty()) {
-			Iterator<Object> it = objList.iterator();
-			while (it.hasNext()) {
-				allCategories.add((Category) it.next());
-			}
-		} 
 		return allCategories;
 	}
 	
-	/**
-	 * Method to retrieve vendors for a specific category
-	 * @param code category code 
-	 * @return vendor listing for a specific category type           
-	 * */
-	public List<Vendor> getVendorListForCategory(String code){
-		
-		return new LinkedList<Vendor>();
-	}
-	
-
-
 }
