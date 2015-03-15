@@ -14,9 +14,10 @@ import javax.swing.SwingConstants;
 
 import sg.edu.nus.iss.shop.ui.IconHelper;
 import sg.edu.nus.iss.shop.ui.ShopApplication;
-import sg.edu.nus.iss.shop.ui.dialog.AddCategoryDialog;
 import sg.edu.nus.iss.shop.ui.dialog.AddMemberDialog;
 import sg.edu.nus.iss.shop.ui.dialog.AddProductDialog;
+import sg.edu.nus.iss.shop.ui.window.CategoryWindow;
+import sg.edu.nus.iss.shop.ui.window.CheckoutWindow;
 
 public class MainPanel extends JPanel {
 	private static final String ICONS_PATH = "/sg/edu/nus/iss/shop/ui/icons/";
@@ -35,9 +36,9 @@ public class MainPanel extends JPanel {
 		p.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 	}
 
-	private JPanel createInformationPanel (){
-		JPanel p=new JPanel(new GridLayout(0,1));
-		JLabel shopKeeperInfoLabel=new JLabel();
+	private JPanel createInformationPanel() {
+		JPanel p = new JPanel(new GridLayout(0, 1));
+		JLabel shopKeeperInfoLabel = new JLabel();
 		shopKeeperInfoLabel.setIcon(IconHelper.createImageIcon("user.png"));
 		shopKeeperInfoLabel.setText("Hello Stacy");
 		shopKeeperInfoLabel.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -91,25 +92,26 @@ public class MainPanel extends JPanel {
 		});
 		JPanel addMemberPanel = new JPanel();
 		addMemberPanel.setBorder(BorderFactory.createCompoundBorder(
-				BorderFactory.createTitledBorder("  Register Member  "),
-				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+				BorderFactory.createTitledBorder("  Register Member  "), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		addMemberPanel.add(addMemberButton);
 		p.add(addMemberPanel);
 
-		JButton addCategoryButton = createImageButton("Add Category", "poll_green.png", "poll_yellow.png");
-		addCategoryButton.addActionListener(new ActionListener() {
+		JButton categoryManagementButton = createImageButton("Categories and Vendors", "poll_green.png", "poll_yellow.png");
+		categoryManagementButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				AddCategoryDialog d = new AddCategoryDialog(shopApplication);
-				d.pack();
-				d.setLocationByPlatform(true);
-				d.setVisible(true);
+				CategoryWindow w = new CategoryWindow(shopApplication);
+				w.pack();
+				w.setLocationByPlatform(true);
+				w.setLocationRelativeTo(null);
+				w.setVisible(true);
 			}
 		});
 		JPanel categoryPanel = new JPanel();
-		categoryPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(" Add Category "),
+		categoryPanel.setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createTitledBorder("Categories, Vendors "),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-		categoryPanel.add(addCategoryButton);
+		categoryPanel.add(categoryManagementButton);
 		p.add(categoryPanel);
 
 		JButton addProductButton = createImageButton("Add new product", "cd.png", "cd_blue.png");

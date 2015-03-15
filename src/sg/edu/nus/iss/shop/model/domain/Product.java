@@ -166,4 +166,24 @@ public class Product {
 	public void setOrderQuantity(int orderQuantity) {
 		this.orderQuantity = orderQuantity;
 	}
+	
+	/**
+	 * Overriding equals() to compare two Complex objects
+	 * @param object object to be compared
+	 * @return boolean return true/false based on the comparison by product id
+	 * */
+	@Override
+	public boolean equals(Object object){
+		if (object == null){
+			return false;
+		}
+		if (!this.getClass().equals(object.getClass())){
+			return false;
+		}
+		if (this.getName() == null){
+			return false;
+		}
+		Product product = (Product)object;
+		return this.getProductId().equals(product.getProductId());
+	}
 }

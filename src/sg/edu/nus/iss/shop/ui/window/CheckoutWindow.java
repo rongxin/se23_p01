@@ -1,4 +1,4 @@
-package sg.edu.nus.iss.shop.ui.panel;
+package sg.edu.nus.iss.shop.ui.window;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
