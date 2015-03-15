@@ -15,9 +15,9 @@ import javax.swing.SwingConstants;
 import sg.edu.nus.iss.shop.ui.IconHelper;
 import sg.edu.nus.iss.shop.ui.ShopApplication;
 import sg.edu.nus.iss.shop.ui.dialog.AddMemberDialog;
-import sg.edu.nus.iss.shop.ui.dialog.AddProductDialog;
 import sg.edu.nus.iss.shop.ui.window.CategoryWindow;
 import sg.edu.nus.iss.shop.ui.window.CheckoutWindow;
+import sg.edu.nus.iss.shop.ui.window.ProductWindow;
 
 public class MainPanel extends JPanel {
 	private static final String ICONS_PATH = "/sg/edu/nus/iss/shop/ui/icons/";
@@ -118,17 +118,19 @@ public class MainPanel extends JPanel {
 		addProductButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				AddProductDialog d = new AddProductDialog(shopApplication);
-				d.pack();
-				d.setLocationByPlatform(true);
-				d.setVisible(true);
+				ProductWindow w = new ProductWindow(shopApplication);
+				w.pack();
+				w.setLocationByPlatform(true);
+				w.setLocationRelativeTo(null);
+				w.setVisible(true);
 			}
 		});
-		JPanel addProductPanel = new JPanel();
-		addProductPanel.setBorder(BorderFactory.createCompoundBorder(
-				BorderFactory.createTitledBorder("  Add Product  "), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-		addProductPanel.add(addProductButton);
-		p.add(addProductPanel);
+		JPanel productPanel = new JPanel();
+		productPanel.setBorder(BorderFactory.createCompoundBorder(
+BorderFactory.createTitledBorder("  Products "),
+				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+		productPanel.add(addProductButton);
+		p.add(productPanel);
 
 		JButton checkInventoryButton = createImageButton("Manage inventory", "bulb.png", "bulb_yellow.png");
 		JPanel addInventorytPanel = new JPanel();

@@ -9,8 +9,8 @@ import java.util.List;
 
 import sg.edu.nus.iss.shop.dao.PersistentService;
 import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
-import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.model.domain.Category;
+import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.model.domain.Vendor;
 
 public class ProductManager {
@@ -33,7 +33,7 @@ public class ProductManager {
 		}
 		return ProductManager.theOnlyProductManager;
 	}
-	
+
 	/**
 	 * Method to create Product by reading from data source
 	 * @param category category object
@@ -43,16 +43,16 @@ public class ProductManager {
 	 * @param barcodeNumber product Barcode number
 	 * @param orderThreshold product order threshold
 	 * @param orderQuantity product order quantity
-	 * @return product object     
+	 * @return product object
 	 * @throws ApplicationGUIException Fields validation exceptions
 	 * */
 	public Product addProduct(Category category, String name, String description,
 			int availableQuantity, double price, String barcodeNumber,
 			int orderThreshold, int orderQuantity)
-			throws ApplicationGUIException {
-		
+					throws ApplicationGUIException {
+
 		Product newProduct;
-		
+
 		if (category == null){
 			throw new ApplicationGUIException(ProductManager.INVALID_CATEGORY_ERROR_MESSAGE);
 		}
@@ -77,16 +77,16 @@ public class ProductManager {
 		if (orderQuantity <= 0){
 			throw new ApplicationGUIException(ProductManager.INVALID_ORDER_QUANTITY_ERROR_MESSAGE);
 		}
-		
+
 		//Retrieve existing products with the given category to be added
 		List<Product> productsWithCategory= ProductManager.getProductManager().getProductsForCategory(category);
 		int maxId = 0;
 		//If no existing product for such category
 		if( productsWithCategory.isEmpty() ) {
 			newProduct = new Product(category.getCode()+"/1",name,description,
-						availableQuantity,price,barcodeNumber,orderThreshold,orderQuantity);
+					availableQuantity,price,barcodeNumber,orderThreshold,orderQuantity);
 		} else {
-			
+
 			Iterator<Product> it =  productsWithCategory.iterator();
 			while (it.hasNext()) {
 				int tempNum = Integer.parseInt(it.next().getProductId().substring(4)); // Code format eg MUG/1
@@ -97,36 +97,37 @@ public class ProductManager {
 			newProduct = new Product(category.getCode()+"/"+(maxId+1),name,description,
 					availableQuantity,price,barcodeNumber,orderThreshold,orderQuantity);
 		}
-		
-		//Save Product 
+
+		//Save Product
 		try {
 			PersistentService.getService().saveRecord(newProduct);
 			return newProduct;
 		} catch (Exception e) {
 			throw new ApplicationGUIException(e.toString());
-		}		
+		}
 	}
-	
+
 	/**
 	 * Method to retrieve Product based on it's ID
 	 * @param productId product ID
-	 * @return product object   
-	 * @throws ApplicationGUIException Exception while retrieving a product based on given productId        
+	 * @return product object
+	 * @throws ApplicationGUIException Exception while retrieving a product based on given productId
 	 * */
 	public Product getProductById(String productId)throws ApplicationGUIException {
 		Product existingProduct = null;
 		try {
 			existingProduct = (Product) PersistentService.getService().retrieveObject(Product.class, productId);
 		}catch (Exception e) {
+			e.printStackTrace();
 			throw new ApplicationGUIException(e.toString());
 		}
 		return existingProduct;
 	}
-	
+
 	/**
 	 * Method to retrieve Product based on its's barcode number
 	 * @param barcodeNumber product barcode number
-	 * @return product object           
+	 * @return product object
 	 * @throws ApplicationGUIException Exception while retrieving a product based on given barcode number
 	 * */
 	public Product getProductByBarcode(String barcodeNumber)throws ApplicationGUIException {
@@ -134,36 +135,38 @@ public class ProductManager {
 		try {
 			existingProduct = (Product) PersistentService.getService().retrieveObject(Product.class, barcodeNumber);
 		}catch (Exception e) {
+			e.printStackTrace();
 			throw new ApplicationGUIException(e.toString());
 		}
 		return existingProduct;
 	}
-	
+
 	/**
 	 * Method to retrieve all products from data source
 	 * @return listing of all products
-	 * @throws ApplicationGUIException Exception while retrieving all products 
+	 * @throws ApplicationGUIException Exception while retrieving all products
 	 * */
 	public List<Product> getAllProducts() throws ApplicationGUIException{
 		List<Product> allProducts = new LinkedList<Product>();
 		try {
 			allProducts  = PersistentService.getService().retrieveAll(Product.class);
 		}catch (Exception e){
+			e.printStackTrace();
 			throw new ApplicationGUIException(e.toString());
-		} 
+		}
 		return  allProducts;
 	}
-	
+
 	/**
 	 * Method to retrieve all products from data source that has low inventory
-	 * @return listing of product with low inventory    
-	 * @throws ApplicationGUIException Exception while retrieving all products 
+	 * @return listing of product with low inventory
+	 * @throws ApplicationGUIException Exception while retrieving all products
 	 * */
 	public List<Product> getProductsWithLowInventory() throws ApplicationGUIException {
 		//Retrieve all products
 		List<Product> allProducts = ProductManager.getProductManager().getAllProducts();
 		List<Product> lowInventoryProducts = new LinkedList<Product>();
-		
+
 		if(!allProducts.isEmpty() && allProducts != null) {
 			Iterator<Product> it = allProducts.iterator();
 			while (it.hasNext()) {
@@ -171,16 +174,16 @@ public class ProductManager {
 				if(it.next().getAvailableQuantity() <= it.next().getOrderThreshold()) {
 					lowInventoryProducts.add(it.next());
 				}
-			}	
-		} 
+			}
+		}
 		return lowInventoryProducts;
 	}
-	
+
 	/**
 	 * Method to retrieve all products from data source for a particular category
-	 * @param category Category type for the products 
+	 * @param category Category type for the products
 	 * @return listing of product with for a particular category
-	 * @throws ApplicationGUIException Exception while retrieving all products 
+	 * @throws ApplicationGUIException Exception while retrieving all products
 	 * */
 	public List<Product> getProductsForCategory(Category category) throws ApplicationGUIException {
 		//Retrieve all products
@@ -193,14 +196,14 @@ public class ProductManager {
 			while (it.hasNext()) {
 				productID = it.next().getProductId();
 				//Compare Current ProductID first 3 Characters with Category Code
-				if(productID.substring(0,2).equals(category.getCode())) {
+				if(productID.substring(0,category.getCode().length()).equals(category.getCode())) {
 					productsWithCategory.add(it.next());
 				}
-			}	
-		} 
+			}
+		}
 		return productsWithCategory;
 	}
-	
+
 	/**
 	 * Method to generateOrder for all products that have low inventory
 	 * @param product product object (for product that has low inventory)
@@ -210,10 +213,10 @@ public class ProductManager {
 	public long generateOrder(Product product, Vendor vendor) {
 		return 0;
 	}
-	
+
 	/**
 	 * Method to adjust product quantity upon successful checkout(Transaction completed)
-	 * @param product product object 
+	 * @param product product object
 	 * @param quantity quantity purchases
 	 * @return product object
 	 * @throws ApplicationGUIException Exception while retrieving a product based on given productId
@@ -227,11 +230,12 @@ public class ProductManager {
 			try {
 				PersistentService.getService().saveRecord(existingProduct);
 			}catch(Exception e){
+				e.printStackTrace();
 				throw new ApplicationGUIException(e.toString());
 			}
-		} 
+		}
 		return existingProduct;
-	
+
 	}
 
 }

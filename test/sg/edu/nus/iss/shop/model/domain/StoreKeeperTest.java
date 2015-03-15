@@ -26,14 +26,4 @@ public class StoreKeeperTest {
 		assertNotNull("password should not be null",s.getPassword());	
 
 	}
-	
-	public void testInvalidLogin()
-	{
-		
-	}
-	
-
-
-	
-
 }

@@ -14,16 +14,17 @@ import sg.edu.nus.iss.shop.model.domain.Product;
 
 public class ProductManagerTest extends TestCase{
 	private ProductManager productManager;
-	
+	Product testProduct;
 	@Before
 	public void setup() {
-		 productManager = ProductManager.getProductManager();
+		
+		productManager = ProductManager.getProductManager();
 	}
 	
 	//Test if objects created are same
 	@Test
     public void testObjectInitialization() {
-		ProductManager newProductManager = ProductManager.getProductManager();
+		ProductManager newProductManager = productManager;
 		assertSame("Objects should be the same",productManager,newProductManager);
 	}
 	
@@ -31,12 +32,18 @@ public class ProductManagerTest extends TestCase{
 	@Test
 	public void testCreateProduct() {
 		try { 
-			 productManager.addProduct(new Category("STA","Stationary"),"Testing Product","Testing Product 123",100,11.00,"19111",30,50);
+			testProduct = productManager.addProduct(new Category("STA","Stationary"),"Testing Product","Testing Product 123",100,11.00,"19111",30,50);
 		} catch (Exception e) {
 			fail("failed to create category");
-		}
+		}	
+		assertNotNull(testProduct);
 	}	
 	
+	//Test Retrieve Product by Barcode Number
+	@Test
+	public void testRetrieveProductByBarcode() throws ApplicationGUIException {
+			assertSame(testProduct,productManager.getProductByBarcode("19111"));
+	}
 	
 	//Test retreive all Products
 	@Test

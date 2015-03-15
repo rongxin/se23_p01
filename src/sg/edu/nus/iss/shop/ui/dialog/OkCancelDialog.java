@@ -8,10 +8,20 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import sg.edu.nus.iss.shop.ui.ShopApplication;
+
 public abstract class OkCancelDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	private JButton okButton;
+	protected ShopApplication shopApplication;
+
+	public OkCancelDialog(ShopApplication shopApplication, JFrame parent, String title) {
+		super(parent, title);
+		this.shopApplication = shopApplication;
+		add("Center", createFormPanel());
+		add("South", createButtonPanel());
+	}
 
 	public OkCancelDialog(JFrame parent, String title) {
 		super (parent, title);
