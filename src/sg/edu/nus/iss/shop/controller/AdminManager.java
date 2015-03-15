@@ -2,8 +2,10 @@ package sg.edu.nus.iss.shop.controller;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+
 import sg.edu.nus.iss.shop.dao.PersistentService;
 import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
+import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.model.domain.StoreKeeper;
 
 public class AdminManager {
@@ -21,7 +23,8 @@ public class AdminManager {
 	
 	public StoreKeeper login(String username,String password) throws ApplicationGUIException
 	{
-		if (username.isEmpty() || password.isEmpty()) {			
+		if (username.isEmpty() || password.isEmpty()) {	
+			System.out.println("username or password empty and return null");
 			return null;
 		}		
 		List<StoreKeeper> storeKeepers = getAllStoreKeepers();
@@ -29,12 +32,12 @@ public class AdminManager {
 		while (it.hasNext()) {
 			StoreKeeper storekeeper = it.next();
 			if (storekeeper.getName().equals(username) && storekeeper.getPassword().equals(password)) {
+				System.out.println("Login success username:"+username+" pass:"+password);
 				return storekeeper;
-			}else
-			{			
-				return null;
-			}
+			}	
+			
 		}
+		System.out.println("Login fail and return null username:"+username+" pass:"+password);			
 		return null;
 	
 	}
@@ -65,5 +68,31 @@ public class AdminManager {
 			}
 		} 
 		return  allUsers;
+	}
+	public StoreKeeper getUsersByName(String userid)throws ApplicationGUIException {
+		StoreKeeper oldstorekeeper = null;
+		try {
+			oldstorekeeper = (StoreKeeper) PersistentService.getService().retrieveObject(StoreKeeper.class, userid);
+		}catch (Exception e) {
+			throw new ApplicationGUIException(e.toString());
+		}
+		return oldstorekeeper;
+	}
+	
+	public StoreKeeper changePassword(StoreKeeper storekeeper, String newpassword) throws ApplicationGUIException{	
+		StoreKeeper oldStoreKeeper = AdminManager.getAdminManager().getUsersByName(storekeeper.getName());
+		if(oldStoreKeeper != null) {
+			//change password
+			oldStoreKeeper.setPassword(newpassword);	
+			System.out.println("Password Changed to "+newpassword);
+			try {
+				PersistentService.getService().saveRecord(oldStoreKeeper);				
+				System.out.println("Password Changed to "+newpassword +"Saved Record");
+			}catch(Exception e){
+				throw new ApplicationGUIException(e.toString());
+			}
+		} 
+		return oldStoreKeeper;
+		
 	}
 }
