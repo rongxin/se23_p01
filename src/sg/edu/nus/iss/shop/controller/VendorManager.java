@@ -56,18 +56,11 @@ public class VendorManager {
 		if (category == null) {
 			return new LinkedList<Vendor>();
 		}
-		List<Vendor> vendorList = new LinkedList<Vendor>();
-		List<Object> objectList;
+		List<Vendor> vendorList;
 		try {
-			objectList = PersistentService.getService().retrieveVendors(category);
+			vendorList = PersistentService.getService().retrieveVendors(category);
 		} catch (Exception e) {
 			return new LinkedList<Vendor>();
-		}
-
-		Iterator<Object> it = objectList.iterator();
-		while (it.hasNext()) {
-			Vendor vendor = (Vendor) it.next();
-			vendorList.add(vendor);
 		}
 		return vendorList;
 	}
