@@ -6,18 +6,23 @@ import java.util.List;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import sg.edu.nus.iss.shop.controller.CategoryManager;
+import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.Category;
 import sg.edu.nus.iss.shop.ui.dialog.LoginDialog;
 
 public class ShopApplication {
 	private ShopMainWindow shopWindow;
 	private LoginDialog loginDialog;
+	private CategoryManager categoryManager;
 
 	public ShopApplication() {
 		loginDialog = new LoginDialog(this);
 		loginDialog.pack();
 		loginDialog.setLocationByPlatform(true);
 		loginDialog.setVisible(true);
+
+		categoryManager = CategoryManager.getCategoryManager();
 	}
 
 	public void start() {
@@ -66,7 +71,11 @@ public class ShopApplication {
 
 	public void addCategory(String categoryCode, String categoryName) {
 		System.out.println("Add Category: " + categoryCode + ",  " + categoryName);
-		// TODO call categoryManager to perform add logic
+		try {
+			categoryManager.createCategory(categoryCode, categoryName);
+		} catch (ApplicationGUIException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
