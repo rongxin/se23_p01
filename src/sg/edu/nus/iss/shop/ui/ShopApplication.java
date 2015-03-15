@@ -7,14 +7,17 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import sg.edu.nus.iss.shop.controller.CategoryManager;
+import sg.edu.nus.iss.shop.controller.ProductManager;
 import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.Category;
+import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.ui.dialog.LoginDialog;
 
 public class ShopApplication {
 	private ShopMainWindow shopWindow;
 	private LoginDialog loginDialog;
 	private CategoryManager categoryManager;
+	private ProductManager productManager;
 
 	public ShopApplication() {
 		loginDialog = new LoginDialog(this);
@@ -23,6 +26,7 @@ public class ShopApplication {
 		loginDialog.setVisible(true);
 
 		categoryManager = CategoryManager.getCategoryManager();
+		productManager = ProductManager.getProductManager();
 	}
 
 	public void start() {
@@ -59,7 +63,6 @@ public class ShopApplication {
 		shop.start();
 	}
 
-
 	public List<Category> getCategories() {
 		List<Category> allCategories = new ArrayList<>();
 		try {
@@ -80,6 +83,29 @@ public class ShopApplication {
 		System.out.println("Add Category: " + categoryCode + ",  " + categoryName);
 		try {
 			categoryManager.createCategory(categoryCode, categoryName);
+		} catch (ApplicationGUIException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public List<Product> getProducts() {
+		List<Product> products = new ArrayList<>();
+		try {
+			products = productManager.getAllProducts();
+		} catch (ApplicationGUIException e) {
+			e.printStackTrace();
+		}
+		return products;
+	}
+
+	public void addProduct(String categoryCode, String name, String description, Integer availableQuantity, Double price,
+			String barcodeNumber, Integer orderThreshold, Integer orderQuantity) {
+
+		System.out.println("Add Product ");
+		try {
+			Category category = categoryManager.getCategory(categoryCode);
+			productManager.addProduct(category, name, description, availableQuantity, price.doubleValue(),
+					barcodeNumber, orderThreshold, orderQuantity);
 		} catch (ApplicationGUIException e) {
 			e.printStackTrace();
 		}
