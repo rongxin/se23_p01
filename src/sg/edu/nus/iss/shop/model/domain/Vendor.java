@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import sg.edu.nus.iss.shop.controller.CategoryManager;
-import sg.edu.nus.iss.shop.controller.VendorManager;
 
 public class Vendor {
 	private String name;
