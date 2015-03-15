@@ -26,7 +26,7 @@ public class CategoryManagerTest extends TestCase{
 	//Test if objects created are same
 	@Test
     public void testObjectInitialization() {
-		CategoryManager newCategoryManager = CategoryManager.getCategoryManager();
+		CategoryManager newCategoryManager = categoryManager;
 		assertSame("Objects should be the same",categoryManager,newCategoryManager);
 	}
 	
@@ -34,32 +34,41 @@ public class CategoryManagerTest extends TestCase{
 	@Test
 	public void testCreateCategory() {
 		try { 
-			categoryManager.createCategory("STA", "Sationary");
-			assertNotNull(categoryManager.getCategory("STA"));
+			Category cat= CategoryManager.getCategoryManager().createCategory("STA", "Sationary");
+			assertNotNull(cat.getCode());
+			assertEquals("STA",cat.getCode());
 		} catch (Exception e) {
 			fail("failed to create category" + ": " + e.toString());
 		}
 		
 	}
 	
-	//Test Create Category
+	//Test Retrieve Invalid Category
 	@Test
-	public void testGetCategory() {
+	public void testGetInvalidCategory() {
+		Category newCategory = new Category("MUG", "Mugger");
 		//Test Empty Category
 		try { 
-			assertNull(categoryManager.getCategory("XXX"));
+			assertNotSame(newCategory,categoryManager.getCategory("STA"));
 		} catch (Exception e) {
-			fail("failed to create category" + ": " + e.toString());
-		}
-		//Test Valid Category
+			e.printStackTrace();
+			fail("failed to retrieve category" + ": " + e.toString());
+		}	
+	}
+	
+	//Test Retrieve Valid Category
+	@Test
+	public void testGetValidCategory() {
+		Category newCategory = new Category("STA", "Sationary");
 		try { 
-			assertNotNull(categoryManager.getCategory("1234"));
+			assertSame(newCategory,categoryManager.getCategory("STA"));
 		} catch (Exception e) {
-			fail("failed to create category" + ": " + e.toString());
+			e.printStackTrace();
+			fail("failed to retrieve category" + ": " + e.toString());
 		}
 	}
 	
-	//Test retreive all Category
+	//Test Retrieve all Category
 	@Test
 	public void testRetrieveAllCategories() throws ApplicationGUIException {
 		List<Category> categories = CategoryManager.getCategoryManager().getAllCategories();
