@@ -88,4 +88,12 @@ public class Category {
 		return this.getCode().equals(category.getCode());
 	}
 	
+	/**
+	 * Method to get Vendor list 
+	 * @return vendor list for this category      
+	 * */
+	public List<Vendor> getVendorList() {
+		return this.vendorList;
+	}
+	
 }

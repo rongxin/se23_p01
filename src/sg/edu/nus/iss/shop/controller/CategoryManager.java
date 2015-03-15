@@ -5,6 +5,7 @@ package sg.edu.nus.iss.shop.controller;
 
 import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.Category;
+import sg.edu.nus.iss.shop.model.domain.Vendor;
 import sg.edu.nus.iss.shop.dao.PersistentService;
 
 import java.util.Iterator;
@@ -108,6 +109,16 @@ public class CategoryManager {
 			}
 		} 
 		return allCategories;
+	}
+	
+	/**
+	 * Method to retrieve vendors for a specific category
+	 * @param code category code 
+	 * @return vendor listing for a specific category type           
+	 * */
+	public List<Vendor> getVendorListForCategory(String code){
+		
+		return new LinkedList<Vendor>();
 	}
 	
 
