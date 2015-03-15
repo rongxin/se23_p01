@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -24,7 +25,7 @@ import sg.edu.nus.iss.shop.ui.ShopApplication;
 public class AddProductDialog extends OkCancelDialog {
 
 	private static final long serialVersionUID = 1L;
-	private ShopApplication shopApplication;
+
 	private JComboBox<String> categoryCombo;
 	private JTextField nameField;
 	private JTextArea descriptionField;
@@ -34,12 +35,10 @@ public class AddProductDialog extends OkCancelDialog {
 	private JTextField reorderThresholdField;
 	private JTextField reorderQuantityField;
 	private JLabel messageLabel;
-	private List<Category> categories;
 
 	public AddProductDialog(ShopApplication shopApplication) {
-		super(shopApplication.getMainWindow(), " Add Product ");
-		this.shopApplication = shopApplication;
-		categories = this.shopApplication.getCategories();
+		super(shopApplication, shopApplication.getMainWindow(), " Add Product ");
+
 	}
 
 	@Override
@@ -107,9 +106,12 @@ public class AddProductDialog extends OkCancelDialog {
 		gc.anchor = GridBagConstraints.LAST_LINE_START;
 
 		gc = LayoutHelper.createCellConstraint(1, 0);
-		// TODO hardcoded category list
-		String[] categoryNames = new String[] { "Clothing", "Mugs", "Stationary", "Diary" };
-		categoryCombo = new JComboBox<>(categoryNames);
+		List<Category> categories = shopApplication.getCategories();
+		List<String> categoryCodes = new ArrayList<>();
+		for (Category category : categories) {
+			categoryCodes.add(category.getCode());
+		}
+		categoryCombo = new JComboBox<>(categoryCodes.toArray(new String[categoryCodes.size()]));
 
 		categoryCombo.setToolTipText("Please choose a category");
 
