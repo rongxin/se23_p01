@@ -86,22 +86,36 @@ public class VendorManager {
 		Vendor vendor = this.getVendorByName(name);
 		if (vendor == null) { // new vendor
 			vendor = new Vendor(name, description);
-			try {
-				PersistentService.getService().saveRecord(vendor);
-			} catch (Exception e) {
-				throw new ApplicationGUIException(VendorManager.SAVE_VENDOR_FAIL_ERROR_MESSAGE);
-			}
-		} else { // existing vendor
+		} else { // existing vendor, need to filter out exiting categories
 			List<Category> existingCategories = vendor.getCategories();
 			categories.removeAll(existingCategories);
-			vendor.setCategories(categories);
-			try {
-				PersistentService.getService().saveRecord(vendor);
-			} catch (Exception e) {
-				throw new ApplicationGUIException(VendorManager.SAVE_VENDOR_FAIL_ERROR_MESSAGE);
+		}
+		saveVendorForCategories(vendor, categories);
+		return getVendorByName(name);
+	}
+	
+	/***vendor must not be existing for the category***/
+	private void saveVendorForCategories(Vendor vendor, List<Category> categories){
+		Iterator<Category> it = categories.iterator();
+		while (it.hasNext()){
+			Category category = it.next();
+			try{
+				saveVendorForSingleCategory(vendor, category);
+			}
+			catch(Exception e){
+				e.printStackTrace();
 			}
 		}
-		return vendor;
+	}
+	
+	private void saveVendorForSingleCategory(Vendor vendor, Category category) throws Exception{
+		try{
+			PersistentService.getService().saveVendor(vendor, category);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 }
