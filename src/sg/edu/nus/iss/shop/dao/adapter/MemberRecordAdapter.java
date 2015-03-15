@@ -28,7 +28,7 @@ public class MemberRecordAdapter implements DataRecordAdapter
 		String[] dataValues = record.toString().split(DaoConstant.SEPARATOR);
 		if(dataValues.length != 3)
 		{
-			throw new InvalidDataFormat("Data format incorrect for parsing");
+			throw new InvalidDataFormat("Data format incorrect for parsing member");
 		}
 		else
 		{

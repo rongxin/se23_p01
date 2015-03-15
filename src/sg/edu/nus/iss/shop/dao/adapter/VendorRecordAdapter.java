@@ -26,7 +26,7 @@ public class VendorRecordAdapter implements DataRecordAdapter
 		String[] dataValues = record.toString().split(DaoConstant.SEPARATOR);
 		if(dataValues.length != 2)
 		{
-			throw new InvalidDataFormat("Data format incorrect for parsing");
+			throw new InvalidDataFormat("Data format incorrect for parsing vendor");
 		}
 		else
 		{

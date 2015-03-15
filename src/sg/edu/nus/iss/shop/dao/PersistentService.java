@@ -74,100 +74,57 @@ public class PersistentService
 		{
 			adapter = new ProductRecordAdapter((Product)recordObj);
 		}
+		
+		String dsName = recordObj.getClass().getSimpleName() + DaoConstant.DS_SUFFIX;
 		if(adapter != null)
 		{
-			dataWriter.writeRecord(recordObj.getClass().getSimpleName(), adapter.getDataRecord());
+			dataWriter.writeRecord(dsName, adapter.getDataRecord());
 		}
 		else
 			throw new InvalidDomainObject("Not support this object saving");
 	}
 
-	//	public Object retrieveObject(Class cls, String objectId) throws InvalidDomainObject, InvalidDataFormat, IOException
-	//	{
-	//		if(isCategoryType(cls))
-	//		{
-	//			return retrieveCategory(cls, objectId);
-	//		}
-	//		else if(isProductType(cls))
-	//		{
-	//			return retrieveProduct(cls, objectId);
-	//		}
-	//		else if(isMemberType(cls))
-	//		{
-	//			return retrieveMember(cls, objectId);
-	//		}
-	//		else if(isStoreKeeperType(cls))
-	//		{
-	//			return retrieveStoreKeeper(cls, objectId);
-	//		}
-	//		else
-	//			throw new InvalidDomainObject("Not support this type of data retrieval");
-	//	}
-
 	public <T> T retrieveObject(Class cls, String objectId) throws InvalidDomainObject, InvalidDataFormat, IOException
 	{
 		if(isCategoryType(cls))
 		{
-			return (T) retrieveCategory(cls, objectId);
+			return (T) retrieveCategory(cls.getSimpleName() + DaoConstant.DS_SUFFIX, objectId);
 		}
 		else if(isProductType(cls))
 		{
-			return (T) retrieveProduct(cls, objectId);
+			return (T) retrieveProduct(cls.getSimpleName() + DaoConstant.DS_SUFFIX, objectId);
 		}
 		else if(isMemberType(cls))
 		{
-			return (T) retrieveMember(cls, objectId);
+			return (T) retrieveMember(cls.getSimpleName() + DaoConstant.DS_SUFFIX, objectId);
 		}
 		else if(isStoreKeeperType(cls))
 		{
-			return (T) retrieveStoreKeeper(cls, objectId);
+			return (T) retrieveStoreKeeper(cls.getSimpleName() + DaoConstant.DS_SUFFIX, objectId);
 		}
 		else
 			throw new InvalidDomainObject("Not support this type of data retrieval");
-	}
-
-	//	public List<Object> retrieveAll(Class cls) throws IOException, InvalidDataFormat, InvalidDomainObject
-	//	{
-	//		//if(cls.newInstance() instanceof Category)
-	//		if(isCategoryType(cls))
-	//		{
-	//			return retrieveAllCategories(cls);
-	//		}
-	//		else if(isProductType(cls))
-	//		{
-	//			return retrieveAllProducts(cls);
-	//		}
-	//		else if(isMemberType(cls))
-	//		{
-	//			return retrieveAllMembers(cls);
-	//		}
-	//		else if(isStoreKeeperType(cls))
-	//		{
-	//			return retrieveAllStoreKeepers(cls);
-	//		}
-	//		else
-	//			throw new InvalidDomainObject("Not support this type of data retrieval");
-	//
-	//	}
-
+	} 
+	 
 	public <T> List<T> retrieveAll(Class cls) throws IOException, InvalidDataFormat, InvalidDomainObject
 	{
 		//if(cls.newInstance() instanceof Category)
+		String dsName = cls.getSimpleName() + DaoConstant.DS_SUFFIX;
 		if(isCategoryType(cls))
 		{
-			return (List<T>) retrieveAllCategories(cls);
+			return (List<T>) retrieveAllCategories(dsName);
 		}
 		else if(isProductType(cls))
 		{
-			return (List<T>) retrieveAllProducts(cls);
+			return (List<T>) retrieveAllProducts(dsName);
 		}
 		else if(isMemberType(cls))
 		{
-			return (List<T>) retrieveAllMembers(cls);
+			return (List<T>) retrieveAllMembers(dsName);
 		}
 		else if(isStoreKeeperType(cls))
 		{
-			return (List<T>) retrieveAllStoreKeepers(cls);
+			return (List<T>) retrieveAllStoreKeepers(dsName);
 		}
 		else
 			throw new InvalidDomainObject("Not support this type of data retrieval");
@@ -176,7 +133,7 @@ public class PersistentService
 
 	public List<Vendor> retrieveVendors(Category category) throws Exception
 	{
-		String dsName = Vendor.class.getSimpleName() + category.getCode();
+		String dsName = Vendor.class.getSimpleName() + DaoConstant.DS_SUFFIX + category.getCode();
 		List<Vendor> objects = new ArrayList<Vendor>();
 		DataRecordAdapter adapter = null;
 		for(DataRecord record : dataReader.getCachedData(dsName))
@@ -199,7 +156,7 @@ public class PersistentService
 	{
 		if(vendor != null && category != null)
 		{
-			String dsName = Vendor.class.getSimpleName() + category.getCode();
+			String dsName = Vendor.class.getSimpleName() + DaoConstant.DS_SUFFIX + category.getCode();
 			DataRecordAdapter adapter = new VendorRecordAdapter(vendor);
 			dataWriter.writeRecord(dsName, adapter.getDataRecord());
 		}
@@ -241,12 +198,12 @@ public class PersistentService
 		return false;
 	}
 
-	private void buildPK4CachedCategory(Class cls)
+	private void buildPK4CachedCategory(String dataSetName)
 	{
 		if(hasBuildPK4Category)
 			return;
 
-		for(DataRecord record : dataReader.getCachedData(cls.getSimpleName()))
+		for(DataRecord record : dataReader.getCachedData(dataSetName))
 		{
 			try
 			{
@@ -260,12 +217,12 @@ public class PersistentService
 		hasBuildPK4Category = true;
 	}
 
-	private void buildPK4CachedProduct(Class cls)
+	private void buildPK4CachedProduct(String dataSetName)
 	{
 		if(hasBuildPK4Product)
 			return;
 
-		for(DataRecord record : dataReader.getCachedData(cls.getSimpleName()))
+		for(DataRecord record : dataReader.getCachedData(dataSetName))
 		{
 			try
 			{
@@ -279,12 +236,12 @@ public class PersistentService
 		hasBuildPK4Product = true;
 	}
 
-	private void buildPK4CachedMember(Class cls)
+	private void buildPK4CachedMember(String dataSetName)
 	{
 		if(hasBuildPK4Member)
 			return;
 
-		for(DataRecord record : dataReader.getCachedData(cls.getSimpleName()))
+		for(DataRecord record : dataReader.getCachedData(dataSetName))
 		{
 			try
 			{
@@ -298,12 +255,12 @@ public class PersistentService
 		hasBuildPK4Member = true;
 	}
 
-	private void buildPK4CachedStoreKeeper(Class cls)
+	private void buildPK4CachedStoreKeeper(String dataSetName)
 	{
 		if(hasBuildPK4StoreKeeper)
 			return;
 
-		for(DataRecord record : dataReader.getCachedData(cls.getSimpleName()))
+		for(DataRecord record : dataReader.getCachedData(dataSetName))
 		{
 			try
 			{
@@ -317,11 +274,11 @@ public class PersistentService
 		hasBuildPK4StoreKeeper = true;
 	}
 
-	private List<Object> retrieveAllCategories(Class cls) throws IOException, InvalidDataFormat
+	private List<Object> retrieveAllCategories(String dataSetName) throws IOException, InvalidDataFormat
 	{
 		List<Object> objects = new ArrayList<Object>();
 		DataRecordAdapter adapter = null;
-		for(DataRecord record : dataReader.getCachedData(cls.getSimpleName()))
+		for(DataRecord record : dataReader.getCachedData(dataSetName))
 		{
 			adapter = new CategoryRecordAdapter(record);
 			objects.add(adapter.getDataObject());
@@ -329,11 +286,11 @@ public class PersistentService
 		return objects;
 	}
 
-	private List<Object> retrieveAllProducts(Class cls) throws IOException, InvalidDataFormat
+	private List<Object> retrieveAllProducts(String dataSetName) throws IOException, InvalidDataFormat
 	{
 		List<Object> objects = new ArrayList<Object>();
 		DataRecordAdapter adapter = null;
-		for(DataRecord record : dataReader.getCachedData(cls.getSimpleName()))
+		for(DataRecord record : dataReader.getCachedData(dataSetName))
 		{
 			adapter = new ProductRecordAdapter(record);
 			objects.add(adapter.getDataObject());
@@ -341,11 +298,11 @@ public class PersistentService
 		return objects;
 	}
 
-	private List<Object> retrieveAllMembers(Class cls) throws IOException, InvalidDataFormat
+	private List<Object> retrieveAllMembers(String dataSetName) throws IOException, InvalidDataFormat
 	{
 		List<Object> objects = new ArrayList<Object>();
 		DataRecordAdapter adapter = null;
-		for(DataRecord record : dataReader.getCachedData(cls.getSimpleName()))
+		for(DataRecord record : dataReader.getCachedData(dataSetName))
 		{
 			adapter = new MemberRecordAdapter(record);
 			objects.add(adapter.getDataObject());
@@ -353,11 +310,11 @@ public class PersistentService
 		return objects;
 	}
 
-	private List<Object> retrieveAllStoreKeepers(Class cls) throws IOException, InvalidDataFormat
+	private List<Object> retrieveAllStoreKeepers(String dataSetName) throws IOException, InvalidDataFormat
 	{
 		List<Object> objects = new ArrayList<Object>();
 		DataRecordAdapter adapter = null;
-		for(DataRecord record : dataReader.getCachedData(cls.getSimpleName()))
+		for(DataRecord record : dataReader.getCachedData(dataSetName))
 		{
 			adapter = new StoreKeeperRecordAdapter(record);
 			objects.add(adapter.getDataObject());
@@ -365,13 +322,13 @@ public class PersistentService
 		return objects;
 	}
 
-	private Object retrieveCategory(Class cls, String objectId) throws IOException, InvalidDataFormat
+	private Object retrieveCategory(String dataSetName, String objectId) throws IOException, InvalidDataFormat
 	{
-		buildPK4CachedCategory(cls);
+		buildPK4CachedCategory(dataSetName);
 
 		DataRecordAdapter adapter = null;
 		//System.out.println("objectId:" + objectId);
-		for(DataRecord record : dataReader.getCachedData(cls.getSimpleName()))
+		for(DataRecord record : dataReader.getCachedData(dataSetName))
 		{
 			//System.out.println("PK:" + record.getPK());
 			if(objectId.equals(record.getPK()))
@@ -383,13 +340,13 @@ public class PersistentService
 		return null;
 	}
 
-	private Object retrieveProduct(Class cls, String objectId) throws IOException, InvalidDataFormat
+	private Object retrieveProduct(String dataSetName, String objectId) throws IOException, InvalidDataFormat
 	{
-		buildPK4CachedProduct(cls);
+		buildPK4CachedProduct(dataSetName);
 
 		DataRecordAdapter adapter = null;
 		//System.out.println("objectId:" + objectId);
-		for(DataRecord record : dataReader.getCachedData(cls.getSimpleName()))
+		for(DataRecord record : dataReader.getCachedData(dataSetName))
 		{
 			//System.out.println("PK:" + record.getPK());
 			if(objectId.equals(record.getPK()))
@@ -401,13 +358,13 @@ public class PersistentService
 		return null;
 	}
 
-	private Object retrieveMember(Class cls, String objectId) throws IOException, InvalidDataFormat
+	private Object retrieveMember(String dataSetName, String objectId) throws IOException, InvalidDataFormat
 	{
-		buildPK4CachedMember(cls);
+		buildPK4CachedMember(dataSetName);
 
 		DataRecordAdapter adapter = null;
 		//System.out.println("objectId:" + objectId);
-		for(DataRecord record : dataReader.getCachedData(cls.getSimpleName()))
+		for(DataRecord record : dataReader.getCachedData(dataSetName))
 		{
 			//System.out.println("PK:" + record.getPK());
 			if(objectId.equals(record.getPK()))
@@ -419,13 +376,13 @@ public class PersistentService
 		return null;
 	}
 
-	private Object retrieveStoreKeeper(Class cls, String objectId) throws IOException, InvalidDataFormat
+	private Object retrieveStoreKeeper(String dataSetName, String objectId) throws IOException, InvalidDataFormat
 	{
-		buildPK4CachedStoreKeeper(cls);
+		buildPK4CachedStoreKeeper(dataSetName);
 
 		DataRecordAdapter adapter = null;
 		//System.out.println("objectId:" + objectId);
-		for(DataRecord record : dataReader.getCachedData(cls.getSimpleName()))
+		for(DataRecord record : dataReader.getCachedData(dataSetName))
 		{
 			//System.out.println("PK:" + record.getPK());
 			if(objectId.equals(record.getPK()))

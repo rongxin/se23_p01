@@ -132,7 +132,7 @@ public class CacheDataWriter extends DataCache
             timer.cancel();
             timer = null;
         }
-		System.out.println("finally persistent");
+		//System.out.println("finally persistent");
         write();
 	 }
 }

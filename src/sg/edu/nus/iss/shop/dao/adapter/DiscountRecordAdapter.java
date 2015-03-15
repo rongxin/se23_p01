@@ -22,7 +22,7 @@ public class DiscountRecordAdapter implements DataRecordAdapter
 		builder.append(DaoConstant.SEPARATOR);
 		builder.append(discount.getDiscountPercentage());
 		builder.append(DaoConstant.SEPARATOR);
-//		builder.append(discount.getApplicableToMember());
+		builder.append(discount.getApplicableToMember());
 		 
 		dataRecord = new DataRecord(builder.toString());
 		dataRecord.setPk(discount.getDiscountCode());

@@ -6,5 +6,7 @@ public class DaoConstant
 	public static final String EXT_DATA=".dat";
 	public static final String SEPARATOR=",";
 	public static final String RELATIVE_FOLDER="data";
+	
+	public static final String DS_SUFFIX="s";
 
 }
