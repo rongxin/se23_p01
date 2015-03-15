@@ -2,7 +2,7 @@ package sg.edu.nus.iss.shop.dao;
 
 import java.io.File;
 
-public class DataRespository 
+public abstract class DataRespository 
 {
 	protected void setupRepository()
 	{

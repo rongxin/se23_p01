@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-public class DataCache 
+public abstract class DataCache 
 {
 	private static HashMap<String, List<DataRecord>> cahcedData = new  HashMap<String, List<DataRecord>>();
 	
