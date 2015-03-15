@@ -45,25 +45,13 @@ public class VendorManager {
 		Iterator<Category> it = categoryList.iterator();
 		while (it.hasNext()) {
 			Category category = it.next();
-			List<Vendor> categoryVendorList = this.listVendorForCategory(category);
+			List<Vendor> categoryVendorList = category.getVendorList();
 			vendorList.removeAll(categoryVendorList);
 			vendorList.addAll(categoryVendorList);
 		}
 		return vendorList;
 	}
 
-	public List<Vendor> listVendorForCategory(Category category) {
-		if (category == null) {
-			return new LinkedList<Vendor>();
-		}
-		List<Vendor> vendorList;
-		try {
-			vendorList = PersistentService.getService().retrieveVendors(category);
-		} catch (Exception e) {
-			return new LinkedList<Vendor>();
-		}
-		return vendorList;
-	}
 
 	/** returned vendor with null categories **/
 	public Vendor getVendorByName(String name) {

@@ -61,16 +61,23 @@ public class Vendor {
 
 	private void loadCategories() {
 		List<Category> resultCategories = new LinkedList<Category>();
-		List<Category> allCategories = CategoryManager.getCategoryManager().getAllCategories();
+		List<Category> allCategories;
+		try {
+			allCategories = CategoryManager.getCategoryManager().getAllCategories();
+		} catch (Exception e) {
+			e.printStackTrace();
+			setCategories(resultCategories);
+			return;
+		}
 		Iterator<Category> it = allCategories.iterator();
 		while (it.hasNext()) {
 			Category category = it.next();
-			List<Vendor> allVendorsForCategory = VendorManager.getVendorManager().listVendorForCategory(category);
+			List<Vendor> allVendorsForCategory = category.getVendorList();
 			if (allVendorsForCategory.contains(this)) {
 				resultCategories.add(category);
 			}
 		}
-		setCategories(resultCategories);
+
 	}
 
 }
