@@ -107,10 +107,12 @@ public class TransactionManager {
 		double cash;
 		cash = convertPointsToCash(loyalPointsUsed);
 		int maxPoints = maxNumberOfPointsForAmount(finalAmount);
-		if (maxPoints < loyalPointsUsed) {
+		//System.out.println(maxPoints);
+		if (maxPoints <= loyalPointsUsed) {
 			//throw new Exception(
 			//		"You don't need to use that many amount of points you only need: "
 			//				+ maxPoints);
+			return 0;
 		}
 
 		return finalAmount - cash;

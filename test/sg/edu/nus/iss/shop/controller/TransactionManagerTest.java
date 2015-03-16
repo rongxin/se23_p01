@@ -4,22 +4,22 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 import org.junit.Before;
-import org.junit.Test;
+//import org.junit.Test;
 
-import sg.edu.nus.iss.shop.model.domain.Category;
-import sg.edu.nus.iss.shop.model.domain.Transaction;
+//import sg.edu.nus.iss.shop.model.domain.Category;
+//import sg.edu.nus.iss.shop.model.domain.Transaction;
 
 public class TransactionManagerTest {
 	private TransactionManager tm;
-	private MemberManager mm;
-	private ProductManager pm;
-	private Transaction tr;
+	//private MemberManager mm;
+	//private ProductManager pm;
+	//private Transaction tr;
 
 	@Before
 	public void setUp() throws Exception {
 		tm = TransactionManager.getInstance();
-		mm = MemberManager.getMemberManager();
-		pm = ProductManager.getProductManager();
+		//mm = MemberManager.getMemberManager();
+		//pm = ProductManager.getProductManager();
 		// pm.addProduct(new Category("CAT", "CAT"), "product1", 100, 100,
 		// "1111", 10, 100);
 	}
@@ -73,5 +73,20 @@ public class TransactionManagerTest {
 
 		points = tm.maxNumberOfPointsForAmount(143);
 		assertEquals("143 dollars should need be 2900 points", 2900, points, 0);
+	}
+	
+	@Test
+	public void testCalculateCashToPay() {
+		double points = tm.calculateCashToPay(100, 4);
+		assertEquals("100 points = $5 > 4$ return should be 0", 0, points, 0);
+
+		points = tm.calculateCashToPay(100, 6);
+		assertEquals("100 points = $5 < 6$ return should be 6 - 5 = 1", 1, points, 0);
+
+		points = tm.calculateCashToPay(200, 4);
+		assertEquals("200 points = $10 > 4$ return should be 0", 0, points, 0);
+
+		points = tm.calculateCashToPay(300, 23);
+		assertEquals("300 points = $15 < 23$ return should be 23 - 15 = 8", 8, points, 0);
 	}
 }
