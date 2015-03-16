@@ -16,7 +16,7 @@ import sg.edu.nus.iss.shop.ui.category.CategoryWindow;
 import sg.edu.nus.iss.shop.ui.product.ProductWindow;
 import sg.edu.nus.iss.shop.ui.purchase.CheckoutWindow;
 import sg.edu.nus.iss.shop.ui.util.IconHelper;
-import sg.edu.nus.iss.ui.member.AddMemberDialog;
+import sg.edu.nus.iss.ui.member.MemberWindow;
 
 public class MainPanel extends JPanel {
 	private static final String ICONS_PATH = "/sg/edu/nus/iss/shop/ui/icons/";
@@ -79,21 +79,23 @@ public class MainPanel extends JPanel {
 		checkoutPanel.add(checkoutButton);
 		p.add(checkoutPanel);
 
-		JButton addMemberButton = createImageButton("Register new member", "puzzle_blue.png", "puzzle_red.png");
-		addMemberButton.addActionListener(new ActionListener() {
+		JButton memberBtn = createImageButton("Manage Members", "puzzle_blue.png", "puzzle_red.png");
+		memberBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				AddMemberDialog d = new AddMemberDialog(shopApplication);
-				d.pack();
-				d.setLocationByPlatform(true);
-				d.setVisible(true);
+				MemberWindow w = new MemberWindow(shopApplication);
+				w.pack();
+				w.setLocationByPlatform(true);
+				w.setLocationRelativeTo(null);
+				w.setVisible(true);
 			}
 		});
-		JPanel addMemberPanel = new JPanel();
-		addMemberPanel.setBorder(BorderFactory.createCompoundBorder(
-				BorderFactory.createTitledBorder("  Register Member  "), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-		addMemberPanel.add(addMemberButton);
-		p.add(addMemberPanel);
+		JPanel memberPanel = new JPanel();
+		memberPanel.setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createTitledBorder("   Members  "),
+				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+		memberPanel.add(memberBtn);
+		p.add(memberPanel);
 
 		JButton categoryManagementButton = createImageButton("Categories and Vendors", "poll_green.png", "poll_yellow.png");
 		categoryManagementButton.addActionListener(new ActionListener() {
@@ -126,7 +128,7 @@ public class MainPanel extends JPanel {
 		});
 		JPanel productPanel = new JPanel();
 		productPanel.setBorder(BorderFactory.createCompoundBorder(
-BorderFactory.createTitledBorder("  Products "),
+				BorderFactory.createTitledBorder("  Products "),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		productPanel.add(addProductButton);
 		p.add(productPanel);
