@@ -1,9 +1,5 @@
 package sg.edu.nus.iss.shop.model.domain;
 
-import java.time.LocalDate;
-import java.util.Iterator;
-import java.util.List;
-
 import sg.edu.nus.iss.shop.controller.DiscountManager;
 
 public class Member extends Customer {
@@ -35,58 +31,49 @@ public class Member extends Customer {
 	public void setLoyalPoints(int loyalPoints) {
 		this.loyalPoints = loyalPoints;
 	}
-	
-	public boolean isFirstPurchase(){
-		if (this.getLoyalPoints() < 0){
+
+	public boolean isFirstPurchase() {
+		if (this.getLoyalPoints() == -1) {
 			return true;
-		}else{
-			return false;
 		}
+		return false;
 	}
-	
+
 	public Discount getMaxDiscount() {
 		Discount maxDiscount = null;
-		
+
 		try {
-			List<Discount> publicDiscountList = DiscountManager.getDiscountManager().getValidPublicDiscountList();
-			Iterator<Discount> iter = publicDiscountList.iterator();
-			while(iter.hasNext()){
-				Discount discount = iter.next();
-				
-				if (maxDiscount == null || discount.getDiscountPercentage() > maxDiscount.getDiscountPercentage()) {
-					maxDiscount = discount;
+			maxDiscount = DiscountManager.getDiscountManager().getMaxValidPublicDiscount();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		if (this.isFirstPurchase()) {
+			try {
+				Discount firstPurchaseDiscount = DiscountManager
+						.getDiscountManager().getFirstPurchaseDiscountList();
+				if (maxDiscount == null
+						|| firstPurchaseDiscount.getDiscountPercentage() > maxDiscount
+								.getDiscountPercentage()) {
+					maxDiscount = firstPurchaseDiscount;
 				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		try {
-			Discount firstPurchaseDiscount = DiscountManager.getDiscountManager().getFirstPurchaseDiscountList();
-			if (maxDiscount == null || firstPurchaseDiscount.getDiscountPercentage() > maxDiscount.getDiscountPercentage()) {
-				maxDiscount = firstPurchaseDiscount;
+		} else {
+			try {
+				Discount subsequentDiscount = DiscountManager
+						.getDiscountManager().getSubsequentDiscountList();
+				if (maxDiscount == null
+						|| subsequentDiscount.getDiscountPercentage() > maxDiscount
+								.getDiscountPercentage()) {
+					maxDiscount = subsequentDiscount;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-		
-		try {
-			Discount subsequentDiscount = DiscountManager.getDiscountManager().getSubsequentDiscountList();
-			if (maxDiscount == null || subsequentDiscount.getDiscountPercentage() > maxDiscount.getDiscountPercentage()) {
-				maxDiscount = subsequentDiscount;
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+
 		return maxDiscount;
 	}
-	
-//	@Override
-//	public Discount getMaxDiscount() {
-//		
-//		return super.getMaxDiscount();
-//	}
 }

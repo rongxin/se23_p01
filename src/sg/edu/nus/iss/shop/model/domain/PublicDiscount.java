@@ -1,7 +1,5 @@
 package sg.edu.nus.iss.shop.model.domain;
 
-import java.time.LocalDate;
-
 public class PublicDiscount extends Discount {
 	private String startDate;
 	private String discountInDays;
