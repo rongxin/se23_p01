@@ -7,7 +7,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import sg.edu.nus.iss.shop.model.domain.Category;
-import sg.edu.nus.iss.shop.ui.ShopApplication;
+import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 
 public class ListCategoryPanel extends JPanel {
 	private static final long serialVersionUID = 1L;

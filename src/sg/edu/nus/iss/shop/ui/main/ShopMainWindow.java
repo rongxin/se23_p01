@@ -1,4 +1,4 @@
-package sg.edu.nus.iss.shop.ui;
+package sg.edu.nus.iss.shop.ui.main;
 
 import java.awt.GridLayout;
 import java.awt.Panel;

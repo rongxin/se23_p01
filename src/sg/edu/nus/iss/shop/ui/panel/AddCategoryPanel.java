@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
-import sg.edu.nus.iss.shop.ui.LayoutHelper;
+import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
 
 public class AddCategoryPanel extends JPanel {
 	private static final long serialVersionUID = 1L;

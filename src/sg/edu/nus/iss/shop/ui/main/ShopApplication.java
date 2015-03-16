@@ -1,4 +1,4 @@
-package sg.edu.nus.iss.shop.ui;
+package sg.edu.nus.iss.shop.ui.main;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,6 @@ import sg.edu.nus.iss.shop.controller.ProductManager;
 import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.Category;
 import sg.edu.nus.iss.shop.model.domain.Product;
-import sg.edu.nus.iss.shop.ui.dialog.LoginDialog;
 
 public class ShopApplication {
 	private ShopMainWindow shopWindow;

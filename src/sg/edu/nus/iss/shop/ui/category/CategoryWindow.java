@@ -1,4 +1,4 @@
-package sg.edu.nus.iss.shop.ui.window;
+package sg.edu.nus.iss.shop.ui.category;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -9,8 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import sg.edu.nus.iss.shop.ui.ShopApplication;
-import sg.edu.nus.iss.shop.ui.dialog.AddCategoryDialog;
+import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 import sg.edu.nus.iss.shop.ui.panel.ListCategoryPanel;
 
 public class CategoryWindow extends JFrame {

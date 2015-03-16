@@ -12,12 +12,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import sg.edu.nus.iss.shop.ui.IconHelper;
-import sg.edu.nus.iss.shop.ui.ShopApplication;
-import sg.edu.nus.iss.shop.ui.dialog.AddMemberDialog;
-import sg.edu.nus.iss.shop.ui.window.CategoryWindow;
-import sg.edu.nus.iss.shop.ui.window.CheckoutWindow;
-import sg.edu.nus.iss.shop.ui.window.ProductWindow;
+import sg.edu.nus.iss.shop.ui.category.CategoryWindow;
+import sg.edu.nus.iss.shop.ui.main.ShopApplication;
+import sg.edu.nus.iss.shop.ui.product.ProductWindow;
+import sg.edu.nus.iss.shop.ui.purchase.CheckoutWindow;
+import sg.edu.nus.iss.shop.ui.util.IconHelper;
+import sg.edu.nus.iss.ui.member.AddMemberDialog;
 
 public class MainPanel extends JPanel {
 	private static final String ICONS_PATH = "/sg/edu/nus/iss/shop/ui/icons/";

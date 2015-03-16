@@ -1,4 +1,4 @@
-package sg.edu.nus.iss.shop.ui.dialog;
+package sg.edu.nus.iss.shop.ui.purchase;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -19,8 +19,8 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
-import sg.edu.nus.iss.shop.ui.IconHelper;
-import sg.edu.nus.iss.shop.ui.LayoutHelper;
+import sg.edu.nus.iss.shop.ui.util.IconHelper;
+import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
 
 public class BarcodeScannerEmulatorDialog extends JDialog {
 
