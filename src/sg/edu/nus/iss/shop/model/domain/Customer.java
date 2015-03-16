@@ -1,6 +1,7 @@
 package sg.edu.nus.iss.shop.model.domain;
 
 public abstract class Customer {
+	
 	private String id;
 
 	public Customer(String id) {

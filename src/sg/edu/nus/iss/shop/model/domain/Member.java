@@ -6,6 +6,11 @@ public class Member extends Customer {
 	private String name;
 	private int loyalPoints;
 
+	//lazy loading for loyalt point if needed
+	public Member(String id) {
+		super(id);
+	}
+	
 	public Member(String id, String name) {
 		this(id, name, -1);
 	}
