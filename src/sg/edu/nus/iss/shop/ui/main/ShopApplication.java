@@ -114,6 +114,16 @@ public class ShopApplication {
 		}
 	}
 
+	public void addMember(String memberId, String memberName){
+		System.out.println("Add Member ");
+
+		try {
+			memberManager.addMember(memberId, memberName);
+		} catch (ApplicationGUIException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public List<Member> getMembers() {
 		List<Member> members = new ArrayList<>();
 		try {
