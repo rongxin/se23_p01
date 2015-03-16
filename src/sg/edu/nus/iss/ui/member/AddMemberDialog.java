@@ -1,4 +1,4 @@
-package sg.edu.nus.iss.shop.ui.dialog;
+package sg.edu.nus.iss.ui.member;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
@@ -7,26 +7,24 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
-import sg.edu.nus.iss.shop.ui.LayoutHelper;
-import sg.edu.nus.iss.shop.ui.ShopApplication;
+import sg.edu.nus.iss.shop.ui.OkCancelDialog;
+import sg.edu.nus.iss.shop.ui.main.ShopApplication;
+import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
 
 public class AddMemberDialog extends OkCancelDialog {
 
 	private static final long serialVersionUID = 1L;
 	private ShopApplication shopApplication;
-	private JRadioButton staffOption;
-	private JRadioButton studentOption;;
 	private JTextField cardNumberField;
 	private JTextField nameField;
 	private JLabel messageLabel;
+
 
 	public AddMemberDialog(ShopApplication shopApplication) {
 		super(shopApplication.getMainWindow(), "Add Member");
@@ -56,42 +54,26 @@ public class AddMemberDialog extends OkCancelDialog {
 
 		// column 1
 		gc = LayoutHelper.createCellConstraint(0, 0);
-		JLabel memberTypeLabel = new JLabel("Member Type: ");
-		p.add(memberTypeLabel, gc);
-
-		gc = LayoutHelper.createCellConstraint(0, 1);
 		JLabel memberNameLabel = new JLabel("Member Name: ");
 		p.add(memberNameLabel, gc);
 
-		gc = LayoutHelper.createCellConstraint(0, 2);
+		gc = LayoutHelper.createCellConstraint(0, 1);
 		JLabel cardNjmberLabel = new JLabel("Student/Staff Card Number: ");
 		p.add(cardNjmberLabel, gc);
 
 		// column 2
+
 		gc = LayoutHelper.createCellConstraint(1, 0);
-		gc.anchor = GridBagConstraints.WEST;
-
-		studentOption = new JRadioButton("Student");
-		studentOption.setSelected(true);
-		staffOption = new JRadioButton("Staff");
-		ButtonGroup optionGroup = new ButtonGroup();
-		optionGroup.add(studentOption);
-		optionGroup.add(staffOption);
-		JPanel typeOptionPanel = new JPanel();
-		typeOptionPanel.add(studentOption);
-		typeOptionPanel.add(staffOption);
-
-		p.add(typeOptionPanel, gc);
-
-		gc = LayoutHelper.createCellConstraint(1, 1);
 		cardNumberField = new JTextField(20);
 		cardNumberField.setToolTipText("Please input student or staff card number.");
 		p.add(cardNumberField, gc);
 
-		gc = LayoutHelper.createCellConstraint(1, 2);
+
+		gc = LayoutHelper.createCellConstraint(1, 1);
 		nameField = new JTextField(20);
 		nameField.setToolTipText("Please input name of the new member.");
 		p.add(nameField, gc);
+
 
 		return p;
 	}
@@ -99,7 +81,7 @@ public class AddMemberDialog extends OkCancelDialog {
 	private JPanel createFormMessagePanel() {
 		JPanel p = new JPanel(new GridLayout(0, 1));
 		messageLabel = new JLabel(" ", SwingConstants.CENTER);
-		messageLabel.setText("Please choose type of member and enter the necessary information..");
+		messageLabel.setText("Please input member information.");
 
 		p.add(messageLabel);
 		return p;
@@ -107,7 +89,35 @@ public class AddMemberDialog extends OkCancelDialog {
 
 	@Override
 	protected boolean performOkAction() {
-		// TODO
+		boolean allFiedsOk = validateFields();
+		if (!allFiedsOk) {
+			return false;
+		}
+
+		String cardNumber = cardNumberField.getText().trim();
+		String memberName = nameField.getText().trim();
+
+		shopApplication.addMember(cardNumber, memberName);
+
+		return true;
+	}
+
+	private boolean validateFields() {
+		int errorCount = 0;
+
+		if ("".equals(cardNumberField.getText().trim())) {
+			cardNumberField.requestFocus();
+			errorCount++;
+		}
+		if ("".equals(nameField.getText().trim())) {
+			nameField.requestFocus();
+			errorCount++;
+		}
+
+		if (errorCount > 0) {
+			return false;
+		}
+
 		return true;
 	}
 }

@@ -1,4 +1,4 @@
-package sg.edu.nus.iss.shop.ui.dialog;
+package sg.edu.nus.iss.shop.ui.main;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
@@ -15,9 +15,9 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
-import sg.edu.nus.iss.shop.ui.IconHelper;
-import sg.edu.nus.iss.shop.ui.LayoutHelper;
-import sg.edu.nus.iss.shop.ui.ShopApplication;
+import sg.edu.nus.iss.shop.ui.OkCancelDialog;
+import sg.edu.nus.iss.shop.ui.util.IconHelper;
+import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
 
 public class LoginDialog extends OkCancelDialog {
 	private static final long serialVersionUID = 1L;

@@ -1,4 +1,4 @@
-package sg.edu.nus.iss.shop.ui;
+package sg.edu.nus.iss.shop.ui.util;
 
 import java.awt.GridBagConstraints;
 import java.awt.Insets;

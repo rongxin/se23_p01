@@ -1,4 +1,4 @@
-package sg.edu.nus.iss.shop.ui;
+package sg.edu.nus.iss.shop.ui.main;
 
 import java.awt.GridLayout;
 import java.awt.Panel;
@@ -7,8 +7,6 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 import javax.swing.JFrame;
-
-import sg.edu.nus.iss.shop.ui.panel.MainPanel;
 
 public class ShopMainWindow extends JFrame {
 	private static final long serialVersionUID = 1L;

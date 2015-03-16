@@ -1,4 +1,4 @@
-package sg.edu.nus.iss.shop.ui.window;
+package sg.edu.nus.iss.shop.ui.purchase;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -25,10 +25,9 @@ import sg.edu.nus.iss.shop.model.domain.Customer;
 import sg.edu.nus.iss.shop.model.domain.Member;
 import sg.edu.nus.iss.shop.model.domain.NonMemberCustomer;
 import sg.edu.nus.iss.shop.model.domain.Product;
-import sg.edu.nus.iss.shop.ui.IconHelper;
-import sg.edu.nus.iss.shop.ui.LayoutHelper;
-import sg.edu.nus.iss.shop.ui.ShopApplication;
-import sg.edu.nus.iss.shop.ui.dialog.BarcodeScannerEmulatorDialog;
+import sg.edu.nus.iss.shop.ui.main.ShopApplication;
+import sg.edu.nus.iss.shop.ui.util.IconHelper;
+import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
 
 public class CheckoutWindow extends JFrame {
 

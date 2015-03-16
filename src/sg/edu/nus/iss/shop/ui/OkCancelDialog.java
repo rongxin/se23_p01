@@ -1,4 +1,4 @@
-package sg.edu.nus.iss.shop.ui.dialog;
+package sg.edu.nus.iss.shop.ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,7 +8,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import sg.edu.nus.iss.shop.ui.ShopApplication;
+import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 
 public abstract class OkCancelDialog extends JDialog {
 

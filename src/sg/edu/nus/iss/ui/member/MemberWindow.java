@@ -1,4 +1,4 @@
-package sg.edu.nus.iss.shop.ui.window;
+package sg.edu.nus.iss.ui.member;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -9,17 +9,16 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import sg.edu.nus.iss.shop.ui.ShopApplication;
-import sg.edu.nus.iss.shop.ui.dialog.AddProductDialog;
-import sg.edu.nus.iss.shop.ui.panel.ListProductPanel;
+import sg.edu.nus.iss.shop.ui.category.ListCategoryPanel;
+import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 
-public class ProductWindow extends JFrame {
+public class MemberWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private ShopApplication shopApplication;
-	private ListProductPanel listPanel;
 
-	public ProductWindow(ShopApplication shopApplication) {
+	public MemberWindow(ShopApplication shopApplication) {
 		super();
+		this.shopApplication = shopApplication;
 		this.shopApplication = shopApplication;
 		setLayout(new BorderLayout());
 		this.add("North", createTitlePanel());
@@ -28,10 +27,10 @@ public class ProductWindow extends JFrame {
 
 	private JPanel createMainPanel() {
 		JPanel p = new JPanel();
-		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("  Products  "),
+		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("  Categories  "),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
-		listPanel = new ListProductPanel(shopApplication);
+		ListCategoryPanel listPanel = new ListCategoryPanel(shopApplication);
 		p.add(listPanel);
 		return p;
 	}
@@ -42,12 +41,12 @@ public class ProductWindow extends JFrame {
 		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("  Actions  "),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
-		JButton addCategoryButton = new JButton("Add Product");
+
+		JButton addCategoryButton = new JButton("Register Member");
 		addCategoryButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				AddProductDialog d = new AddProductDialog(shopApplication, listPanel);
-
+				AddMemberDialog d = new AddMemberDialog(shopApplication);
 				d.pack();
 				d.setLocationByPlatform(true);
 				d.setVisible(true);

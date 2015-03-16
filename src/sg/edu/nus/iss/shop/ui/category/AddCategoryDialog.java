@@ -1,4 +1,4 @@
-package sg.edu.nus.iss.shop.ui.dialog;
+package sg.edu.nus.iss.shop.ui.category;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -14,8 +14,10 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
-import sg.edu.nus.iss.shop.ui.LayoutHelper;
-import sg.edu.nus.iss.shop.ui.ShopApplication;
+import sg.edu.nus.iss.shop.ui.OkCancelDialog;
+import sg.edu.nus.iss.shop.ui.main.ShopApplication;
+import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
+import sg.edu.nus.iss.shop.ui.util.TextFieldLimit;
 
 public class AddCategoryDialog extends OkCancelDialog {
 
@@ -65,6 +67,7 @@ public class AddCategoryDialog extends OkCancelDialog {
 		gc.anchor = GridBagConstraints.LAST_LINE_START;
 		gc.fill = GridBagConstraints.NONE;
 		categoryCodeField = new JTextField(3);
+		categoryCodeField.setDocument(new TextFieldLimit(3));
 		categoryCodeField.setToolTipText("Please input three-letter code for the new category");
 		p.add(categoryCodeField, gc);
 

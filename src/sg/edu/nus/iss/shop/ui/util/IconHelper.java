@@ -1,4 +1,4 @@
-package sg.edu.nus.iss.shop.ui;
+package sg.edu.nus.iss.shop.ui.util;
 
 import javax.swing.ImageIcon;
 

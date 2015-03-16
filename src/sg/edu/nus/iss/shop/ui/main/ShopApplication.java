@@ -1,4 +1,4 @@
-package sg.edu.nus.iss.shop.ui;
+package sg.edu.nus.iss.shop.ui.main;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,17 +7,19 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import sg.edu.nus.iss.shop.controller.CategoryManager;
+import sg.edu.nus.iss.shop.controller.MemberManager;
 import sg.edu.nus.iss.shop.controller.ProductManager;
 import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.Category;
+import sg.edu.nus.iss.shop.model.domain.Member;
 import sg.edu.nus.iss.shop.model.domain.Product;
-import sg.edu.nus.iss.shop.ui.dialog.LoginDialog;
 
 public class ShopApplication {
 	private ShopMainWindow shopWindow;
 	private LoginDialog loginDialog;
 	private CategoryManager categoryManager;
 	private ProductManager productManager;
+	private MemberManager memberManager;
 
 	public ShopApplication() {
 		loginDialog = new LoginDialog(this);
@@ -27,6 +29,7 @@ public class ShopApplication {
 
 		categoryManager = CategoryManager.getCategoryManager();
 		productManager = ProductManager.getProductManager();
+		memberManager = MemberManager.getMemberManager();
 	}
 
 	public void start() {
@@ -98,8 +101,8 @@ public class ShopApplication {
 		return products;
 	}
 
-	public void addProduct(String categoryCode, String name, String description, Integer availableQuantity, Double price,
-			String barcodeNumber, Integer orderThreshold, Integer orderQuantity) {
+	public void addProduct(String categoryCode, String name, String description, Integer availableQuantity,
+			Double price, String barcodeNumber, Integer orderThreshold, Integer orderQuantity) {
 
 		System.out.println("Add Product ");
 		try {
@@ -109,6 +112,26 @@ public class ShopApplication {
 		} catch (ApplicationGUIException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void addMember(String memberId, String memberName){
+		System.out.println("Add Member ");
+
+		try {
+			memberManager.addMember(memberId, memberName);
+		} catch (ApplicationGUIException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public List<Member> getMembers() {
+		List<Member> members = new ArrayList<>();
+		try {
+			members = memberManager.getAllMembers();
+		} catch (ApplicationGUIException e) {
+			e.printStackTrace();
+		}
+		return members;
 	}
 
 }
