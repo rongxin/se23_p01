@@ -8,8 +8,6 @@ import java.awt.event.WindowListener;
 
 import javax.swing.JFrame;
 
-import sg.edu.nus.iss.shop.ui.panel.MainPanel;
-
 public class ShopMainWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private ShopApplication shopApplication;

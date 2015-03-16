@@ -1,4 +1,4 @@
-package sg.edu.nus.iss.shop.ui.panel;
+package sg.edu.nus.iss.shop.ui.main;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
@@ -13,7 +13,6 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import sg.edu.nus.iss.shop.ui.category.CategoryWindow;
-import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 import sg.edu.nus.iss.shop.ui.product.ProductWindow;
 import sg.edu.nus.iss.shop.ui.purchase.CheckoutWindow;
 import sg.edu.nus.iss.shop.ui.util.IconHelper;

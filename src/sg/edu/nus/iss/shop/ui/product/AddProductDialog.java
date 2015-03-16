@@ -21,7 +21,6 @@ import javax.swing.SwingConstants;
 import sg.edu.nus.iss.shop.model.domain.Category;
 import sg.edu.nus.iss.shop.ui.OkCancelDialog;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
-import sg.edu.nus.iss.shop.ui.panel.ListProductPanel;
 import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
 
 public class AddProductDialog extends OkCancelDialog {

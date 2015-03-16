@@ -10,7 +10,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
-import sg.edu.nus.iss.shop.ui.panel.ListCategoryPanel;
 
 public class CategoryWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
