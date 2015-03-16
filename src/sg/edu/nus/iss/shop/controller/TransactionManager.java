@@ -1,8 +1,13 @@
 package sg.edu.nus.iss.shop.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Hashtable;
+
+import sg.edu.nus.iss.shop.dao.PersistentService;
+import sg.edu.nus.iss.shop.dao.exception.InvalidDataFormat;
+import sg.edu.nus.iss.shop.dao.exception.InvalidDomainObject;
 import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.Customer;
 import sg.edu.nus.iss.shop.model.domain.Member;
@@ -18,8 +23,8 @@ public class TransactionManager {
 	private static TransactionManager transactionManager = new TransactionManager();
 	private static final double RATE_CASH_TO_POINTS = 10;
 	private static final double RATE_POINTS_TO_CASH = 20;
-	private static final double RATE_POINTS_TO_CASH_MIN = 100;
-	
+	private static final double RATE_POINTS_TO_CASH_MIN_POINTS = 100;
+
 	private TransactionManager() {
 		// Not public constructor allowed
 	}
@@ -33,140 +38,96 @@ public class TransactionManager {
 	}
 
 	/**
-	 * Start a Transaction with a customer Member
-	 * @deprecated
-	 * @param customer
-	 * @return
-	 */
-	private Transaction StartTransaction(Customer customer) {
-		Transaction t = new Transaction(0, customer, new Date());
-		return t;
-	}
-
-	/**
-	 * Add product to the transaction and set the quantity to 1
+	 * Return conversion of points earn by using the cash amount
 	 * 
-	 * @param transaction
-	 * @param barCode
-	 * @deprecated
-	 * @BugFixed 9Mar2015 Oscar Castro: Should return something more than a
-	 *           boolean
-	 * 
+	 * @param cash
+	 *            Amount to be converted to points
+	 * @return number of points earn by paying the cash amount
 	 */
-	private Transaction addProduct(Transaction transaction, String barCode) {
-		return editProductQuantity(transaction, barCode, 1);
-	}
-
-	/**
-	 * Set the new quantity of the product If product doesn't exist it creates
-	 * the product with the new quantity.
-	 * 
-	 * @param transaction
-	 * @param barCode
-	 * @param quantity
-	 * @deprecated
-	 * @BugFixed 9Mar2015 Oscar Castro: Should return something more than a
-	 *           boolean
-	 * 
-	 */
-	private Transaction editProductQuantity(Transaction transaction,
-			String barCode, int quantity) {
-		try {
-			Product product;
-			ProductManager pm = ProductManager.getProductManager();
-			product = pm.getProductByBarcode(barCode);
-			if (product.getAvailableQuantity() > quantity) {
-				transaction.changeProductQuantity(product, quantity);
-			} else {
-				return null;
-			}
-			return transaction;
-		} catch (Exception e) {
-			// We should return object message.
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	/**
-	 * I don't know what to do here, lol
-	 * @deprecated
-	 * @param transaction
-	 * @return
-	 */
-	private boolean cancelTransaction(Transaction transaction) {
-		// transaction = null;
-		// System.gc();
-		return true;
-	}
-
-	/**
-	 * Is that enough with double? Do you need something else?
-	 * @deprecated
-	 * @param transaction
-	 * @return
-	 */
-	private double checkOut(Transaction transaction) {
-		// double total = 0;
-		// Call Discount Manager to calculate the Discount.
-		// DiscountManager dm;
-		// dm = DiscountManager.getInstance();
-
-		// Return the discount
-
-		return 0;
-	}
-	
-	public int convertCashToPoints(double cash){
+	public int convertCashToPoints(double cash) {
 		double points = 0;
 		points = cash / RATE_CASH_TO_POINTS;
-			
+
 		return (int) Math.floor(points);
 	}
-	
-	public int convertPointsToCash(int points){
-		//Add the IF part if you want to validate a 100 points based number
-		/*
-		if (points % 100 != 0){
-			throw new Exception("Points should be 100 based number");
-		}
-		*/
-		
-		//Remove the non 100 points value
-		//Disabled this if you don't want to use the 100 based points value
-		points = (int) (Math.floor(points / RATE_POINTS_TO_CASH_MIN) * RATE_POINTS_TO_CASH_MIN);
-		
-		points = (int) (points / RATE_POINTS_TO_CASH);
-		return 0;
-	}
-	
+
 	/**
-	 * Return the transaction
+	 * Return the cash amount can be redeemed by the number of points pass in
+	 * the method
 	 * 
-	 * @param transaction
-	 * @param cash
-	 * @param loyaltyPoints
-	 * @return
-	 * @throws ApplicationGUIException
+	 * @param points
+	 *            Number of points to be converted to cash amount
+	 * @return The cash earn
 	 */
-	private Transaction endTransaction(Transaction transaction, double cash)
-			throws ApplicationGUIException {
-		// Get the final price
-		// double total = checkOut(transaction);
+	public int convertPointsToCash(int points) {
+		// Add the IF part if you want to validate a 100 points based number
+		/*
+		 * if (points % 100 != 0){ throw new
+		 * Exception("Points should be 100 based number"); }
+		 */
 
-		// Update Product DB
-		updateProductsInTransactioDetails(transaction);
+		// Remove the non 100 points value
+		// Disabled this if you don't want to use the 100 based points value
+		points = (int) (Math.floor(points / RATE_POINTS_TO_CASH_MIN_POINTS) * RATE_POINTS_TO_CASH_MIN_POINTS);
 
-		// Update Transaction DB
-
-		// Update Member DB
-		updateMemberPoints(transaction, transaction.getLoyaltyPointsUsed(), cash);
-		return null;
+		// Change value to double if you don't want to use the 100 based points
+		// value
+		int cash = (int) (points / RATE_POINTS_TO_CASH);
+		return cash;
 	}
 
-	public Transaction entTransaction(Customer customer,
+	/**
+	 * Calculate the max number of points that can be used to pay the amount
+	 * pass in the method
+	 * 
+	 * @param amount
+	 *            To be calculated in term of points
+	 * @return max number of points that can be redeemed
+	 */
+	public int maxNumberOfPointsForAmount(double amount) {
+		int points = 0;
+		points = (int) (amount * RATE_POINTS_TO_CASH);
+		points = (int) Math.ceil(points / RATE_POINTS_TO_CASH_MIN_POINTS);
+		points = (int) (points * RATE_POINTS_TO_CASH_MIN_POINTS);
+
+		return points;
+	}
+
+	/**
+	 * Calculate the Amount to be pay by using the certain number of points for
+	 * an specific amount
+	 * 
+	 * @param loyalPointsUsed
+	 *            Points to be redeemed
+	 * @param finalAmount
+	 *            Total price before redeeming
+	 * @return Amount to be pay after redeeming the points
+	 */
+	public double calculateCashToPay(int loyalPointsUsed, double finalAmount){
+		double cash;
+		cash = convertPointsToCash(loyalPointsUsed);
+		int maxPoints = maxNumberOfPointsForAmount(finalAmount);
+		if (maxPoints < loyalPointsUsed) {
+			//throw new Exception(
+			//		"You don't need to use that many amount of points you only need: "
+			//				+ maxPoints);
+		}
+
+		return finalAmount - cash;
+	}
+
+	/**
+	 * End the transaction and update the DB
+	 * @param customer
+	 * @param products
+	 * @param discount
+	 * @param loyalPointsUsed
+	 * @return
+	 * @throws Exception
+	 */
+	public Transaction endTransaction(Customer customer,
 			Hashtable<Product, Integer> products, int discount,
-			double payByCash, int loyalPointsUsed) throws Exception {
+			int loyalPointsUsed) throws Exception {
 		// Getting the all transaction to get the next transaction ID
 		ArrayList<Transaction> list = getAllTransaction();
 		Transaction t = new Transaction(list.size() + 1, new Date());
@@ -175,21 +136,59 @@ public class TransactionManager {
 		t.setCustomer(customer);
 		t.setDiscount(discount);
 		t.setLoyaltyPointsUsed(loyalPointsUsed);
+		t.setCashPayed(calculateCashToPay(loyalPointsUsed, t.getFinalPrice()));
 
+		// Setting the transaction details.
 		for (Product key : products.keySet()) {
 			t.changeProductQuantity(key, products.get(key));
 		}
-		
-		endTransaction(t, payByCash);
+
+		endTransaction(t);
 		return t;
 	}
 
-	public ArrayList<Transaction> getAllTransaction() {
-		return new ArrayList<Transaction>();
+	private void endTransaction(Transaction transaction)
+			throws ApplicationGUIException {
+		// Update Product DB
+		updateProductsInTransactioDetails(transaction);
+
+		// Update Transaction DB
+		updateTransaction(transaction);
+
+		// Update Member DB
+		updateMemberPoints(transaction);
 	}
 
-	public ArrayList<Transaction> getAllTransaction(Date startDate, Date endDate) {
-		return new ArrayList<Transaction>();
+	private boolean updateMemberPoints(Transaction transaction)
+			throws ApplicationGUIException {
+		try {
+			// This is not OO at all
+			if (transaction.getCustomer() instanceof Member) {
+				MemberManager mm = MemberManager.getMemberManager();
+				Member m = (Member) transaction.getCustomer();
+
+				mm.reduceLoyalPoints(m, transaction.getLoyaltyPointsUsed());
+
+				int points = convertCashToPoints(transaction.getCashPayed());
+				mm.adjustLoyalPoints(m, points);
+			}
+			return true;
+		} catch (ApplicationGUIException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	private boolean updateTransaction(Transaction transaction)
+			throws ApplicationGUIException {
+		try {
+			// Update Transaction DB
+			PersistentService.getService().saveRecord(transaction);
+			return true;
+		} catch (Exception e) {
+			throw new ApplicationGUIException(e.toString());
+		}
 	}
 
 	private boolean updateProductsInTransactioDetails(Transaction transaction)
@@ -210,30 +209,27 @@ public class TransactionManager {
 		}
 	}
 
-	private boolean updateMemberPoints(Transaction transaction,
-			int loyaltyPoints, double cash) throws ApplicationGUIException {
+	public ArrayList<Transaction> getAllTransaction() {
 		try {
-			// This is not OO at all
-			if (transaction.getCustomer() instanceof Member) {
-				MemberManager mm = MemberManager.getMemberManager();
-				Member m = (Member) transaction.getCustomer();
-
-				mm.reduceLoyalPoints(m, loyaltyPoints);
-
-				// mm.increaseMemberPoints(transaction.getCustomer(), cash);
-			}
-			return true;
-		} catch (ApplicationGUIException e) {
+			PersistentService.getService().retrieveAll(Transaction.class);
+			return new ArrayList<Transaction>();
+		} catch (IOException | InvalidDataFormat | InvalidDomainObject e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			throw e;
+			return null;
 		}
 	}
 
-	public double ValidatePayment(int loyalPointsUsed, int finalAmount){
-		double convertedCashFromLoyalPoints;
-		convertedCashFromLoyalPoints = loyalPointsUsed / RATE_POINTS_TO_CASH;
-		
-		return finalAmount - convertedCashFromLoyalPoints;
+	public ArrayList<Transaction> getAllTransaction(Date startDate, Date endDate) {
+		ArrayList<Transaction> allTransaction = getAllTransaction();
+		ArrayList<Transaction> rangeTransactions = new ArrayList<Transaction>();
+
+		for (Transaction t : allTransaction) {
+			if (startDate.before(t.getDate()) && endDate.after(t.getDate())) {
+				rangeTransactions.add(t);
+			}
+		}
+
+		return rangeTransactions;
 	}
 }

@@ -19,6 +19,7 @@ public class Transaction {
 	private Date date;
 	private double discount;
 	private int loyaltyPointsUsed;
+	private double cashPayed;
 
 	public Transaction(int id, Date date){
 		super();
@@ -83,6 +84,14 @@ public class Transaction {
 			totalPrice += transactionDetail.getTotalPrice();
 		}
 		return totalPrice;
+	}
+
+	public double getCashPayed() {
+		return cashPayed;
+	}
+
+	public void setCashPayed(double cashPayed) {
+		this.cashPayed = cashPayed;
 	}
 	
 	/**
