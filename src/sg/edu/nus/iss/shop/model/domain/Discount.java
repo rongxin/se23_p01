@@ -7,6 +7,12 @@ package sg.edu.nus.iss.shop.model.domain;
 
 public abstract class Discount {
 
+	public static final String APPLICABLETOMEMBER = "M";
+	public static final String APPLICABLETOALL = "A";
+	public static final String ALWAY_VALID_DAYS = "ALWAYS";
+	public static final String ALWAY_VALID_START_DATE = "ALWAYS";
+	public static final String FIRST_PURCHASE_CODE = "MEMBER_FIRST";
+	
 	private String discountCode;
 	private String description;
 	private int discountPercentage;

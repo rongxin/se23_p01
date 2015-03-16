@@ -3,7 +3,7 @@ package sg.edu.nus.iss.shop.model.domain;
 public class PublicDiscount extends Discount {
 	private String startDate;
 	private String discountInDays;
-	private String applicableToMember = "A";
+	private String applicableToMember = APPLICABLETOALL;
 	
 	public PublicDiscount(String discountCode, String description,
 			int discountPercentage, String startDate, String discountInDays) {

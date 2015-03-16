@@ -6,6 +6,7 @@ import java.util.List;
 
 import sg.edu.nus.iss.shop.dao.adapter.CategoryRecordAdapter;
 import sg.edu.nus.iss.shop.dao.adapter.DataRecordAdapter;
+import sg.edu.nus.iss.shop.dao.adapter.DiscountRecordAdapter;
 import sg.edu.nus.iss.shop.dao.adapter.MemberRecordAdapter;
 import sg.edu.nus.iss.shop.dao.adapter.ProductRecordAdapter;
 import sg.edu.nus.iss.shop.dao.adapter.StoreKeeperRecordAdapter;
@@ -13,6 +14,7 @@ import sg.edu.nus.iss.shop.dao.adapter.VendorRecordAdapter;
 import sg.edu.nus.iss.shop.dao.exception.InvalidDataFormat;
 import sg.edu.nus.iss.shop.dao.exception.InvalidDomainObject;
 import sg.edu.nus.iss.shop.model.domain.Category;
+import sg.edu.nus.iss.shop.model.domain.Discount;
 import sg.edu.nus.iss.shop.model.domain.Member;
 import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.model.domain.StoreKeeper;
@@ -28,6 +30,7 @@ public class PersistentService
 	private boolean hasBuildPK4Product = false;
 	private boolean hasBuildPK4Member = false;
 	private boolean hasBuildPK4StoreKeeper = false;
+	private boolean hasBuildPK4Discount = false;
 
 	private PersistentService()
 	{
@@ -74,6 +77,10 @@ public class PersistentService
 		{
 			adapter = new ProductRecordAdapter((Product)recordObj);
 		}
+		else if(recordObj instanceof Discount)
+		{
+			adapter = new DiscountRecordAdapter((Discount)recordObj);
+		}
 		
 		String dsName = recordObj.getClass().getSimpleName() + DaoConstant.DS_SUFFIX;
 		if(adapter != null)
@@ -86,21 +93,26 @@ public class PersistentService
 
 	public <T> T retrieveObject(Class cls, String objectId) throws InvalidDomainObject, InvalidDataFormat, IOException
 	{
+		String dsName = cls.getSimpleName() + DaoConstant.DS_SUFFIX;
 		if(isCategoryType(cls))
 		{
-			return (T) retrieveCategory(cls.getSimpleName() + DaoConstant.DS_SUFFIX, objectId);
+			return (T) retrieveCategory(dsName, objectId);
 		}
 		else if(isProductType(cls))
 		{
-			return (T) retrieveProduct(cls.getSimpleName() + DaoConstant.DS_SUFFIX, objectId);
+			return (T) retrieveProduct(dsName, objectId);
 		}
 		else if(isMemberType(cls))
 		{
-			return (T) retrieveMember(cls.getSimpleName() + DaoConstant.DS_SUFFIX, objectId);
+			return (T) retrieveMember(dsName, objectId);
 		}
 		else if(isStoreKeeperType(cls))
 		{
-			return (T) retrieveStoreKeeper(cls.getSimpleName() + DaoConstant.DS_SUFFIX, objectId);
+			return (T) retrieveStoreKeeper(dsName, objectId);
+		}
+		else if(isDiscountType(cls))
+		{
+			return (T) retrieveDiscount(dsName, objectId);
 		}
 		else
 			throw new InvalidDomainObject("Not support this type of data retrieval");
@@ -125,6 +137,10 @@ public class PersistentService
 		else if(isStoreKeeperType(cls))
 		{
 			return (List<T>) retrieveAllStoreKeepers(dsName);
+		}
+		else if(isDiscountType(cls))
+		{
+			return (List<T>) retrieveAllDiscounts(dsName);
 		}
 		else
 			throw new InvalidDomainObject("Not support this type of data retrieval");
@@ -192,6 +208,15 @@ public class PersistentService
 	private boolean isStoreKeeperType(Class cls)
 	{
 		if (cls.getSimpleName().equals(StoreKeeper.class.getSimpleName()))
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	private boolean isDiscountType(Class cls)
+	{
+		if (cls.getSimpleName().equals(Discount.class.getSimpleName()))
 		{
 			return true;
 		}
@@ -273,6 +298,25 @@ public class PersistentService
 		}
 		hasBuildPK4StoreKeeper = true;
 	}
+	
+	private void buildPK4CachedDiscount(String dataSetName)
+	{
+		if(hasBuildPK4Discount)
+			return;
+
+		for(DataRecord record : dataReader.getCachedData(dataSetName))
+		{
+			try
+			{
+				new DiscountRecordAdapter(record);
+			}
+			catch (InvalidDataFormat e)
+			{
+				e.printStackTrace();
+			}
+		}
+		hasBuildPK4Discount = true;
+	}
 
 	private List<Object> retrieveAllCategories(String dataSetName) throws IOException, InvalidDataFormat
 	{
@@ -317,6 +361,18 @@ public class PersistentService
 		for(DataRecord record : dataReader.getCachedData(dataSetName))
 		{
 			adapter = new StoreKeeperRecordAdapter(record);
+			objects.add(adapter.getDataObject());
+		}
+		return objects;
+	}
+	
+	private List<Object> retrieveAllDiscounts(String dataSetName) throws IOException, InvalidDataFormat
+	{
+		List<Object> objects = new ArrayList<Object>();
+		DataRecordAdapter adapter = null;
+		for(DataRecord record : dataReader.getCachedData(dataSetName))
+		{
+			adapter = new DiscountRecordAdapter(record);
 			objects.add(adapter.getDataObject());
 		}
 		return objects;
@@ -394,6 +450,25 @@ public class PersistentService
 		return null;
 	}
 
+	private Object retrieveDiscount(String dataSetName, String objectId) throws IOException, InvalidDataFormat
+	{
+		buildPK4CachedDiscount(dataSetName);
+
+		DataRecordAdapter adapter = null;
+		//System.out.println("objectId:" + objectId);
+		for(DataRecord record : dataReader.getCachedData(dataSetName))
+		{
+			//System.out.println("PK:" + record.getPK());
+			if(objectId.equals(record.getPK()))
+			{
+				adapter = new StoreKeeperRecordAdapter(record);
+				return adapter.getDataObject();
+			}
+		}
+		return null;
+	}
+
+	
 	public void releaseService()
 	{
 		try
