@@ -2,6 +2,7 @@ package sg.edu.nus.iss.shop.controller;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -15,7 +16,7 @@ public class VendorManagerTest {
 
 	/** add a new vendor in all categories **/
 	@Test
-	public void addVendorTest() {
+	public void addVendorTest1() {
 		List<Category> categories;
 		try {
 			categories = CategoryManager.getCategoryManager().getAllCategories();
@@ -135,5 +136,76 @@ public class VendorManagerTest {
 		}
 		Vendor vendor = VendorManager.getVendorManager().getVendorByName(vendorList.get(0).getName());
 		Assert.assertNotNull(vendor);
+	}
+	
+	
+	/***add a few vendors for a category, count vendors****/
+	@Test
+	public void addVendorTest2(){
+		List<Category> categoryList;		
+		try{
+			categoryList = CategoryManager.getCategoryManager().getAllCategories();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			Assert.fail("Exception occurred when retrieving categories");
+			return ;
+		}
+		if (categoryList == null || categoryList.isEmpty()){
+			Assert.fail("Cannot find any existing categories");
+		}
+		Category category = categoryList.get(new Random().nextInt(categoryList.size()));
+		int existingVendorCount = category.getVendorList().size();
+		int newVendorNum = new Random().nextInt(50) + 1;
+		List<Category> addCategoryList = new LinkedList<Category>();
+		addCategoryList.add(category);
+		for (int i=0;i<newVendorNum;i++){
+			try{
+				VendorManager.getVendorManager().addVendor("Zhu Bin "+ new Random().nextLong(), "Test Vendor", addCategoryList);
+			}
+			catch(Exception e){
+				e.printStackTrace();
+				Assert.fail("Exception occurred when adding a new vendor");
+				return ;
+			}
+		}
+		Assert.assertEquals(existingVendorCount + newVendorNum, category.getVendorList().size());
+	}
+	
+	/***add a few vendors for a few categories, get all vendors, compare vendor count***/
+	@Test
+	public void getAllVendorsTest3(){
+		List<Category> categoryList;		
+		try{
+			categoryList = CategoryManager.getCategoryManager().getAllCategories();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			Assert.fail("Exception occurred when retrieving categories");
+			return ;
+		}
+		if (categoryList == null || categoryList.isEmpty()){
+			Assert.fail("Cannot find any existing categories");
+		}
+		int existingVendorCount = VendorManager.getVendorManager().getAllVendors().size();
+		int newVendorNum = new Random().nextInt(50) + 1;
+		for (int i=0; i<newVendorNum;i++){
+			List<Category> newAddCategories = new LinkedList<Category>();
+			for (int j=0;j<categoryList.size();j++){
+				int randomInt = new Random().nextInt(2);
+				if (randomInt == 1){
+					newAddCategories.add(categoryList.get(j));
+				}
+			}
+			try{
+				VendorManager.getVendorManager().addVendor("Zhu Bin"+ new Random().nextLong(), "Test Vendor getAllVendorsTest3", newAddCategories);
+			}
+			catch(Exception e){
+				e.printStackTrace();
+				Assert.fail("Exception occurred when adding a vendor");
+				return ;
+			}
+		}
+		Assert.assertEquals(existingVendorCount+newVendorNum, VendorManager.getVendorManager().getAllVendors().size());
 	}
 }
