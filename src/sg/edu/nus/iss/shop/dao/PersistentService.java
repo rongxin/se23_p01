@@ -10,6 +10,7 @@ import sg.edu.nus.iss.shop.dao.adapter.DiscountRecordAdapter;
 import sg.edu.nus.iss.shop.dao.adapter.MemberRecordAdapter;
 import sg.edu.nus.iss.shop.dao.adapter.ProductRecordAdapter;
 import sg.edu.nus.iss.shop.dao.adapter.StoreKeeperRecordAdapter;
+import sg.edu.nus.iss.shop.dao.adapter.TransactionAdapter;
 import sg.edu.nus.iss.shop.dao.adapter.VendorRecordAdapter;
 import sg.edu.nus.iss.shop.dao.exception.InvalidDataFormat;
 import sg.edu.nus.iss.shop.dao.exception.InvalidDomainObject;
@@ -18,6 +19,7 @@ import sg.edu.nus.iss.shop.model.domain.Discount;
 import sg.edu.nus.iss.shop.model.domain.Member;
 import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.model.domain.StoreKeeper;
+import sg.edu.nus.iss.shop.model.domain.Transaction;
 import sg.edu.nus.iss.shop.model.domain.Vendor;
 
 public class PersistentService
@@ -60,6 +62,7 @@ public class PersistentService
 
 	public void saveRecord(Object recordObj) throws Exception
 	{
+		String dsName = recordObj.getClass().getSimpleName() + DaoConstant.DS_SUFFIX;
 		DataRecordAdapter adapter = null;
 		if(recordObj instanceof Category)
 		{
@@ -81,8 +84,12 @@ public class PersistentService
 		{
 			adapter = new DiscountRecordAdapter((Discount)recordObj);
 		}
+		else if(recordObj instanceof Transaction)
+		{			
+			TransactionAdapter transAdapter = new TransactionAdapter((Transaction)recordObj);
+			dataWriter.writer.writeInAppend(dsName, transAdapter.getDataRecords());
+		}
 		
-		String dsName = recordObj.getClass().getSimpleName() + DaoConstant.DS_SUFFIX;
 		if(adapter != null)
 		{
 			dataWriter.writeRecord(dsName, adapter.getDataRecord());
@@ -142,6 +149,10 @@ public class PersistentService
 		{
 			return (List<T>) retrieveAllDiscounts(dsName);
 		}
+		else if(isTransactionType(cls))
+		{
+			return (List<T>) retrieveAllTransactions(dsName);
+		}		
 		else
 			throw new InvalidDomainObject("Not support this type of data retrieval");
 
@@ -222,7 +233,16 @@ public class PersistentService
 		}
 		return false;
 	}
-
+	
+	private boolean isTransactionType(Class cls)
+	{
+		if (cls.getSimpleName().equals(Transaction.class.getSimpleName()))
+		{
+			return true;
+		}
+		return false;
+	}
+	
 	private void buildPK4CachedCategory(String dataSetName)
 	{
 		if(hasBuildPK4Category)
@@ -377,6 +397,18 @@ public class PersistentService
 		}
 		return objects;
 	}
+	
+	private List<Object> retrieveAllTransactions(String dataSetName) throws IOException, InvalidDataFormat
+	{
+		List<DataRecord> records = dataReader.reader.read(dataSetName);
+		if(records == null)
+			return null;
+
+		TransactionAdapter adapter = new TransactionAdapter(records);
+		 
+		return adapter.getTransactions();
+	}
+	
 
 	private Object retrieveCategory(String dataSetName, String objectId) throws IOException, InvalidDataFormat
 	{

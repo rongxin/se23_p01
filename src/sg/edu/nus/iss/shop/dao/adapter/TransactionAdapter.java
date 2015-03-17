@@ -1,5 +1,9 @@
 package sg.edu.nus.iss.shop.dao.adapter;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
 import sg.edu.nus.iss.shop.dao.DaoConstant;
 import sg.edu.nus.iss.shop.dao.DataRecord;
 import sg.edu.nus.iss.shop.dao.exception.InvalidDataFormat;
@@ -8,33 +12,44 @@ import sg.edu.nus.iss.shop.model.domain.FirstPurchaseDiscount;
 import sg.edu.nus.iss.shop.model.domain.PublicDiscount;
 import sg.edu.nus.iss.shop.model.domain.SubsequentDiscount;
 import sg.edu.nus.iss.shop.model.domain.Transaction;
+import sg.edu.nus.iss.shop.model.domain.TransactionDetail;
 
-public class TransactionRecordAdapter implements DataRecordAdapter
+public class TransactionAdapter 
 {
-	DataRecord dataRecord;
-	Transaction dataObj;
-	public TransactionRecordAdapter(Transaction trasc)
+	private SimpleDateFormat dft = new SimpleDateFormat("yyyyy-mm-dd"); 
+
+	private List<DataRecord> dataRecordList;
+	private List<Object> transList;
+	public TransactionAdapter(Transaction trans)
 	{
 		StringBuilder builder = new StringBuilder();
-//		builder.append(trasc.getDiscountCode());
-//		builder.append(DaoConstant.SEPARATOR);
-//		builder.append(trasc.getDescription());
-//		builder.append(DaoConstant.SEPARATOR);
-//		builder.append(trasc.getStartDate());
-//		builder.append(DaoConstant.SEPARATOR);
-//		builder.append(trasc.getDiscountInDays());
-//		builder.append(DaoConstant.SEPARATOR);
-//		builder.append(disctrascount.getDiscountPercentage());
-//		builder.append(DaoConstant.SEPARATOR);
-//		builder.append(trasc.getApplicableToMember());
-//		 
-//		dataRecord = new DataRecord(builder.toString());
-//		dataRecord.setPk(trasc.getDiscountCode());
 		
-		dataObj = trasc;
+		int id = trans.getId();
+		String date = dft.format(trans.getDate());
+		String customerId = trans.getCustomer().getId();
+		
+		DataRecord dataRecord = null;
+		for(TransactionDetail detail : trans.getTransactionDetails() )
+		{
+			builder.append(id);
+			builder.append(DaoConstant.SEPARATOR);
+			builder.append(detail.getProduct().getProductId());
+			builder.append(DaoConstant.SEPARATOR);
+			builder.append(customerId);
+			builder.append(DaoConstant.SEPARATOR);
+			builder.append(detail.getQuantity());
+			builder.append(DaoConstant.SEPARATOR);
+			builder.append(date);
+			builder.append("\n");
+			
+			dataRecord = new DataRecord(builder.toString());
+			dataRecordList.add(dataRecord);
+		}
+		
+		transList.add(trans);
 	}
 	
-	public TransactionRecordAdapter(DataRecord record) throws InvalidDataFormat
+	public TransactionAdapter(List<DataRecord> record) throws InvalidDataFormat
 	{
 		String[] dataValues = record.toString().split(DaoConstant.SEPARATOR);
 		if(dataValues.length != 6)
@@ -63,22 +78,22 @@ public class TransactionRecordAdapter implements DataRecordAdapter
 //		   } 
 		} 
 		
-		dataRecord = record;
+		//dataRecord = record;
 //		if(dataObj != null)
 //		{
 //			dataRecord.setPk(dataObj.getDiscountCode());
 //		}
 	}
 	
-	@Override
-	public DataRecord getDataRecord()
+	 
+	public List<DataRecord> getDataRecords()
 	{		
-		return dataRecord;
+		return dataRecordList;
 	}
 	
-	@Override
-	public Object getDataObject()
+	 
+	public List<Object> getTransactions()
 	{
-		return dataObj;
+		return transList;
 	}	
 }

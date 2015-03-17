@@ -15,7 +15,7 @@ public class CacheDataWriter extends DataCache
 	
 	private static Timer timer = null;
 	
-	private DataWriter writer = new DataWriter();
+	protected DataWriter writer = new DataWriter();
 	
 	public CacheDataWriter()
 	{
