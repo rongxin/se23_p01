@@ -43,8 +43,7 @@ public class TransactionAdapter
 			dataRecord = new DataRecord(builder.toString());
 			dataRecordList.add(dataRecord);
 		}
-		
-		transList.add(trans);
+		 
 	}
 	
 	public TransactionAdapter(List<DataRecord> records) throws InvalidDataFormat, ParseException

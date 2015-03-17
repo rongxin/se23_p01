@@ -83,6 +83,7 @@ public class PersistentService
 		}
 		else if(recordObj instanceof Discount)
 		{
+			dsName = recordObj.getClass().getSuperclass().getSimpleName() + DaoConstant.DS_SUFFIX;
 			adapter = new DiscountRecordAdapter((Discount)recordObj);
 		}
 		else if(recordObj instanceof Transaction)
@@ -501,7 +502,7 @@ public class PersistentService
 			//System.out.println("PK:" + record.getPK());
 			if(objectId.equals(record.getPK()))
 			{
-				adapter = new StoreKeeperRecordAdapter(record);
+				adapter = new DiscountRecordAdapter(record);
 				return adapter.getDataObject();
 			}
 		}
