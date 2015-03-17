@@ -8,6 +8,7 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,15 +18,17 @@ import sg.edu.nus.iss.shop.model.domain.Category;
 
 public class CategoryManagerTest extends TestCase{
 	private static CategoryManager categoryManager;
+	private Category newCategory;
 	
 	@Before
-	public void setup() {
-		categoryManager = CategoryManager.getCategoryManager();
+	public void setup() throws Exception{
+	
 	}
 	
 	//Test if objects created are same
 	@Test
     public void testObjectInitialization() {
+		categoryManager = CategoryManager.getCategoryManager();
 		CategoryManager newCategoryManager = categoryManager;
 		assertSame("Objects should be the same",categoryManager,newCategoryManager);
 	}
@@ -34,9 +37,16 @@ public class CategoryManagerTest extends TestCase{
 	@Test
 	public void testCreateCategory() {
 		try { 
-			Category cat= CategoryManager.getCategoryManager().createCategory("STA", "Sationary");
-			assertNotNull(cat.getCode());
-			assertEquals("STA",cat.getCode());
+			// Check if there's an existing category
+			Category existingCategory = CategoryManager.getCategoryManager().getCategory("STA");
+			if (existingCategory != null) {
+				Category cat= CategoryManager.getCategoryManager().createCategory("STA", "Sationary");
+				assertNotNull(cat.getCode());
+				assertEquals("STA",cat.getCode());
+			} 
+			//Ensure that Category Code is different
+			assertNotSame(existingCategory.getCode(),"STA");
+			
 		} catch (Exception e) {
 			fail("failed to create category" + ": " + e.toString());
 		}
@@ -46,7 +56,7 @@ public class CategoryManagerTest extends TestCase{
 	//Test Retrieve Invalid Category
 	@Test
 	public void testGetInvalidCategory() {
-		Category newCategory = new Category("MUG", "Mugger");
+		newCategory = new Category("MUG", "Mugger");
 		//Test Empty Category
 		try { 
 			assertNotSame(newCategory,categoryManager.getCategory("STA"));
@@ -59,7 +69,7 @@ public class CategoryManagerTest extends TestCase{
 	//Test Retrieve Valid Category
 	@Test
 	public void testGetValidCategory() {
-		Category newCategory = new Category("STA", "Sationary");
+		newCategory = new Category("STA", "Sationary");
 		try { 
 			assertSame(newCategory,categoryManager.getCategory("STA"));
 		} catch (Exception e) {
