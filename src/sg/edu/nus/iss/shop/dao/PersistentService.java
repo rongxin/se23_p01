@@ -1,6 +1,7 @@
 package sg.edu.nus.iss.shop.dao;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -404,7 +405,14 @@ public class PersistentService
 		if(records == null)
 			return null;
 
-		TransactionAdapter adapter = new TransactionAdapter(records);
+		TransactionAdapter adapter;
+		try {
+			adapter = new TransactionAdapter(records);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
 		 
 		return adapter.getTransactions();
 	}
