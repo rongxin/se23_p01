@@ -16,10 +16,12 @@ import sg.edu.nus.iss.shop.model.domain.Product;
 public class ProductManagerTest extends TestCase{
 	private ProductManager productManager;
 	private Product testProduct;
-	private Category category;
+	private Category newCategory;
+	private Category validCategory;
 	@Before
 	public void setup() throws Exception {
-		category = new Category("STA","Stationary");
+		newCategory = new Category("STA","Stationary");
+		validCategory = new Category("CLO","CLOTHES");
 	
 	}
 	
@@ -35,7 +37,7 @@ public class ProductManagerTest extends TestCase{
 	@Test
 	public void testCreateProduct() {
 		try { 
-			testProduct = ProductManager.getProductManager().addProduct(category,"Testing Product","Testing Product 123",100,11.00,"19111",30,50);
+			testProduct = ProductManager.getProductManager().addProduct(newCategory,"Testing Product","Testing Product 123",100,11.00,"19111",30,50);
 			assertNotNull(testProduct.getProductId());
 			assertEquals("19111",testProduct.getBarcodeNumber());
 		} catch (Exception e) {
@@ -64,13 +66,20 @@ public class ProductManagerTest extends TestCase{
 	//Test Retrieve all Products by Category
 	@Test
 	public void testRetrieveAllProductsByCategory() throws ApplicationGUIException {
-		List<Product> allProducts = ProductManager.getProductManager().getProductsForCategory(category);
-		assertNotNull(allProducts);
+	
+		List<Product> allProducts = ProductManager.getProductManager().getProductsForCategory(validCategory);
+		if (allProducts!= null)
+		{
+			assertNotNull(allProducts);
+		} else {
+			assertNull(allProducts);
+		}
 	}
 	
 	@After
 	public void tearDown() throws Exception {
-		category = null;
+		newCategory = null;
+		validCategory = null;
 	}
 
 }

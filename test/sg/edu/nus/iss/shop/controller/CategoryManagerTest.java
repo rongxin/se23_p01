@@ -18,7 +18,8 @@ import sg.edu.nus.iss.shop.model.domain.Category;
 
 public class CategoryManagerTest extends TestCase{
 	private static CategoryManager categoryManager;
-	private Category newCategory;
+	private Category invalidCategory;
+	private Category validCategory;
 	
 	@Before
 	public void setup() throws Exception{
@@ -39,7 +40,7 @@ public class CategoryManagerTest extends TestCase{
 		try { 
 			// Check if there's an existing category
 			Category existingCategory = CategoryManager.getCategoryManager().getCategory("STA");
-			if (existingCategory != null) {
+			if (existingCategory == null) {
 				Category cat= CategoryManager.getCategoryManager().createCategory("STA", "Sationary");
 				assertNotNull(cat.getCode());
 				assertEquals("STA",cat.getCode());
@@ -48,6 +49,7 @@ public class CategoryManagerTest extends TestCase{
 			assertNotSame(existingCategory.getCode(),"STA");
 			
 		} catch (Exception e) {
+			e.printStackTrace();
 			fail("failed to create category" + ": " + e.toString());
 		}
 		
@@ -56,10 +58,10 @@ public class CategoryManagerTest extends TestCase{
 	//Test Retrieve Invalid Category
 	@Test
 	public void testGetInvalidCategory() {
-		newCategory = new Category("MUG", "Mugger");
+		invalidCategory = new Category("MUG", "Mugger");
 		//Test Empty Category
 		try { 
-			assertNotSame(newCategory,categoryManager.getCategory("STA"));
+			assertNotSame(invalidCategory ,CategoryManager.getCategoryManager().getCategory("STA"));
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail("failed to retrieve category" + ": " + e.toString());
@@ -69,9 +71,9 @@ public class CategoryManagerTest extends TestCase{
 	//Test Retrieve Valid Category
 	@Test
 	public void testGetValidCategory() {
-		newCategory = new Category("STA", "Sationary");
+		validCategory = new Category("STA", "Sationary");
 		try { 
-			assertSame(newCategory,categoryManager.getCategory("STA"));
+			assertEquals(validCategory ,CategoryManager.getCategoryManager().getCategory("STA"));
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail("failed to retrieve category" + ": " + e.toString());
@@ -83,7 +85,7 @@ public class CategoryManagerTest extends TestCase{
 	public void testRetrieveAllCategories() throws ApplicationGUIException {
 		List<Category> categories = CategoryManager.getCategoryManager().getAllCategories();
 		if (categories == null || categories.size() == 0 || categories.isEmpty()) {
-			fail("Cannot find a category");
+			assertNull("Cannot find a category");
 		}else {
 			assertNotNull(categories);
 		}
