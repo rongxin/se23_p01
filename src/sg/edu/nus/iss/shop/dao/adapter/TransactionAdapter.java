@@ -1,18 +1,16 @@
 package sg.edu.nus.iss.shop.dao.adapter;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import sg.edu.nus.iss.shop.dao.DaoConstant;
 import sg.edu.nus.iss.shop.dao.DataRecord;
 import sg.edu.nus.iss.shop.dao.exception.InvalidDataFormat;
-import sg.edu.nus.iss.shop.model.domain.Discount;
-import sg.edu.nus.iss.shop.model.domain.FirstPurchaseDiscount;
-import sg.edu.nus.iss.shop.model.domain.PublicDiscount;
-import sg.edu.nus.iss.shop.model.domain.SubsequentDiscount;
 import sg.edu.nus.iss.shop.model.domain.Transaction;
 import sg.edu.nus.iss.shop.model.domain.TransactionDetail;
+import sg.edu.nus.iss.shop.model.nondomain.TransactionRecord;
 
 public class TransactionAdapter 
 {
@@ -49,43 +47,38 @@ public class TransactionAdapter
 		transList.add(trans);
 	}
 	
-	public TransactionAdapter(List<DataRecord> record) throws InvalidDataFormat
+	public TransactionAdapter(List<DataRecord> records) throws InvalidDataFormat, ParseException
 	{
-		String[] dataValues = record.toString().split(DaoConstant.SEPARATOR);
-		if(dataValues.length != 6)
-		{
-			throw new InvalidDataFormat("Data format incorrect for parsing discount");
-		}
-		else
-		{			
-			int percentage = Integer.parseInt(dataValues[2]);
-			
-//		   if(Discount.APPLICABLETOALL.equals(dataValues[5]))
-//		   {
-//			   dataObj = new PublicDiscount(dataValues[0],dataValues[1],percentage,
-//						dataValues[3], dataValues[4]);
-//		   }
-//		   else  if(Discount.APPLICABLETOMEMBER.equals(dataValues[5]))
-//		   {
-//			   if(Discount.FIRST_PURCHASE_CODE.equals(dataValues[0]))
-//			   {
-//				   dataObj = new FirstPurchaseDiscount(dataValues[0],dataValues[1],percentage);
-//			   }
-//			   else
-//			   {
-//				   dataObj = new SubsequentDiscount(dataValues[0],dataValues[1],percentage);
-//			   }
-//		   } 
-		} 
+		DataRecord record = null;
+		Iterator<DataRecord> it = records.iterator();
 		
-		//dataRecord = record;
-//		if(dataObj != null)
-//		{
-//			dataRecord.setPk(dataObj.getDiscountCode());
-//		}
+		while(it.hasNext())
+		{
+			record = it.next();
+			transList.add(convert(record)); 
+		}	 
 	}
 	
-	 
+	
+	private TransactionRecord convert(DataRecord record) throws InvalidDataFormat, ParseException
+	{
+		String[] dataValues = record.toString().split(DaoConstant.SEPARATOR);
+		if(dataValues.length != 5)
+		{
+			throw new InvalidDataFormat("Data format incorrect for parsing transaction");
+		}
+		
+		TransactionRecord transRecord = new  TransactionRecord();	 
+		
+		transRecord.setId(Integer.parseInt(dataValues[0]));
+		transRecord.setProductId(dataValues[1]);
+		transRecord.setCustomerId(dataValues[2]);
+		transRecord.setQuantity(Integer.parseInt(dataValues[3]));
+		transRecord.setTransactionDate(dft.parse(dataValues[4]));
+		
+		return transRecord;
+	}
+	
 	public List<DataRecord> getDataRecords()
 	{		
 		return dataRecordList;
