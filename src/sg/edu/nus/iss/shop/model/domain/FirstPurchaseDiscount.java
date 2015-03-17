@@ -33,12 +33,4 @@ public class FirstPurchaseDiscount extends Discount {
 	public void setApplicableToMember(String applicableToMember) {
 		this.applicableToMember = applicableToMember;
 	}
-	
-//	public boolean isApplicable(Customer customer){
-//		if (customer instanceof Member && ((Member) customer).isFirstPurchase()){
-//				return true;
-//		}else{
-//			return false;
-//		}
-//	}
 }

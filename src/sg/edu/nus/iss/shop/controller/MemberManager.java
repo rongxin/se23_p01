@@ -50,8 +50,8 @@ public class MemberManager {
 			throw new ApplicationGUIException(
 					MemberManager.MEMBER_EXISTS_ERROR_MESSAGE);
 		}
-
-		return null;
+		Member newMember = new Member(id,name);
+		return newMember;
 	}
 
 	public List<Member> getAllMembers() throws ApplicationGUIException {
@@ -76,8 +76,7 @@ public class MemberManager {
 
 	public Member getMemberById(String id) throws ApplicationGUIException {
 		Member result = null;
-		List<Member> allMembers = MemberManager.getMemberManager()
-				.getAllMembers();
+		List<Member> allMembers = this.getAllMembers();
 		Iterator<Member> it = allMembers.iterator();
 		while (it.hasNext()) {
 			Member member = it.next();

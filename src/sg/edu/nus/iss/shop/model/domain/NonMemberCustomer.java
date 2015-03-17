@@ -1,8 +1,5 @@
 package sg.edu.nus.iss.shop.model.domain;
 
-import java.util.Date;
-import java.util.Random;
-
 import sg.edu.nus.iss.shop.controller.DiscountManager;
 
 public class NonMemberCustomer extends Customer {

@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import sg.edu.nus.iss.shop.dao.PersistentService;
+import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.Discount;
 import sg.edu.nus.iss.shop.model.domain.FirstPurchaseDiscount;
 import sg.edu.nus.iss.shop.model.domain.PublicDiscount;
@@ -19,6 +20,8 @@ import sg.edu.nus.iss.shop.model.domain.SubsequentDiscount;
  *
  */
 public class DiscountManager {
+	private static final String DISCOUNTCODE_NOT_EXIST_ERROR_MESSAGE = "Discount code doesn't exist";
+	
 	private static DiscountManager theOnlyDiscountManager;
 
 	private DiscountManager() {
@@ -31,7 +34,43 @@ public class DiscountManager {
 		}
 		return theOnlyDiscountManager;
 	}
-
+	
+	
+	public Discount getDiscountByCode(String discountCode) throws Exception{
+		Discount result = null;
+		List<Discount> discountList = this.getAllDiscounts();
+		
+		for(Discount discount : discountList){
+			if (discount.getDiscountCode().equals(discountCode)){
+				result = discount;
+				return result;
+			}
+		}
+		return result;
+	}
+	
+	public Discount editDiscount(String discountCode,String description,int discountPercentage,String startDate,String discountInDays,String applicableToMember) throws ApplicationGUIException {
+		Discount previousDiscount = null;
+		
+		try {
+			previousDiscount = this.getDiscountByCode(discountCode);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		if (previousDiscount == null){
+			throw new ApplicationGUIException(DiscountManager.DISCOUNTCODE_NOT_EXIST_ERROR_MESSAGE);
+		}
+		
+		previousDiscount.setDescription(description);
+		previousDiscount.setDiscountPercentage(discountPercentage);
+		previousDiscount.setStartDate(startDate);
+		previousDiscount.setDiscountInDays(discountInDays);
+		previousDiscount.setApplicableToMember(applicableToMember);
+		
+		return previousDiscount;
+	}
+	
 	private List<Discount> getAllDiscounts() throws Exception {
 		List<Discount> discountList = new LinkedList<Discount>();
 		List<Object> objectList = null;
