@@ -42,7 +42,7 @@ public class DiscountRecordAdapter implements DataRecordAdapter
 		}
 		else
 		{			
-			int percentage = Integer.parseInt(dataValues[2]);
+			int percentage = Integer.parseInt(dataValues[4]);
 			
 		   if(Discount.APPLICABLETOALL.equals(dataValues[5]))
 		   {
