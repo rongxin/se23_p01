@@ -1,13 +1,12 @@
-import static org.junit.Assert.*;
+package sg.edu.nus.iss.shop.controller;
+import junit.framework.TestCase;
 
-import java.util.List;
-
+import org.junit.Before;
 import org.junit.Test;
 
 import sg.edu.nus.iss.shop.controller.DiscountManager;
-import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.Discount;
-import sg.edu.nus.iss.shop.model.domain.Product;
+import sg.edu.nus.iss.shop.model.domain.PublicDiscount;
 
 public class DiscountManagerTest extends TestCase {
 	private DiscountManager discountManager;
@@ -16,8 +15,7 @@ public class DiscountManagerTest extends TestCase {
 
 	@Before
 	public void setup() {
-		testDiscount = Discount("01", "Christmas Day", 10, "2015-12-24", "3",
-				"A");
+		testDiscount = PublicDiscount("01", "Christmas Day", 10, "2015-12-24", "3", "A");
 	}
 
 	@Test
@@ -29,7 +27,7 @@ public class DiscountManagerTest extends TestCase {
 	}
 
 	@Test
-	public void testGetDiscountByCode() {
+	public void testGetDiscountByCode() throws Exception {
 		Discount compareDiscount = DiscountManager.getDiscountManager()
 				.getDiscountByCode("01");
 		assertNotNull(compareDiscount);
@@ -37,8 +35,8 @@ public class DiscountManagerTest extends TestCase {
 	}
 
 	@Test
-	public void testEditDiscount() {
-		modifiedDiscount = Disocunt("01", "National Day", 20, "2015-08-08",
+	public void testEditDiscount() throws Exception {
+		modifiedDiscount = PublicDiscount("01", "National Day", 20, "2015-08-08",
 				"3", "A");
 		assertSame(
 				modifiedDiscount,
@@ -49,5 +47,11 @@ public class DiscountManagerTest extends TestCase {
 						modifiedDiscount.getStartDate(),
 						modifiedDiscount.getDiscountInDays(),
 						modifiedDiscount.getApplicableToMember()));
+	}
+
+	private Discount PublicDiscount(String string, String string2, int i,
+			String string3, String string4, String string5) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
