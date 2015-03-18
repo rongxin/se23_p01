@@ -116,7 +116,7 @@ public class ProductManager {
 	public Product getProductById(String productId)throws ApplicationGUIException {
 		Product existingProduct = null;
 		try {
-			existingProduct = (Product) PersistentService.getService().retrieveObject(Product.class, productId);
+			existingProduct = PersistentService.getService().retrieveObject(Product.class, productId);
 		}catch (Exception e) {
 			e.printStackTrace();
 			throw new ApplicationGUIException(e.toString());
@@ -131,9 +131,9 @@ public class ProductManager {
 	 * @throws ApplicationGUIException Exception while retrieving a product based on given barcode number
 	 * */
 	public Product getProductByBarcode(String barcodeNumber)throws ApplicationGUIException {
-		Product existingProduct = null;
+		Product existingProduct=null;
 		try {
-			existingProduct = (Product) PersistentService.getService().retrieveObject(Product.class, barcodeNumber);
+			existingProduct = PersistentService.getService().retrieveObject(Product.class, barcodeNumber);
 		}catch (Exception e) {
 			e.printStackTrace();
 			throw new ApplicationGUIException(e.toString());
@@ -196,7 +196,7 @@ public class ProductManager {
 			while (it.hasNext()) {
 				productID = it.next().getProductId();
 				//Compare Current ProductID first 3 Characters with Category Code
-				if(productID.substring(0,category.getCode().length()).equals(category.getCode())) {
+				if(productID.substring(0,3).equals(category.getCode())) {
 					productsWithCategory.add(it.next());
 				}
 			}
