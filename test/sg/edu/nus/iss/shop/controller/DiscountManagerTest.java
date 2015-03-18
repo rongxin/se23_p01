@@ -3,7 +3,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 
-public class DiscountManager {
+public class DiscountManagerTest {
 
 	@Test
 	public void test() {
