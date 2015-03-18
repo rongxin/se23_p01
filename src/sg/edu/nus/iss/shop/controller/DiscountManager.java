@@ -21,7 +21,6 @@ import sg.edu.nus.iss.shop.model.domain.SubsequentDiscount;
  */
 public class DiscountManager {
 	private static final String DISCOUNTCODE_NOT_EXIST_ERROR_MESSAGE = "Discount code doesn't exist";
-	
 	private static DiscountManager theOnlyDiscountManager;
 
 	private DiscountManager() {
@@ -34,7 +33,6 @@ public class DiscountManager {
 		}
 		return theOnlyDiscountManager;
 	}
-	
 	
 	public Discount getDiscountByCode(String discountCode) throws Exception{
 		Discount result = null;
