@@ -160,6 +160,7 @@ public class CheckoutWindow extends JFrame {
 		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(" Actions"),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
+
 		scanItemsButton = new JButton("Scan items");
 		scanItemsButton.setEnabled(false);
 		scanItemsButton.addActionListener(new ActionListener() {
@@ -167,16 +168,8 @@ public class CheckoutWindow extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				BarcodeScannerEmulatorDialog d = new BarcodeScannerEmulatorDialog(p.getParent());
 				d.pack();
-				// d.setLocationByPlatform(true);
 				d.setVisible(true);
-				d.addConfirmListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						String scannedId = d.getScannedBarcodeNumber();
-						System.out.println("Scanned: " + scannedId);
-						// TODO get member details by member card
-					}
-				});
+				d.addConfirmListener(new ProductScannedActionListener(d, shopApplication));
 			}
 		});
 		p.add(scanItemsButton);
