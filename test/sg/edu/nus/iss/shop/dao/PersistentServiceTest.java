@@ -539,53 +539,56 @@ public class PersistentServiceTest {
 		}
 	} 
 	
-//	
-//	@Test
-//	public void TestSaveAndRetrieveRecord4Transaction() {
-//
-//		try {
-//			//SimpleDateFormat dft = new SimpleDateFormat("yyyyy-mm-dd");  
-//			
-//			Product product = new Product("CLO/1", "Centenary Jumper", "A releally nice momento", 1, 1, "1", 1, 1);
-//			Transaction trans = new Transaction(1, new Member("1", "Stacy"), new Date());
-//			TransactionDetail transDetail = new TransactionDetail(trans, product, 10); 
-//			
-//			assertTrue(trans.getTransactionDetails().size() >0);
-//			service.saveRecord(trans);
-//
-//			Product product1 = new Product("CLO/2", "Centenary Jumper", "A releally nice momento", 1, 1, "1", 1, 1);
-//			Transaction trans1 = new Transaction(2, new Member("1", "Stacy"), new Date());
+	
+	@Test
+	public void TestSaveAndRetrieveRecord4Transaction() {
+
+		try {
+			
+			Product product = new Product("CLO/1", "Centenary Jumper", "A releally nice momento", 1, 1, "1", 1, 1);
+			Transaction trans = new Transaction(1, new Member("1", "Stacy"), new Date());
+			trans.changeProductQuantity(product, 1);
+			//TransactionDetail transDetail = new TransactionDetail(trans, product, 10); 
+			
+			assertTrue(trans.getTransactionDetails().size() >0);
+			service.saveRecord(trans);
+			 
+
+			Product product1 = new Product("CLO/2", "Centenary Jumper", "A releally nice momento", 1, 1, "1", 1, 1);
+			Transaction trans1 = new Transaction(2, new Member("1", "Stacy"), new Date());
+			trans1.changeProductQuantity(product, 1);
+			trans1.changeProductQuantity(product1, 1);
 //			TransactionDetail transDetail2 = new TransactionDetail(trans1, product, 10);
 //			TransactionDetail transDetail3 = new TransactionDetail(trans1, product1, 1);
-//			assertTrue(trans1.getTransactionDetails().size() >0);
-//			service.saveRecord(trans1);
-// 
-//			
-//			List<Transaction> transes = new ArrayList<Transaction>();
-//			transes.add(trans);
-//			transes.add(trans1);			 
-//			
-//			List<TransactionRecord> retrieveds = service.retrieveAll(Transaction.class);
-//			boolean r = false;
-//			for (TransactionRecord retrieved : retrieveds) {
-//				r = false;
-//				for (Transaction inited : transes) {
-//					if (inited.getId() == retrieved.getId()) {
-//						assertEquals(retrieved, inited);
-//						r = true;
-//					}
-//				}
-//			}
-//
-//			if (!r) {
-//				fail("failed to retrieve transaction");
-//			}
-//
-//		} catch (Exception e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//			Assert.fail("failed to save and retrieve transaction object. ");
-//		}
-//	} 
+			assertTrue(trans1.getTransactionDetails().size() >0);
+			service.saveRecord(trans1);
+ 
+			
+			List<Transaction> transes = new ArrayList<Transaction>();
+			transes.add(trans);
+			transes.add(trans1);			 
+			
+			List<TransactionRecord> retrieveds = service.retrieveAll(Transaction.class);
+			boolean r = false;
+			for (TransactionRecord retrieved : retrieveds) {
+				r = false;
+				for (Transaction inited : transes) {
+					if (inited.getId() == retrieved.getId()) {
+						assertEquals(retrieved.getId(), inited.getId());
+						r = true;
+					}
+				}
+			}
+
+			if (!r) {
+				fail("failed to retrieve transaction");
+			}
+
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			Assert.fail("failed to save and retrieve transaction object. ");
+		}
+	} 
 	 
 }
