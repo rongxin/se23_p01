@@ -17,8 +17,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import sg.edu.nus.iss.shop.model.domain.Customer;
@@ -54,6 +52,8 @@ public class CheckoutWindow extends JFrame {
 	private JLabel memberTypeValuelabel;
 
 	private Map<Product, Integer> scannedItems;
+
+	private ListPurchaseItemPanel listPurchaseItemPanel;
 
 	public CheckoutWindow(ShopApplication shopApplication) {
 		this.shopApplication = shopApplication;
@@ -160,6 +160,7 @@ public class CheckoutWindow extends JFrame {
 		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(" Actions"),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
+
 		scanItemsButton = new JButton("Scan items");
 		scanItemsButton.setEnabled(false);
 		scanItemsButton.addActionListener(new ActionListener() {
@@ -167,16 +168,9 @@ public class CheckoutWindow extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				BarcodeScannerEmulatorDialog d = new BarcodeScannerEmulatorDialog(p.getParent());
 				d.pack();
-				// d.setLocationByPlatform(true);
 				d.setVisible(true);
-				d.addConfirmListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						String scannedId = d.getScannedBarcodeNumber();
-						System.out.println("Scanned: " + scannedId);
-						// TODO get member details by member card
-					}
-				});
+				d.addConfirmListener(new ProductScannedActionListener(d, shopApplication));
+				// TODO scan items
 			}
 		});
 		p.add(scanItemsButton);
@@ -222,7 +216,10 @@ public class CheckoutWindow extends JFrame {
 		purchaseCardPanel = new JPanel();
 		purchaseCardPanel.setLayout(new CardLayout());
 		purchaseCardPanel.add(createGetMemberPanel(), CARD_MEMBER);
-		purchaseCardPanel.add(createCartItemsPanel(), CARD_CART);
+
+		listPurchaseItemPanel = new ListPurchaseItemPanel();
+		purchaseCardPanel.add(listPurchaseItemPanel, CARD_CART);
+
 		purchaseCardPanel.add(createMakePaymentPanel(), CARD_PAYMENT);
 		purchaseCardPanel.add(createSummaryPanel(), CARD_SUMMARY);
 		return purchaseCardPanel;
@@ -323,21 +320,7 @@ public class CheckoutWindow extends JFrame {
 		return p;
 	}
 
-	private JPanel createCartItemsPanel() {
-		JPanel p = new JPanel();
-		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(" Items"),
-				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-		Object columnNames[] = { "Product ID", "Product Name", "Price", "Quantity", "SubTotal", "Description" };
-		Object rowData[][] = { { "CLO/1", "Centenary Jumper", 21.45, 1, 21.45, "A really nice momento" },
-				{ "MUG/1", "Centenary Mug", 10.25, 1, 10.25, "A really nice mug this time" } };
-		JTable table = new JTable(rowData, columnNames);
-		table.setName("Items");
-		table.setEnabled(false);
-		JScrollPane scrollPane = new JScrollPane(table);
-		p.add(scrollPane);
-		p.setSize(800, 600);
-		return p;
-	}
+
 
 	private JPanel createMakePaymentPanel() {
 

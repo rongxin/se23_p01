@@ -1,4 +1,4 @@
-package sg.edu.nus.iss.ui.member;
+package sg.edu.nus.iss.shop.ui.member;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;

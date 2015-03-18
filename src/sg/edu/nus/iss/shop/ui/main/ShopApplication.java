@@ -114,6 +114,17 @@ public class ShopApplication {
 		}
 	}
 
+	public Product getProductByBarcode(String scannedId) {
+		System.out.println("Get product by barcode:" + scannedId);
+		Product product = null;
+		try {
+			product = productManager.getProductByBarcode(scannedId);
+		} catch (ApplicationGUIException e) {
+			e.printStackTrace();
+		}
+		return product;
+	}
+
 	public void addMember(String memberId, String memberName){
 		System.out.println("Add Member ");
 
@@ -133,5 +144,6 @@ public class ShopApplication {
 		}
 		return members;
 	}
+
 
 }
