@@ -170,6 +170,7 @@ public class CheckoutWindow extends JFrame {
 				d.pack();
 				d.setVisible(true);
 				d.addConfirmListener(new ProductScannedActionListener(d, shopApplication));
+				// TODO scan items
 			}
 		});
 		p.add(scanItemsButton);
