@@ -131,15 +131,21 @@ public class ProductManager {
 	 * @throws ApplicationGUIException Exception while retrieving a product based on given barcode number
 	 * */
 	public Product getProductByBarcode(String barcodeNumber)throws ApplicationGUIException {
-		Product existingProduct=null;
-		try {
-			existingProduct = PersistentService.getService().retrieveObject(Product.class, barcodeNumber);
-		}catch (Exception e) {
-			e.printStackTrace();
-			throw new ApplicationGUIException(e.toString());
+		//Retrieve all products
+		List<Product> allProducts = ProductManager.getProductManager().getAllProducts();
+		Product product = null;
+		
+		if(!allProducts.isEmpty() && allProducts != null) {
+			for(Product prod : allProducts) {
+				if(prod.getBarcodeNumber().equals(barcodeNumber)) {
+					product = prod;
+					break;
+				}
+			}
 		}
-		return existingProduct;
+		return product;
 	}
+
 
 	/**
 	 * Method to retrieve all products from data source

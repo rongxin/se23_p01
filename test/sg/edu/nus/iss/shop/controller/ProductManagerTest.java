@@ -5,7 +5,7 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import org.junit.Test;
-import org.junit.Before;
+
 
 import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.Category;
@@ -51,13 +51,12 @@ public class ProductManagerTest extends TestCase {
 		assertEquals("CLO/1", validProd.getProductId());
 	}
 	
-	// Test Retrieve Product by Product ID (Valid)
+	// Test Retrieve Product by Barcode number(Valid)
 		@Test
 		public void testRetrieveProductByBardcode() throws ApplicationGUIException {
-			Product validProd = ProductManager.getProductManager().getProductById(
-					"19111");
-			assertNotNull(validProd);
-			assertEquals("19111", validProd.getBarcodeNumber());
+			Product validProd = ProductManager.getProductManager().getProductByBarcode("A1234");
+			assertNotNull(validProd.getBarcodeNumber(),validProd);
+			assertEquals("A1234", validProd.getBarcodeNumber());
 		}
 
 
