@@ -90,6 +90,7 @@ public class PersistentService
 		{			
 			TransactionAdapter transAdapter = new TransactionAdapter((Transaction)recordObj);
 			dataWriter.writer.writeInAppend(dsName, transAdapter.getDataRecords());
+			return;
 		}
 		
 		if(adapter != null)

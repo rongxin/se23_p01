@@ -24,7 +24,7 @@ public class DataReader extends DataRespository
 			r = new FileReader(tmpFilePath.toString());
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
 			return records;
 		}
 		
