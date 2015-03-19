@@ -3,15 +3,19 @@
  */
 package sg.edu.nus.iss.shop.controller;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 import sg.edu.nus.iss.shop.dao.PersistentService;
+import sg.edu.nus.iss.shop.dao.exception.InvalidDataFormat;
+import sg.edu.nus.iss.shop.dao.exception.InvalidDomainObject;
 import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.Discount;
 import sg.edu.nus.iss.shop.model.domain.FirstPurchaseDiscount;
+import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.model.domain.PublicDiscount;
 import sg.edu.nus.iss.shop.model.domain.SubsequentDiscount;
 
@@ -34,17 +38,22 @@ public class DiscountManager {
 		return theOnlyDiscountManager;
 	}
 	
-	public Discount getDiscountByCode(String discountCode) throws Exception{
-		Discount result = null;
-		List<Discount> discountList = this.getAllDiscounts();
+	public Discount getDiscountByCode(String discountCode) throws ApplicationGUIException {
+		Discount discount = null;
 		
-		for(Discount discount : discountList){
-			if (discount.getDiscountCode().equals(discountCode)){
-				result = discount;
-				return result;
-			}
+		try {
+			discount = PersistentService.getService().retrieveObject(Discount.class, discountCode);
+		} catch (InvalidDomainObject e) {
+			e.printStackTrace();
+			throw new ApplicationGUIException(e.toString());
+		} catch (InvalidDataFormat e) {
+			e.printStackTrace();
+			throw new ApplicationGUIException(e.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new ApplicationGUIException(e.toString());
 		}
-		return result;
+		return discount;
 	}
 	
 	public Discount editDiscount(String discountCode,String description,int discountPercentage,String startDate,String discountInDays,String applicableToMember) throws ApplicationGUIException {

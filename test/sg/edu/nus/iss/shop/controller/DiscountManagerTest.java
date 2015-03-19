@@ -1,21 +1,30 @@
 package sg.edu.nus.iss.shop.controller;
+
+import org.junit.Test;
 import junit.framework.TestCase;
 
 import org.junit.Before;
-import org.junit.Test;
 
 import sg.edu.nus.iss.shop.controller.DiscountManager;
 import sg.edu.nus.iss.shop.model.domain.Discount;
+import sg.edu.nus.iss.shop.model.domain.FirstPurchaseDiscount;
+import sg.edu.nus.iss.shop.model.domain.SubsequentDiscount;
 import sg.edu.nus.iss.shop.model.domain.PublicDiscount;
 
 public class DiscountManagerTest extends TestCase {
 	private DiscountManager discountManager;
-	private Discount testDiscount;
-	private Discount modifiedDiscount;
+	private FirstPurchaseDiscount firstPurchaseDiscount;
+	private SubsequentDiscount subsequentDiscount;
+	private PublicDiscount publicDiscount;
 
 	@Before
 	public void setup() {
-		testDiscount = PublicDiscount("01", "Christmas Day", 10, "2015-12-24", "3", "A");
+		publicDiscount = new PublicDiscount("CENTENARY",
+				"Centenary Celebration in 2014", 10, "2014-01-01", "365");
+		firstPurchaseDiscount = new FirstPurchaseDiscount("MEMBER_FIRST",
+				"First purchase by member", 20);
+		subsequentDiscount = new SubsequentDiscount("MEMBER_SUBSEQ",
+				"Subsequent purchase by member", 10);
 	}
 
 	@Test
@@ -29,29 +38,55 @@ public class DiscountManagerTest extends TestCase {
 	@Test
 	public void testGetDiscountByCode() throws Exception {
 		Discount compareDiscount = DiscountManager.getDiscountManager()
-				.getDiscountByCode("01");
+				.getDiscountByCode("CENTENARY");
 		assertNotNull(compareDiscount);
-		assertSame(testDiscount, compareDiscount);
+		assertEquals("CENTENARY", compareDiscount.getDiscountCode());
 	}
 
 	@Test
-	public void testEditDiscount() throws Exception {
-		modifiedDiscount = PublicDiscount("01", "National Day", 20, "2015-08-08",
-				"3", "A");
-		assertSame(
-				modifiedDiscount,
-				DiscountManager.getDiscountManager().editDiscount(
-						modifiedDiscount.getDiscountCode(),
-						modifiedDiscount.getDescription(),
-						modifiedDiscount.getDiscountPercentage(),
-						modifiedDiscount.getStartDate(),
-						modifiedDiscount.getDiscountInDays(),
-						modifiedDiscount.getApplicableToMember()));
+	public void testGetFirstPurchaseDiscountList() {
+		try {
+			Discount memberDiscount = DiscountManager.getDiscountManager().getFirstPurchaseDiscountList();
+			assertSame(firstPurchaseDiscount,memberDiscount);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
 	}
 
-	private Discount PublicDiscount(String string, String string2, int i,
-			String string3, String string4, String string5) {
-		// TODO Auto-generated method stub
-		return null;
+	@Test
+	public void testGetSubsequentDiscountList() {
+		try {
+			Discount memberDiscount = DiscountManager.getDiscountManager().getSubsequentDiscountList();
+			assertSame(subsequentDiscount,memberDiscount);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
+
+	@Test
+	public void testGetMaxValidPublicDiscount() {
+		try {
+			Discount maxValidPublicDiscount = DiscountManager
+					.getDiscountManager().getMaxValidPublicDiscount();
+			assertSame(publicDiscount, maxValidPublicDiscount);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	// @Test
+	// public void testEditDiscount() throws Exception {
+	// PublicDiscount modifiedDiscount = new PublicDiscount("P01",
+	// "CHRISTAMS_DAY", 20, "2015-12-23","3");
+	// assertSame(
+	// modifiedDiscount,
+	// DiscountManager.getDiscountManager().editDiscount(
+	// modifiedDiscount.getDiscountCode(),
+	// modifiedDiscount.getDescription(),
+	// modifiedDiscount.getDiscountPercentage(),
+	// modifiedDiscount.getStartDate(),
+	// modifiedDiscount.getDiscountInDays(),
+	// modifiedDiscount.getApplicableToMember()));
+	// }
 }
