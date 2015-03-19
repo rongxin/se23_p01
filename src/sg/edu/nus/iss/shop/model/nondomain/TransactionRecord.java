@@ -4,7 +4,7 @@ import java.util.Date;
 
  
 
-public class TransactionRecord {
+public class TransactionRecord implements Comparable<TransactionRecord>{
 	private int id;
 	private String productId;
 	private String customerId;
@@ -51,5 +51,12 @@ public class TransactionRecord {
 	}
 	public void setTransactionDate(Date transactionDate) {
 		this.transactionDate = transactionDate;
+	}
+	
+	@Override
+	public int compareTo(TransactionRecord arg0) {
+		// TODO Auto-generated method stub
+		 
+		return getProductId().compareTo(arg0.getProductId());		 
 	}
 }
