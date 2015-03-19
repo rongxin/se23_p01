@@ -86,7 +86,6 @@ public class ProductManager {
 			newProduct = new Product(category.getCode()+"/1",name,description,
 					availableQuantity,price,barcodeNumber,orderThreshold,orderQuantity);
 		} else {
-
 			Iterator<Product> it =  productsWithCategory.iterator();
 			while (it.hasNext()) {
 				int tempNum = Integer.parseInt(it.next().getProductId().substring(4)); // Code format eg MUG/1
@@ -145,7 +144,6 @@ public class ProductManager {
 		}
 		return product;
 	}
-
 
 	/**
 	 * Method to retrieve all products from data source

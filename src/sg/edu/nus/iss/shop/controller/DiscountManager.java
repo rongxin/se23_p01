@@ -15,7 +15,6 @@ import sg.edu.nus.iss.shop.dao.exception.InvalidDomainObject;
 import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.Discount;
 import sg.edu.nus.iss.shop.model.domain.FirstPurchaseDiscount;
-import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.model.domain.PublicDiscount;
 import sg.edu.nus.iss.shop.model.domain.SubsequentDiscount;
 
