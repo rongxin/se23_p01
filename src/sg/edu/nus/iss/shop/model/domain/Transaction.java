@@ -3,8 +3,6 @@ package sg.edu.nus.iss.shop.model.domain;
 import java.util.ArrayList;
 import java.util.Date;
 
-import sg.edu.nus.iss.shop.controller.MemberManager;
-
 /**
  * 
  * @author Oscar Castro Araya

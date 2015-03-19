@@ -42,7 +42,7 @@ public class TransactionTest {
 			t.changeProductQuantity(product, 1);
 			ArrayList<TransactionDetail> list = t.getTransactionDetails();
 			assertFalse("List should not be Empty", list.isEmpty());
-
+			assertTrue(t.getTransactionDetails().size() >0);
 			TransactionDetail transactionDetail = findTransactionDetail(
 					product, list);
 			assertEquals("Value should be the same",
@@ -85,6 +85,26 @@ public class TransactionTest {
 		} catch (Exception e) {
 
 		}
+	}
+	
+	@Test
+	public void XiangmingTest() throws Exception{
+		Product product = new Product("CLO/1", "Centenary Jumper", "A releally nice momento", 1, 1, "1", 1, 1);
+		Transaction trans = new Transaction(1, new Member("1", "Stacy"), new Date());
+		trans.changeProductQuantity(product, 1);
+		//TransactionDetail transDetail = new TransactionDetail(trans, product, 10); 
+		
+		assertTrue(trans.getTransactionDetails().size() == 1);
+		//service.saveRecord(trans);
+
+		Product product1 = new Product("CLO/2", "Centenary Jumper", "A releally nice momento", 1, 1, "1", 1, 1);
+		Transaction trans1 = new Transaction(2, new Member("1", "Stacy"), new Date());
+		trans1.changeProductQuantity(product, 1);
+		trans1.changeProductQuantity(product1, 1);
+//		TransactionDetail transDetail2 = new TransactionDetail(trans1, product, 10);
+//		TransactionDetail transDetail3 = new TransactionDetail(trans1, product1, 1);
+		assertTrue(trans1.getTransactionDetails().size() == 2);
+		//service.saveRecord(trans1);
 	}
 
 }
