@@ -3,7 +3,9 @@ package sg.edu.nus.iss.shop.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.List;
 
 import sg.edu.nus.iss.shop.dao.PersistentService;
 import sg.edu.nus.iss.shop.dao.exception.InvalidDataFormat;
@@ -14,6 +16,7 @@ import sg.edu.nus.iss.shop.model.domain.Member;
 import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.model.domain.Transaction;
 import sg.edu.nus.iss.shop.model.domain.TransactionDetail;
+import sg.edu.nus.iss.shop.model.nondomain.TransactionRecord;
 
 /**
  * 
@@ -103,15 +106,15 @@ public class TransactionManager {
 	 *            Total price before redeeming
 	 * @return Amount to be pay after redeeming the points
 	 */
-	public double calculateCashToPay(int loyalPointsUsed, double finalAmount){
+	public double calculateCashToPay(int loyalPointsUsed, double finalAmount) {
 		double cash;
 		cash = convertPointsToCash(loyalPointsUsed);
 		int maxPoints = maxNumberOfPointsForAmount(finalAmount);
-		//System.out.println(maxPoints);
+		// System.out.println(maxPoints);
 		if (maxPoints <= loyalPointsUsed) {
-			//throw new Exception(
-			//		"You don't need to use that many amount of points you only need: "
-			//				+ maxPoints);
+			// throw new Exception(
+			// "You don't need to use that many amount of points you only need: "
+			// + maxPoints);
 			return 0;
 		}
 
@@ -120,6 +123,7 @@ public class TransactionManager {
 
 	/**
 	 * End the transaction and update the DB
+	 * 
 	 * @param customer
 	 * @param products
 	 * @param discount
@@ -211,10 +215,55 @@ public class TransactionManager {
 		}
 	}
 
+	private ArrayList<Transaction> parseTransactions(
+			List<TransactionRecord> transList) {
+		// Oscar: Using a hash to maintain the Transaction ID
+		HashMap<Integer, Transaction> transactions = new HashMap<Integer, Transaction>();
+		TransactionRecord transRecord;
+		for (Object tr : transList) {
+			transRecord = (TransactionRecord) tr;
+
+			// Oscar: Adding the transaction to the list of transactions.
+			if (!transactions.containsKey(transRecord.getId())) {
+				// Transaction doesn't exist create a new one.
+				Transaction t = new Transaction(transRecord.getId(),
+						transRecord.getTransactionDate());
+				transactions.put(t.getId(), t);
+				// } else {
+				// Transaction exists in hash, do nothing
+			}
+			try {
+				// Get the product
+				Product p = ProductManager.getProductManager().getProductById(
+						transRecord.getProductId());
+				// This guy is Throwing a generic Exception, need to change to a
+				// more defined Exception
+
+				// Update the transaction with the product and quantity.
+				transactions.get(transRecord.getId()).changeProductQuantity(p,
+						transRecord.getQuantity());
+			} catch (ApplicationGUIException e) {
+				// TODO Auto-generated catch block
+				// e.printStackTrace();
+				System.out.println("No product found: " + transRecord.getProductId());
+			} catch (Exception e) {
+				System.out.println("No product found " + transRecord.getProductId());
+				// e.printStackTrace();
+			}
+		}
+		ArrayList<Transaction> finalList = new ArrayList<Transaction>();
+		for (Transaction t : transactions.values()) {
+			finalList.add(t);
+		}
+		return finalList;
+	}
+
 	public ArrayList<Transaction> getAllTransaction() {
 		try {
-			PersistentService.getService().retrieveAll(Transaction.class);
-			return new ArrayList<Transaction>();
+			List<TransactionRecord> transList;
+			transList = PersistentService.getService().retrieveAll(
+					Transaction.class);
+			return parseTransactions(transList);
 		} catch (IOException | InvalidDataFormat | InvalidDomainObject e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -222,13 +271,17 @@ public class TransactionManager {
 		}
 	}
 
-	public ArrayList<Transaction> getAllTransaction(Date startDate, Date endDate) {
+	public ArrayList<Transaction> getAllTransaction(Date startDate,
+			Date endDate) {
 		ArrayList<Transaction> allTransaction = getAllTransaction();
 		ArrayList<Transaction> rangeTransactions = new ArrayList<Transaction>();
 
 		for (Transaction t : allTransaction) {
 			if (startDate.before(t.getDate()) && endDate.after(t.getDate())) {
 				rangeTransactions.add(t);
+				System.out.println("inc " + startDate + " < " + t.getDate() + " < " + endDate);
+			}else{
+				System.out.println("exc " + startDate + " < " + t.getDate() + " < " + endDate);
 			}
 		}
 
