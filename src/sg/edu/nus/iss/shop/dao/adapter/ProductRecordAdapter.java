@@ -29,6 +29,7 @@ public class ProductRecordAdapter implements DataRecordAdapter
 		builder.append(prod.getOrderQuantity());
 		dataRecord = new DataRecord(builder.toString());
 		dataRecord.setPk(prod.getProductId());
+		dataRecord.setUk(prod.getBarcodeNumber());
 		
 		dataObj = prod;
 	}
@@ -57,6 +58,7 @@ public class ProductRecordAdapter implements DataRecordAdapter
 		 
 		dataRecord = record;
 		dataRecord.setPk(dataObj.getProductId());
+		dataRecord.setUk(dataObj.getBarcodeNumber());
 	}
 	
 	@Override

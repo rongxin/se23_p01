@@ -509,7 +509,28 @@ public class PersistentService
 		}
 		return null;
 	}
-
+	
+	public Product retrieveProductByBarcode(String barcode) throws IOException, InvalidDataFormat
+	{
+		
+		if(barcode == null || barcode.equals(""))
+			return null;
+		
+		String dataSetName = Product.class.getSimpleName() + DaoConstant.DS_SUFFIX;
+		buildPK4CachedProduct(dataSetName);
+		
+		//System.out.println("objectId:" + objectId);
+		for(DataRecord record : dataReader.getCachedData(dataSetName))
+		{
+			//System.out.println("PK:" + record.getPK());
+			if(barcode.equals(record.getUK()))
+			{
+				DataRecordAdapter adapter = new ProductRecordAdapter(record);
+				return (Product)adapter.getDataObject();
+			}
+		}
+		return null;
+	}
 	
 	public void releaseService()
 	{

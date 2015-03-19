@@ -590,5 +590,31 @@ public class PersistentServiceTest {
 			Assert.fail("failed to save and retrieve transaction object. ");
 		}
 	} 
+	
+	@Test
+	public void TestRetrieveProductByBarcode() {
+		try {
+			
+            if(products.size()<=0)
+            {
+            	this.TestSaveAndRetrieveRecord4Product();
+            }
+            
+			Product prod = new Product("CLO/1", "Centenary Jumper",
+					"A releally nice momento", 315, 21.45, "1234", 10, 100);
+			
+			Product retrieved = service.retrieveProductByBarcode(prod.getBarcodeNumber());
+			
+			assertNotNull(retrieved);
+			assertEquals(prod, retrieved);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			fail("failed to save and retrieve product" + ": " + e.toString());
+
+		}
+
+	}
 	 
 }

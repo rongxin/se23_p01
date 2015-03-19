@@ -1,9 +1,10 @@
 package sg.edu.nus.iss.shop.dao;
 
-public class DataRecord 
+public class DataRecord implements Comparable<DataRecord>
 {
 	private boolean isPersistent = false;
 	private String PK;
+	private String UK;
 	private String rawText;
 	public DataRecord()
 	{}
@@ -33,6 +34,16 @@ public class DataRecord
 		this.PK = PK;
 	}
 	
+	public String getUK()
+	{
+		return this.UK;
+	}
+	
+	public void setUk(String UK)
+	{
+		this.UK = UK;
+	}
+	
 	public boolean getIsPersistent()
 	{
 		return this.isPersistent;
@@ -41,6 +52,12 @@ public class DataRecord
 	public void setIsPersistent(boolean isPersistent)
 	{
 		this.isPersistent = isPersistent;
+	}
+
+	@Override
+	public int compareTo(DataRecord arg0) {
+		// TODO Auto-generated method stub
+		return getPK().compareTo(arg0.getPK());
 	}
 	
 }
