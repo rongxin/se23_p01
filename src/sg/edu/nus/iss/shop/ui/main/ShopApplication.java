@@ -74,11 +74,8 @@ public class ShopApplication {
 			e.printStackTrace();
 		}
 
-		// List<Category> categories = new ArrayList<>();
-		// categories.add(new Category("CLO", "Clothing"));
-		// categories.add(new Category("MUG", "Mugs"));
-		// categories.add(new Category("STA", "Stationary"));
-		// categories.add(new Category("DTA", "Diary"));
+
+		System.out.println("Get categories, size:" + allCategories.size());
 		return allCategories;
 	}
 
