@@ -12,6 +12,7 @@ public abstract class Discount {
 	public static final String ALWAY_VALID_DAYS = "ALWAYS";
 	public static final String ALWAY_VALID_START_DATE = "ALWAYS";
 	public static final String FIRST_PURCHASE_CODE = "MEMBER_FIRST";
+	public static final String SUBSEQUENT_CODE = "MEMBER_SUBSEQ";
 	
 	private String discountCode;
 	private String description;
