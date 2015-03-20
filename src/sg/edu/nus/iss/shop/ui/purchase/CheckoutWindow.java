@@ -21,10 +21,8 @@ import javax.swing.JTextField;
 
 import sg.edu.nus.iss.shop.model.domain.Customer;
 import sg.edu.nus.iss.shop.model.domain.Member;
-import sg.edu.nus.iss.shop.model.domain.NonMemberCustomer;
 import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
-import sg.edu.nus.iss.shop.ui.util.IconHelper;
 import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
 
 public class CheckoutWindow extends JFrame {
@@ -215,7 +213,9 @@ public class CheckoutWindow extends JFrame {
 	private JPanel createPurchaseCardPanel() {
 		purchaseCardPanel = new JPanel();
 		purchaseCardPanel.setLayout(new CardLayout());
-		purchaseCardPanel.add(createGetMemberPanel(), CARD_MEMBER);
+		GetMemberInfoPanel getMemberInfoPanel = new GetMemberInfoPanel(this, shopApplication);
+
+		purchaseCardPanel.add(getMemberInfoPanel, CARD_MEMBER);
 
 		listPurchaseItemPanel = new ListPurchaseItemPanel();
 		purchaseCardPanel.add(listPurchaseItemPanel, CARD_CART);
@@ -225,16 +225,16 @@ public class CheckoutWindow extends JFrame {
 		return purchaseCardPanel;
 	}
 
-	private void refreshMemberScanStep(Customer member) {
+	public void refreshMemberScanStep(Customer member) {
 		if (member instanceof Member) {
 			memberTypeValuelabel.setText("Member");
-			memberIdValuelabel.setText(customer.getId());
-			memberIdValuelabel.setToolTipText(customer.getId());
+			memberIdValuelabel.setText(member.getId());
+			memberIdValuelabel.setToolTipText(member.getId());
 			memberNameValuelabel.setText(((Member) member).getName());
 			memberLoyaltyPointsValueLabel.setText("" + ((Member) member).getLoyalPoints());
 		} else {
 			memberTypeValuelabel.setText("None Member");
-			memberIdValuelabel.setText(customer.getId());
+			memberIdValuelabel.setText(member.getId());
 			memberNameValuelabel.setText("N.A.");
 			memberLoyaltyPointsValueLabel.setText("N.A.");
 		}
@@ -250,74 +250,7 @@ public class CheckoutWindow extends JFrame {
 
 	}
 
-	private Component createGetMemberPanel() {
-		JPanel p = new JPanel(new GridBagLayout());
-		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(" Member Info "),
-				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
-		GridBagConstraints gc = new GridBagConstraints();
-		// column 1
-		gc = LayoutHelper.createCellConstraint(0, 0);
-		p.add(new JLabel(""), gc);
-		gc = LayoutHelper.createCellConstraint(0, 1);
-		p.add(new JLabel(""), gc);
-		gc = LayoutHelper.createCellConstraint(0, 2);
-		p.add(new JLabel(""), gc);
-		gc = LayoutHelper.createCellConstraint(0, 3);
-		p.add(new JLabel(""), gc);
-
-		// column 2
-		gc = LayoutHelper.createCellConstraint(1, 0);
-		p.add(new JLabel(""), gc);
-		gc = LayoutHelper.createCellConstraint(1, 1);
-		JButton scanMemberCardButton = new JButton("Scan Member Card", IconHelper.createImageIcon("member_card.png"));
-		scanMemberCardButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				BarcodeScannerEmulatorDialog d = new BarcodeScannerEmulatorDialog(p.getParent());
-				d.pack();
-				d.setLocationByPlatform(true);
-				d.setVisible(true);
-				d.addConfirmListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						String scannedCardNumber = d.getScannedBarcodeNumber();
-
-						// TODO get member details by member card
-						customer = new Member("F42563743156", "Yan Martel", 100);
-						refreshMemberScanStep(customer);
-						d.setVisible(false);
-						d.dispose();
-					}
-				});
-
-			}
-		});
-		p.add(scanMemberCardButton, gc);
-
-		gc = LayoutHelper.createCellConstraint(1, 2);
-		JButton publicMemberButton = new JButton("Not a Member", IconHelper.createImageIcon("non_member.png"));
-		publicMemberButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				customer = new NonMemberCustomer();
-				refreshMemberScanStep(customer);
-			}
-		});
-		p.add(publicMemberButton, gc);
-		gc = LayoutHelper.createCellConstraint(1, 3);
-
-		// column 4
-		gc = LayoutHelper.createCellConstraint(2, 0);
-		p.add(new JLabel(""));
-		gc = LayoutHelper.createCellConstraint(2, 1);
-		p.add(new JLabel(""));
-		gc = LayoutHelper.createCellConstraint(2, 2);
-		p.add(new JLabel(""));
-		gc = LayoutHelper.createCellConstraint(2, 3);
-		p.add(new JLabel(""));
-		return p;
-	}
 
 
 
