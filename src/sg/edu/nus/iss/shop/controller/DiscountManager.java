@@ -60,7 +60,7 @@ public class DiscountManager {
 		return discount;
 	}
 	
-	public void editDiscount(String previousDiscountCode,Discount newDiscount) throws ApplicationGUIException {
+	public Discount editDiscount(String previousDiscountCode,Discount newDiscount) throws ApplicationGUIException {
 		Discount previousDiscount = null;
 		
 		try {
@@ -87,7 +87,7 @@ public class DiscountManager {
 		
 		if(newDiscount.getApplicableToMember() == Discount.APPLICABLETOALL && newDiscount.getStartDate() == Discount.ALWAY_VALID_START_DATE){
 			throw new ApplicationGUIException(DiscountManager.PUBLIC_DISCOUNT_START_DAY_ERROR);
-		}else if(newDiscount.getApplicableToMember() == Discount.APPLICABLETOALL && newDiscount.getStartDate() == Discount.ALWAY_VALID_DAYS){
+		}else if(newDiscount.getApplicableToMember() == Discount.APPLICABLETOALL && newDiscount.getDiscountInDays() == Discount.ALWAY_VALID_DAYS){
 			throw new ApplicationGUIException(DiscountManager.PUBLIC_DISCOUNT_IN_DAYS_ERROR);
 		}
 		
@@ -104,6 +104,8 @@ public class DiscountManager {
 			e.printStackTrace();
 			throw new ApplicationGUIException(e.toString());
 		}
+		
+		return previousDiscount;
 	}
 	
 	private List<Discount> getAllDiscounts() throws Exception {

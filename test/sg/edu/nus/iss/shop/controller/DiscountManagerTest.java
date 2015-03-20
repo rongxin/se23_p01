@@ -1,6 +1,8 @@
 package sg.edu.nus.iss.shop.controller;
 
+import org.junit.Assert;
 import org.junit.Test;
+
 import junit.framework.TestCase;
 
 import org.junit.Before;
@@ -46,20 +48,23 @@ public class DiscountManagerTest extends TestCase {
 	@Test
 	public void testGetFirstPurchaseDiscountList() {
 		try {
-			Discount memberDiscount = DiscountManager.getDiscountManager().getFirstPurchaseDiscountList();
-			assertSame(firstPurchaseDiscount,memberDiscount);
+			Discount memberDiscount = DiscountManager.getDiscountManager()
+					.getFirstPurchaseDiscountList();
+			assertSame(firstPurchaseDiscount, memberDiscount);
 		} catch (Exception e) {
 			e.printStackTrace();
-		} 
+			Assert.fail("Exception occured when getting first purchase discount.");
+		}
 	}
 
 	@Test
 	public void testGetSubsequentDiscountList() {
 		try {
-			Discount memberDiscount = DiscountManager.getDiscountManager().getSubsequentDiscountList();
-			assertSame(subsequentDiscount,memberDiscount);
+			Discount memberDiscount = DiscountManager.getDiscountManager()
+					.getSubsequentDiscountList();
+			assertSame(subsequentDiscount, memberDiscount);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Assert.fail("Exception occured when getting subsequent discount.");
 		}
 	}
 
@@ -70,23 +75,36 @@ public class DiscountManagerTest extends TestCase {
 					.getDiscountManager().getMaxValidPublicDiscount();
 			assertSame(publicDiscount, maxValidPublicDiscount);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Assert.fail("Exception occured when getting max public discount.");
 		}
-
 	}
-	
-	// @Test
-	// public void testEditDiscount() throws Exception {
-	// PublicDiscount modifiedDiscount = new PublicDiscount("P01",
-	// "CHRISTAMS_DAY", 20, "2015-12-23","3");
-	// assertSame(
-	// modifiedDiscount,
-	// DiscountManager.getDiscountManager().editDiscount(
-	// modifiedDiscount.getDiscountCode(),
-	// modifiedDiscount.getDescription(),
-	// modifiedDiscount.getDiscountPercentage(),
-	// modifiedDiscount.getStartDate(),
-	// modifiedDiscount.getDiscountInDays(),
-	// modifiedDiscount.getApplicableToMember()));
-	// }
+
+	@Test
+	public void testEditDiscount() throws Exception {
+//		PublicDiscount modifiedDiscount1 = new PublicDiscount("P01",
+//				"CHRISTAMS_DAY", 20, "2015-12-23", "3");
+//		PublicDiscount modifiedDiscount2 = new PublicDiscount("MEMBER_FIRST",
+//				"National Day", 10, "2015-08-07", "3");
+//		PublicDiscount modifiedDiscount3 = new PublicDiscount("MEMBER_SUBSEQ",
+//				"National Day", 10, "2015-08-07", "3");
+//		PublicDiscount modifiedDiscount4 = new PublicDiscount("CENTENARY",
+//				"National Day", 10, "ALWAYS", "3");
+//		PublicDiscount modifiedDiscount5 = new PublicDiscount("CENTENARY",
+//				"National Day", 10, "2015-08-07", "ALWAYS");
+//		PublicDiscount modifiedDiscount6 = new PublicDiscount("CENTENARY",
+//				"National Day", 10, "2015-08-07", "3");
+		
+//		DiscountManager.getDiscountManager().editDiscount("NOTEXISTCODE", modifiedDiscount2);
+//		DiscountManager.getDiscountManager().editDiscount("CENTENARY", modifiedDiscount2);
+//		DiscountManager.getDiscountManager().editDiscount("CENTENARY", modifiedDiscount3);
+//		DiscountManager.getDiscountManager().editDiscount("CENTENARY", modifiedDiscount4);
+//		DiscountManager.getDiscountManager().editDiscount("CENTENARY", modifiedDiscount5);
+//		DiscountManager.getDiscountManager().editDiscount("CENTENARY", modifiedDiscount6);
+		
+		FirstPurchaseDiscount modifiedDiscount7 = new FirstPurchaseDiscount("MEMBER_FIRST","First is the best",30);
+		DiscountManager.getDiscountManager().editDiscount("MEMBER_FIRST", modifiedDiscount7);
+		assertEquals(30,modifiedDiscount7.getDiscountPercentage());
+		assertEquals(20,DiscountManager.getDiscountManager().getDiscountByCode("MEMBER_FIRST").getDiscountPercentage());
+//		assertEquals(modifiedDiscount7.getDiscountPercentage(),DiscountManager.getDiscountManager().getDiscountByCode("MEMBER_FIRST").getDiscountPercentage());
+	}
 }
