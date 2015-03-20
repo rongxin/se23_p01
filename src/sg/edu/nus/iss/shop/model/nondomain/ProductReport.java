@@ -41,8 +41,8 @@ public class ProductReport extends Report{
 		int orderThreshold = 0;
 		int orderQuantity = 0;
 		
-		ProductManager memberManager = ProductManager.getProductManager();
-		productssList = memberManager.getAllProducts();
+		ProductManager productManager = ProductManager.getProductManager();
+		productssList = productManager.getAllProducts();
 		if(productssList != null && productssList.size() > 0){
 			for(Product product : productssList){
 				productName = product.getName();
