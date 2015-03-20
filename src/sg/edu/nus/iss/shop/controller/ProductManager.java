@@ -198,10 +198,11 @@ public class ProductManager {
 			Iterator<Product> it = allProducts.iterator();
 			String productID = "";
 			while (it.hasNext()) {
-				productID = it.next().getProductId();
+				Product product = it.next();
+				productID = product.getProductId();
 				//Compare Current ProductID first 3 Characters with Category Code
 				if(productID.substring(0,3).equals(category.getCode())) {
-					productsWithCategory.add(it.next());
+					productsWithCategory.add(product);
 				}
 			}
 		}

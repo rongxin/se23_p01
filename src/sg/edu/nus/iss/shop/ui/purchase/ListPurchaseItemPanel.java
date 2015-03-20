@@ -18,6 +18,7 @@ public class ListPurchaseItemPanel extends JPanel {
 		JTable table = new JTable(rowData, columnNames);
 		table.setName("Items");
 		table.setEnabled(false);
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
 		JScrollPane scrollPane = new JScrollPane(table);
 		this.add(scrollPane);
 		this.setSize(800, 600);

@@ -37,6 +37,7 @@ public class ListMemberPanel extends JPanel {
 		JTable table = new JTable(tableData, columnNames);
 		table.setName("Items");
 		table.setEnabled(false);
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
 		JScrollPane scrollPane = new JScrollPane(table);
 		p.add(scrollPane);
 		return p;
