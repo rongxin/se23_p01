@@ -21,7 +21,7 @@ import sg.edu.nus.iss.shop.model.nondomain.TransactionReport;
  */
 public class ReportManager {
 	private static ReportManager theOnlyReportManager;
-	private static final String dateFormat = "dd/MM/yyyy";
+	public static final String dateFormat = "dd/MM/yyyy";
 	
 	private ReportManager(){
 		
@@ -89,9 +89,10 @@ public class ReportManager {
 	 * @return transactionsList
 	 * @author lokeshkanna-b
 	 * @throws ParseException 
+	 * @throws ApplicationGUIException 
 	 * 
 	 * */
-	public List<String[]> getTransactionReport(String startDateStr, String endDateStr) throws ParseException{
+	public List<String[]> getTransactionReport(String startDateStr, String endDateStr) throws ParseException, ApplicationGUIException{
 		
 		Date startDateObj = null;
 		Date endDateObj = null;
