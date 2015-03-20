@@ -113,7 +113,7 @@ public class ProductManagerTest extends TestCase {
 		int deductQty = 10;
 		//Retrieve Existing Product 
 		Product existingProduct = ProductManager.getProductManager()
-				.getProductById("CLO/1");
+				.getProductById("STA/1");
 		if(existingProduct != null) {
 			assertNotNull("Prouct is Null",existingProduct);
 			//Store Old Quantity in local var
