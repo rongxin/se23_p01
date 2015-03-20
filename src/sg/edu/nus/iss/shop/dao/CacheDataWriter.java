@@ -48,7 +48,7 @@ public class CacheDataWriter extends DataCache
 		
 		super.getCachedData(dataSetName); 
 		
-		if(record.getIsPersistent())
+		//if(record.getIsPersistent())//fix bug 
 		{ 
 			//remove the old one
 			Iterator<DataRecord> it =super.getCachedData(dataSetName).iterator();

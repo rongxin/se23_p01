@@ -616,5 +616,33 @@ public class PersistentServiceTest {
 		}
 
 	}
+	
+	@Test
+	public void TestUpdateRecord4Product() {
+		try {
+			if(products.size()<=0 )
+			{
+				TestSaveAndRetrieveRecord4Product();
+			}
+			Product prod = new Product("CLO/1", "Centenary Jumper",
+					"A releally nice momento", 315, 21.45, "1234", 10, 100);
+			
+			Product retrieved = service.retrieveObject(Product.class,
+					prod.getProductId());
+			retrieved.setAvailableQuantity(500);
+			service.saveRecord(retrieved);
+			assertNotNull(retrieved);
+			assertEquals(prod, retrieved);
+  
+			 
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			fail("failed to save and retrieve product" + ": " + e.toString());
+
+		}
+
+	}
 	 
 }
