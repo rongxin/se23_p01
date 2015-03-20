@@ -23,7 +23,12 @@ import sg.edu.nus.iss.shop.model.domain.SubsequentDiscount;
  *
  */
 public class DiscountManager {
-	private static final String DISCOUNTCODE_NOT_EXIST_ERROR_MESSAGE = "Discount code doesn't exist";
+	private static final String DISCOUNTCODE_NOT_EXIST_ERROR_MESSAGE = "Discount code doesn't exist!";
+	private static final String MEMBER_FIRST_PURCHASE_DISCOUNT_EXIST = "Member first purchase discount already exists!";
+	private static final String MEMBER_SUBSEQUENT_DISCOUNT_EXIST = "Member subsequent discount already exists!";
+	private static final String PUBLIC_DISCOUNT_START_DAY_ERROR = "The start day of public discount can not be ALWAYS!";
+	private static final String PUBLIC_DISCOUNT_IN_DAYS_ERROR = "The valid days of public discount can not be ALWAYS!";
+	
 	private static DiscountManager theOnlyDiscountManager;
 
 	private DiscountManager() {
@@ -55,26 +60,50 @@ public class DiscountManager {
 		return discount;
 	}
 	
-	public Discount editDiscount(String discountCode,String description,int discountPercentage,String startDate,String discountInDays,String applicableToMember) throws ApplicationGUIException {
+	public void editDiscount(String previousDiscountCode,Discount newDiscount) throws ApplicationGUIException {
 		Discount previousDiscount = null;
 		
 		try {
-			previousDiscount = this.getDiscountByCode(discountCode);
+			previousDiscount = this.getDiscountByCode(previousDiscountCode);
 		} catch (Exception e) {
 			e.printStackTrace();
+			throw new ApplicationGUIException(e.toString());
 		}
 		
 		if (previousDiscount == null){
 			throw new ApplicationGUIException(DiscountManager.DISCOUNTCODE_NOT_EXIST_ERROR_MESSAGE);
 		}
 		
-		previousDiscount.setDescription(description);
-		previousDiscount.setDiscountPercentage(discountPercentage);
-		previousDiscount.setStartDate(startDate);
-		previousDiscount.setDiscountInDays(discountInDays);
-		previousDiscount.setApplicableToMember(applicableToMember);
+		try {
+			if(previousDiscountCode != "MEMBER_FIRST" && newDiscount.getDiscountCode()=="MEMBER_FIRST" && this.getFirstPurchaseDiscountList() != null){
+				throw new ApplicationGUIException(DiscountManager.MEMBER_FIRST_PURCHASE_DISCOUNT_EXIST);
+			}else if(previousDiscountCode != "MEMBER_SUBSEQ" && newDiscount.getDiscountCode()=="MEMBER_SUBSEQ" && this.getSubsequentDiscountList() != null){
+				throw new ApplicationGUIException(DiscountManager.MEMBER_SUBSEQUENT_DISCOUNT_EXIST);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ApplicationGUIException(e.toString());
+		}
 		
-		return previousDiscount;
+		if(newDiscount.getApplicableToMember() == Discount.APPLICABLETOALL && newDiscount.getStartDate() == Discount.ALWAY_VALID_START_DATE){
+			throw new ApplicationGUIException(DiscountManager.PUBLIC_DISCOUNT_START_DAY_ERROR);
+		}else if(newDiscount.getApplicableToMember() == Discount.APPLICABLETOALL && newDiscount.getStartDate() == Discount.ALWAY_VALID_DAYS){
+			throw new ApplicationGUIException(DiscountManager.PUBLIC_DISCOUNT_IN_DAYS_ERROR);
+		}
+		
+		previousDiscount.setDiscountCode(newDiscount.getDiscountCode());
+		previousDiscount.setDescription(newDiscount.getDescription());
+		previousDiscount.setDiscountPercentage(newDiscount.getDiscountPercentage());
+		previousDiscount.setStartDate(newDiscount.getStartDate());
+		previousDiscount.setDiscountInDays(newDiscount.getStartDate());
+		previousDiscount.setApplicableToMember(newDiscount.getApplicableToMember());
+		
+		try {
+			PersistentService.getService().saveRecord(previousDiscount);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ApplicationGUIException(e.toString());
+		}
 	}
 	
 	private List<Discount> getAllDiscounts() throws Exception {
@@ -146,5 +175,4 @@ public class DiscountManager {
 		}
 		return maxValidPublicDiscount;
 	}
-	
 }

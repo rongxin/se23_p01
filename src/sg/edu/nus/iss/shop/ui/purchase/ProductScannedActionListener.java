@@ -1,7 +1,6 @@
 package sg.edu.nus.iss.shop.ui.purchase;
 
 import java.awt.event.ActionEvent;
-import java.util.Map;
 
 import javax.swing.AbstractAction;
 
@@ -12,14 +11,11 @@ public class ProductScannedActionListener extends AbstractAction {
 	private static final long serialVersionUID = 1L;
 	private BarcodeScannerEmulatorDialog scanner;
 	private ShopApplication shopApplication;
-	private Map<Product, Integer> scannedItems;
 
-	public ProductScannedActionListener(BarcodeScannerEmulatorDialog scanner, ShopApplication shopApplication,
-			Map<Product, Integer> scannedItems) {
+	public ProductScannedActionListener(BarcodeScannerEmulatorDialog scanner, ShopApplication shopApplication) {
 		super();
 		this.scanner = scanner;
 		this.shopApplication = shopApplication;
-		this.scannedItems = scannedItems;
 	}
 
 	@Override
