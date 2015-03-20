@@ -91,8 +91,15 @@ public class DiscountManager {
 			throw new ApplicationGUIException(DiscountManager.PUBLIC_DISCOUNT_IN_DAYS_ERROR);
 		}
 		
+		previousDiscount.setDiscountCode(newDiscount.getDiscountCode());
+		previousDiscount.setDescription(newDiscount.getDescription());
+		previousDiscount.setDiscountPercentage(newDiscount.getDiscountPercentage());
+		previousDiscount.setStartDate(newDiscount.getStartDate());
+		previousDiscount.setDiscountInDays(newDiscount.getStartDate());
+		previousDiscount.setApplicableToMember(newDiscount.getApplicableToMember());
+		
 		try {
-			PersistentService.getService().saveRecord(newDiscount);
+			PersistentService.getService().saveRecord(previousDiscount);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new ApplicationGUIException(e.toString());
