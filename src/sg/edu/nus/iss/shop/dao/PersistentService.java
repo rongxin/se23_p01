@@ -34,6 +34,7 @@ public class PersistentService
 	private boolean hasBuildPK4Member = false;
 	private boolean hasBuildPK4StoreKeeper = false;
 	private boolean hasBuildPK4Discount = false;
+	private List<String> vendorsDS = new ArrayList<String>();
 
 	private PersistentService()
 	{
@@ -169,6 +170,7 @@ public class PersistentService
 	public List<Vendor> retrieveVendors(Category category) throws Exception
 	{
 		String dsName = Vendor.class.getSimpleName() + DaoConstant.DS_SUFFIX + category.getCode();
+		
 		List<Vendor> objects = new ArrayList<Vendor>();
 		DataRecordAdapter adapter = null;
 		for(DataRecord record : dataReader.getCachedData(dsName))
@@ -190,8 +192,9 @@ public class PersistentService
 	public void saveVendor(Vendor vendor, Category category) throws IOException
 	{
 		if(vendor != null && category != null)
-		{
+		{	
 			String dsName = Vendor.class.getSimpleName() + DaoConstant.DS_SUFFIX + category.getCode();
+			buildPK4CachedVendor(dsName);
 			DataRecordAdapter adapter = new VendorRecordAdapter(vendor);
 			dataWriter.writeRecord(dsName, adapter.getDataRecord());
 		}
@@ -344,6 +347,25 @@ public class PersistentService
 			}
 		}
 		hasBuildPK4Discount = true;
+	}
+	
+	private void buildPK4CachedVendor(String dataSetName)
+	{
+		if(vendorsDS.contains(dataSetName))
+			return;
+
+		for(DataRecord record : dataReader.getCachedData(dataSetName))
+		{
+			try
+			{
+				new VendorRecordAdapter(record);
+			}
+			catch (InvalidDataFormat e)
+			{
+				e.printStackTrace();
+			}
+		}
+		vendorsDS.add(dataSetName) ;
 	}
 
 	private List<Object> retrieveAllCategories(String dataSetName) throws IOException, InvalidDataFormat
