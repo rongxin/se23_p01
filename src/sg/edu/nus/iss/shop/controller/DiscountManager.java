@@ -28,7 +28,7 @@ public class DiscountManager {
 	private static final String MEMBER_SUBSEQUENT_DISCOUNT_EXIST = "Member subsequent discount already exists!";
 	private static final String PUBLIC_DISCOUNT_START_DAY_ERROR = "The start day of public discount can not be ALWAYS!";
 	private static final String PUBLIC_DISCOUNT_IN_DAYS_ERROR = "The valid days of public discount can not be ALWAYS!";
-	
+	private static final String DISCOUNT_PERCENTAGE_ERROR = "The discount percentage can not be less than zero!";
 	private static DiscountManager theOnlyDiscountManager;
 
 	private DiscountManager() {
@@ -60,7 +60,7 @@ public class DiscountManager {
 		return discount;
 	}
 	
-	public Discount editDiscount(String previousDiscountCode,Discount newDiscount) throws ApplicationGUIException {
+	public Discount editDiscount(String previousDiscountCode,int newDiscountPercentage) throws ApplicationGUIException {
 		Discount previousDiscount = null;
 		
 		try {
@@ -74,30 +74,12 @@ public class DiscountManager {
 			throw new ApplicationGUIException(DiscountManager.DISCOUNTCODE_NOT_EXIST_ERROR_MESSAGE);
 		}
 		
-		try {
-			if(previousDiscountCode != "MEMBER_FIRST" && newDiscount.getDiscountCode()=="MEMBER_FIRST" && this.getFirstPurchaseDiscountList() != null){
-				throw new ApplicationGUIException(DiscountManager.MEMBER_FIRST_PURCHASE_DISCOUNT_EXIST);
-			}else if(previousDiscountCode != "MEMBER_SUBSEQ" && newDiscount.getDiscountCode()=="MEMBER_SUBSEQ" && this.getSubsequentDiscountList() != null){
-				throw new ApplicationGUIException(DiscountManager.MEMBER_SUBSEQUENT_DISCOUNT_EXIST);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new ApplicationGUIException(e.toString());
+		if (newDiscountPercentage < 0) {
+			throw new ApplicationGUIException(DiscountManager.DISCOUNT_PERCENTAGE_ERROR);
 		}
-		
-		if(newDiscount.getApplicableToMember() == Discount.APPLICABLETOALL && newDiscount.getStartDate() == Discount.ALWAY_VALID_START_DATE){
-			throw new ApplicationGUIException(DiscountManager.PUBLIC_DISCOUNT_START_DAY_ERROR);
-		}else if(newDiscount.getApplicableToMember() == Discount.APPLICABLETOALL && newDiscount.getDiscountInDays() == Discount.ALWAY_VALID_DAYS){
-			throw new ApplicationGUIException(DiscountManager.PUBLIC_DISCOUNT_IN_DAYS_ERROR);
-		}
-		
-		previousDiscount.setDiscountCode(newDiscount.getDiscountCode());
-		previousDiscount.setDescription(newDiscount.getDescription());
-		previousDiscount.setDiscountPercentage(newDiscount.getDiscountPercentage());
-		previousDiscount.setStartDate(newDiscount.getStartDate());
-		previousDiscount.setDiscountInDays(newDiscount.getStartDate());
-		previousDiscount.setApplicableToMember(newDiscount.getApplicableToMember());
-		
+
+		previousDiscount.setDiscountPercentage(newDiscountPercentage);
+
 		try {
 			PersistentService.getService().saveRecord(previousDiscount);
 		} catch (Exception e) {

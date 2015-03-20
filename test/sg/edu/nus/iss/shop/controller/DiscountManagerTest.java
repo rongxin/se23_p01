@@ -101,10 +101,14 @@ public class DiscountManagerTest extends TestCase {
 //		DiscountManager.getDiscountManager().editDiscount("CENTENARY", modifiedDiscount5);
 //		DiscountManager.getDiscountManager().editDiscount("CENTENARY", modifiedDiscount6);
 		
-		FirstPurchaseDiscount modifiedDiscount7 = new FirstPurchaseDiscount("MEMBER_FIRST","First is the best",30);
-		DiscountManager.getDiscountManager().editDiscount("MEMBER_FIRST", modifiedDiscount7);
-		assertEquals(30,modifiedDiscount7.getDiscountPercentage());
-		assertEquals(20,DiscountManager.getDiscountManager().getDiscountByCode("MEMBER_FIRST").getDiscountPercentage());
-//		assertEquals(modifiedDiscount7.getDiscountPercentage(),DiscountManager.getDiscountManager().getDiscountByCode("MEMBER_FIRST").getDiscountPercentage());
+		int newDiscountPercentage = 30;
+		DiscountManager.getDiscountManager().editDiscount("MEMBER_FIRST", newDiscountPercentage);
+		assertEquals(newDiscountPercentage,DiscountManager.getDiscountManager().getDiscountByCode("MEMBER_FIRST").getDiscountPercentage());
+		
+		DiscountManager.getDiscountManager().editDiscount("MEMBER_SUBSEQ", newDiscountPercentage);
+		assertEquals(newDiscountPercentage,DiscountManager.getDiscountManager().getDiscountByCode("MEMBER_SUBSEQ").getDiscountPercentage());
+	
+		DiscountManager.getDiscountManager().editDiscount("CENTENARY", newDiscountPercentage);
+		assertEquals(newDiscountPercentage,DiscountManager.getDiscountManager().getDiscountByCode("CENTENARY").getDiscountPercentage());
 	}
 }
