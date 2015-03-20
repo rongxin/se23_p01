@@ -172,12 +172,11 @@ public class ProductManager {
 		List<Product> lowInventoryProducts = new LinkedList<Product>();
 
 		if(!allProducts.isEmpty() && allProducts != null) {
-			Iterator<Product> it = allProducts.iterator();
-			while (it.hasNext()) {
-				//Compare Current Product Quantity against Order Threshold
-				if(it.next().getAvailableQuantity() <= it.next().getOrderThreshold()) {
-					lowInventoryProducts.add(it.next());
+			for(Product prod : allProducts) {
+				if(prod.getAvailableQuantity() <= prod.getOrderThreshold()) {
+					lowInventoryProducts.add(prod);	
 				}
+				
 			}
 		}
 		return lowInventoryProducts;
@@ -201,7 +200,7 @@ public class ProductManager {
 				Product product = it.next();
 				productID = product.getProductId();
 				//Compare Current ProductID first 3 Characters with Category Code
-				if(productID.substring(0,3).equals(category.getCode())) {
+				if(productID.substring(0,category.getCode().length()).equals(category.getCode())) {
 					productsWithCategory.add(product);
 				}
 			}
