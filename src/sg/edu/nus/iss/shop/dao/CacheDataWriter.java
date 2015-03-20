@@ -48,23 +48,39 @@ public class CacheDataWriter extends DataCache
 		
 		super.getCachedData(dataSetName); 
 		
+		boolean update =false;
 		//if(record.getIsPersistent())//fix bug 
 		{ 
 			//remove the old one
-			Iterator<DataRecord> it =super.getCachedData(dataSetName).iterator();
-			while(it.hasNext())
+//			Iterator<DataRecord> it =super.getCachedData(dataSetName).iterator();
+//			while(it.hasNext())
+//			{
+//				if(record.getPK().equals(it.next().getPK()))
+//				{
+//					it.remove();
+//					break;
+//				}
+//			}
+		
+			int i =0;
+			for(DataRecord rec :super.getCachedData(dataSetName))			 
 			{
-				if(record.getPK().equals(it.next().getPK()))
+				if(record.getPK().equals(rec.getPK()))
 				{
-					it.remove();
+					update = true;
+					super.getCachedData(dataSetName).set(i, record);
 					break;
 				}
+				i++;
 			}
 		}
 		
 		//add the new one
 		record.setIsPersistent(true);
-		super.getCachedData(dataSetName).add(record);
+		if(!update)
+		{
+			super.getCachedData(dataSetName).add(record);
+		}
 				 
 		//System.out.println("cahcedData size:" + cahcedData.size() );
 		if(dirtyData == null)

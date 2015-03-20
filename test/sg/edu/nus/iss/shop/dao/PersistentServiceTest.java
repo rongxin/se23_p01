@@ -630,6 +630,7 @@ public class PersistentServiceTest {
 			Product retrieved = service.retrieveObject(Product.class,
 					prod.getProductId());
 			retrieved.setAvailableQuantity(500);
+			retrieved.setDescription("Test");
 			service.saveRecord(retrieved);
 			assertNotNull(retrieved);
 			assertEquals(prod, retrieved);

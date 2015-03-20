@@ -67,23 +67,28 @@ public class PersistentService
 		DataRecordAdapter adapter = null;
 		if(recordObj instanceof Category)
 		{
+			buildPK4CachedCategory(dsName);
 			adapter = new CategoryRecordAdapter((Category)recordObj);
 		}
 		else if(recordObj instanceof StoreKeeper)
 		{
+			buildPK4CachedStoreKeeper(dsName);
 			adapter = new StoreKeeperRecordAdapter((StoreKeeper)recordObj);
 		}
 		else if(recordObj instanceof Member)
 		{
+			buildPK4CachedMember(dsName);
 			adapter = new MemberRecordAdapter((Member)recordObj);
 		}
 		else if(recordObj instanceof Product)
 		{
+			buildPK4CachedProduct(dsName);
 			adapter = new ProductRecordAdapter((Product)recordObj);
 		}
 		else if(recordObj instanceof Discount)
 		{
 			dsName = recordObj.getClass().getSuperclass().getSimpleName() + DaoConstant.DS_SUFFIX;
+			buildPK4CachedDiscount(dsName);
 			adapter = new DiscountRecordAdapter((Discount)recordObj);
 		}
 		else if(recordObj instanceof Transaction)
