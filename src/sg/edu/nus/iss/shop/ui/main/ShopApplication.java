@@ -142,5 +142,14 @@ public class ShopApplication {
 		return members;
 	}
 
+	public Member getMember(String memberId) {
+		Member member = null;
+		try {
+			member = memberManager.getMemberById(memberId);
+		} catch (ApplicationGUIException e) {
+			e.printStackTrace();
+		}
+		return member;
+	}
 
 }

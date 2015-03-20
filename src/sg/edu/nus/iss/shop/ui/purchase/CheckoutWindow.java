@@ -213,7 +213,7 @@ public class CheckoutWindow extends JFrame {
 	private JPanel createPurchaseCardPanel() {
 		purchaseCardPanel = new JPanel();
 		purchaseCardPanel.setLayout(new CardLayout());
-		GetMemberInfoPanel getMemberInfoPanel = new GetMemberInfoPanel(this);
+		GetMemberInfoPanel getMemberInfoPanel = new GetMemberInfoPanel(this, shopApplication);
 
 		purchaseCardPanel.add(getMemberInfoPanel, CARD_MEMBER);
 

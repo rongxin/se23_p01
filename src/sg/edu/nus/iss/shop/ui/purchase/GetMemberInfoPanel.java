@@ -9,11 +9,13 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import sg.edu.nus.iss.shop.model.domain.Customer;
 import sg.edu.nus.iss.shop.model.domain.Member;
 import sg.edu.nus.iss.shop.model.domain.NonMemberCustomer;
+import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 import sg.edu.nus.iss.shop.ui.util.IconHelper;
 import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
 
@@ -21,9 +23,11 @@ public class GetMemberInfoPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private CheckoutWindow checkoutWindow;
+	private ShopApplication shopApplication;
 
-	public GetMemberInfoPanel(CheckoutWindow checkoutWindow) {
+	public GetMemberInfoPanel(CheckoutWindow checkoutWindow, ShopApplication shopApplication) {
 		this.checkoutWindow = checkoutWindow;
+		this.shopApplication = shopApplication;
 		this.add(createGetMemberPanel());
 		setVisible(true);
 	}
@@ -59,13 +63,17 @@ public class GetMemberInfoPanel extends JPanel {
 				d.addConfirmListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						String scannedCardNumber = d.getScannedBarcodeNumber();
+						String memberId = d.getScannedBarcodeNumber();
 
-						// TODO get member details by member card
-						Customer customer = new Member("F42563743156", "Yan Martel", 100);
-						checkoutWindow.refreshMemberScanStep(customer);
-						d.setVisible(false);
-						d.dispose();
+						Member member = shopApplication.getMember(memberId);
+						if (member != null) {
+							checkoutWindow.refreshMemberScanStep(member);
+							d.setVisible(false);
+							d.dispose();
+						} else {
+							JOptionPane.showMessageDialog(null, "Unable to find member information for card number:"
+									+ memberId);
+						}
 					}
 				});
 
