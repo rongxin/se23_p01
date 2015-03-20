@@ -234,8 +234,7 @@ public class CheckoutWindow extends JFrame {
 			memberLoyaltyPointsValueLabel.setText("" + ((Member) member).getLoyalPoints());
 		} else {
 			memberTypeValuelabel.setText("None Member");
-			memberIdValuelabel.setText(customer.getId().substring(0, 15));
-			memberIdValuelabel.setToolTipText(customer.getId());
+			memberIdValuelabel.setText(customer.getId());
 			memberNameValuelabel.setText("N.A.");
 			memberLoyaltyPointsValueLabel.setText("N.A.");
 		}
