@@ -9,7 +9,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import sg.edu.nus.iss.shop.ui.category.ListCategoryPanel;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 
 public class MemberWindow extends JFrame {
@@ -27,10 +26,10 @@ public class MemberWindow extends JFrame {
 
 	private JPanel createMainPanel() {
 		JPanel p = new JPanel();
-		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("  Categories  "),
+		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("  Members  "),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
-		ListCategoryPanel listPanel = new ListCategoryPanel(shopApplication);
+		ListMemberPanel listPanel = new ListMemberPanel(shopApplication);
 		p.add(listPanel);
 		return p;
 	}
