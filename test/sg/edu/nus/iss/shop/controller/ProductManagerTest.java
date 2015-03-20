@@ -87,5 +87,22 @@ public class ProductManagerTest extends TestCase {
 			assertNull("No Products in the list", allProducts);
 		}
 	}
-
+	
+	// Test Retrieve adjust product quantity
+	public void testAdjustProductQuantity()
+			throws ApplicationGUIException {
+		int oldQty = 0;
+		int deductQty = 10;
+		//Retrieve Existing Product 
+		Product existingProduct = ProductManager.getProductManager()
+				.getProductById("CLO/1");
+		if(existingProduct != null) {
+			assertNotNull("Prouct is Null",existingProduct);
+			//Store Old Quantity in local var
+			oldQty = existingProduct.getAvailableQuantity();
+			//Adjust Quantity
+			existingProduct = ProductManager.getProductManager().adjustQuantity(existingProduct, deductQty);
+			assertEquals(oldQty,existingProduct.getAvailableQuantity() + deductQty);
+		}
+	}
 }
