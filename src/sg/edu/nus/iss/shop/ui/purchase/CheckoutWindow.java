@@ -227,11 +227,16 @@ public class CheckoutWindow extends JFrame {
 
 	public void refreshMemberScanStep(Customer member) {
 		if (member instanceof Member) {
+
 			memberTypeValuelabel.setText("Member");
 			memberIdValuelabel.setText(member.getId());
 			memberIdValuelabel.setToolTipText(member.getId());
 			memberNameValuelabel.setText(((Member) member).getName());
-			memberLoyaltyPointsValueLabel.setText("" + ((Member) member).getLoyalPoints());
+			Integer displayLoyalPoints = 0;
+			if (((Member) member).getLoyalPoints() > 0) {
+				displayLoyalPoints = ((Member) member).getLoyalPoints();
+			}
+			memberLoyaltyPointsValueLabel.setText("" + displayLoyalPoints);
 		} else {
 			memberTypeValuelabel.setText("None Member");
 			memberIdValuelabel.setText(member.getId());
