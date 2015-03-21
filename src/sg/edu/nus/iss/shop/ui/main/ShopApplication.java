@@ -123,7 +123,7 @@ public class ShopApplication {
 	}
 
 	public void addMember(String memberId, String memberName){
-		System.out.println("Add Member ");
+		System.out.println("Add Member, memberId:" + memberId + ", memberName:" + memberName);
 
 		try {
 			memberManager.addMember(memberId, memberName);

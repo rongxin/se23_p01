@@ -1,18 +1,20 @@
 package sg.edu.nus.iss.shop.controller;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-
-import org.junit.Test;
+ 
 import org.junit.Before;
+import org.junit.Test;
 
 import sg.edu.nus.iss.shop.dao.PersistentService;
+import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.Member;
 import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.model.domain.Transaction;
@@ -143,7 +145,7 @@ public class TransactionManagerTest {
 	}
 
 	@Test
-	public void testGetRangeTransactions() throws Exception {
+	public void testGetRangeTransactions() throws ParseException, ApplicationGUIException {
 		SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
 		Product product = new Product("CLO/1", "Centenary Jumper",
 				"A releally nice momento", 1, 1, "1", 1, 1);
@@ -151,8 +153,11 @@ public class TransactionManagerTest {
 				ft.parse("2015-03-14"));
 		trans.changeProductQuantity(product, 1);
 		assertTrue(trans.getTransactionDetails().size() > 0);
-		service.saveRecord(trans);
-
+		try{
+			service.saveRecord(trans);
+		}catch(Exception e){
+			throw new ApplicationGUIException(e.getMessage());
+		}
 		Product product1 = new Product("CLO/2", "Centenary Jumper",
 				"A releally nice momento", 1, 1, "1", 1, 1);
 		Transaction trans1 = new Transaction(2, new Member("1", "Stacy"),
@@ -160,12 +165,16 @@ public class TransactionManagerTest {
 		trans1.changeProductQuantity(product, 1);
 		trans1.changeProductQuantity(product1, 1);
 		assertTrue(trans1.getTransactionDetails().size() > 0);
-		service.saveRecord(trans1);
-
+		try{
+			service.saveRecord(trans1);
+		}catch(Exception e){
+			throw new ApplicationGUIException(e.getMessage());
+		}
+		
 		ArrayList<Transaction> l;
 		l = tm.getAllTransaction();
 		assertEquals("List should have 2 items", 2, l.size());
-		l = tm.getAllTransaction(ft.parse("2015-04-13"), ft.parse("2015-04-14"));
+		l = tm.getAllTransaction(ft.parse("2015-02-13"), ft.parse("2015-04-14"));
 		assertEquals("Range List should have 1 items", 1, l.size());
 	}
 }

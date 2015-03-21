@@ -9,6 +9,7 @@ import java.util.Random;
 import org.junit.Assert;
 import org.junit.Test;
 
+import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.Category;
 import sg.edu.nus.iss.shop.model.domain.Vendor;
 
@@ -201,11 +202,83 @@ public class VendorManagerTest {
 				VendorManager.getVendorManager().addVendor("Zhu Bin"+ new Random().nextLong(), "Test Vendor getAllVendorsTest3", newAddCategories);
 			}
 			catch(Exception e){
+				System.out.println(((ApplicationGUIException)e).getDisplayMessage());
 				e.printStackTrace();
 				Assert.fail("Exception occurred when adding a vendor");
 				return ;
 			}
 		}
 		Assert.assertEquals(existingVendorCount+newVendorNum, VendorManager.getVendorManager().getAllVendors().size());
+	}
+	
+	/*****test if there are duplicate vendors****/
+	@Test
+	public void getAllVendorTest4(){
+		List<Vendor> allVendors = VendorManager.getVendorManager().getAllVendors();
+		while (!allVendors.isEmpty()){
+			int oldSize = allVendors.size();
+			Vendor vendor = allVendors.get(0);
+			allVendors.remove(vendor);
+			Assert.assertEquals(oldSize - 1, allVendors.size());
+			Assert.assertFalse(allVendors.contains(vendor));
+		}
+	}
+	
+	/*****test if invalid characters are blocked for vendor name****/
+	@Test
+	public void addVendorTest3(){
+		List<Category> allCategories;
+		try{
+			allCategories = CategoryManager.getCategoryManager().getAllCategories();
+			if (allCategories == null || allCategories.size() == 0){
+				throw new ApplicationGUIException ("No categories are found");
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			Assert.fail(e.getMessage());
+			return ;
+		}
+		String[] testStringArray = {",", "\"", "\'", ":"};
+		for (int i=0;i<testStringArray.length;i++){
+			String testString = testStringArray[i];
+			try{
+				VendorManager.getVendorManager().addVendor("ZhuBin" + testString + new Random().nextLong() , "Add Vendor Test 3", allCategories);
+				Assert.fail("Exception did not occur when vendor name contains invalid string: " + testString);
+			}
+			catch(ApplicationGUIException e){
+				System.out.println(e.getDisplayMessage());
+				Assert.assertEquals("Invalid vendor name", e.getDisplayMessage());
+			}
+		}
+	}
+	
+	/*****test if invalid characters are blocked for vendor description****/
+	@Test
+	public void addVendorTest4(){
+		List<Category> allCategories;
+		try{
+			allCategories = CategoryManager.getCategoryManager().getAllCategories();
+			if (allCategories == null || allCategories.size() == 0){
+				throw new ApplicationGUIException ("No categories are found");
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			Assert.fail(e.getMessage());
+			return ;
+		}
+		String[] testStringArray = {","};
+		for (int i=0;i<testStringArray.length;i++){
+			String testString = testStringArray[i];
+			try{
+				VendorManager.getVendorManager().addVendor("ZhuBin" + new Random().nextLong() , "Add Vendor Test 3 " + testString + new Random().nextLong(), allCategories);
+				Assert.fail("Exception did not occur when vendor name contains invalid string: " + testString);
+			}
+			catch(ApplicationGUIException e){
+				System.out.println(e.getDisplayMessage());
+				Assert.assertEquals("Invalid vendor description", e.getDisplayMessage());
+			}
+		}
 	}
 }

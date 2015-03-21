@@ -3,6 +3,8 @@ package sg.edu.nus.iss.shop.model.domain;
 import java.util.ArrayList;
 import java.util.Date;
 
+import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
+
 /**
  * 
  * @author Oscar Castro Araya
@@ -129,7 +131,7 @@ public class Transaction {
 	 *           quantity
 	 */
 	public void changeProductQuantity(Product product, int newQuantity)
-			throws Exception {
+			throws ApplicationGUIException {
 		//Find Transaction Detail with the selected product
 		TransactionDetail transactionDetail;
 		transactionDetail = findTransactionDetail(product);
@@ -140,14 +142,14 @@ public class Transaction {
 			} else if (newQuantity == 0) {
 				transactionDetails.remove(transactionDetail);
 			} else {
-				throw new Exception("New Quantity should not be less than 0");
+				throw new ApplicationGUIException("New Quantity should not be less than 0");
 			}
 		} else {
 			if (newQuantity > 0) {
 				transactionDetails.add(new TransactionDetail(this,
 						product, newQuantity));
 			} else {
-				throw new Exception("New Quantity should be more than 0");
+				throw new ApplicationGUIException("New Quantity should be more than 0");
 			}
 		}
 		//return transactionDetail;

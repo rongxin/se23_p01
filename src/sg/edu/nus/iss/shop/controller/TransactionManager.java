@@ -153,6 +153,15 @@ public class TransactionManager {
 		return t;
 	}
 
+	/**
+	 * Update the DB following the below 
+	 * <li> The products quantity
+	 * <li> The Transactions
+	 * <li> Member Points
+	 * 
+	 * @param transaction
+	 * @throws ApplicationGUIException
+	 */
 	private void endTransaction(Transaction transaction)
 			throws ApplicationGUIException {
 		// Update Product DB
@@ -165,6 +174,12 @@ public class TransactionManager {
 		updateMemberPoints(transaction);
 	}
 
+	/**
+	 * Update the Member Points
+	 * @param transaction
+	 * @return true if success
+	 * @throws ApplicationGUIException
+	 */
 	private boolean updateMemberPoints(Transaction transaction)
 			throws ApplicationGUIException {
 		try {
@@ -186,6 +201,12 @@ public class TransactionManager {
 		}
 	}
 
+	/**
+	 * Add the Transaction to the DB
+	 * @param transaction
+	 * @return
+	 * @throws ApplicationGUIException
+	 */
 	private boolean updateTransaction(Transaction transaction)
 			throws ApplicationGUIException {
 		try {
@@ -197,6 +218,12 @@ public class TransactionManager {
 		}
 	}
 
+	/**
+	 * Update the Products quantity
+	 * @param transaction
+	 * @return
+	 * @throws ApplicationGUIException
+	 */
 	private boolean updateProductsInTransactioDetails(Transaction transaction)
 			throws ApplicationGUIException {
 		try {
@@ -215,8 +242,14 @@ public class TransactionManager {
 		}
 	}
 
+	/**
+	 * Parse List of TransactionRecord to List of Transactions
+	 * @param transList
+	 * @return
+	 * @throws ApplicationGUIException
+	 */
 	private ArrayList<Transaction> parseTransactions(
-			List<TransactionRecord> transList) {
+			List<TransactionRecord> transList) throws ApplicationGUIException {
 		// Oscar: Using a hash to maintain the Transaction ID
 		HashMap<Integer, Transaction> transactions = new HashMap<Integer, Transaction>();
 		TransactionRecord transRecord;
@@ -246,9 +279,7 @@ public class TransactionManager {
 				// TODO Auto-generated catch block
 				// e.printStackTrace();
 				System.out.println("No product found: " + transRecord.getProductId());
-			} catch (Exception e) {
-				System.out.println("No product found " + transRecord.getProductId());
-				// e.printStackTrace();
+				throw e;
 			}
 		}
 		ArrayList<Transaction> finalList = new ArrayList<Transaction>();
@@ -258,7 +289,12 @@ public class TransactionManager {
 		return finalList;
 	}
 
-	public ArrayList<Transaction> getAllTransaction() {
+	/**
+	 * Return all Transactions in the DB
+	 * @return
+	 * @throws ApplicationGUIException
+	 */
+	public ArrayList<Transaction> getAllTransaction() throws ApplicationGUIException {
 		try {
 			List<TransactionRecord> transList;
 			transList = PersistentService.getService().retrieveAll(
@@ -267,21 +303,31 @@ public class TransactionManager {
 		} catch (IOException | InvalidDataFormat | InvalidDomainObject e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return null;
+			//Should I return null or throw exception??
+			//return null;
+			throw new ApplicationGUIException(e.getMessage());
 		}
 	}
 
+	/**
+	 * Return all transactions applicable for the specific range.
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 * @throws ApplicationGUIException
+	 */
 	public ArrayList<Transaction> getAllTransaction(Date startDate,
-			Date endDate) {
+			Date endDate) throws ApplicationGUIException {
 		ArrayList<Transaction> allTransaction = getAllTransaction();
 		ArrayList<Transaction> rangeTransactions = new ArrayList<Transaction>();
 
 		for (Transaction t : allTransaction) {
 			if (startDate.before(t.getDate()) && endDate.after(t.getDate())) {
 				rangeTransactions.add(t);
-				System.out.println("inc " + startDate + " < " + t.getDate() + " < " + endDate);
+			/*	System.out.println("inc " + startDate + " < " + t.getDate() + " < " + endDate);
 			}else{
 				System.out.println("exc " + startDate + " < " + t.getDate() + " < " + endDate);
+			*/
 			}
 		}
 
