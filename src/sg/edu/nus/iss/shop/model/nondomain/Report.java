@@ -21,4 +21,9 @@ public abstract class Report {
 	 * */
 	abstract public List<String[]> retreiveAndGenerateReportData() throws ApplicationGUIException, ParseException;
 	
+	/**
+	 * Abstract method to get the header to be diplayed in the report
+	 * 
+	 * */
+	abstract public String[] getReportHeader();
 }

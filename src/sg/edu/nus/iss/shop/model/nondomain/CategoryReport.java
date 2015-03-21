@@ -59,4 +59,15 @@ public class CategoryReport extends Report {
 		return returnCategoriesList;
 	}
 
+	@Override
+	public String[] getReportHeader() {
+		
+		String[] categoryReportHeader = new String[]{
+				"Category Code",
+				"Category Name",
+				"No.of Providing Vendors"
+		};
+		return categoryReportHeader;
+	}
+
 }
