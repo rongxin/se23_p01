@@ -3,7 +3,6 @@ package sg.edu.nus.iss.shop.ui.purchase;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Component;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -31,7 +30,6 @@ public class CheckoutWindow extends JFrame {
 	private JPanel purchaseCardPanel;
 
 	private JPanel memberInfoPanel;
-	private JPanel purchaseInfoPanel;
 
 
 	private Customer customer;
@@ -43,6 +41,7 @@ public class CheckoutWindow extends JFrame {
 
 
 	private ListPurchaseItemPanel listPurchaseItemPanel;
+	private PurchaseInfoPanel purchaseInfoPanel;
 	private ActionButtonsPanel actionButtonsPanel;
 
 	public CheckoutWindow(ShopApplication shopApplication) {
@@ -72,7 +71,10 @@ public class CheckoutWindow extends JFrame {
 	private JPanel createRightPanel() {
 		JPanel p = new JPanel(new GridLayout(3, 1));
 		p.add(createMemerInfoPanel());
-		p.add(createPurchaseInfoPanel());
+
+		purchaseInfoPanel = new PurchaseInfoPanel(shopApplication, this);
+		purchaseInfoPanel.setVisible(false);
+		p.add(purchaseInfoPanel);
 
 		actionButtonsPanel = new ActionButtonsPanel(shopApplication, this);
 		p.add(actionButtonsPanel);
@@ -114,36 +116,6 @@ public class CheckoutWindow extends JFrame {
 		return memberInfoPanel;
 	}
 
-	private JPanel createPurchaseInfoPanel() {
-
-		purchaseInfoPanel = new JPanel(new GridLayout(0, 2));
-		purchaseInfoPanel.setVisible(false);
-
-		purchaseInfoPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(" Checkout  Information "),
-				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-
-		JLabel totalAmountLabel = new JLabel("Total Amount: ");
-		purchaseInfoPanel.add(totalAmountLabel);
-
-		JLabel totalAmountValueLabel = new JLabel("$ 31.70");
-		purchaseInfoPanel.add(totalAmountValueLabel);
-
-		JLabel discountLabel = new JLabel("Discount: ");
-		purchaseInfoPanel.add(discountLabel);
-
-		JLabel discountValueLabel = new JLabel("$ 1.00");
-		purchaseInfoPanel.add(discountValueLabel);
-
-		JLabel totalPayableAmountLabel = new JLabel("Total Payable: ");
-		totalPayableAmountLabel.setFont(new Font("Arial", Font.BOLD, 16));
-		purchaseInfoPanel.add(totalPayableAmountLabel);
-
-		JLabel totalPayableAmountValueLabel = new JLabel("$ 30.70");
-		totalPayableAmountValueLabel.setFont(new Font("Arial", Font.BOLD, 16));
-		purchaseInfoPanel.add(totalPayableAmountValueLabel);
-
-		return purchaseInfoPanel;
-	}
 
 
 	private JPanel createPurchaseCardPanel() {
