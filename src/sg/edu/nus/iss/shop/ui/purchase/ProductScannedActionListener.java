@@ -3,6 +3,7 @@ package sg.edu.nus.iss.shop.ui.purchase;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
+import javax.swing.JOptionPane;
 
 import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
@@ -20,17 +21,15 @@ public class ProductScannedActionListener extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		String scannedId = scanner.getScannedBarcodeNumber();
-		System.out.println("Scanned: " + scannedId);
-		Product product = shopApplication.getProductByBarcode(scannedId);
+		String barcodeNumber = scanner.getScannedBarcodeNumber();
+		System.out.println("Scanned: " + barcodeNumber);
+		Product product = shopApplication.getProductByBarcode(barcodeNumber);
 		if (product == null) {
-			System.out.println("Product not found!");
+			JOptionPane.showMessageDialog(null, "Unable to find product for barcode number:" + barcodeNumber);
 		} else {
-			System.out.println("Product found!");
+			System.out.println("Product scanned:" + product.getName());
 		}
 
-		// anyway, hardcode a product to simulate the scanned item here
-		Product scannedProduct = new Product("CLO/10", "test scan product", "test", 10, 11.45, "12345", 10, 10);
 
 	}
 

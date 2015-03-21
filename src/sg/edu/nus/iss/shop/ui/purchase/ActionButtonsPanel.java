@@ -48,7 +48,7 @@ public class ActionButtonsPanel extends JPanel {
 				d.pack();
 				d.setVisible(true);
 				d.addConfirmListener(new ProductScannedActionListener(d, shopApplication));
-				// TODO scan items
+
 			}
 		});
 		add(scanItemsButton);
