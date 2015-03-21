@@ -7,13 +7,8 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -21,7 +16,6 @@ import javax.swing.JTextField;
 
 import sg.edu.nus.iss.shop.model.domain.Customer;
 import sg.edu.nus.iss.shop.model.domain.Member;
-import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
 
@@ -39,9 +33,6 @@ public class CheckoutWindow extends JFrame {
 	private JPanel memberInfoPanel;
 	private JPanel purchaseInfoPanel;
 
-	private JButton scanItemsButton;
-	private JButton checkoutButton;
-	private JButton proceedPaymentButton;
 
 	private Customer customer;
 	private JLabel memberIdValuelabel;
@@ -49,9 +40,10 @@ public class CheckoutWindow extends JFrame {
 	private JLabel memberLoyaltyPointsValueLabel;
 	private JLabel memberTypeValuelabel;
 
-	private Map<Product, Integer> scannedItems;
+
 
 	private ListPurchaseItemPanel listPurchaseItemPanel;
+	private ActionButtonsPanel actionButtonsPanel;
 
 	public CheckoutWindow(ShopApplication shopApplication) {
 		this.shopApplication = shopApplication;
@@ -61,7 +53,6 @@ public class CheckoutWindow extends JFrame {
 		this.add("East", createRightPanel());
 		this.add("South", createMessagePanel());
 
-		scannedItems = new HashMap<>();
 	}
 
 	private JPanel createTitlePanel() {
@@ -82,7 +73,9 @@ public class CheckoutWindow extends JFrame {
 		JPanel p = new JPanel(new GridLayout(3, 1));
 		p.add(createMemerInfoPanel());
 		p.add(createPurchaseInfoPanel());
-		p.add(createActionButtonsPanel());
+
+		actionButtonsPanel = new ActionButtonsPanel(shopApplication, this);
+		p.add(actionButtonsPanel);
 		return p;
 	}
 
@@ -152,77 +145,20 @@ public class CheckoutWindow extends JFrame {
 		return purchaseInfoPanel;
 	}
 
-	private JPanel createActionButtonsPanel() {
-
-		JPanel p = new JPanel(new GridLayout(0, 1));
-		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(" Actions"),
-				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-
-
-		scanItemsButton = new JButton("Scan items");
-		scanItemsButton.setEnabled(false);
-		scanItemsButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				BarcodeScannerEmulatorDialog d = new BarcodeScannerEmulatorDialog(p.getParent());
-				d.pack();
-				d.setVisible(true);
-				d.addConfirmListener(new ProductScannedActionListener(d, shopApplication));
-				// TODO scan items
-			}
-		});
-		p.add(scanItemsButton);
-
-		proceedPaymentButton = new JButton(" Payment");
-		proceedPaymentButton.setEnabled(false);
-		proceedPaymentButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				CardLayout cl = (CardLayout) (purchaseCardPanel.getLayout());
-				cl.show(purchaseCardPanel, CARD_PAYMENT);
-				checkoutButton.setEnabled(true);
-				proceedPaymentButton.setEnabled(false);
-			}
-		});
-		p.add(proceedPaymentButton);
-
-		checkoutButton = new JButton("Checkout");
-		checkoutButton.setEnabled(false);
-		checkoutButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				CardLayout cl = (CardLayout) (purchaseCardPanel.getLayout());
-				cl.show(purchaseCardPanel, CARD_SUMMARY);
-				checkoutButton.setEnabled(false);
-				proceedPaymentButton.setEnabled(false);
-			}
-		});
-		p.add(checkoutButton);
-
-		JButton cancelButton = new JButton("Cancel");
-		cancelButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-			}
-		});
-		p.add(cancelButton);
-		return p;
-	}
 
 	private JPanel createPurchaseCardPanel() {
 		purchaseCardPanel = new JPanel();
-		purchaseCardPanel.setLayout(new CardLayout());
+		getPurchaseCardPanel().setLayout(new CardLayout());
 		GetMemberInfoPanel getMemberInfoPanel = new GetMemberInfoPanel(this, shopApplication);
 
-		purchaseCardPanel.add(getMemberInfoPanel, CARD_MEMBER);
+		getPurchaseCardPanel().add(getMemberInfoPanel, CARD_MEMBER);
 
 		listPurchaseItemPanel = new ListPurchaseItemPanel();
-		purchaseCardPanel.add(listPurchaseItemPanel, CARD_CART);
+		getPurchaseCardPanel().add(listPurchaseItemPanel, CARD_CART);
 
-		purchaseCardPanel.add(createMakePaymentPanel(), CARD_PAYMENT);
-		purchaseCardPanel.add(createSummaryPanel(), CARD_SUMMARY);
-		return purchaseCardPanel;
+		getPurchaseCardPanel().add(createMakePaymentPanel(), CARD_PAYMENT);
+		getPurchaseCardPanel().add(createSummaryPanel(), CARD_SUMMARY);
+		return getPurchaseCardPanel();
 	}
 
 	public void refreshMemberScanStep(Customer member) {
@@ -244,20 +180,16 @@ public class CheckoutWindow extends JFrame {
 			memberLoyaltyPointsValueLabel.setText("N.A.");
 		}
 
-		CardLayout cl = (CardLayout) (purchaseCardPanel.getLayout());
-		cl.show(purchaseCardPanel, CARD_CART);
+		CardLayout cl = (CardLayout) (getPurchaseCardPanel().getLayout());
+		cl.show(getPurchaseCardPanel(), CARD_CART);
 		memberInfoPanel.setVisible(true);
 		purchaseInfoPanel.setVisible(true);
 
-		scanItemsButton.setEnabled(true);
-		checkoutButton.setEnabled(false);
-		proceedPaymentButton.setEnabled(true);
+		actionButtonsPanel.getScanItemsButton().setEnabled(true);
+		actionButtonsPanel.getCheckoutButton().setEnabled(false);
+		actionButtonsPanel.getProceedPaymentButton().setEnabled(true);
 
 	}
-
-
-
-
 
 	private JPanel createMakePaymentPanel() {
 
@@ -315,5 +247,11 @@ public class CheckoutWindow extends JFrame {
 		p.add(new JLabel("Transaction Completed!"));
 		return p;
 	}
+
+	public JPanel getPurchaseCardPanel() {
+		return purchaseCardPanel;
+	}
+
+
 
 }
