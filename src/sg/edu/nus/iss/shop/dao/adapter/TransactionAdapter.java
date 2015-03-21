@@ -16,7 +16,7 @@ import sg.edu.nus.iss.shop.model.nondomain.TransactionRecord;
 
 public class TransactionAdapter 
 {
-	private SimpleDateFormat dft = new SimpleDateFormat("yyyy-mm-dd"); 
+	private SimpleDateFormat dft = new SimpleDateFormat("yyyy-MM-dd"); 
 
 	private List<DataRecord> dataRecordList;
 	private List<Object> transList;
