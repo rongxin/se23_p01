@@ -47,7 +47,7 @@ public class DiscountRecordAdapter implements DataRecordAdapter
 		   if(Discount.APPLICABLETOALL.equals(dataValues[5]))
 		   {
 			   dataObj = new PublicDiscount(dataValues[0],dataValues[1],percentage,
-						dataValues[3], dataValues[4]);
+						dataValues[2], dataValues[3]);
 		   }
 		   else  if(Discount.APPLICABLETOMEMBER.equals(dataValues[5]))
 		   {
