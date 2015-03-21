@@ -29,6 +29,8 @@ public class ProductScannedActionListener extends AbstractAction {
 		Product product = shopApplication.getProductByBarcode(barcodeNumber);
 		if (product == null) {
 			JOptionPane.showMessageDialog(null, "Unable to find product for barcode number:" + barcodeNumber);
+		} else if (product.getAvailableQuantity() <= 0) {
+			JOptionPane.showMessageDialog(null, "Product out of stock for barcode number:" + barcodeNumber);
 		} else {
 			System.out.println("Product scanned:" + product.getName());
 
