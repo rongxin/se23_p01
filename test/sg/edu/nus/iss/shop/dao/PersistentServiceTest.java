@@ -426,7 +426,7 @@ public class PersistentServiceTest {
 			assertEquals(disc1.getDiscountCode(), retrieved1.getDiscountCode());
 
 			Discount disc2 = new PublicDiscount("CENTENARY",
-					"Centenary Celebration in 2014", 0, "2014-01-01", "365");
+					"Centenary Celebration in 2015", 0, "2015-01-01", "365");
 			service.saveRecord(disc2);
 			Discount retrieved2 = service.retrieveObject(Discount.class,
 					disc2.getDiscountCode());

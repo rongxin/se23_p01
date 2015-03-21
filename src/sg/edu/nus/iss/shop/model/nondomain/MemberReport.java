@@ -3,12 +3,9 @@ package sg.edu.nus.iss.shop.model.nondomain;
 import java.util.ArrayList;
 import java.util.List;
 
-import sg.edu.nus.iss.shop.controller.CategoryManager;
 import sg.edu.nus.iss.shop.controller.MemberManager;
 import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
-import sg.edu.nus.iss.shop.model.domain.Category;
 import sg.edu.nus.iss.shop.model.domain.Member;
-import sg.edu.nus.iss.shop.model.domain.Vendor;
 
 /**
  * @author lokeshkanna-b
@@ -36,7 +33,7 @@ public class MemberReport extends Report {
 		String[] memberArray = null;
 		String memberName = null;
 		String memberId = null;
-		String memberLoyaltyPoints = null;
+		int memberLoyaltyPoints = -1;
 		
 		MemberManager memberManager = MemberManager.getMemberManager();
 		membersList = memberManager.getAllMembers();
@@ -44,10 +41,11 @@ public class MemberReport extends Report {
 			for(Member member : membersList){
 				memberName = member.getName();
 				memberId = member.getId();
+				memberLoyaltyPoints = member.getLoyalPoints();
 				memberArray = new String[]{
 						memberName,
 						memberId,
-						memberLoyaltyPoints
+						String.valueOf(memberLoyaltyPoints)
 				};
 				returnMembersList.add(memberArray);
 			}

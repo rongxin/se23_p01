@@ -11,6 +11,7 @@ import java.util.TreeMap;
 import sg.edu.nus.iss.shop.controller.ReportManager;
 import sg.edu.nus.iss.shop.controller.TransactionManager;
 import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
+import sg.edu.nus.iss.shop.model.domain.Customer;
 import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.model.domain.Transaction;
 import sg.edu.nus.iss.shop.model.domain.TransactionDetail;
@@ -54,15 +55,17 @@ public class TransactionReport extends Report {
 		TransactionDetail transactionDetail = null;
 		Transaction transaction = null;
 		Date transactionDate = null;
+		Customer customerInTransaction = null;
 		Product productInTransaction = null;
 		String productName = null;
 		String productDescription = null;
 		int quantity = 0;
+		String customerId = null;
 		
 		TransactionManager transactionManager = TransactionManager.getInstance();
 		transactionsList = transactionManager.getAllTransaction(startDate, endDate);
 		if(transactionsList != null && transactionsList.size() > 0){
-			//Call method sortTransationsByProductId to get the sorted transaction map
+			/*Call method sortTransationsByProductId to get the sorted transaction map*/
 			sortedTransactionMap = sortTransationsByProductId(transactionsList);
 			if(sortedTransactionMap != null && !sortedTransactionMap.isEmpty()){
 				for(Integer transactionId : sortedTransactionMap.keySet()){
@@ -73,14 +76,18 @@ public class TransactionReport extends Report {
 							quantity = transactionDetail.getQuantity();
 							transaction = transactionDetail.getTransaction();
 							productInTransaction = transactionDetail.getProduct();
-							//Get product Name and Description
+							/* product Name and Description*/
 							productName = productInTransaction.getName();
 							productDescription = productInTransaction.getDescription();
 							
 							transactionDate = transaction.getDate();
+							customerInTransaction = transaction.getCustomer();
+							
+							customerId = customerInTransaction.getId();
 							
 							transactionArray = new String[]{
 									String.valueOf(transactionId), 
+									customerId,
 									productName, 
 									productDescription, 
 									String.valueOf(quantity),
@@ -109,16 +116,17 @@ public class TransactionReport extends Report {
 		
 		returnSortedTransactionMap = new TreeMap<Integer, TreeMap<String, TransactionDetail>>();
 		
-		//Iterating Transaction, to sort by product
+		/*Iterating Transaction, to sort by product*/
 		for(Transaction transaction : transactionsList){
 			transactionId = transaction.getId();
 			transDetailList = transaction.getTransactionDetails();
 			if(transDetailList != null && transDetailList.size() > 0){
-				//Check to handle duplicate transaction, If not required can be commented
+				/*Check to handle duplicate transaction, If not required can be commented*/
 				sortedProductTDMap = returnSortedTransactionMap.get(transactionId);
 				if(sortedProductTDMap == null){
 					sortedProductTDMap = new TreeMap<String, TransactionDetail>();
 				}
+				/*Iterating Transaction detail to get the product Id to sort*/
 				for(TransactionDetail transDetail : transDetailList){
 					productInTransaction = transDetail.getProduct();
 					productId = productInTransaction.getProductId();
