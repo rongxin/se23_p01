@@ -66,8 +66,8 @@ public class VendorTest {
 	
 	@Test
 	public void equalTest(){
-		Vendor vendor1 = new Vendor("ZhuBin", "Test Vendor");
-		Vendor vendor2 = new Vendor("ZhuBin", "Test Vendor");
+		Vendor vendor1 = new Vendor("ZhuBin", "Test Vendor1");
+		Vendor vendor2 = new Vendor("ZhuBin", "Test Vendor2");
 		Assert.assertEquals(vendor1, vendor2);
 	}
 	

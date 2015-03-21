@@ -2,6 +2,8 @@ package sg.edu.nus.iss.shop.controller;
 
 import static org.junit.Assert.*;
 
+import java.util.Random;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,8 +29,9 @@ public class MemberManagerTest {
 		int oldMemberCount = MemberManager.getMemberManager().getAllMembers().size();
 		
 		try {
-			MemberManager.getMemberManager().addMember("B0135868R", "Zhu Bin");
+			MemberManager.getMemberManager().addMember("B0135868R" + new Random().nextInt(), "Zhu Bin");
 		} catch (Exception e) {
+			e.printStackTrace();
 			Assert.fail("failed to add a member");
 		}
 		Assert.assertEquals(MemberManager.getMemberManager().getAllMembers().size(), oldMemberCount+1);
@@ -48,7 +51,8 @@ public class MemberManagerTest {
 	
 	@Test
 	public void testGetMemberById() throws ApplicationGUIException  {
-		Member member = MemberManager.getMemberManager().getMemberById("F42563743156");
-		assertEquals("F42563743156",member.getId());	
+		String testMemberId = "X4242237431326";
+		Member member = MemberManager.getMemberManager().getMemberById(testMemberId);
+		assertEquals(testMemberId,member.getId());
 	}
 }
