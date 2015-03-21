@@ -13,10 +13,12 @@ public class VendorManager {
 	private static final int VENDOR_NAME_MIN_LENGTH = 5;
 	private static final int VENDOR_NAME_MAX_LENGTH = 40;
 	private static final int VENDOR_DESCRIPTION_MIN_LENGTH = 5;
-	private static final int VENDOR_DESCRIPTION_MAX_LENGTH = 40;
+	private static final int VENDOR_DESCRIPTION_MAX_LENGTH = 100;
 	private static final String INVALID_NAME_ERROR_MESSAGE = "Invalid vendor name";
 	private static final String INVALID_DESCRIPTION_ERROR_MESSAGE = "Invalid vendor description";
 	private static final String NIL_CATEGORY_ERROR_MESSAGE = "At least one category is needed";
+	private static final String[] INVALID_STR_VENDOR_NAME = { ",", "\"", "\'", ":"};
+	private static final String[] INVALID_STR_VENDOR_DESCRIPTION = { "," };
 
 	private static VendorManager theOnlyVendorManager;
 
@@ -72,15 +74,20 @@ public class VendorManager {
 	 * existing vendor, only new categories will be added
 	 * **/
 	public Vendor addVendor(String name, String description, List<Category> categories) throws ApplicationGUIException {
-		if (name == null || name.trim().length() < VendorManager.VENDOR_NAME_MIN_LENGTH || name.trim().length() > VendorManager.VENDOR_NAME_MAX_LENGTH) {
+		if (!isVendorNameValid(name)) {
 			throw new ApplicationGUIException(VendorManager.INVALID_NAME_ERROR_MESSAGE);
 		}
-		if (description == null || description.trim().length() < VendorManager.VENDOR_DESCRIPTION_MIN_LENGTH || description.trim().length() > VendorManager.VENDOR_DESCRIPTION_MAX_LENGTH) {
+		name = name.trim();
+
+		if (!isVendorDescriptionValid(description)) {
 			throw new ApplicationGUIException(VendorManager.INVALID_DESCRIPTION_ERROR_MESSAGE);
 		}
+		description = description.trim();
+		
 		if (categories == null || categories.size() == 0) {
 			throw new ApplicationGUIException(VendorManager.NIL_CATEGORY_ERROR_MESSAGE);
 		}
+		
 		Vendor vendor = this.getVendorByName(name);
 		if (vendor == null) { // new vendor
 			vendor = new Vendor(name, description);
@@ -89,9 +96,9 @@ public class VendorManager {
 			List<Category> existingCategories = vendor.getCategories();
 			List<Category> newCategories = new LinkedList<Category>();
 			Iterator<Category> it = categories.iterator();
-			while (it.hasNext()){
+			while (it.hasNext()) {
 				Category category = it.next();
-				if (!existingCategories.contains(category)){
+				if (!existingCategories.contains(category)) {
 					newCategories.add(category);
 				}
 			}
@@ -122,4 +129,31 @@ public class VendorManager {
 		}
 	}
 
+	private boolean isVendorNameValid(String vendorName) {
+		if (vendorName == null || vendorName.trim().length() < VendorManager.VENDOR_NAME_MIN_LENGTH || vendorName.trim().length() > VendorManager.VENDOR_NAME_MAX_LENGTH) {
+			return false;
+		}
+		
+		for (int i=0;i<INVALID_STR_VENDOR_NAME.length;i++){
+			String invalidStr = INVALID_STR_VENDOR_NAME[i];
+			if (vendorName.contains(invalidStr)){
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	private boolean isVendorDescriptionValid(String vendorDescription) {
+		if (vendorDescription == null || vendorDescription.trim().length() < VendorManager.VENDOR_NAME_MIN_LENGTH || vendorDescription.trim().length() > VendorManager.VENDOR_NAME_MAX_LENGTH) {
+			return false;
+		}
+		
+		for (int i=0;i<INVALID_STR_VENDOR_DESCRIPTION.length;i++){
+			String invalidStr = INVALID_STR_VENDOR_DESCRIPTION[i];
+			if (vendorDescription.contains(invalidStr)){
+				return false;
+			}
+		}
+		return true;
+	}
 }
