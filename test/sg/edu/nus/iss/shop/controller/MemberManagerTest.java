@@ -48,7 +48,8 @@ public class MemberManagerTest {
 	
 	@Test
 	public void testGetMemberById() throws ApplicationGUIException  {
-		Member member = MemberManager.getMemberManager().getMemberById("F42563743156");
-		assertEquals("F42563743156",member.getId());	
+		String testMemberId = "X4242237431326";
+		Member member = MemberManager.getMemberManager().getMemberById(testMemberId);
+		assertEquals(testMemberId,member.getId());
 	}
 }

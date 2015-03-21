@@ -8,6 +8,7 @@ import junit.framework.TestCase;
 import org.junit.Before;
 
 import sg.edu.nus.iss.shop.controller.DiscountManager;
+import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.Discount;
 import sg.edu.nus.iss.shop.model.domain.FirstPurchaseDiscount;
 import sg.edu.nus.iss.shop.model.domain.SubsequentDiscount;
@@ -44,13 +45,20 @@ public class DiscountManagerTest extends TestCase {
 		assertNotNull(compareDiscount);
 		assertEquals("CENTENARY", compareDiscount.getDiscountCode());
 	}
-
+	
+	@Test
+	public void testGetAllDiscounts() {
+		assertEquals(3,DiscountManager.getDiscountManager().getAllDiscounts().size());
+	}
+	
 	@Test
 	public void testGetFirstPurchaseDiscountList() {
+		String firstPurchaseDiscountCode = "MEMBER_FIRST";
+		
 		try {
 			Discount memberDiscount = DiscountManager.getDiscountManager()
 					.getFirstPurchaseDiscountList();
-			assertSame(firstPurchaseDiscount, memberDiscount);
+			assertEquals(firstPurchaseDiscountCode, memberDiscount.getDiscountCode());
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail("Exception occured when getting first purchase discount.");
@@ -59,10 +67,12 @@ public class DiscountManagerTest extends TestCase {
 
 	@Test
 	public void testGetSubsequentDiscountList() {
+		String subsequentDiscountCode = "MEMBER_SUBSEQ";
+		
 		try {
 			Discount memberDiscount = DiscountManager.getDiscountManager()
 					.getSubsequentDiscountList();
-			assertSame(subsequentDiscount, memberDiscount);
+			assertEquals(subsequentDiscountCode, memberDiscount.getDiscountCode());
 		} catch (Exception e) {
 			Assert.fail("Exception occured when getting subsequent discount.");
 		}
@@ -70,10 +80,12 @@ public class DiscountManagerTest extends TestCase {
 
 	@Test
 	public void testGetMaxValidPublicDiscount() {
+		String publicDiscountCode = "CENTENARY";
+
 		try {
 			Discount maxValidPublicDiscount = DiscountManager
 					.getDiscountManager().getMaxValidPublicDiscount();
-			assertSame(publicDiscount, maxValidPublicDiscount);
+			assertEquals(publicDiscountCode, maxValidPublicDiscount.getDiscountCode());
 		} catch (Exception e) {
 			Assert.fail("Exception occured when getting max public discount.");
 		}

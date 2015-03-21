@@ -90,21 +90,32 @@ public class DiscountManager {
 		return previousDiscount;
 	}
 	
-	private List<Discount> getAllDiscounts() throws Exception {
-		List<Discount> discountList = new LinkedList<Discount>();
-		List<Object> objectList = null;
-
+	public List<Discount> getAllDiscounts() {
+//		List<Discount> discountList = new LinkedList<Discount>();
+//		List<Object> objectList = null;
+//
+//		try {
+//			objectList = PersistentService.getService().retrieveAll(Discount.class);
+//		} catch (Exception e) {
+//			throw new Exception(e.toString());
+//		}
+//
+//		if (objectList != null && objectList.isEmpty()) {
+//			Iterator<Object> iter = objectList.iterator();
+//			while (iter.hasNext()) {
+//				discountList.add((Discount) iter.next());
+//			}
+//		}
+		List<Discount> discountList = null;
+		
 		try {
-			objectList = PersistentService.getService().retrieveAll(Discount.class);
-		} catch (Exception e) {
-			throw new Exception(e.toString());
-		}
-
-		if (objectList != null && objectList.isEmpty()) {
-			Iterator<Object> iter = objectList.iterator();
-			while (iter.hasNext()) {
-				discountList.add((Discount) iter.next());
-			}
+			discountList = PersistentService.getService().retrieveAll(Discount.class);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InvalidDataFormat e) {
+			e.printStackTrace();
+		} catch (InvalidDomainObject e) {
+			e.printStackTrace();
 		}
 		return discountList;
 	}
