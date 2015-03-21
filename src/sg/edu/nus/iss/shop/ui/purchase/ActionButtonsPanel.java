@@ -47,7 +47,7 @@ public class ActionButtonsPanel extends JPanel {
 				BarcodeScannerEmulatorDialog d = new BarcodeScannerEmulatorDialog(getParent());
 				d.pack();
 				d.setVisible(true);
-				d.addConfirmListener(new ProductScannedActionListener(d, shopApplication));
+				d.addConfirmListener(new ProductScannedActionListener(d, shopApplication, checkoutWindow));
 
 			}
 		});

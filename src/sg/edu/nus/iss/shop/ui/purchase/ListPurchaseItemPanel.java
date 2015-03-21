@@ -23,6 +23,9 @@ public class ListPurchaseItemPanel extends JPanel {
 		this.setSize(800, 600);
 	}
 
+	public JTable getTable() {
+		return table;
+	}
 
 
 }

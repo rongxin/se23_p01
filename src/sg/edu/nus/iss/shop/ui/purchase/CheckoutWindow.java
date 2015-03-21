@@ -252,6 +252,9 @@ public class CheckoutWindow extends JFrame {
 		return purchaseCardPanel;
 	}
 
+	public ListPurchaseItemPanel getListPurchaseItemPanel() {
+		return listPurchaseItemPanel;
+	}
 
 
 }

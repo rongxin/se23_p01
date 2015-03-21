@@ -12,11 +12,14 @@ public class ProductScannedActionListener extends AbstractAction {
 	private static final long serialVersionUID = 1L;
 	private BarcodeScannerEmulatorDialog scanner;
 	private ShopApplication shopApplication;
+	private CheckoutWindow checkoutWindow;
 
-	public ProductScannedActionListener(BarcodeScannerEmulatorDialog scanner, ShopApplication shopApplication) {
+	public ProductScannedActionListener(BarcodeScannerEmulatorDialog scanner, ShopApplication shopApplication,
+			CheckoutWindow checkoutWindow) {
 		super();
 		this.scanner = scanner;
 		this.shopApplication = shopApplication;
+		this.checkoutWindow = checkoutWindow;
 	}
 
 	@Override
@@ -28,6 +31,9 @@ public class ProductScannedActionListener extends AbstractAction {
 			JOptionPane.showMessageDialog(null, "Unable to find product for barcode number:" + barcodeNumber);
 		} else {
 			System.out.println("Product scanned:" + product.getName());
+
+			ItemTableModel model = (ItemTableModel) checkoutWindow.getListPurchaseItemPanel().getTable().getModel();
+			model.addItem(product);
 		}
 
 
