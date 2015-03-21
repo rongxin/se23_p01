@@ -17,7 +17,7 @@ public class VendorManager {
 	private static final String INVALID_NAME_ERROR_MESSAGE = "Invalid vendor name";
 	private static final String INVALID_DESCRIPTION_ERROR_MESSAGE = "Invalid vendor description";
 	private static final String NIL_CATEGORY_ERROR_MESSAGE = "At least one category is needed";
-	private static final String[] INVALID_STR_VENDOR_NAME = { ",", "\"", "\'", ":"};
+	private static final String[] INVALID_STR_VENDOR_NAME = { ",", "\"", "\'", ":", ";", "<", ">", "\\", "{", "}"};
 	private static final String[] INVALID_STR_VENDOR_DESCRIPTION = { "," };
 
 	private static VendorManager theOnlyVendorManager;
@@ -144,7 +144,7 @@ public class VendorManager {
 	}
 	
 	private boolean isVendorDescriptionValid(String vendorDescription) {
-		if (vendorDescription == null || vendorDescription.trim().length() < VendorManager.VENDOR_NAME_MIN_LENGTH || vendorDescription.trim().length() > VendorManager.VENDOR_NAME_MAX_LENGTH) {
+		if (vendorDescription == null || vendorDescription.trim().length() < VendorManager.VENDOR_DESCRIPTION_MIN_LENGTH || vendorDescription.trim().length() > VendorManager.VENDOR_DESCRIPTION_MAX_LENGTH) {
 			return false;
 		}
 		
