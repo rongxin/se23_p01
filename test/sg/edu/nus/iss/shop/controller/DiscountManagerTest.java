@@ -87,6 +87,7 @@ public class DiscountManagerTest extends TestCase {
 					.getDiscountManager().getMaxValidPublicDiscount();
 			assertEquals(publicDiscountCode, maxValidPublicDiscount.getDiscountCode());
 		} catch (Exception e) {
+			e.printStackTrace();
 			Assert.fail("Exception occured when getting max public discount.");
 		}
 	}
