@@ -19,7 +19,7 @@ public class ItemTableModel extends AbstractTableModel {
 
 	private List<Object[]> tableData = new ArrayList<>();
 
-	private Map<Product, Integer> items = new HashMap<Product, Integer>();
+	private Map<String, Integer> items = new HashMap<String, Integer>();
 
 	/**
 	 * Add a new product to the current items
@@ -27,14 +27,21 @@ public class ItemTableModel extends AbstractTableModel {
 	 * @param item
 	 */
 	public void addItem(Product item) {
-		if (items.get(item) == null) {
-			items.put(item, 1);
+		if (items.get(item.getProductId()) == null) {
+			System.out.println("First time item");
+			items.put(item.getProductId(), 1);
 		} else {
-			Integer itemQty = items.get(item);
-			items.put(item, itemQty + 1);
+			System.out.println("Updating count");
+			Integer itemQty = items.get(item.getProductId());
+			System.out.println("itemQty:" + itemQty);
+			items.put(item.getProductId(), itemQty + 1);
 		}
 
-		tableData.add(new Object[] { "CLO/1", "Centenary Jumper", 21.45, 1, 21.45, });
+		Integer itemCount = items.get(item.getProductId());
+
+		Object[] rowData = new Object[] { item.getProductId(), item.getName(), item.getPrice(), itemCount,
+				item.getPrice() * itemCount, };
+		tableData.add(rowData);
 
 		fireTableDataChanged();
 	}
