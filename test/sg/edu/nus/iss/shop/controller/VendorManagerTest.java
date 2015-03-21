@@ -208,4 +208,17 @@ public class VendorManagerTest {
 		}
 		Assert.assertEquals(existingVendorCount+newVendorNum, VendorManager.getVendorManager().getAllVendors().size());
 	}
+	
+	/*****test if there are duplicate vendors****/
+	@Test
+	public void getAllVendorTest4(){
+		List<Vendor> allVendors = VendorManager.getVendorManager().getAllVendors();
+		while (!allVendors.isEmpty()){
+			int oldSize = allVendors.size();
+			Vendor vendor = allVendors.get(0);
+			allVendors.remove(vendor);
+			Assert.assertEquals(oldSize - 1, allVendors.size());
+			Assert.assertFalse(allVendors.contains(vendor));
+		}
+	}
 }
