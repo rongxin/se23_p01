@@ -1,10 +1,12 @@
 package sg.edu.nus.iss.shop.ui.purchase;
 
 import java.awt.event.ActionEvent;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 
+import sg.edu.nus.iss.shop.model.domain.Discount;
 import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 
@@ -37,7 +39,32 @@ public class ProductScannedActionListener extends AbstractAction {
 			ItemTableModel model = (ItemTableModel) checkoutWindow.getListPurchaseItemPanel().getTable().getModel();
 			model.addItem(product);
 
-			// TODO update information
+			List<Product> productsInCart = checkoutWindow.getProducts();
+			productsInCart.add(product);
+
+			Double totalPrice = new Double(0);
+			for (Product productInCart : productsInCart) {
+				totalPrice = productInCart.getPrice() + totalPrice;
+			}
+
+			checkoutWindow.getPurchaseInfoPanel().getTotalAmountValueLabel()
+			.setText("" + String.format("%1$,.2f", totalPrice));
+			Discount discount = checkoutWindow.getCustomer().getMaxDiscount();
+			Double discountPrice = new Double(0);
+			if (discount == null) {
+				System.err.println("Could not get discount:");
+			} else {
+				double discountPercentage = discount.getDiscountPercentage() / 100.00;
+				System.out.println("Discount purcentage:" + discountPercentage);
+				discountPrice = totalPrice * discountPercentage;
+			}
+			checkoutWindow.getPurchaseInfoPanel().getDiscountValueLabel()
+			.setText("" + String.format("%1$,.2f", discountPrice));
+
+			Double totalPayable = totalPrice - discountPrice;
+			checkoutWindow.getPurchaseInfoPanel().getTotalPayableAmountValueLabel()
+			.setText("" + String.format("%1$,.2f", totalPayable));
+
 		}
 
 

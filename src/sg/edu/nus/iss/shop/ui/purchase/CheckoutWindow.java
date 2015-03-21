@@ -3,10 +3,11 @@ package sg.edu.nus.iss.shop.ui.purchase;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Component;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -16,6 +17,7 @@ import javax.swing.JTextField;
 
 import sg.edu.nus.iss.shop.model.domain.Customer;
 import sg.edu.nus.iss.shop.model.domain.Member;
+import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
 
@@ -31,18 +33,17 @@ public class CheckoutWindow extends JFrame {
 	private JPanel purchaseCardPanel;
 
 	private JPanel memberInfoPanel;
-	private JPanel purchaseInfoPanel;
 
-
-	private Customer customer;
 	private JLabel memberIdValuelabel;
 	private JLabel memberNameValuelabel;
 	private JLabel memberLoyaltyPointsValueLabel;
 	private JLabel memberTypeValuelabel;
 
-
+	private Customer customer;
+	private List<Product> products = new ArrayList<>();
 
 	private ListPurchaseItemPanel listPurchaseItemPanel;
+	private PurchaseInfoPanel purchaseInfoPanel;
 	private ActionButtonsPanel actionButtonsPanel;
 
 	public CheckoutWindow(ShopApplication shopApplication) {
@@ -72,7 +73,10 @@ public class CheckoutWindow extends JFrame {
 	private JPanel createRightPanel() {
 		JPanel p = new JPanel(new GridLayout(3, 1));
 		p.add(createMemerInfoPanel());
-		p.add(createPurchaseInfoPanel());
+
+		purchaseInfoPanel = new PurchaseInfoPanel(shopApplication, this);
+		purchaseInfoPanel.setVisible(false);
+		p.add(purchaseInfoPanel);
 
 		actionButtonsPanel = new ActionButtonsPanel(shopApplication, this);
 		p.add(actionButtonsPanel);
@@ -114,36 +118,6 @@ public class CheckoutWindow extends JFrame {
 		return memberInfoPanel;
 	}
 
-	private JPanel createPurchaseInfoPanel() {
-
-		purchaseInfoPanel = new JPanel(new GridLayout(0, 2));
-		purchaseInfoPanel.setVisible(false);
-
-		purchaseInfoPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(" Checkout  Information "),
-				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-
-		JLabel totalAmountLabel = new JLabel("Total Amount: ");
-		purchaseInfoPanel.add(totalAmountLabel);
-
-		JLabel totalAmountValueLabel = new JLabel("$ 31.70");
-		purchaseInfoPanel.add(totalAmountValueLabel);
-
-		JLabel discountLabel = new JLabel("Discount: ");
-		purchaseInfoPanel.add(discountLabel);
-
-		JLabel discountValueLabel = new JLabel("$ 1.00");
-		purchaseInfoPanel.add(discountValueLabel);
-
-		JLabel totalPayableAmountLabel = new JLabel("Total Payable: ");
-		totalPayableAmountLabel.setFont(new Font("Arial", Font.BOLD, 16));
-		purchaseInfoPanel.add(totalPayableAmountLabel);
-
-		JLabel totalPayableAmountValueLabel = new JLabel("$ 30.70");
-		totalPayableAmountValueLabel.setFont(new Font("Arial", Font.BOLD, 16));
-		purchaseInfoPanel.add(totalPayableAmountValueLabel);
-
-		return purchaseInfoPanel;
-	}
 
 
 	private JPanel createPurchaseCardPanel() {
@@ -162,6 +136,8 @@ public class CheckoutWindow extends JFrame {
 	}
 
 	public void refreshMemberScanStep(Customer member) {
+		customer = member;
+
 		if (member instanceof Member) {
 
 			memberTypeValuelabel.setText("Member");
@@ -184,6 +160,7 @@ public class CheckoutWindow extends JFrame {
 		cl.show(getPurchaseCardPanel(), CARD_CART);
 		memberInfoPanel.setVisible(true);
 		purchaseInfoPanel.setVisible(true);
+
 
 		actionButtonsPanel.getScanItemsButton().setEnabled(true);
 		actionButtonsPanel.getCheckoutButton().setEnabled(false);
@@ -256,5 +233,16 @@ public class CheckoutWindow extends JFrame {
 		return listPurchaseItemPanel;
 	}
 
+	public List<Product> getProducts() {
+		return products;
+	}
+
+	public PurchaseInfoPanel getPurchaseInfoPanel() {
+		return purchaseInfoPanel;
+	}
+
+	public Customer getCustomer() {
+		return customer;
+	}
 
 }

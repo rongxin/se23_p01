@@ -57,8 +57,8 @@ public class ProductReport extends Report{
 						productName, 
 						productId, 
 						productDesc, 
-						String.valueOf(availableQuantity),
 						String.valueOf(price), 
+						String.valueOf(availableQuantity),
 						barcodeNumber, 
 						String.valueOf(orderThreshold), 
 						String.valueOf(orderQuantity)
@@ -67,6 +67,22 @@ public class ProductReport extends Report{
 			}
 		}
 		return returnProductsList;
+	}
+
+	@Override
+	public String[] getReportHeader() {
+		
+		String[] productReportHeader = new String[]{
+				"Product Name",
+				"Product Id",
+				"Product Desc",
+				"Price",
+				"Available Qty",
+				"Barcode",
+				"Threshold",
+				"Re-order Qty"
+		};
+		return productReportHeader;
 	}
 
 }
