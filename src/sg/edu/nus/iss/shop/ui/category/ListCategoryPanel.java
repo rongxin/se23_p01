@@ -1,6 +1,5 @@
 package sg.edu.nus.iss.shop.ui.category;
 
-import java.awt.Button;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,7 +8,6 @@ import java.util.List;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -21,6 +19,7 @@ import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 public class ListCategoryPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private ShopApplication shopApplication;
+	private Object categoryData[][];
 
 	public ListCategoryPanel(ShopApplication shopApplication) {
 		super();
@@ -33,14 +32,14 @@ public class ListCategoryPanel extends JPanel {
 
 		List<Category> categories = shopApplication.getCategories();
 		// Oscar: Adding the Edit button
-		Object categoryData[][] = new Object[categories.size()][3];
+		categoryData = new Object[categories.size()][3];
 
 		int i = 0;
 		for (Category category : categories) {
 			categoryData[i][0] = category.getCode();
 			categoryData[i][1] = category.getName();
 			// Edit Button
-			categoryData[i][2] = "Edit";
+			categoryData[i][2] = i;
 
 			i++;
 		}
@@ -58,26 +57,26 @@ public class ListCategoryPanel extends JPanel {
 		return p;
 	}
 
-	private class EditButtonRenderer extends JButton implements TableCellRenderer {
+	private class EditButtonRenderer implements TableCellRenderer {
 
 		@Override
 		public Component getTableCellRendererComponent(JTable arg0,
 				Object value, boolean isSelected, boolean hasFocus, int row,
 				int column) {
-			return this;
+			return new JButton("Edit");
 		}
 	}
 
 	class EditButtonEditor extends DefaultCellEditor {
 		protected JButton button;
-
-		private String label;
-
+		private int rowId;
+		private String categoryCode;
+		private String categoryName;
 		private boolean isPushed;
 
 		public EditButtonEditor(JCheckBox checkBox) {
 			super(checkBox);
-			button = new JButton("Oscar");
+			button = new JButton("Edit");
 			button.setOpaque(true);
 			button.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -95,21 +94,22 @@ public class ListCategoryPanel extends JPanel {
 				button.setForeground(table.getForeground());
 				button.setBackground(table.getBackground());
 			}
-			label = (value == null) ? "" : value.toString();
-			button.setText(label);
+			rowId = (value == null) ? -1 : (int) value;
+			categoryCode = (String) categoryData[rowId][0];
+			categoryName = (String) categoryData[rowId][1];
 			isPushed = true;
 			return button;
 		}
 
 		public Object getCellEditorValue() {
 			if (isPushed) {
-				AddCategoryDialog d = new AddCategoryDialog(shopApplication);
+				AddCategoryDialog d = new AddCategoryDialog(shopApplication, categoryCode, categoryName);
 				d.pack();
 				d.setLocationByPlatform(true);
 				d.setVisible(true);
 			}
 			isPushed = false;
-			return new String(label);
+			return rowId;
 		}
 
 		public boolean stopCellEditing() {

@@ -31,6 +31,19 @@ public class AddCategoryDialog extends OkCancelDialog {
 		super(shopApplication.getMainWindow(), "Add Category");
 		this.shopApplication = shopApplication;
 	}
+	
+	/**
+	 * Contructor for editing
+	 * @param shopApplication
+	 * @param CategoryCode
+	 * @param CategoryName
+	 */
+	public AddCategoryDialog(ShopApplication shopApplication, String CategoryCode, String CategoryName) {
+		this(shopApplication);
+		categoryCodeField.setText(CategoryCode);
+		categoryCodeField.setEnabled(false);
+		categoryNameField.setText(CategoryName);
+	}
 
 	@Override
 	protected JPanel createFormPanel() {
