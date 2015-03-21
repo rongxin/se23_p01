@@ -198,6 +198,9 @@ public class VendorManagerTest {
 					newAddCategories.add(categoryList.get(j));
 				}
 			}
+			if (newAddCategories.isEmpty()){
+				newAddCategories.add(categoryList.get(new Random().nextInt(categoryList.size())));
+			}
 			try{
 				VendorManager.getVendorManager().addVendor("Zhu Bin"+ new Random().nextLong(), "Test Vendor getAllVendorsTest3", newAddCategories);
 			}

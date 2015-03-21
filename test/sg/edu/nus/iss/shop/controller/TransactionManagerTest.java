@@ -9,12 +9,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
- 
+
 import org.junit.Before;
 import org.junit.Test;
 
 import sg.edu.nus.iss.shop.dao.PersistentService;
 import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
+import sg.edu.nus.iss.shop.model.domain.Category;
 import sg.edu.nus.iss.shop.model.domain.Member;
 import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.model.domain.Transaction;
@@ -27,17 +28,48 @@ import sg.edu.nus.iss.shop.model.nondomain.TransactionRecord;
 public class TransactionManagerTest {
 	private TransactionManager tm;
 	PersistentService service;
-
 	// private MemberManager mm;
-	// private ProductManager pm;
+	private ProductManager pm;
+	private CategoryManager cm;
 	// private Transaction tr;
+	Product product1;
+	Product product2;
+	Category c1;
+	Category c2;
 
 	@Before
 	public void setUp() throws Exception {
 		tm = TransactionManager.getInstance();
 		service = PersistentService.getService();
-		// mm = MemberManager.getMemberManager();
-		// pm = ProductManager.getProductManager();
+		cm = CategoryManager.getCategoryManager();
+		pm = ProductManager.getProductManager();
+		List<Product> products = pm.getAllProducts();
+		List<Category> categories = cm.getAllCategories();
+		if (categories.size() >= 2) {
+			c1 = categories.get(0);
+			c2 = categories.get(1);
+		} else {
+			if (categories.size() == 1) {
+				c1 = categories.get(0);
+			} else {
+				c1 = cm.createCategory("CLO", "Clothing");
+			}
+			c2 = cm.createCategory("CUP", "Cups");
+		}
+
+		if (products.size() >= 2) {
+			product1 = products.get(0);
+			product2 = products.get(1);
+		} else {
+			if (products.size() == 1) {
+				product1 = products.get(0);
+			} else {
+				product1 = pm.addProduct(c1, "Shirt", "Bonita Cammisa", 100,
+						100, "1111", 20, 100);
+			}
+			product2 = pm.addProduct(c2, "Cup", "La taza", 100,
+					100, "2222", 20, 100);
+		}
 		// pm.addProduct(new Category("CAT", "CAT"), "product1", 100, 100,
 		// "1111", 10, 100);
 	}
@@ -114,13 +146,13 @@ public class TransactionManagerTest {
 	public void testTransactionRecords() throws ParseException {
 		try {
 			SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
-			TransactionRecord tr1 = new TransactionRecord(1, "clo/1", "11", 1,
+			TransactionRecord tr1 = new TransactionRecord(1, "CLO/1", "11", 1,
 					ft.parse("2015-03-14"));
-			TransactionRecord tr2 = new TransactionRecord(1, "clo/2", "11", 1,
+			TransactionRecord tr2 = new TransactionRecord(1, "CLO/2", "11", 1,
 					ft.parse("2015-02-14"));
-			TransactionRecord tr3 = new TransactionRecord(2, "clo/3", "11", 1,
+			TransactionRecord tr3 = new TransactionRecord(2, "CLO/3", "11", 1,
 					ft.parse("2015-01-14"));
-			TransactionRecord tr4 = new TransactionRecord(3, "clo/4", "11", 1,
+			TransactionRecord tr4 = new TransactionRecord(3, "CLO/4", "11", 1,
 					ft.parse("2014-12-14"));
 
 			List<TransactionRecord> list = new ArrayList<TransactionRecord>();
@@ -145,32 +177,29 @@ public class TransactionManagerTest {
 	}
 
 	@Test
-	public void testGetRangeTransactions() throws ParseException, ApplicationGUIException {
+	public void testGetRangeTransactions() throws ParseException,
+			ApplicationGUIException {
 		SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
-		Product product = new Product("CLO/1", "Centenary Jumper",
-				"A releally nice momento", 1, 1, "1", 1, 1);
 		Transaction trans = new Transaction(1, new Member("1", "Stacy"),
 				ft.parse("2015-03-14"));
-		trans.changeProductQuantity(product, 1);
+		trans.changeProductQuantity(product1, 1);
 		assertTrue(trans.getTransactionDetails().size() > 0);
-		try{
+		try {
 			service.saveRecord(trans);
-		}catch(Exception e){
+		} catch (Exception e) {
 			throw new ApplicationGUIException(e.getMessage());
 		}
-		Product product1 = new Product("CLO/2", "Centenary Jumper",
-				"A releally nice momento", 1, 1, "1", 1, 1);
 		Transaction trans1 = new Transaction(2, new Member("1", "Stacy"),
 				ft.parse("2015-01-14"));
-		trans1.changeProductQuantity(product, 1);
 		trans1.changeProductQuantity(product1, 1);
+		trans1.changeProductQuantity(product2, 1);
 		assertTrue(trans1.getTransactionDetails().size() > 0);
-		try{
+		try {
 			service.saveRecord(trans1);
-		}catch(Exception e){
+		} catch (Exception e) {
 			throw new ApplicationGUIException(e.getMessage());
 		}
-		
+
 		ArrayList<Transaction> l;
 		l = tm.getAllTransaction();
 		assertEquals("List should have 2 items", 2, l.size());

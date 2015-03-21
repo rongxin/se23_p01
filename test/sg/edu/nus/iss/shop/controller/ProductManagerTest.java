@@ -55,9 +55,9 @@ public class ProductManagerTest extends TestCase {
 	// Test Retrieve Product by Barcode number(Valid)
 		@Test
 		public void testRetrieveProductByBardcode() throws ApplicationGUIException {
-			Product validProd = ProductManager.getProductManager().getProductByBarcode("A1234");
+			Product validProd = ProductManager.getProductManager().getProductByBarcode("2016");
 			assertNotNull(validProd.getBarcodeNumber(),validProd);
-			assertEquals("A1234", validProd.getBarcodeNumber());
+			assertEquals("2016", validProd.getBarcodeNumber());
 		}
 
 
