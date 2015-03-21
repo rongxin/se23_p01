@@ -36,6 +36,8 @@ public class ProductScannedActionListener extends AbstractAction {
 
 			ItemTableModel model = (ItemTableModel) checkoutWindow.getListPurchaseItemPanel().getTable().getModel();
 			model.addItem(product);
+
+			// TODO update information
 		}
 
 
