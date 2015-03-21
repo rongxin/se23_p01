@@ -27,13 +27,13 @@ public class ListMemberPanel extends JPanel {
 
 		int i = 0;
 		for (Member member : members) {
-			tableData[i][0] = member.getName();
-			tableData[i][1] = member.getId();
+			tableData[i][0] = member.getId();
+			tableData[i][1] = member.getName();
 			tableData[i][2] = member.getLoyalPoints();
 			i++;
 		}
 
-		Object columnNames[] = { "Member Name", "Member ID", "Loyalty Points" };
+		Object columnNames[] = { "Member ID", "Member Name", "Loyalty Points" };
 		JTable table = new JTable(tableData, columnNames);
 		table.setName("Items");
 		table.setEnabled(false);

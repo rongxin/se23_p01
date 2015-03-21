@@ -58,22 +58,22 @@ public class AddMemberDialog extends OkCancelDialog {
 		p.add(memberNameLabel, gc);
 
 		gc = LayoutHelper.createCellConstraint(0, 1);
-		JLabel cardNjmberLabel = new JLabel("Student/Staff Card Number: ");
-		p.add(cardNjmberLabel, gc);
+		JLabel cardNumberLabel = new JLabel("Student/Staff Card Number: ");
+		p.add(cardNumberLabel, gc);
 
 		// column 2
 
 		gc = LayoutHelper.createCellConstraint(1, 0);
-		cardNumberField = new JTextField(20);
-		cardNumberField.setToolTipText("Please input student or staff card number.");
-		p.add(cardNumberField, gc);
-
-
-		gc = LayoutHelper.createCellConstraint(1, 1);
 		nameField = new JTextField(20);
 		nameField.setToolTipText("Please input name of the new member.");
 		p.add(nameField, gc);
 
+
+		gc = LayoutHelper.createCellConstraint(1, 1);
+
+		cardNumberField = new JTextField(20);
+		cardNumberField.setToolTipText("Please input student or staff card number.");
+		p.add(cardNumberField, gc);
 
 		return p;
 	}
