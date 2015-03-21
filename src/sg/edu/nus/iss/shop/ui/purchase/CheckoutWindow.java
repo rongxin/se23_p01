@@ -3,8 +3,6 @@ package sg.edu.nus.iss.shop.ui.purchase;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Component;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,13 +11,11 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import sg.edu.nus.iss.shop.model.domain.Customer;
 import sg.edu.nus.iss.shop.model.domain.Member;
 import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
-import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
 
 public class CheckoutWindow extends JFrame {
 
@@ -45,6 +41,7 @@ public class CheckoutWindow extends JFrame {
 	private ListPurchaseItemPanel listPurchaseItemPanel;
 	private PurchaseInfoPanel purchaseInfoPanel;
 	private ActionButtonsPanel actionButtonsPanel;
+	private MakePaymentPanel makePaymentPanel;;
 
 	public CheckoutWindow(ShopApplication shopApplication) {
 		this.shopApplication = shopApplication;
@@ -130,7 +127,8 @@ public class CheckoutWindow extends JFrame {
 		listPurchaseItemPanel = new ListPurchaseItemPanel();
 		getPurchaseCardPanel().add(listPurchaseItemPanel, CARD_CART);
 
-		getPurchaseCardPanel().add(createMakePaymentPanel(), CARD_PAYMENT);
+		makePaymentPanel = new MakePaymentPanel(shopApplication, this);
+		getPurchaseCardPanel().add(makePaymentPanel, CARD_PAYMENT);
 		getPurchaseCardPanel().add(createSummaryPanel(), CARD_SUMMARY);
 		return getPurchaseCardPanel();
 	}
@@ -168,56 +166,6 @@ public class CheckoutWindow extends JFrame {
 
 	}
 
-	private JPanel createMakePaymentPanel() {
-
-		JPanel p = new JPanel();
-		p.setLayout(new GridBagLayout());
-		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(" Make Payments "),
-				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-		GridBagConstraints gc = new GridBagConstraints();
-
-		// column 1
-		gc = LayoutHelper.createCellConstraint(0, 0);
-		JLabel categoryCodeLabel = new JLabel("Loyaty  Points: ");
-		p.add(categoryCodeLabel, gc);
-
-		gc = LayoutHelper.createCellConstraint(0, 1);
-		JLabel categoryNameLabel = new JLabel("Paid Amount: ");
-		p.add(categoryNameLabel, gc);
-
-		gc = LayoutHelper.createCellConstraint(0, 3);
-		p.add(new JLabel(), gc);
-		gc = LayoutHelper.createCellConstraint(0, 4);
-		p.add(new JLabel(), gc);
-		gc = LayoutHelper.createCellConstraint(0, 5);
-		p.add(new JLabel(), gc);
-		gc = LayoutHelper.createCellConstraint(0, 6);
-		p.add(new JLabel(), gc);
-		gc = LayoutHelper.createCellConstraint(0, 7);
-		p.add(new JLabel(), gc);
-		gc = LayoutHelper.createCellConstraint(0, 8);
-		p.add(new JLabel(), gc);
-		gc = LayoutHelper.createCellConstraint(0, 9);
-		p.add(new JLabel(), gc);
-
-		// column 2
-		gc = LayoutHelper.createCellConstraint(1, 0);
-		JTextField loyatyPointsField = new JTextField(15);
-		loyatyPointsField.setToolTipText("Please input points to redeem.");
-		p.add(loyatyPointsField, gc);
-
-		gc = LayoutHelper.createCellConstraint(1, 1);
-		JTextField paidAmountField = new JTextField(15);
-		paidAmountField.setToolTipText("Please input total amount paid");
-		p.add(paidAmountField, gc);
-
-		JPanel outerPanel = new JPanel(new BorderLayout());
-		outerPanel.add("North", p);
-		outerPanel.add("Center", new JPanel());
-		outerPanel.add("South", new JPanel());
-
-		return p;
-	}
 
 	private Component createSummaryPanel() {
 		JPanel p = new JPanel();
