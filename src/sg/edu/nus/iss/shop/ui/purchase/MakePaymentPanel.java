@@ -16,17 +16,14 @@ public class MakePaymentPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private ShopApplication shopApplication;
 	private CheckoutWindow checkoutWindow;
+	private JTextField loyatyPointsField;
+	private JTextField paidAmountField;
 
 	public MakePaymentPanel(ShopApplication shopApplication, CheckoutWindow checkoutWindow) {
 		this.shopApplication = shopApplication;
 		this.checkoutWindow = checkoutWindow;
 
 		initMakePaymentPanel();
-		//
-		// JPanel outerPanel = new JPanel(new BorderLayout());
-		// outerPanel.add("North", p);
-		// outerPanel.add("Center", new JPanel());
-		// outerPanel.add("South", new JPanel());
 	}
 
 	private void initMakePaymentPanel() {
@@ -62,15 +59,23 @@ public class MakePaymentPanel extends JPanel {
 
 		// column 2
 		gc = LayoutHelper.createCellConstraint(1, 0);
-		JTextField loyatyPointsField = new JTextField(15);
+		loyatyPointsField = new JTextField(15);
 		loyatyPointsField.setToolTipText("Please input points to redeem.");
 		add(loyatyPointsField, gc);
 
 		gc = LayoutHelper.createCellConstraint(1, 1);
-		JTextField paidAmountField = new JTextField(15);
+		paidAmountField = new JTextField(15);
 		paidAmountField.setToolTipText("Please input total amount paid");
 		add(paidAmountField, gc);
 
+	}
+
+	public JTextField getLoyatyPointsField() {
+		return loyatyPointsField;
+	}
+
+	public JTextField getPaidAmountField() {
+		return paidAmountField;
 	}
 
 }

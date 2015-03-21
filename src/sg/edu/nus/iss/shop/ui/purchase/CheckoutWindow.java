@@ -133,7 +133,7 @@ public class CheckoutWindow extends JFrame {
 		return getPurchaseCardPanel();
 	}
 
-	public void refreshMemberScanStep(Customer member) {
+	public void updateMemberRelatedInfomation(Customer member) {
 		customer = member;
 
 		if (member instanceof Member) {
@@ -145,13 +145,18 @@ public class CheckoutWindow extends JFrame {
 			Integer displayLoyalPoints = 0;
 			if (((Member) member).getLoyalPoints() > 0) {
 				displayLoyalPoints = ((Member) member).getLoyalPoints();
+				makePaymentPanel.getLoyatyPointsField().setText("" + displayLoyalPoints);
+			} else {
+				makePaymentPanel.getLoyatyPointsField().setEnabled(false);
 			}
 			memberLoyaltyPointsValueLabel.setText("" + displayLoyalPoints);
+
 		} else {
 			memberTypeValuelabel.setText("None Member");
 			memberIdValuelabel.setText(member.getId());
 			memberNameValuelabel.setText("N.A.");
 			memberLoyaltyPointsValueLabel.setText("N.A.");
+			makePaymentPanel.getLoyatyPointsField().setEnabled(false);
 		}
 
 		CardLayout cl = (CardLayout) (getPurchaseCardPanel().getLayout());
