@@ -48,8 +48,6 @@ public class TransactionTest {
 			assertEquals("Value should be the same",
 					transactionDetail.getQuantity(), 1);
 			t.changeProductQuantity(product, 5);
-			// assertNotEquals("List should not be the same",
-			// list.get("Product").getQuantity(), 5);
 			list = t.getTransactionDetails();
 			assertEquals("Value should be the same",
 					list.get(list.indexOf(transactionDetail)).getQuantity(), 5);
