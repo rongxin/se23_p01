@@ -26,7 +26,6 @@ public class MemberReportTest {
 	public void testMemberReportInitialization(){
 		assertNotNull("MemberReport Object should not be null", memberReport);
 		MemberReport newMemberReport = MemberReport.getMemberReport();
-		assertNotNull("MemberReport Object should not be null", memberReport);
 		assertSame("The MemberReport object doesn't match", newMemberReport, memberReport);
 	}
 	

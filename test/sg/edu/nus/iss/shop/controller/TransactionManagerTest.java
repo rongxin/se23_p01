@@ -146,13 +146,13 @@ public class TransactionManagerTest {
 	public void testTransactionRecords() throws ParseException {
 		try {
 			SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
-			TransactionRecord tr1 = new TransactionRecord(1, "clo/1", "11", 1,
+			TransactionRecord tr1 = new TransactionRecord(1, "CLO/1", "11", 1,
 					ft.parse("2015-03-14"));
-			TransactionRecord tr2 = new TransactionRecord(1, "clo/2", "11", 1,
+			TransactionRecord tr2 = new TransactionRecord(1, "CLO/2", "11", 1,
 					ft.parse("2015-02-14"));
-			TransactionRecord tr3 = new TransactionRecord(2, "clo/3", "11", 1,
+			TransactionRecord tr3 = new TransactionRecord(2, "CLO/3", "11", 1,
 					ft.parse("2015-01-14"));
-			TransactionRecord tr4 = new TransactionRecord(3, "clo/4", "11", 1,
+			TransactionRecord tr4 = new TransactionRecord(3, "CLO/4", "11", 1,
 					ft.parse("2014-12-14"));
 
 			List<TransactionRecord> list = new ArrayList<TransactionRecord>();
