@@ -554,7 +554,7 @@ public class PersistentServiceTest {
 			service.saveRecord(trans);
 			 
 
-			Product product1 = new Product("CLO/2", "Centenary Jumper", "A releally nice momento", 1, 1, "1", 1, 1);
+			Product product1 = new Product("MUG/1", "Centenary Jumper", "A releally nice momento", 1, 1, "1", 1, 1);
 			Transaction trans1 = new Transaction(2, new Member("1", "Stacy"), new Date());
 			trans1.changeProductQuantity(product, 1);
 			trans1.changeProductQuantity(product1, 1);
