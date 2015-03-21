@@ -35,20 +35,20 @@ public class PurchaseInfoPanel extends JPanel {
 		JLabel totalAmountLabel = new JLabel("Total Amount ($) : ");
 		add(totalAmountLabel);
 
-		totalAmountValueLabel = new JLabel("31.70");
+		totalAmountValueLabel = new JLabel("0.00");
 		add(totalAmountValueLabel);
 
 		JLabel discountLabel = new JLabel("Discount ($): ");
 		add(discountLabel);
 
-		discountValueLabel = new JLabel("1.00");
+		discountValueLabel = new JLabel("0.00");
 		add(discountValueLabel);
 
 		JLabel totalPayableAmountLabel = new JLabel("Total Payable ($): ");
 		totalPayableAmountLabel.setFont(new Font("Arial", Font.BOLD, 16));
 		add(totalPayableAmountLabel);
 
-		totalPayableAmountValueLabel = new JLabel("30.70");
+		totalPayableAmountValueLabel = new JLabel("0.00");
 		totalPayableAmountValueLabel.setFont(new Font("Arial", Font.BOLD, 16));
 		add(totalPayableAmountValueLabel);
 

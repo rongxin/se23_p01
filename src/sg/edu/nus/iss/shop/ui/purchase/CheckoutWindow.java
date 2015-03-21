@@ -6,6 +6,8 @@ import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -15,6 +17,7 @@ import javax.swing.JTextField;
 
 import sg.edu.nus.iss.shop.model.domain.Customer;
 import sg.edu.nus.iss.shop.model.domain.Member;
+import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
 
@@ -31,14 +34,13 @@ public class CheckoutWindow extends JFrame {
 
 	private JPanel memberInfoPanel;
 
-
-	private Customer customer;
 	private JLabel memberIdValuelabel;
 	private JLabel memberNameValuelabel;
 	private JLabel memberLoyaltyPointsValueLabel;
 	private JLabel memberTypeValuelabel;
 
-
+	private Customer customer;
+	private List<Product> products = new ArrayList<>();
 
 	private ListPurchaseItemPanel listPurchaseItemPanel;
 	private PurchaseInfoPanel purchaseInfoPanel;
@@ -134,6 +136,8 @@ public class CheckoutWindow extends JFrame {
 	}
 
 	public void refreshMemberScanStep(Customer member) {
+		customer = member;
+
 		if (member instanceof Member) {
 
 			memberTypeValuelabel.setText("Member");
@@ -156,6 +160,7 @@ public class CheckoutWindow extends JFrame {
 		cl.show(getPurchaseCardPanel(), CARD_CART);
 		memberInfoPanel.setVisible(true);
 		purchaseInfoPanel.setVisible(true);
+
 
 		actionButtonsPanel.getScanItemsButton().setEnabled(true);
 		actionButtonsPanel.getCheckoutButton().setEnabled(false);
@@ -228,5 +233,16 @@ public class CheckoutWindow extends JFrame {
 		return listPurchaseItemPanel;
 	}
 
+	public List<Product> getProducts() {
+		return products;
+	}
+
+	public PurchaseInfoPanel getPurchaseInfoPanel() {
+		return purchaseInfoPanel;
+	}
+
+	public Customer getCustomer() {
+		return customer;
+	}
 
 }

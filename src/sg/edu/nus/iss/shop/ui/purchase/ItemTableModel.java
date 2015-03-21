@@ -12,10 +12,7 @@ import sg.edu.nus.iss.shop.model.domain.Product;
 public class ItemTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 	private String[] columnNames = { "Product ID", "Product Name", "Price", "Quantity", "SubTotal" };
-	// private Object[][] data ={ { "CLO/1", "Centenary Jumper", 21.45, 1,
-	// 21.45, },
-	// { "MUG/1", "Centenary Mug", 10.25, 1, 10.25,
-	// "A really nice mug this time" } };
+
 
 	private List<Object[]> tableData = new ArrayList<>();
 
