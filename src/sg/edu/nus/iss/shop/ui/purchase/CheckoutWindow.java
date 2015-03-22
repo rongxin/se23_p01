@@ -16,6 +16,7 @@ import sg.edu.nus.iss.shop.model.domain.Customer;
 import sg.edu.nus.iss.shop.model.domain.Member;
 import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
+import sg.edu.nus.iss.shop.ui.util.PriceHelper;
 
 public class CheckoutWindow extends JFrame {
 
@@ -37,6 +38,9 @@ public class CheckoutWindow extends JFrame {
 
 	private Customer customer;
 	private List<Product> products = new ArrayList<>();
+	private Double totalPrice;
+	private Double totalDiscountPrice;
+	private Double totalPayable;
 
 	private ListPurchaseItemPanel listPurchaseItemPanel;
 	private PurchaseInfoPanel purchaseInfoPanel;
@@ -85,8 +89,8 @@ public class CheckoutWindow extends JFrame {
 		memberInfoPanel = new JPanel(new GridLayout(0, 2));
 		memberInfoPanel.setVisible(false);
 
-		memberInfoPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(" Member Information "),
-				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+		memberInfoPanel.setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createTitledBorder(" Member Information "), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
 		JLabel memberTypeLabel = new JLabel("Member Type: ");
 		memberInfoPanel.add(memberTypeLabel);
@@ -115,8 +119,6 @@ public class CheckoutWindow extends JFrame {
 		return memberInfoPanel;
 	}
 
-
-
 	private JPanel createPurchaseCardPanel() {
 		purchaseCardPanel = new JPanel();
 		getPurchaseCardPanel().setLayout(new CardLayout());
@@ -131,6 +133,18 @@ public class CheckoutWindow extends JFrame {
 		getPurchaseCardPanel().add(makePaymentPanel, CARD_PAYMENT);
 		getPurchaseCardPanel().add(createSummaryPanel(), CARD_SUMMARY);
 		return getPurchaseCardPanel();
+	}
+
+	public void updatePurchaseInfo(Double totalPrice, Double discountPrice, Double totalPayable) {
+		setTotalPrice(totalPrice);
+		setTotalDiscountPrice(discountPrice);
+		setTotalPayable(totalPayable);
+
+		getPurchaseInfoPanel().getTotalAmountValueLabel().setText(PriceHelper.getPriceDisplay(totalPrice));
+		getPurchaseInfoPanel().getDiscountValueLabel().setText(PriceHelper.getPriceDisplay(discountPrice));
+		getPurchaseInfoPanel().getTotalPayableAmountValueLabel().setText(PriceHelper.getPriceDisplay(totalPayable));
+
+		getMakePaymentPanel().getAmountToBePaidValue().setText(PriceHelper.getPriceDisplay(totalPayable));
 	}
 
 	public void updateMemberRelatedInfomation(Customer member) {
@@ -164,13 +178,11 @@ public class CheckoutWindow extends JFrame {
 		memberInfoPanel.setVisible(true);
 		purchaseInfoPanel.setVisible(true);
 
-
 		actionButtonsPanel.getScanItemsButton().setEnabled(true);
 		actionButtonsPanel.getCheckoutButton().setEnabled(false);
 		actionButtonsPanel.getProceedPaymentButton().setEnabled(true);
 
 	}
-
 
 	private Component createSummaryPanel() {
 		JPanel p = new JPanel();
@@ -196,6 +208,34 @@ public class CheckoutWindow extends JFrame {
 
 	public Customer getCustomer() {
 		return customer;
+	}
+
+	public Double getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(Double totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+
+	public Double getTotalDiscountPrice() {
+		return totalDiscountPrice;
+	}
+
+	public void setTotalDiscountPrice(Double totalDiscountPrice) {
+		this.totalDiscountPrice = totalDiscountPrice;
+	}
+
+	public Double getTotalPayable() {
+		return totalPayable;
+	}
+
+	public void setTotalPayable(Double totalPayable) {
+		this.totalPayable = totalPayable;
+	}
+
+	public MakePaymentPanel getMakePaymentPanel() {
+		return makePaymentPanel;
 	}
 
 }

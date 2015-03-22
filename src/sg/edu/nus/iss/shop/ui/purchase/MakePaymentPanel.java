@@ -19,6 +19,7 @@ public class MakePaymentPanel extends JPanel {
 	private CheckoutWindow checkoutWindow;
 	private JTextField loyatyPointsField;
 	private JTextField paidAmountField;
+	private JLabel amountToBePaidValue;
 
 	public MakePaymentPanel(ShopApplication shopApplication, CheckoutWindow checkoutWindow) {
 		this.shopApplication = shopApplication;
@@ -101,7 +102,8 @@ public class MakePaymentPanel extends JPanel {
 
 		// column 2
 		gc = LayoutHelper.createCellConstraint(1, 0);
-		JLabel amountToBePaidValue = new JLabel("0.00");
+
+		amountToBePaidValue = new JLabel();
 		p.add(amountToBePaidValue, gc);
 
 		gc = LayoutHelper.createCellConstraint(1, 1);
@@ -117,6 +119,10 @@ public class MakePaymentPanel extends JPanel {
 
 	public JTextField getPaidAmountField() {
 		return paidAmountField;
+	}
+
+	public JLabel getAmountToBePaidValue() {
+		return amountToBePaidValue;
 	}
 
 }
