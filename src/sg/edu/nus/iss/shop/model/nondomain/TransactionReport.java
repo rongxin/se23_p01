@@ -44,6 +44,12 @@ public class TransactionReport extends Report {
 		return TransactionReport.theOnlyTransactionReport;
 	}
 	
+	public static TransactionReport getTransactionReport(){
+		if(TransactionReport.theOnlyTransactionReport == null){
+			TransactionReport.theOnlyTransactionReport = new TransactionReport();
+		}
+		return TransactionReport.theOnlyTransactionReport;
+	}
 	
 	@Override
 	public List<String[]> retreiveAndGenerateReportData() throws ApplicationGUIException, ParseException {
@@ -144,5 +150,19 @@ public class TransactionReport extends Report {
 		DateFormat format = new SimpleDateFormat(ReportManager.dateFormat);
 		String dateObject = format.format(dateObj);
 		return dateObject;
+	}
+
+	@Override
+	public String[] getReportHeader() {
+
+		String[] transactionReportHeader = new String[]{
+				"Transaction Id",
+				"Category Id",
+				"Product Name",
+				"Product Desc",
+				"Quantity",
+				"Transaction Date"
+		};
+		return transactionReportHeader;	
 	}
 }

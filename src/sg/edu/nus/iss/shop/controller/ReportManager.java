@@ -109,6 +109,47 @@ public class ReportManager {
 	}
 	
 	/**
+	 * Method to get the header for Product Report
+	 * @return productreportHeader
+	 * */
+
+	public String[] getProductReportHeader(){
+		ProductReport productReport = ProductReport.getProductReport();
+		String[] productreportHeader = productReport.getReportHeader();
+		return productreportHeader;
+	}
+	
+	/**
+	 * Method to get the header for Category Report
+	 * @return categoryReportHeader
+	 * */
+	public String[] getCategoryReportHeader(){
+		CategoryReport categoryReport = CategoryReport.getCategoryReport();
+		String[] categoryReportHeader = categoryReport.getReportHeader();
+		return categoryReportHeader;
+	}
+	
+	/**
+	 * Method to get the header for Member Report
+	 * @return memberReportHeader
+	 * */
+	public String[] getMemberReportHeader(){
+		MemberReport memberReport = MemberReport.getMemberReport();
+		String[] memberReportHeader = memberReport.getReportHeader();
+		return memberReportHeader;
+	}
+	
+	/**
+	 * Method to get the header for Transaction Report
+	 * @return transactionReportHeader
+	 * */
+	public String[] getTransactionReportHeader(){
+		TransactionReport transactionReport = TransactionReport.getTransactionReport();
+		String[] transactionReportHeader = transactionReport.getReportHeader();
+		return transactionReportHeader;
+	}
+	
+	/**
 	 * private method too convert a date in String format to Date object
 	 * 
 	 * @param dateString

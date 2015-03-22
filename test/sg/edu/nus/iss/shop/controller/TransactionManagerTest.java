@@ -28,7 +28,7 @@ import sg.edu.nus.iss.shop.model.nondomain.TransactionRecord;
 public class TransactionManagerTest {
 	private TransactionManager tm;
 	PersistentService service;
-	// private MemberManager mm;
+	private MemberManager mm;
 	private ProductManager pm;
 	private CategoryManager cm;
 	// private Transaction tr;
@@ -36,6 +36,7 @@ public class TransactionManagerTest {
 	Product product2;
 	Category c1;
 	Category c2;
+	Member m1;
 
 	@Before
 	public void setUp() throws Exception {
@@ -43,7 +44,7 @@ public class TransactionManagerTest {
 		service = PersistentService.getService();
 		cm = CategoryManager.getCategoryManager();
 		pm = ProductManager.getProductManager();
-		List<Product> products = pm.getAllProducts();
+		mm = MemberManager.getMemberManager();
 		List<Category> categories = cm.getAllCategories();
 		if (categories.size() >= 2) {
 			c1 = categories.get(0);
@@ -56,7 +57,7 @@ public class TransactionManagerTest {
 			}
 			c2 = cm.createCategory("CUP", "Cups");
 		}
-
+		List<Product> products = pm.getAllProducts();
 		if (products.size() >= 2) {
 			product1 = products.get(0);
 			product2 = products.get(1);
@@ -67,11 +68,15 @@ public class TransactionManagerTest {
 				product1 = pm.addProduct(c1, "Shirt", "Bonita Cammisa", 100,
 						100, "1111", 20, 100);
 			}
-			product2 = pm.addProduct(c2, "Cup", "La taza", 100,
-					100, "2222", 20, 100);
+			product2 = pm.addProduct(c2, "Cup", "La taza", 100, 100, "2222",
+					20, 100);
 		}
-		// pm.addProduct(new Category("CAT", "CAT"), "product1", 100, 100,
-		// "1111", 10, 100);
+		List<Member> members = mm.getAllMembers();
+		if (members.size() >= 2) {
+			m1 = members.get(0);
+		} else {
+			m1 = mm.addMember("999", "Oscar");
+		}
 	}
 
 	@Test
@@ -179,9 +184,9 @@ public class TransactionManagerTest {
 	@Test
 	public void testGetRangeTransactions() throws ParseException,
 			ApplicationGUIException {
+		
 		SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
-		Transaction trans = new Transaction(1, new Member("1", "Stacy"),
-				ft.parse("2015-03-14"));
+		/*Transaction trans = new Transaction(1, m1, ft.parse("2015-03-14"));
 		trans.changeProductQuantity(product1, 1);
 		assertTrue(trans.getTransactionDetails().size() > 0);
 		try {
@@ -189,8 +194,7 @@ public class TransactionManagerTest {
 		} catch (Exception e) {
 			throw new ApplicationGUIException(e.getMessage());
 		}
-		Transaction trans1 = new Transaction(2, new Member("1", "Stacy"),
-				ft.parse("2015-01-14"));
+		Transaction trans1 = new Transaction(2, m1, ft.parse("2015-01-14"));
 		trans1.changeProductQuantity(product1, 1);
 		trans1.changeProductQuantity(product2, 1);
 		assertTrue(trans1.getTransactionDetails().size() > 0);
@@ -199,11 +203,11 @@ public class TransactionManagerTest {
 		} catch (Exception e) {
 			throw new ApplicationGUIException(e.getMessage());
 		}
-
+*/
 		ArrayList<Transaction> l;
 		l = tm.getAllTransaction();
 		assertEquals("List should have 2 items", 2, l.size());
 		l = tm.getAllTransaction(ft.parse("2015-02-13"), ft.parse("2015-04-14"));
-		assertEquals("Range List should have 1 items", 1, l.size());
+		assertEquals("Range List should have 1 items", 2, l.size());
 	}
 }

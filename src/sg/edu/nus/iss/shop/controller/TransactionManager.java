@@ -255,7 +255,7 @@ public class TransactionManager {
 		TransactionRecord transRecord;
 		for (Object tr : transList) {
 			transRecord = (TransactionRecord) tr;
-
+			System.out.println("Parsing " + transRecord.getProductId());
 			// Oscar: Adding the transaction to the list of transactions.
 			if (!transactions.containsKey(transRecord.getId())) {
 				// Transaction doesn't exist create a new one.
@@ -271,7 +271,7 @@ public class TransactionManager {
 						transRecord.getProductId());
 				// This guy is Throwing a generic Exception, need to change to a
 				// more defined Exception
-
+				System.out.println("Product " + p);
 				// Update the transaction with the product and quantity.
 				transactions.get(transRecord.getId()).changeProductQuantity(p,
 						transRecord.getQuantity());

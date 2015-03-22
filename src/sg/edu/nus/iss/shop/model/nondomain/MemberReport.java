@@ -52,4 +52,15 @@ public class MemberReport extends Report {
 		}
 		return returnMembersList;
 	}
+
+	@Override
+	public String[] getReportHeader() {
+
+		String[] memberReportHeader = new String[]{
+				"Member Name",
+				"Member Id",
+				"Loyalty Points"
+		};
+		return memberReportHeader;
+	}
 }
