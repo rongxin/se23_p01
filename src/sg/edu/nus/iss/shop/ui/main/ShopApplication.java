@@ -9,6 +9,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import sg.edu.nus.iss.shop.controller.CategoryManager;
 import sg.edu.nus.iss.shop.controller.MemberManager;
 import sg.edu.nus.iss.shop.controller.ProductManager;
+import sg.edu.nus.iss.shop.controller.ReportManager;
 import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.Category;
 import sg.edu.nus.iss.shop.model.domain.Member;
@@ -152,4 +153,15 @@ public class ShopApplication {
 		return member;
 	}
 
+	public List<String[]> getCategoryReport(){
+		ReportManager rm = ReportManager.getReportManager();
+		try {
+			return rm.getCategoryreport();
+		} catch (ApplicationGUIException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 }
