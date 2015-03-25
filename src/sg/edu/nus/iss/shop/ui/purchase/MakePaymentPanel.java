@@ -2,6 +2,8 @@ package sg.edu.nus.iss.shop.ui.purchase;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -9,8 +11,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import sg.edu.nus.iss.shop.model.domain.Member;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
+import sg.edu.nus.iss.shop.ui.util.PriceHelper;
 
 public class MakePaymentPanel extends JPanel {
 
@@ -76,6 +80,14 @@ public class MakePaymentPanel extends JPanel {
 
 		gc = LayoutHelper.createCellConstraint(1, 1);
 		JButton redeemButton = new JButton("Redeem");
+		redeemButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Integer loyalPoints = ((Member) checkoutWindow.getCustomer()).getLoyalPoints();
+				Double cashToBePay = shopApplication.calculateCashToPay(loyalPoints, checkoutWindow.getTotalPayable());
+				amountToBePaidValue.setText(PriceHelper.getPriceDisplay(cashToBePay));
+			}
+		});
 		JPanel buttonPanel = new JPanel();
 
 		buttonPanel.add(redeemButton);
