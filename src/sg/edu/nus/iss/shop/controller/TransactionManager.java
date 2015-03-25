@@ -325,10 +325,9 @@ public class TransactionManager {
 		for (Transaction t : allTransaction) {
 			if (startDate.before(t.getDate()) && endDate.after(t.getDate())) {
 				rangeTransactions.add(t);
-			/*	System.out.println("inc " + startDate + " < " + t.getDate() + " < " + endDate);
+				System.out.println("inc " + startDate + " < " + t.getDate() + " < " + endDate);
 			}else{
 				System.out.println("exc " + startDate + " < " + t.getDate() + " < " + endDate);
-			*/
 			}
 		}
 

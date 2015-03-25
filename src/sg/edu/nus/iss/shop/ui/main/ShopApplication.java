@@ -1,5 +1,6 @@
 package sg.edu.nus.iss.shop.ui.main;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -160,6 +161,80 @@ public class ShopApplication {
 		ReportManager rm = ReportManager.getReportManager();
 		try {
 			return rm.getCategoryreport();
+		} catch (ApplicationGUIException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public String[] getCategoryReportHeader(){
+		ReportManager rm = ReportManager.getReportManager();
+		try {
+			return rm.getCategoryReportHeader();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public String[] getProductReportHeader(){
+		ReportManager rm = ReportManager.getReportManager();
+		try {
+			return rm.getProductReportHeader();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public List<String[]> getProductReport(){
+		ReportManager rm = ReportManager.getReportManager();
+		try {
+			return rm.getProductReport();
+		} catch (ApplicationGUIException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public String[] getTransactionReportHeader(){
+		ReportManager rm = ReportManager.getReportManager();
+		try {
+			return rm.getTransactionReportHeader();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public List<String[]> getTransactionReport(String startDate, String endDate){
+		ReportManager rm = ReportManager.getReportManager();
+		try {
+			return rm.getTransactionReport(startDate, endDate);
+		} catch (ApplicationGUIException e) {
+			e.printStackTrace();
+			return null;
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public String[] getMemberReportHeader(){
+		ReportManager rm = ReportManager.getReportManager();
+		try {
+			return rm.getMemberReportHeader();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public List<String[]> getMemberReport(){
+		ReportManager rm = ReportManager.getReportManager();
+		try {
+			return rm.getMemberReport();
 		} catch (ApplicationGUIException e) {
 			e.printStackTrace();
 			return null;

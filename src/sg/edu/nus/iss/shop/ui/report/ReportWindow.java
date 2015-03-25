@@ -31,7 +31,7 @@ public class ReportWindow extends JFrame{
 		JPanel p = new JPanel();
 		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("  Reports  "),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-		ReportTabPanel rtp = new ReportTabPanel(this, shopApplication);
+		ReportTabPanePanel rtp = new ReportTabPanePanel(this, shopApplication);
 		p.add(rtp);
 		return p;
 	}
