@@ -16,6 +16,7 @@ import sg.edu.nus.iss.shop.ui.category.CategoryWindow;
 import sg.edu.nus.iss.shop.ui.member.MemberWindow;
 import sg.edu.nus.iss.shop.ui.product.ProductWindow;
 import sg.edu.nus.iss.shop.ui.purchase.CheckoutWindow;
+import sg.edu.nus.iss.shop.ui.report.ReportWindow;
 import sg.edu.nus.iss.shop.ui.util.IconHelper;
 
 public class MainPanel extends JPanel {
@@ -141,6 +142,16 @@ public class MainPanel extends JPanel {
 		p.add(addInventorytPanel);
 
 		JButton reportingButton = createImageButton("View reports", "pie_chart_green.png", "pie_chart_yellow.png");
+		reportingButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ReportWindow w = new ReportWindow(shopApplication);
+				w.pack();
+				w.setLocationByPlatform(true);
+				w.setLocationRelativeTo(null);
+				w.setVisible(true);
+			}
+		});
 		JPanel reportingPanel = new JPanel();
 		reportingPanel.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createTitledBorder("  View Reports  "), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
