@@ -50,6 +50,7 @@ public class ProductScannedActionListener extends AbstractAction {
 			if (discount == null) {
 				System.err.println("Could not get discount:");
 			} else {
+				checkoutWindow.setDiscount(discount.getDiscountPercentage());
 				double discountPercentage = discount.getDiscountPercentage() / 100.00;
 				System.out.println("Discount purcentage:" + discountPercentage);
 				discountPrice = totalPrice * discountPercentage;
