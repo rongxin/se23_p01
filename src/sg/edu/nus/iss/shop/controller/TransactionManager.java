@@ -62,7 +62,7 @@ public class TransactionManager {
 	 *            Number of points to be converted to cash amount
 	 * @return The cash earn
 	 */
-	public int convertPointsToCash(int points) {
+	public double convertPointsToCash(int points) {
 		// Add the IF part if you want to validate a 100 points based number
 		/*
 		 * if (points % 100 != 0){ throw new
@@ -71,11 +71,11 @@ public class TransactionManager {
 
 		// Remove the non 100 points value
 		// Disabled this if you don't want to use the 100 based points value
-		points = (int) (Math.floor(points / RATE_POINTS_TO_CASH_MIN_POINTS) * RATE_POINTS_TO_CASH_MIN_POINTS);
+		//points = (int) (Math.floor(points / RATE_POINTS_TO_CASH_MIN_POINTS) * RATE_POINTS_TO_CASH_MIN_POINTS);
 
 		// Change value to double if you don't want to use the 100 based points
 		// value
-		int cash = (int) (points / RATE_POINTS_TO_CASH);
+		double cash = (double) (points / RATE_POINTS_TO_CASH);
 		return cash;
 	}
 
@@ -109,9 +109,10 @@ public class TransactionManager {
 	public double calculateCashToPay(int loyalPointsUsed, double finalAmount) {
 		double cash;
 		cash = convertPointsToCash(loyalPointsUsed);
-		int maxPoints = maxNumberOfPointsForAmount(finalAmount);
+		//int maxPoints = maxNumberOfPointsForAmount(finalAmount);
 		// System.out.println(maxPoints);
-		if (maxPoints <= loyalPointsUsed) {
+		//if (maxPoints <= loyalPointsUsed) {
+		if (finalAmount <= cash) {
 			// throw new Exception(
 			// "You don't need to use that many amount of points you only need: "
 			// + maxPoints);

@@ -2,7 +2,6 @@ package sg.edu.nus.iss.shop.controller;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.text.ParseException;
@@ -102,17 +101,17 @@ public class TransactionManagerTest {
 
 	@Test
 	public void testConvertPointToCash() {
-		int points = tm.convertPointsToCash(100);
-		assertEquals("100 points should be 5 dollars", 5, points, 0);
+		double cash = tm.convertPointsToCash(100);
+		assertEquals("100 points should be 5 dollars", 5, cash, 0);
 
-		points = tm.convertPointsToCash(210);
-		assertEquals("210 points should be 10 dollars", 10, points, 0);
+		cash = tm.convertPointsToCash(210);
+		assertEquals("210 points should be 10 dollars", 10.5, cash, 0);
 
-		points = tm.convertPointsToCash(199);
-		assertEquals("199 points should be 5 dollars", 5, points, 0);
+		cash = tm.convertPointsToCash(199);
+		assertEquals("199 points should be 5 dollars", 9.95, cash, 0);
 
-		points = tm.convertPointsToCash(555);
-		assertEquals("555 points should be 27 points", 25, points, 0);
+		cash = tm.convertPointsToCash(555);
+		assertEquals("555 points should be 27 points", 27.75, cash, 0);
 	}
 
 	@Test
@@ -133,17 +132,22 @@ public class TransactionManagerTest {
 	@Test
 	public void testCalculateCashToPay() {
 		double points = tm.calculateCashToPay(100, 4);
-		assertEquals("100 points = $5 > 4$ return should be 0", 0, points, 0);
+		assertEquals("100 points = $5 > $4 return should be 0", 0, points, 0);
 
 		points = tm.calculateCashToPay(100, 6);
-		assertEquals("100 points = $5 < 6$ return should be 6 - 5 = 1", 1,
+		assertEquals("100 points = $5 < $6 return should be 6 - 5 = 1", 1,
 				points, 0);
 
 		points = tm.calculateCashToPay(200, 4);
-		assertEquals("200 points = $10 > 4$ return should be 0", 0, points, 0);
+		assertEquals("200 points = $10 > $4 return should be 0", 0, points, 0);
 
 		points = tm.calculateCashToPay(300, 23);
-		assertEquals("300 points = $15 < 23$ return should be 23 - 15 = 8", 8,
+		assertEquals("300 points = $15 < $23 return should be 23 - 15 = 8", 8,
+				points, 0);
+
+		points = tm.calculateCashToPay(50, 10.5);
+		assertEquals(
+				"50 points = $2.5 < $10.5 return should be 10.5 - 2.5 = 8", 8,
 				points, 0);
 	}
 
@@ -184,26 +188,21 @@ public class TransactionManagerTest {
 	@Test
 	public void testGetRangeTransactions() throws ParseException,
 			ApplicationGUIException {
-		
+
 		SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
-		/*Transaction trans = new Transaction(1, m1, ft.parse("2015-03-14"));
-		trans.changeProductQuantity(product1, 1);
-		assertTrue(trans.getTransactionDetails().size() > 0);
-		try {
-			service.saveRecord(trans);
-		} catch (Exception e) {
-			throw new ApplicationGUIException(e.getMessage());
-		}
-		Transaction trans1 = new Transaction(2, m1, ft.parse("2015-01-14"));
-		trans1.changeProductQuantity(product1, 1);
-		trans1.changeProductQuantity(product2, 1);
-		assertTrue(trans1.getTransactionDetails().size() > 0);
-		try {
-			service.saveRecord(trans1);
-		} catch (Exception e) {
-			throw new ApplicationGUIException(e.getMessage());
-		}
-*/
+		/*
+		 * Transaction trans = new Transaction(1, m1, ft.parse("2015-03-14"));
+		 * trans.changeProductQuantity(product1, 1);
+		 * assertTrue(trans.getTransactionDetails().size() > 0); try {
+		 * service.saveRecord(trans); } catch (Exception e) { throw new
+		 * ApplicationGUIException(e.getMessage()); } Transaction trans1 = new
+		 * Transaction(2, m1, ft.parse("2015-01-14"));
+		 * trans1.changeProductQuantity(product1, 1);
+		 * trans1.changeProductQuantity(product2, 1);
+		 * assertTrue(trans1.getTransactionDetails().size() > 0); try {
+		 * service.saveRecord(trans1); } catch (Exception e) { throw new
+		 * ApplicationGUIException(e.getMessage()); }
+		 */
 		ArrayList<Transaction> l;
 		l = tm.getAllTransaction();
 		assertEquals("List should have 2 items", 2, l.size());
