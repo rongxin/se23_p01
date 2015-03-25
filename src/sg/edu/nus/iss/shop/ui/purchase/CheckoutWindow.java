@@ -3,8 +3,6 @@ package sg.edu.nus.iss.shop.ui.purchase;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Component;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,13 +11,12 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import sg.edu.nus.iss.shop.model.domain.Customer;
 import sg.edu.nus.iss.shop.model.domain.Member;
 import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
-import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
+import sg.edu.nus.iss.shop.ui.util.PriceHelper;
 
 public class CheckoutWindow extends JFrame {
 
@@ -41,10 +38,14 @@ public class CheckoutWindow extends JFrame {
 
 	private Customer customer;
 	private List<Product> products = new ArrayList<>();
+	private Double totalPrice;
+	private Double totalDiscountPrice;
+	private Double totalPayable;
 
 	private ListPurchaseItemPanel listPurchaseItemPanel;
 	private PurchaseInfoPanel purchaseInfoPanel;
 	private ActionButtonsPanel actionButtonsPanel;
+	private MakePaymentPanel makePaymentPanel;;
 
 	public CheckoutWindow(ShopApplication shopApplication) {
 		this.shopApplication = shopApplication;
@@ -88,8 +89,8 @@ public class CheckoutWindow extends JFrame {
 		memberInfoPanel = new JPanel(new GridLayout(0, 2));
 		memberInfoPanel.setVisible(false);
 
-		memberInfoPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(" Member Information "),
-				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+		memberInfoPanel.setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createTitledBorder(" Member Information "), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
 		JLabel memberTypeLabel = new JLabel("Member Type: ");
 		memberInfoPanel.add(memberTypeLabel);
@@ -118,8 +119,6 @@ public class CheckoutWindow extends JFrame {
 		return memberInfoPanel;
 	}
 
-
-
 	private JPanel createPurchaseCardPanel() {
 		purchaseCardPanel = new JPanel();
 		getPurchaseCardPanel().setLayout(new CardLayout());
@@ -130,12 +129,25 @@ public class CheckoutWindow extends JFrame {
 		listPurchaseItemPanel = new ListPurchaseItemPanel();
 		getPurchaseCardPanel().add(listPurchaseItemPanel, CARD_CART);
 
-		getPurchaseCardPanel().add(createMakePaymentPanel(), CARD_PAYMENT);
+		makePaymentPanel = new MakePaymentPanel(shopApplication, this);
+		getPurchaseCardPanel().add(makePaymentPanel, CARD_PAYMENT);
 		getPurchaseCardPanel().add(createSummaryPanel(), CARD_SUMMARY);
 		return getPurchaseCardPanel();
 	}
 
-	public void refreshMemberScanStep(Customer member) {
+	public void updatePurchaseInfo(Double totalPrice, Double discountPrice, Double totalPayable) {
+		setTotalPrice(totalPrice);
+		setTotalDiscountPrice(discountPrice);
+		setTotalPayable(totalPayable);
+
+		getPurchaseInfoPanel().getTotalAmountValueLabel().setText(PriceHelper.getPriceDisplay(totalPrice));
+		getPurchaseInfoPanel().getDiscountValueLabel().setText(PriceHelper.getPriceDisplay(discountPrice));
+		getPurchaseInfoPanel().getTotalPayableAmountValueLabel().setText(PriceHelper.getPriceDisplay(totalPayable));
+
+		getMakePaymentPanel().getAmountToBePaidValue().setText(PriceHelper.getPriceDisplay(totalPayable));
+	}
+
+	public void updateMemberRelatedInfomation(Customer member) {
 		customer = member;
 
 		if (member instanceof Member) {
@@ -147,13 +159,18 @@ public class CheckoutWindow extends JFrame {
 			Integer displayLoyalPoints = 0;
 			if (((Member) member).getLoyalPoints() > 0) {
 				displayLoyalPoints = ((Member) member).getLoyalPoints();
+				makePaymentPanel.getLoyatyPointsField().setText("" + displayLoyalPoints);
+			} else {
+				makePaymentPanel.getLoyatyPointsField().setEnabled(false);
 			}
 			memberLoyaltyPointsValueLabel.setText("" + displayLoyalPoints);
+
 		} else {
 			memberTypeValuelabel.setText("None Member");
 			memberIdValuelabel.setText(member.getId());
 			memberNameValuelabel.setText("N.A.");
 			memberLoyaltyPointsValueLabel.setText("N.A.");
+			makePaymentPanel.getLoyatyPointsField().setEnabled(false);
 		}
 
 		CardLayout cl = (CardLayout) (getPurchaseCardPanel().getLayout());
@@ -161,62 +178,10 @@ public class CheckoutWindow extends JFrame {
 		memberInfoPanel.setVisible(true);
 		purchaseInfoPanel.setVisible(true);
 
-
 		actionButtonsPanel.getScanItemsButton().setEnabled(true);
 		actionButtonsPanel.getCheckoutButton().setEnabled(false);
 		actionButtonsPanel.getProceedPaymentButton().setEnabled(true);
 
-	}
-
-	private JPanel createMakePaymentPanel() {
-
-		JPanel p = new JPanel();
-		p.setLayout(new GridBagLayout());
-		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(" Make Payments "),
-				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-		GridBagConstraints gc = new GridBagConstraints();
-
-		// column 1
-		gc = LayoutHelper.createCellConstraint(0, 0);
-		JLabel categoryCodeLabel = new JLabel("Loyaty  Points: ");
-		p.add(categoryCodeLabel, gc);
-
-		gc = LayoutHelper.createCellConstraint(0, 1);
-		JLabel categoryNameLabel = new JLabel("Paid Amount: ");
-		p.add(categoryNameLabel, gc);
-
-		gc = LayoutHelper.createCellConstraint(0, 3);
-		p.add(new JLabel(), gc);
-		gc = LayoutHelper.createCellConstraint(0, 4);
-		p.add(new JLabel(), gc);
-		gc = LayoutHelper.createCellConstraint(0, 5);
-		p.add(new JLabel(), gc);
-		gc = LayoutHelper.createCellConstraint(0, 6);
-		p.add(new JLabel(), gc);
-		gc = LayoutHelper.createCellConstraint(0, 7);
-		p.add(new JLabel(), gc);
-		gc = LayoutHelper.createCellConstraint(0, 8);
-		p.add(new JLabel(), gc);
-		gc = LayoutHelper.createCellConstraint(0, 9);
-		p.add(new JLabel(), gc);
-
-		// column 2
-		gc = LayoutHelper.createCellConstraint(1, 0);
-		JTextField loyatyPointsField = new JTextField(15);
-		loyatyPointsField.setToolTipText("Please input points to redeem.");
-		p.add(loyatyPointsField, gc);
-
-		gc = LayoutHelper.createCellConstraint(1, 1);
-		JTextField paidAmountField = new JTextField(15);
-		paidAmountField.setToolTipText("Please input total amount paid");
-		p.add(paidAmountField, gc);
-
-		JPanel outerPanel = new JPanel(new BorderLayout());
-		outerPanel.add("North", p);
-		outerPanel.add("Center", new JPanel());
-		outerPanel.add("South", new JPanel());
-
-		return p;
 	}
 
 	private Component createSummaryPanel() {
@@ -243,6 +208,34 @@ public class CheckoutWindow extends JFrame {
 
 	public Customer getCustomer() {
 		return customer;
+	}
+
+	public Double getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(Double totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+
+	public Double getTotalDiscountPrice() {
+		return totalDiscountPrice;
+	}
+
+	public void setTotalDiscountPrice(Double totalDiscountPrice) {
+		this.totalDiscountPrice = totalDiscountPrice;
+	}
+
+	public Double getTotalPayable() {
+		return totalPayable;
+	}
+
+	public void setTotalPayable(Double totalPayable) {
+		this.totalPayable = totalPayable;
+	}
+
+	public MakePaymentPanel getMakePaymentPanel() {
+		return makePaymentPanel;
 	}
 
 }

@@ -67,7 +67,7 @@ public class GetMemberInfoPanel extends JPanel {
 
 						Member member = shopApplication.getMember(memberId);
 						if (member != null) {
-							checkoutWindow.refreshMemberScanStep(member);
+							checkoutWindow.updateMemberRelatedInfomation(member);
 							d.setVisible(false);
 							d.dispose();
 						} else {
@@ -87,7 +87,7 @@ public class GetMemberInfoPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Customer customer = new NonMemberCustomer();
-				checkoutWindow.refreshMemberScanStep(customer);
+				checkoutWindow.updateMemberRelatedInfomation(customer);
 			}
 		});
 		p.add(publicMemberButton, gc);

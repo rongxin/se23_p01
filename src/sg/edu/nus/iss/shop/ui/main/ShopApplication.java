@@ -10,6 +10,7 @@ import sg.edu.nus.iss.shop.controller.CategoryManager;
 import sg.edu.nus.iss.shop.controller.MemberManager;
 import sg.edu.nus.iss.shop.controller.ProductManager;
 import sg.edu.nus.iss.shop.controller.ReportManager;
+import sg.edu.nus.iss.shop.controller.TransactionManager;
 import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.Category;
 import sg.edu.nus.iss.shop.model.domain.Member;
@@ -21,6 +22,7 @@ public class ShopApplication {
 	private CategoryManager categoryManager;
 	private ProductManager productManager;
 	private MemberManager memberManager;
+	private TransactionManager transactionManager;
 
 	public ShopApplication() {
 		loginDialog = new LoginDialog(this);
@@ -31,6 +33,7 @@ public class ShopApplication {
 		categoryManager = CategoryManager.getCategoryManager();
 		productManager = ProductManager.getProductManager();
 		memberManager = MemberManager.getMemberManager();
+		transactionManager = TransactionManager.getInstance();
 	}
 
 	public void start() {
@@ -158,10 +161,14 @@ public class ShopApplication {
 		try {
 			return rm.getCategoryreport();
 		} catch (ApplicationGUIException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
 		}
 	}
-	
+
+	public Double calculateCashToPay(Integer loyalPoints, Double totalPayable) {
+		double cashToPay = transactionManager.calculateCashToPay(loyalPoints, totalPayable);
+		return cashToPay;
+	}
+
 }
