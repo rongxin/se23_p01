@@ -9,6 +9,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import sg.edu.nus.iss.shop.model.domain.Transaction;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 
 public class ActionButtonsPanel extends JPanel {
@@ -62,6 +63,7 @@ public class ActionButtonsPanel extends JPanel {
 				cl.show(checkoutWindow.getPurchaseCardPanel(), CARD_PAYMENT);
 				checkoutButton.setEnabled(true);
 				proceedPaymentButton.setEnabled(false);
+				scanItemsButton.setEnabled(false);
 			}
 		});
 		add(proceedPaymentButton);
@@ -73,8 +75,12 @@ public class ActionButtonsPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				CardLayout cl = (CardLayout) (checkoutWindow.getPurchaseCardPanel().getLayout());
 				cl.show(checkoutWindow.getPurchaseCardPanel(), CARD_SUMMARY);
+				scanItemsButton.setEnabled(false);
 				checkoutButton.setEnabled(false);
 				proceedPaymentButton.setEnabled(false);
+
+				Transaction transaction = shopApplication.checkout(checkoutWindow.getProducts(), checkoutWindow.getCustomer(),
+ checkoutWindow.getLoyalPointsUsed(), checkoutWindow.getDiscount());
 			}
 		});
 		add(checkoutButton);

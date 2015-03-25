@@ -41,6 +41,8 @@ public class CheckoutWindow extends JFrame {
 	private Double totalPrice;
 	private Double totalDiscountPrice;
 	private Double totalPayable;
+	private Integer loyalPointsUsed = 0;
+	private Integer discount = 0;
 
 	private ListPurchaseItemPanel listPurchaseItemPanel;
 	private PurchaseInfoPanel purchaseInfoPanel;
@@ -236,6 +238,22 @@ public class CheckoutWindow extends JFrame {
 
 	public MakePaymentPanel getMakePaymentPanel() {
 		return makePaymentPanel;
+	}
+
+	public Integer getLoyalPointsUsed() {
+		return loyalPointsUsed;
+	}
+
+	public void setLoyalPointsUsed(Integer loyalPointsUsed) {
+		this.loyalPointsUsed = loyalPointsUsed;
+	}
+
+	public Integer getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(Integer discount) {
+		this.discount = discount;
 	}
 
 }

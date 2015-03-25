@@ -1,6 +1,7 @@
 package sg.edu.nus.iss.shop.ui.main;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 import javax.swing.UIManager;
@@ -13,8 +14,10 @@ import sg.edu.nus.iss.shop.controller.ReportManager;
 import sg.edu.nus.iss.shop.controller.TransactionManager;
 import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.Category;
+import sg.edu.nus.iss.shop.model.domain.Customer;
 import sg.edu.nus.iss.shop.model.domain.Member;
 import sg.edu.nus.iss.shop.model.domain.Product;
+import sg.edu.nus.iss.shop.model.domain.Transaction;
 
 public class ShopApplication {
 	private ShopMainWindow shopWindow;
@@ -171,4 +174,29 @@ public class ShopApplication {
 		return cashToPay;
 	}
 
+	public Transaction checkout(List<Product> products, Customer customer, Integer loyalPointsUsed, Integer discount) {
+
+		Transaction transactionResult = null;
+
+		Hashtable<Product, Integer> productsWithCount = new Hashtable<>();
+
+		for (Product product:products){
+			if (productsWithCount.get(product) == null) {
+				productsWithCount.put(product, 1);
+			}else{
+				Integer itemQty = productsWithCount.get(product);
+				productsWithCount.put(product, itemQty + 1);
+			}
+		}
+
+		try {
+			transactionResult = transactionManager.endTransaction(customer, productsWithCount, discount,
+					loyalPointsUsed);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return transactionResult;
+
+	}
 }

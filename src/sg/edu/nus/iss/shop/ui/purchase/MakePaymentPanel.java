@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -21,7 +22,7 @@ public class MakePaymentPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private ShopApplication shopApplication;
 	private CheckoutWindow checkoutWindow;
-	private JTextField loyatyPointsField;
+	private JTextField loyaltyPointsField;
 	private JTextField paidAmountField;
 	private JLabel amountToBePaidValue;
 
@@ -75,17 +76,26 @@ public class MakePaymentPanel extends JPanel {
 
 		// column 2
 		gc = LayoutHelper.createCellConstraint(1, 0);
-		loyatyPointsField = new JTextField(10);
-		p.add(loyatyPointsField, gc);
+		loyaltyPointsField = new JTextField(10);
+		p.add(loyaltyPointsField, gc);
 
 		gc = LayoutHelper.createCellConstraint(1, 1);
 		JButton redeemButton = new JButton("Redeem");
 		redeemButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+
 				Integer loyalPoints = ((Member) checkoutWindow.getCustomer()).getLoyalPoints();
+
+				Integer loyalPointsToUse = Integer.valueOf(loyaltyPointsField.getText().trim());
+
+				if (loyalPointsToUse > loyalPoints) {
+					JOptionPane.showMessageDialog(null, "Not enough loyalty points.");
+				}
+
 				Double cashToBePay = shopApplication.calculateCashToPay(loyalPoints, checkoutWindow.getTotalPayable());
 				amountToBePaidValue.setText(PriceHelper.getPriceDisplay(cashToBePay));
+				checkoutWindow.setLoyalPointsUsed(loyalPointsToUse);
 			}
 		});
 		JPanel buttonPanel = new JPanel();
@@ -126,7 +136,7 @@ public class MakePaymentPanel extends JPanel {
 	}
 
 	public JTextField getLoyatyPointsField() {
-		return loyatyPointsField;
+		return loyaltyPointsField;
 	}
 
 	public JTextField getPaidAmountField() {
