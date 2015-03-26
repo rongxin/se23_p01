@@ -9,6 +9,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import sg.edu.nus.iss.shop.controller.CategoryManager;
+import sg.edu.nus.iss.shop.controller.DiscountManager;
 import sg.edu.nus.iss.shop.controller.MemberManager;
 import sg.edu.nus.iss.shop.controller.ProductManager;
 import sg.edu.nus.iss.shop.controller.ReportManager;
@@ -16,6 +17,7 @@ import sg.edu.nus.iss.shop.controller.TransactionManager;
 import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.Category;
 import sg.edu.nus.iss.shop.model.domain.Customer;
+import sg.edu.nus.iss.shop.model.domain.Discount;
 import sg.edu.nus.iss.shop.model.domain.Member;
 import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.model.domain.Transaction;
@@ -27,6 +29,7 @@ public class ShopApplication {
 	private ProductManager productManager;
 	private MemberManager memberManager;
 	private TransactionManager transactionManager;
+	private DiscountManager discountManager;
 
 	public ShopApplication() {
 		loginDialog = new LoginDialog(this);
@@ -38,6 +41,7 @@ public class ShopApplication {
 		productManager = ProductManager.getProductManager();
 		memberManager = MemberManager.getMemberManager();
 		transactionManager = TransactionManager.getInstance();
+		discountManager = DiscountManager.getDiscountManager();
 	}
 
 	public void start() {
@@ -81,7 +85,6 @@ public class ShopApplication {
 		} catch (ApplicationGUIException e) {
 			e.printStackTrace();
 		}
-
 
 		System.out.println("Get categories, size:" + allCategories.size());
 		return allCategories;
@@ -130,7 +133,7 @@ public class ShopApplication {
 		return product;
 	}
 
-	public void addMember(String memberId, String memberName){
+	public void addMember(String memberId, String memberName) {
 		System.out.println("Add Member, memberId:" + memberId + ", memberName:" + memberName);
 
 		try {
@@ -160,7 +163,7 @@ public class ShopApplication {
 		return member;
 	}
 
-	public List<String[]> getCategoryReport(){
+	public List<String[]> getCategoryReport() {
 		ReportManager rm = ReportManager.getReportManager();
 		try {
 			return rm.getCategoryreport();
@@ -169,8 +172,8 @@ public class ShopApplication {
 			return null;
 		}
 	}
-	
-	public String[] getCategoryReportHeader(){
+
+	public String[] getCategoryReportHeader() {
 		ReportManager rm = ReportManager.getReportManager();
 		try {
 			return rm.getCategoryReportHeader();
@@ -179,8 +182,8 @@ public class ShopApplication {
 			return null;
 		}
 	}
-	
-	public String[] getProductReportHeader(){
+
+	public String[] getProductReportHeader() {
 		ReportManager rm = ReportManager.getReportManager();
 		try {
 			return rm.getProductReportHeader();
@@ -189,8 +192,8 @@ public class ShopApplication {
 			return null;
 		}
 	}
-	
-	public List<String[]> getProductReport(){
+
+	public List<String[]> getProductReport() {
 		ReportManager rm = ReportManager.getReportManager();
 		try {
 			return rm.getProductReport();
@@ -199,8 +202,8 @@ public class ShopApplication {
 			return null;
 		}
 	}
-	
-	public String[] getTransactionReportHeader(){
+
+	public String[] getTransactionReportHeader() {
 		ReportManager rm = ReportManager.getReportManager();
 		try {
 			return rm.getTransactionReportHeader();
@@ -209,8 +212,8 @@ public class ShopApplication {
 			return null;
 		}
 	}
-	
-	public List<String[]> getTransactionReport(String startDate, String endDate){
+
+	public List<String[]> getTransactionReport(String startDate, String endDate) {
 		ReportManager rm = ReportManager.getReportManager();
 		try {
 			return rm.getTransactionReport(startDate, endDate);
@@ -223,8 +226,8 @@ public class ShopApplication {
 			return null;
 		}
 	}
-	
-	public String[] getMemberReportHeader(){
+
+	public String[] getMemberReportHeader() {
 		ReportManager rm = ReportManager.getReportManager();
 		try {
 			return rm.getMemberReportHeader();
@@ -233,8 +236,8 @@ public class ShopApplication {
 			return null;
 		}
 	}
-	
-	public List<String[]> getMemberReport(){
+
+	public List<String[]> getMemberReport() {
 		ReportManager rm = ReportManager.getReportManager();
 		try {
 			return rm.getMemberReport();
@@ -255,10 +258,10 @@ public class ShopApplication {
 
 		Hashtable<Product, Integer> productsWithCount = new Hashtable<>();
 
-		for (Product product:products){
+		for (Product product : products) {
 			if (productsWithCount.get(product) == null) {
 				productsWithCount.put(product, 1);
-			}else{
+			} else {
 				Integer itemQty = productsWithCount.get(product);
 				productsWithCount.put(product, itemQty + 1);
 			}
@@ -273,5 +276,10 @@ public class ShopApplication {
 
 		return transactionResult;
 
+	}
+
+	public List<Discount> getDiscounts() {
+		List<Discount> allDiscounts = discountManager.getAllDiscounts();
+		return allDiscounts;
 	}
 }

@@ -23,18 +23,13 @@ public class ListCategoryPanel extends JPanel {
 		JPanel p = new JPanel();
 
 		List<Category> categories = shopApplication.getCategories();
-		Object categoryData[][] = new Object[categories.size()][2];
 
-		int i = 0;
+		CategoryTableModel tableModel = new CategoryTableModel();
 		for (Category category : categories) {
-			categoryData[i][0] = category.getCode();
-			categoryData[i][1] = category.getName();
-			i++;
+			tableModel.addToTable(category);
 		}
 
-		Object columnNames[] = { "Category Code", "Cateory Name" };
-		// Object rowData[][] = { { "CLO", "Clothes" }, { "MUG", "Mugs" } };
-		JTable table = new JTable(categoryData, columnNames);
+		JTable table = new JTable(tableModel);
 		table.setName("Items");
 		table.setEnabled(false);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);

@@ -23,18 +23,13 @@ public class ListMemberPanel extends JPanel {
 		JPanel p = new JPanel();
 
 		List<Member> members = shopApplication.getMembers();
-		Object tableData[][] = new Object[members.size()][3];
 
-		int i = 0;
+		MemberTableModel tableModel = new MemberTableModel();
 		for (Member member : members) {
-			tableData[i][0] = member.getId();
-			tableData[i][1] = member.getName();
-			tableData[i][2] = member.getLoyalPoints();
-			i++;
+			tableModel.addToTable(member);
 		}
 
-		Object columnNames[] = { "Member ID", "Member Name", "Loyalty Points" };
-		JTable table = new JTable(tableData, columnNames);
+		JTable table = new JTable(tableModel);
 		table.setName("Items");
 		table.setEnabled(false);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
