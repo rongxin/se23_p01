@@ -127,11 +127,11 @@ public class MainPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				discountWindow = new DiscountWindow(shopApplication);
 				initializeWindow(discountWindow);
+				discountWindow.setSize(700, 600);
 			}
 		});
 		JPanel discountsPanel = new JPanel();
-		discountsPanel.setBorder(BorderFactory.createCompoundBorder(
-				BorderFactory.createTitledBorder("  Discounts  "), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+		setTitledBorder(discountsPanel, "  Discounts  ");
 		discountsPanel.add(manageDiscountBtn);
 		p.add(discountsPanel);
 

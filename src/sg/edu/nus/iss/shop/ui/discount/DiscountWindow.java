@@ -20,16 +20,16 @@ public class DiscountWindow extends JFrame {
 		this.shopApplication = shopApplication;
 		setLayout(new BorderLayout());
 		this.add("North", createTitlePanel());
-		this.add("Center", createMainPanel());
+		this.add("South", createMainPanel());
 	}
 
 	private JPanel createMainPanel() {
-		JPanel p = new JPanel();
+		JPanel p = new JPanel(new BorderLayout());
 		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("  Discounts  "),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
 		ListDiscountPanel listPanel = new ListDiscountPanel(shopApplication);
-		p.add(listPanel);
+		p.add("Center", listPanel);
 		return p;
 	}
 
@@ -44,10 +44,10 @@ public class DiscountWindow extends JFrame {
 		addButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				AddDiscountDialog d = new AddDiscountDialog(shopApplication);
-				d.pack();
-				d.setLocationByPlatform(true);
-				d.setVisible(true);
+				// AddDiscountDialog d = new AddDiscountDialog(shopApplication);
+				// d.pack();
+				// d.setLocationByPlatform(true);
+				// d.setVisible(true);
 			}
 		});
 

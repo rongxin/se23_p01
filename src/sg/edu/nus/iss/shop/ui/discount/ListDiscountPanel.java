@@ -1,5 +1,6 @@
 package sg.edu.nus.iss.shop.ui.discount;
 
+import java.awt.Dimension;
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -16,14 +17,12 @@ public class ListDiscountPanel extends JPanel {
 	public ListDiscountPanel(ShopApplication shopApplication) {
 		super();
 		this.shopApplication = shopApplication;
-		this.add(createMainPanel());
+		createMainPanel();
+
 	}
 
-	private JPanel createMainPanel() {
-		JPanel p = new JPanel();
+	private void createMainPanel() {
 		List<Discount> discounts = shopApplication.getDiscounts();
-
-
 		DiscountTableModel tableModel = new DiscountTableModel();
 
 		for (Discount discount : discounts) {
@@ -35,8 +34,8 @@ public class ListDiscountPanel extends JPanel {
 		table.setEnabled(false);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
 		JScrollPane scrollPane = new JScrollPane(table);
-		p.add(scrollPane);
-		return p;
+		scrollPane.setPreferredSize(new Dimension(650, 450));
+		this.add(scrollPane);
 	}
 
 
