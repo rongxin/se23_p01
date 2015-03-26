@@ -22,17 +22,15 @@ public class ListDiscountPanel extends JPanel {
 	private JPanel createMainPanel() {
 		JPanel p = new JPanel();
 		List<Discount> discounts = shopApplication.getDiscounts();
-		Object discountData[][] = new Object[discounts.size()][2];
 
-		int i = 0;
+
+		DiscountTableModel tableModel = new DiscountTableModel();
+
 		for (Discount discount : discounts) {
-			discountData[i][0] = discount.getDiscountCode();
-			discountData[i][1] = discount.getDescription();
-			i++;
+			tableModel.addDiscountToTable(discount);
 		}
 
-		Object columnNames[] = { "Code", "Description" };
-		JTable table = new JTable(discountData, columnNames);
+		JTable table = new JTable(tableModel);
 		table.setName("Items");
 		table.setEnabled(false);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
