@@ -1,5 +1,6 @@
 package sg.edu.nus.iss.shop.ui.product;
 
+import java.awt.Dimension;
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -21,37 +22,23 @@ public class ListProductPanel extends JPanel {
 
 	private JPanel createMainPanel() {
 		JPanel p = new JPanel();
-		Object columnNames[] = { "Product ID", "Name", "Description", "Quantity", "Price", "Barcode",
-				"Reorder Threshold", "Order Quantity" };
-		// Object rowData[][] = { { "CLO/1", "Centenary Jumper",
-		// "A really nice momento", "315", "21.45", "1234", "10",
-		// "1000" } };
 
 		List<Product> products = shopApplication.getProducts();
-		System.out.println("Products: " + products.size());
 
 		Object productData[][] = new Object[products.size()][8];
 
-		int i = 0;
+		ProductTableModel tableModel = new ProductTableModel();
+
 		for (Product product : products) {
-
-
-			productData[i][0] = product.getProductId();
-			productData[i][1] = product.getName();
-			productData[i][2] = product.getDescription();
-			productData[i][3] = product.getAvailableQuantity();
-			productData[i][4] = product.getPrice();
-			productData[i][5] = product.getBarcodeNumber();
-			productData[i][6] = product.getOrderThreshold();
-			productData[i][7] = product.getOrderQuantity();
-			i++;
+			tableModel.addToTable(product);
 		}
 
-		JTable table = new JTable(productData, columnNames);
+		JTable table = new JTable(tableModel);
 		table.setName("Items");
 		table.setEnabled(false);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
 		JScrollPane scrollPane = new JScrollPane(table);
+		scrollPane.setPreferredSize(new Dimension(750, 450));
 		p.add(scrollPane);
 		return p;
 	}
