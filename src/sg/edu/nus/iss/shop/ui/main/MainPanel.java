@@ -8,11 +8,13 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import sg.edu.nus.iss.shop.ui.category.CategoryWindow;
+import sg.edu.nus.iss.shop.ui.discount.DiscountWindow;
 import sg.edu.nus.iss.shop.ui.member.MemberWindow;
 import sg.edu.nus.iss.shop.ui.product.ProductWindow;
 import sg.edu.nus.iss.shop.ui.purchase.CheckoutWindow;
@@ -27,6 +29,7 @@ public class MainPanel extends JPanel {
 	private MemberWindow memberWindow;
 	private ReportWindow reportWindow;
 	private ProductWindow productWindow;
+	private DiscountWindow discountWindow;
 
 	public MainPanel(ShopApplication shopApplication) {
 		this.shopApplication = shopApplication;
@@ -71,16 +74,11 @@ public class MainPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				checkoutWindow = new CheckoutWindow(shopApplication);
-				checkoutWindow.pack();
-				checkoutWindow.setLocationByPlatform(true);
-				checkoutWindow.setLocationRelativeTo(null);
-				checkoutWindow.setVisible(true);
+				initializeWindow(checkoutWindow);
 			}
 		});
 		JPanel checkoutPanel = new JPanel();
-		checkoutPanel.setBorder(BorderFactory.createCompoundBorder(
-				BorderFactory.createTitledBorder("  Make Purchase  "), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-
+		setTitledBorder(checkoutPanel, "  Make Purchase  ");
 		checkoutPanel.add(checkoutButton);
 		p.add(checkoutPanel);
 
@@ -89,16 +87,11 @@ public class MainPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				memberWindow = new MemberWindow(shopApplication);
-				memberWindow.pack();
-				memberWindow.setLocationByPlatform(true);
-				memberWindow.setLocationRelativeTo(null);
-				memberWindow.setVisible(true);
+				initializeWindow(memberWindow);
 			}
 		});
 		JPanel memberPanel = new JPanel();
-		memberPanel.setBorder(BorderFactory.createCompoundBorder(
-				BorderFactory.createTitledBorder("   Members  "),
-				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+		setTitledBorder(memberPanel, "   Members  ");
 		memberPanel.add(memberBtn);
 		p.add(memberPanel);
 
@@ -107,16 +100,11 @@ public class MainPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				categoryWindow = new CategoryWindow(shopApplication);
-				categoryWindow.pack();
-				categoryWindow.setLocationByPlatform(true);
-				categoryWindow.setLocationRelativeTo(null);
-				categoryWindow.setVisible(true);
+				initializeWindow(categoryWindow);
 			}
 		});
 		JPanel categoryPanel = new JPanel();
-		categoryPanel.setBorder(BorderFactory.createCompoundBorder(
-				BorderFactory.createTitledBorder("Categories, Vendors "),
-				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+		setTitledBorder(categoryPanel, "Categories, Vendors ");
 		categoryPanel.add(categoryManagementButton);
 		p.add(categoryPanel);
 
@@ -125,20 +113,22 @@ public class MainPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				productWindow = new ProductWindow(shopApplication);
-				productWindow.pack();
-				productWindow.setLocationByPlatform(true);
-				productWindow.setLocationRelativeTo(null);
-				productWindow.setVisible(true);
+				initializeWindow(productWindow);
 			}
 		});
 		JPanel productPanel = new JPanel();
-		productPanel.setBorder(BorderFactory.createCompoundBorder(
-				BorderFactory.createTitledBorder("  Products "),
-				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+		setTitledBorder(productPanel, "  Products ");
 		productPanel.add(addProductButton);
 		p.add(productPanel);
 
 		JButton manageDiscountBtn = createImageButton("Manage Discounts", "bulb.png", "bulb_yellow.png");
+		manageDiscountBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				discountWindow = new DiscountWindow(shopApplication);
+				initializeWindow(discountWindow);
+			}
+		});
 		JPanel discountsPanel = new JPanel();
 		discountsPanel.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createTitledBorder("  Discounts  "), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
@@ -150,20 +140,21 @@ public class MainPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				reportWindow = new ReportWindow(shopApplication);
-				reportWindow.pack();
-				reportWindow.setLocationByPlatform(true);
-				reportWindow.setLocationRelativeTo(null);
-				reportWindow.setVisible(true);
+				initializeWindow(reportWindow);
 			}
 		});
 		JPanel reportingPanel = new JPanel();
-		reportingPanel.setBorder(BorderFactory.createCompoundBorder(
-				BorderFactory.createTitledBorder("  View Reports  "), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+		setTitledBorder(reportingPanel, "  View Reports  ");
 		reportingPanel.add(reportingButton);
 		p.add(reportingPanel);
 
 		return p;
 
+	}
+
+	private void setTitledBorder(JPanel panel, String title) {
+		panel.setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createTitledBorder(title), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 	}
 
 	private JButton createImageButton(String tooltip, String defaultImageName, String rolloverImageName) {
@@ -194,6 +185,13 @@ public class MainPanel extends JPanel {
 
 	public ProductWindow getProductWindow() {
 		return productWindow;
+	}
+
+	private void initializeWindow(JFrame window) {
+		window.pack();
+		window.setLocationByPlatform(true);
+		window.setLocationRelativeTo(null);
+		window.setVisible(true);
 	}
 
 }
