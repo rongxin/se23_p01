@@ -28,7 +28,7 @@ public class AddCategoryDialog extends OkCancelDialog {
 	private JLabel messageLabel;
 
 	public AddCategoryDialog(ShopApplication shopApplication) {
-		super(shopApplication.getMainWindow(), "Add Category");
+		super(shopApplication.getMainWindow().getMainPanel().getCategoryWindow(), "Add Category");
 		this.shopApplication = shopApplication;
 	}
 

@@ -39,7 +39,7 @@ public class AddProductDialog extends OkCancelDialog {
 	private JPanel listPanel;
 
 	public AddProductDialog(ShopApplication shopApplication, ListProductPanel listPanel) {
-		super(shopApplication, shopApplication.getMainWindow(), " Add Product ");
+		super(shopApplication, shopApplication.getMainWindow().getMainPanel().getProductWindow(), " Add Product ");
 		this.listPanel = listPanel;
 
 	}

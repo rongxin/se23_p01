@@ -11,7 +11,7 @@ import javax.swing.JFrame;
 public class ShopMainWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private ShopApplication shopApplication;
-	private MainPanel memberPanel;
+	private MainPanel mainPanel;
 
 	private WindowListener windowListener = new WindowAdapter() {
 		@Override
@@ -23,11 +23,15 @@ public class ShopMainWindow extends JFrame {
 	public ShopMainWindow(ShopApplication shopApplication) {
 		super("Souvenir Shop System");
 		this.shopApplication = shopApplication;
-		memberPanel = new MainPanel(shopApplication);
+		mainPanel = new MainPanel(shopApplication);
 		Panel p = new Panel();
 		p.setLayout(new GridLayout(0, 1));
-		p.add(memberPanel);
+		p.add(mainPanel);
 		add("Center", p);
 		addWindowListener(windowListener);
+	}
+
+	public MainPanel getMainPanel() {
+		return mainPanel;
 	}
 }

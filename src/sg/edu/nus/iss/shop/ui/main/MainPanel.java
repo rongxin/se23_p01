@@ -20,9 +20,13 @@ import sg.edu.nus.iss.shop.ui.report.ReportWindow;
 import sg.edu.nus.iss.shop.ui.util.IconHelper;
 
 public class MainPanel extends JPanel {
-	private static final String ICONS_PATH = "/sg/edu/nus/iss/shop/ui/icons/";
 	private static final long serialVersionUID = 1L;
 	private ShopApplication shopApplication;
+	private CategoryWindow categoryWindow;
+	private CheckoutWindow checkoutWindow;
+	private MemberWindow memberWindow;
+	private ReportWindow reportWindow;
+	private ProductWindow productWindow;
 
 	public MainPanel(ShopApplication shopApplication) {
 		this.shopApplication = shopApplication;
@@ -66,11 +70,11 @@ public class MainPanel extends JPanel {
 		checkoutButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				CheckoutWindow w = new CheckoutWindow(shopApplication);
-				w.pack();
-				w.setLocationByPlatform(true);
-				w.setLocationRelativeTo(null);
-				w.setVisible(true);
+				checkoutWindow = new CheckoutWindow(shopApplication);
+				checkoutWindow.pack();
+				checkoutWindow.setLocationByPlatform(true);
+				checkoutWindow.setLocationRelativeTo(null);
+				checkoutWindow.setVisible(true);
 			}
 		});
 		JPanel checkoutPanel = new JPanel();
@@ -84,11 +88,11 @@ public class MainPanel extends JPanel {
 		memberBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				MemberWindow w = new MemberWindow(shopApplication);
-				w.pack();
-				w.setLocationByPlatform(true);
-				w.setLocationRelativeTo(null);
-				w.setVisible(true);
+				memberWindow = new MemberWindow(shopApplication);
+				memberWindow.pack();
+				memberWindow.setLocationByPlatform(true);
+				memberWindow.setLocationRelativeTo(null);
+				memberWindow.setVisible(true);
 			}
 		});
 		JPanel memberPanel = new JPanel();
@@ -102,11 +106,11 @@ public class MainPanel extends JPanel {
 		categoryManagementButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				CategoryWindow w = new CategoryWindow(shopApplication);
-				w.pack();
-				w.setLocationByPlatform(true);
-				w.setLocationRelativeTo(null);
-				w.setVisible(true);
+				categoryWindow = new CategoryWindow(shopApplication);
+				categoryWindow.pack();
+				categoryWindow.setLocationByPlatform(true);
+				categoryWindow.setLocationRelativeTo(null);
+				categoryWindow.setVisible(true);
 			}
 		});
 		JPanel categoryPanel = new JPanel();
@@ -120,11 +124,11 @@ public class MainPanel extends JPanel {
 		addProductButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ProductWindow w = new ProductWindow(shopApplication);
-				w.pack();
-				w.setLocationByPlatform(true);
-				w.setLocationRelativeTo(null);
-				w.setVisible(true);
+				productWindow = new ProductWindow(shopApplication);
+				productWindow.pack();
+				productWindow.setLocationByPlatform(true);
+				productWindow.setLocationRelativeTo(null);
+				productWindow.setVisible(true);
 			}
 		});
 		JPanel productPanel = new JPanel();
@@ -134,22 +138,22 @@ public class MainPanel extends JPanel {
 		productPanel.add(addProductButton);
 		p.add(productPanel);
 
-		JButton checkInventoryButton = createImageButton("Manage inventory", "bulb.png", "bulb_yellow.png");
-		JPanel addInventorytPanel = new JPanel();
-		addInventorytPanel.setBorder(BorderFactory.createCompoundBorder(
-				BorderFactory.createTitledBorder("  Manage Inventory  "), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-		addInventorytPanel.add(checkInventoryButton);
-		p.add(addInventorytPanel);
+		JButton manageDiscountBtn = createImageButton("Manage Discounts", "bulb.png", "bulb_yellow.png");
+		JPanel discountsPanel = new JPanel();
+		discountsPanel.setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createTitledBorder("  Discounts  "), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+		discountsPanel.add(manageDiscountBtn);
+		p.add(discountsPanel);
 
 		JButton reportingButton = createImageButton("View reports", "pie_chart_green.png", "pie_chart_yellow.png");
 		reportingButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ReportWindow w = new ReportWindow(shopApplication);
-				w.pack();
-				w.setLocationByPlatform(true);
-				w.setLocationRelativeTo(null);
-				w.setVisible(true);
+				reportWindow = new ReportWindow(shopApplication);
+				reportWindow.pack();
+				reportWindow.setLocationByPlatform(true);
+				reportWindow.setLocationRelativeTo(null);
+				reportWindow.setVisible(true);
 			}
 		});
 		JPanel reportingPanel = new JPanel();
@@ -170,6 +174,26 @@ public class MainPanel extends JPanel {
 		button.setFocusPainted(false);
 		button.setContentAreaFilled(false);
 		return button;
+	}
+
+	public CategoryWindow getCategoryWindow() {
+		return categoryWindow;
+	}
+
+	public CheckoutWindow getCheckoutWindow() {
+		return checkoutWindow;
+	}
+
+	public MemberWindow getMemberWindow() {
+		return memberWindow;
+	}
+
+	public ReportWindow getReportWindow() {
+		return reportWindow;
+	}
+
+	public ProductWindow getProductWindow() {
+		return productWindow;
 	}
 
 }

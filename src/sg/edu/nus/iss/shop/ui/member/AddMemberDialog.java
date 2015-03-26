@@ -27,7 +27,7 @@ public class AddMemberDialog extends OkCancelDialog {
 
 
 	public AddMemberDialog(ShopApplication shopApplication) {
-		super(shopApplication.getMainWindow(), "Add Member");
+		super(shopApplication.getMainWindow().getMainPanel().getMemberWindow(), "Add Member");
 		this.shopApplication = shopApplication;
 	}
 
