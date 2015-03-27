@@ -19,6 +19,7 @@ public class ProductTableModel extends AbstractTableModel {
 				product.getAvailableQuantity(), product.getPrice(), product.getBarcodeNumber(),
 				product.getOrderThreshold(), product.getOrderQuantity() };
 		tableData.add(rowData);
+		fireTableDataChanged();
 	}
 
 	@Override

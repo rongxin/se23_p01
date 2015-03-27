@@ -15,6 +15,7 @@ public class ProductWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private ShopApplication shopApplication;
 	private ListProductPanel listPanel;
+	private AddProductDialog addDialog;
 
 	public ProductWindow(ShopApplication shopApplication) {
 		super();
@@ -40,20 +41,27 @@ public class ProductWindow extends JFrame {
 		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("  Actions  "),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
-		JButton addCategoryButton = new JButton("Add Product");
-		addCategoryButton.addActionListener(new ActionListener() {
+		JButton addButton = new JButton("Add Product");
+		addButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				AddProductDialog d = new AddProductDialog(shopApplication, listPanel);
-
-				d.pack();
-				d.setLocationByPlatform(true);
-				d.setVisible(true);
+				addDialog = new AddProductDialog(shopApplication, listPanel);
+				addDialog.pack();
+				addDialog.setLocationByPlatform(true);
+				addDialog.setVisible(true);
 			}
 		});
 
-		p.add(addCategoryButton, BorderLayout.WEST);
+		p.add(addButton, BorderLayout.WEST);
 		return p;
+	}
+
+	public AddProductDialog getAddDialog() {
+		return addDialog;
+	}
+
+	public ListProductPanel getListPanel() {
+		return listPanel;
 	}
 
 }

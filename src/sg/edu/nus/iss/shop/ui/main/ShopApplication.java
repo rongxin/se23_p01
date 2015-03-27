@@ -110,17 +110,18 @@ public class ShopApplication {
 		return products;
 	}
 
-	public void addProduct(String categoryCode, String name, String description, Integer availableQuantity,
+	public Product addProduct(String categoryCode, String name, String description, Integer availableQuantity,
 			Double price, String barcodeNumber, Integer orderThreshold, Integer orderQuantity) {
 
 		System.out.println("Add Product ");
 		try {
 			Category category = categoryManager.getCategory(categoryCode);
-			productManager.addProduct(category, name, description, availableQuantity, price.doubleValue(),
+			return productManager.addProduct(category, name, description, availableQuantity, price.doubleValue(),
 					barcodeNumber, orderThreshold, orderQuantity);
 		} catch (ApplicationGUIException e) {
 			e.printStackTrace();
 		}
+		return null;
 	}
 
 	public Product getProductByBarcode(String scannedId) {

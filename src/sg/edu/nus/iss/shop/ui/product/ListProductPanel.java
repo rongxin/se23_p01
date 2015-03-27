@@ -13,6 +13,7 @@ import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 public class ListProductPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private ShopApplication shopApplication;
+	private ProductTableModel tableModel;
 
 	public ListProductPanel(ShopApplication shopApplication) {
 		super();
@@ -24,10 +25,7 @@ public class ListProductPanel extends JPanel {
 		JPanel p = new JPanel();
 
 		List<Product> products = shopApplication.getProducts();
-
-		Object productData[][] = new Object[products.size()][8];
-
-		ProductTableModel tableModel = new ProductTableModel();
+		tableModel = new ProductTableModel();
 
 		for (Product product : products) {
 			tableModel.addToTable(product);
@@ -43,7 +41,8 @@ public class ListProductPanel extends JPanel {
 		return p;
 	}
 
-
-
+	public ProductTableModel getTableModel() {
+		return tableModel;
+	}
 
 }

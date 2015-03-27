@@ -19,6 +19,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 
 import sg.edu.nus.iss.shop.model.domain.Category;
+import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.ui.OkCancelDialog;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
@@ -36,12 +37,11 @@ public class AddProductDialog extends OkCancelDialog {
 	private JTextField reorderThresholdField;
 	private JTextField reorderQuantityField;
 	private JLabel messageLabel;
-	private JPanel listPanel;
+	private ListProductPanel listPanel;
 
 	public AddProductDialog(ShopApplication shopApplication, ListProductPanel listPanel) {
 		super(shopApplication, shopApplication.getMainWindow().getMainPanel().getProductWindow(), " Add Product ");
 		this.listPanel = listPanel;
-
 	}
 
 	@Override
@@ -178,11 +178,10 @@ public class AddProductDialog extends OkCancelDialog {
 		Integer orderThreshold = new Integer(reorderThresholdField.getText().trim());
 		Integer orderQuantity = new Integer(reorderQuantityField.getText().trim());
 
-		// TODO call add product logic
-		shopApplication.addProduct(categoryCombo.getSelectedItem().toString(), name, description, availableQuantity,
+		Product product = shopApplication.addProduct(categoryCombo.getSelectedItem().toString(), name, description, availableQuantity,
 				price, barcodeNumber, orderThreshold, orderQuantity);
 
-		listPanel.revalidate();
+		listPanel.getTableModel().addToTable(product);
 		return true;
 	}
 }
