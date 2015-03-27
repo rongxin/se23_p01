@@ -90,13 +90,14 @@ public class ShopApplication {
 		return allCategories;
 	}
 
-	public void addCategory(String categoryCode, String categoryName) {
+	public Category addCategory(String categoryCode, String categoryName) {
 		System.out.println("Add Category: " + categoryCode + ",  " + categoryName);
 		try {
-			categoryManager.createCategory(categoryCode, categoryName);
+			return categoryManager.createCategory(categoryCode, categoryName);
 		} catch (ApplicationGUIException e) {
 			e.printStackTrace();
 		}
+		return null;
 	}
 
 	public List<Product> getProducts() {
@@ -109,17 +110,18 @@ public class ShopApplication {
 		return products;
 	}
 
-	public void addProduct(String categoryCode, String name, String description, Integer availableQuantity,
+	public Product addProduct(String categoryCode, String name, String description, Integer availableQuantity,
 			Double price, String barcodeNumber, Integer orderThreshold, Integer orderQuantity) {
 
 		System.out.println("Add Product ");
 		try {
 			Category category = categoryManager.getCategory(categoryCode);
-			productManager.addProduct(category, name, description, availableQuantity, price.doubleValue(),
+			return productManager.addProduct(category, name, description, availableQuantity, price.doubleValue(),
 					barcodeNumber, orderThreshold, orderQuantity);
 		} catch (ApplicationGUIException e) {
 			e.printStackTrace();
 		}
+		return null;
 	}
 
 	public Product getProductByBarcode(String scannedId) {
@@ -133,14 +135,15 @@ public class ShopApplication {
 		return product;
 	}
 
-	public void addMember(String memberId, String memberName) {
+	public Member addMember(String memberId, String memberName) {
 		System.out.println("Add Member, memberId:" + memberId + ", memberName:" + memberName);
 
 		try {
-			memberManager.addMember(memberId, memberName);
+			return memberManager.addMember(memberId, memberName);
 		} catch (ApplicationGUIException e) {
 			e.printStackTrace();
 		}
+		return null;
 	}
 
 	public List<Member> getMembers() {
