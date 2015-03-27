@@ -55,4 +55,43 @@ public class MemberManagerTest {
 		Member member = MemberManager.getMemberManager().getMemberById(testMemberId);
 		assertEquals(testMemberId,member.getId());
 	}
+	
+	@Test
+	public void testReduceLoyalPoints() {
+		String testMemberId = "F42563743156";
+		int previousPoints = -1;
+		int usedPoints = 9;
+		try {
+			Member member = MemberManager.getMemberManager().getMemberById(testMemberId);
+			previousPoints = member.getLoyalPoints();
+			
+			MemberManager.getMemberManager().reduceLoyalPoints(member, usedPoints);
+			assertEquals(previousPoints - usedPoints,member.getLoyalPoints());
+		} catch (ApplicationGUIException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void testAdjustLoyalPoints() {
+		String testMemberId = "F42563743156";
+		int previousPoints = -1;
+		int positivePoints = 9;
+		int negativePoints = -8;
+		
+		try {
+			Member member = MemberManager.getMemberManager().getMemberById(testMemberId);
+			
+			previousPoints = member.getLoyalPoints();
+			MemberManager.getMemberManager().adjustLoyalPoints(member, positivePoints);
+			assertEquals(previousPoints - positivePoints,member.getLoyalPoints());
+			
+			previousPoints = member.getLoyalPoints();
+			MemberManager.getMemberManager().adjustLoyalPoints(member, negativePoints);
+			assertEquals(previousPoints - negativePoints,member.getLoyalPoints());
+		} catch (ApplicationGUIException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
