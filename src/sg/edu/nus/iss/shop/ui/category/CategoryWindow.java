@@ -14,6 +14,8 @@ import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 public class CategoryWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private ShopApplication shopApplication;
+	private ListCategoryPanel listPanel;
+	private AddCategoryDialog addDialog;
 
 	public CategoryWindow(ShopApplication shopApplication) {
 		super();
@@ -29,7 +31,7 @@ public class CategoryWindow extends JFrame {
 		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("  Categories  "),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
-		ListCategoryPanel listPanel = new ListCategoryPanel(shopApplication);
+		listPanel = new ListCategoryPanel(shopApplication);
 		p.add(listPanel);
 		return p;
 	}
@@ -45,15 +47,19 @@ public class CategoryWindow extends JFrame {
 		addCategoryButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				AddCategoryDialog d = new AddCategoryDialog(shopApplication);
-				d.pack();
-				d.setLocationByPlatform(true);
-				d.setVisible(true);
+				addDialog = new AddCategoryDialog(shopApplication, listPanel);
+				addDialog.pack();
+				addDialog.setLocationByPlatform(true);
+				addDialog.setVisible(true);
 			}
 		});
 
 		p.add(addCategoryButton, BorderLayout.WEST);
 		return p;
+	}
+
+	public ListCategoryPanel getListPanel() {
+		return listPanel;
 	}
 
 }

@@ -90,13 +90,14 @@ public class ShopApplication {
 		return allCategories;
 	}
 
-	public void addCategory(String categoryCode, String categoryName) {
+	public Category addCategory(String categoryCode, String categoryName) {
 		System.out.println("Add Category: " + categoryCode + ",  " + categoryName);
 		try {
-			categoryManager.createCategory(categoryCode, categoryName);
+			return categoryManager.createCategory(categoryCode, categoryName);
 		} catch (ApplicationGUIException e) {
 			e.printStackTrace();
 		}
+		return null;
 	}
 
 	public List<Product> getProducts() {
