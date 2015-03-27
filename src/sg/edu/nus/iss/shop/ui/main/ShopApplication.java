@@ -134,14 +134,15 @@ public class ShopApplication {
 		return product;
 	}
 
-	public void addMember(String memberId, String memberName) {
+	public Member addMember(String memberId, String memberName) {
 		System.out.println("Add Member, memberId:" + memberId + ", memberName:" + memberName);
 
 		try {
-			memberManager.addMember(memberId, memberName);
+			return memberManager.addMember(memberId, memberName);
 		} catch (ApplicationGUIException e) {
 			e.printStackTrace();
 		}
+		return null;
 	}
 
 	public List<Member> getMembers() {

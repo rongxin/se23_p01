@@ -16,6 +16,7 @@ public class MemberTableModel extends AbstractTableModel {
 	public void addToTable(Member member) {
 		Object[] rowData = new Object[] { member.getId(), member.getName(), member.getLoyalPoints() };
 		tableData.add(rowData);
+		fireTableDataChanged();
 	}
 
 	@Override

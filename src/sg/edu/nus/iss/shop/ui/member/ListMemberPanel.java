@@ -12,6 +12,7 @@ import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 public class ListMemberPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private ShopApplication shopApplication;
+	private MemberTableModel tableModel;
 
 	public ListMemberPanel(ShopApplication shopApplication) {
 		super();
@@ -21,10 +22,9 @@ public class ListMemberPanel extends JPanel {
 
 	private JPanel createMainPanel() {
 		JPanel p = new JPanel();
-
 		List<Member> members = shopApplication.getMembers();
 
-		MemberTableModel tableModel = new MemberTableModel();
+		tableModel = new MemberTableModel();
 		for (Member member : members) {
 			tableModel.addToTable(member);
 		}
@@ -38,5 +38,8 @@ public class ListMemberPanel extends JPanel {
 		return p;
 	}
 
+	public MemberTableModel getTableModel() {
+		return tableModel;
+	}
 
 }
