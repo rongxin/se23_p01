@@ -278,7 +278,8 @@ public class ShopApplication {
 		return cashToPay;
 	}
 
-	public Transaction checkout(List<Product> products, Customer customer, Integer loyalPointsUsed, Double discountedPrice) {
+	public Transaction checkout(List<Product> products, Customer customer, Integer loyalPointsUsed,
+			Double discountedPrice, Double paidAmount) {
 
 		Transaction transactionResult = null;
 
@@ -295,7 +296,7 @@ public class ShopApplication {
 
 		try {
 			transactionResult = transactionManager.endTransaction(customer, productsWithCount, discountedPrice,
-					loyalPointsUsed,100.00);
+					loyalPointsUsed, paidAmount);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
