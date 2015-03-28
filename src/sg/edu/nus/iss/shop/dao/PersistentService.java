@@ -68,6 +68,7 @@ public class PersistentService
 		DataRecordAdapter adapter = null;
 		if(recordObj instanceof Category)
 		{
+			dsName = recordObj.getClass().getSimpleName();
 			buildPK4CachedCategory(dsName);
 			adapter = new CategoryRecordAdapter((Category)recordObj);
 		}
@@ -112,6 +113,7 @@ public class PersistentService
 		String dsName = cls.getSimpleName() + DaoConstant.DS_SUFFIX;
 		if(isCategoryType(cls))
 		{
+			dsName = cls.getSimpleName();
 			return (T) retrieveCategory(dsName, objectId);
 		}
 		else if(isProductType(cls))
@@ -140,6 +142,7 @@ public class PersistentService
 		String dsName = cls.getSimpleName() + DaoConstant.DS_SUFFIX;
 		if(isCategoryType(cls))
 		{
+			dsName = cls.getSimpleName();
 			return (List<T>) retrieveAllCategories(dsName);
 		}
 		else if(isProductType(cls))
