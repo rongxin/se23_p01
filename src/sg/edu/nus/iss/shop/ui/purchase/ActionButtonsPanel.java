@@ -24,6 +24,7 @@ public class ActionButtonsPanel extends JPanel {
 	private JButton proceedPaymentButton;
 	private ShopApplication shopApplication;
 	private CheckoutWindow checkoutWindow;
+	private BarcodeScannerEmulatorDialog itemScanner;
 
 
 
@@ -45,10 +46,13 @@ public class ActionButtonsPanel extends JPanel {
 		scanItemsButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				BarcodeScannerEmulatorDialog d = new BarcodeScannerEmulatorDialog(getParent());
-				d.pack();
-				d.setVisible(true);
-				d.addConfirmListener(new ProductScannedActionListener(d, shopApplication, checkoutWindow));
+				if (itemScanner == null) {
+					itemScanner = new BarcodeScannerEmulatorDialog(getParent());
+					itemScanner.pack();
+					itemScanner.addConfirmListener(new ProductScannedActionListener(itemScanner, shopApplication,
+							checkoutWindow));
+				}
+				itemScanner.setVisible(true);
 
 			}
 		});
