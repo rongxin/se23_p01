@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
 
-public class MemberInfoPanel extends JPanel {
+public class CustomerInfoPanel extends JPanel {
 
 	private CheckoutWindow checkoutWindow;
 	private ShopApplication shopApplication;
@@ -19,7 +19,7 @@ public class MemberInfoPanel extends JPanel {
 	private JLabel memberNameValuelabel;
 	private JLabel memberLoyaltyPointsValueLabel;
 
-	public MemberInfoPanel(ShopApplication shopApplication, CheckoutWindow checkoutWindow) {
+	public CustomerInfoPanel(ShopApplication shopApplication, CheckoutWindow checkoutWindow) {
 		this.shopApplication = shopApplication;
 		this.checkoutWindow = checkoutWindow;
 		initMemerInfoPanel();

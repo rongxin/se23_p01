@@ -14,6 +14,7 @@ import sg.edu.nus.iss.shop.model.domain.Customer;
 import sg.edu.nus.iss.shop.model.domain.Member;
 import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
+import sg.edu.nus.iss.shop.ui.util.IconHelper;
 import sg.edu.nus.iss.shop.ui.util.PriceHelper;
 
 public class CheckoutWindow extends JFrame {
@@ -38,7 +39,7 @@ public class CheckoutWindow extends JFrame {
 
 
 	private ListPurchaseItemPanel listPurchaseItemPanel;
-	private MemberInfoPanel memberInfoPanel;
+	private CustomerInfoPanel memberInfoPanel;
 	private PurchaseInfoPanel purchaseInfoPanel;
 	private ActionButtonsPanel actionButtonsPanel;
 	private MakePaymentPanel makePaymentPanel;
@@ -70,7 +71,7 @@ public class CheckoutWindow extends JFrame {
 
 	private JPanel createRightPanel() {
 		JPanel p = new JPanel(new GridLayout(3, 1));
-		memberInfoPanel = new MemberInfoPanel(shopApplication, this);
+		memberInfoPanel = new CustomerInfoPanel(shopApplication, this);
 		memberInfoPanel.setVisible(false);
 		p.add(memberInfoPanel);
 
@@ -123,7 +124,8 @@ public class CheckoutWindow extends JFrame {
 
 		if (member instanceof Member) {
 
-			memberInfoPanel.getMemberTypeValuelabel().setText("Member");
+			memberInfoPanel.getMemberTypeValuelabel().setIcon(IconHelper.createImageIcon("customer_member.png"));
+			memberInfoPanel.getMemberTypeValuelabel().setToolTipText("Member");
 			memberInfoPanel.getMemberIdValuelabel().setText(member.getId());
 			memberInfoPanel.getMemberNameValuelabel().setText(((Member) member).getName());
 			Integer displayLoyalPoints = 0;
@@ -136,7 +138,8 @@ public class CheckoutWindow extends JFrame {
 			memberInfoPanel.getMemberLoyaltyPointsValueLabel().setText("" + displayLoyalPoints);
 
 		} else {
-			memberInfoPanel.getMemberTypeValuelabel().setText("None Member");
+			memberInfoPanel.getMemberTypeValuelabel().setIcon(IconHelper.createImageIcon("customer_public.png"));
+			memberInfoPanel.getMemberTypeValuelabel().setToolTipText("Non Member");
 			memberInfoPanel.getMemberIdValuelabel().setText(member.getId());
 			memberInfoPanel.getMemberNameValuelabel().setText("N.A.");
 			memberInfoPanel.getMemberLoyaltyPointsValueLabel().setText("N.A.");
@@ -231,7 +234,7 @@ public class CheckoutWindow extends JFrame {
 		this.cashReceived = cashReceived;
 	}
 
-	public MemberInfoPanel getMemberInfoPanel() {
+	public CustomerInfoPanel getMemberInfoPanel() {
 		return memberInfoPanel;
 	}
 
