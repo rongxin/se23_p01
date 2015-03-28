@@ -4,7 +4,7 @@ import sg.edu.nus.iss.shop.controller.DiscountManager;
 
 public class NonMemberCustomer extends Customer {
 	
-	public final static String NON_MEMBER_CUSTOMER_ID = "PUBLIC";
+	private final static String NON_MEMBER_CUSTOMER_ID = "PUBLIC";
 	
 	public NonMemberCustomer() {
 		//super(NonMemberCustomer.NON_MEMBER_CUSTOMER_ID + new Date().getTime() + new Random().nextInt());

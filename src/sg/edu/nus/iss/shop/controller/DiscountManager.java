@@ -5,7 +5,6 @@ package sg.edu.nus.iss.shop.controller;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,10 +23,10 @@ import sg.edu.nus.iss.shop.model.domain.SubsequentDiscount;
  */
 public class DiscountManager {
 	private static final String DISCOUNTCODE_NOT_EXIST_ERROR_MESSAGE = "Discount code doesn't exist!";
-	private static final String MEMBER_FIRST_PURCHASE_DISCOUNT_EXIST = "Member first purchase discount already exists!";
-	private static final String MEMBER_SUBSEQUENT_DISCOUNT_EXIST = "Member subsequent discount already exists!";
-	private static final String PUBLIC_DISCOUNT_START_DAY_ERROR = "The start day of public discount can not be ALWAYS!";
-	private static final String PUBLIC_DISCOUNT_IN_DAYS_ERROR = "The valid days of public discount can not be ALWAYS!";
+//	private static final String MEMBER_FIRST_PURCHASE_DISCOUNT_EXIST = "Member first purchase discount already exists!";
+//	private static final String MEMBER_SUBSEQUENT_DISCOUNT_EXIST = "Member subsequent discount already exists!";
+//	private static final String PUBLIC_DISCOUNT_START_DAY_ERROR = "The start day of public discount can not be ALWAYS!";
+//	private static final String PUBLIC_DISCOUNT_IN_DAYS_ERROR = "The valid days of public discount can not be ALWAYS!";
 	private static final String DISCOUNT_PERCENTAGE_ERROR = "The discount percentage can not be less than zero!";
 	private static DiscountManager theOnlyDiscountManager;
 

@@ -6,6 +6,7 @@ import static org.junit.Assert.assertSame;
 
 import java.util.List;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -33,21 +34,39 @@ public class CategoryReportTest {
 	}
 	
 	@Test
-	public void testRetreiveAndGenerateReportData() throws ApplicationGUIException{
+	public void testRetreiveAndGenerateReportData(){
 		
 		List<String[]> categoryReportList = null;
 		List<Category> categoryList = null;
-		categoryReportList = categoryReport.retreiveAndGenerateReportData();
-		assertNotNull("The category report data should not be null", categoryReportList);
-		if(categoryReportList.size() > 0){
-			for(String[] categoryArray : categoryReportList){
-				assertNotNull("The category array should not be null!", categoryArray);
-				boolean isInvalidaData = checkArrayHasNullOrEmpty(categoryArray);
-				assertFalse("The value inside category array should not be null or empty", isInvalidaData == false);
+		try{
+			categoryReportList = categoryReport.retreiveAndGenerateReportData();
+			assertNotNull("The category report data should not be null", categoryReportList);
+			if(categoryReportList.size() > 0){
+				for(String[] categoryArray : categoryReportList){
+					assertNotNull("The category array should not be null!", categoryArray);
+					boolean isInvalidaData = checkArrayHasNullOrEmpty(categoryArray);
+					assertFalse("The value inside category array should not be null or empty", isInvalidaData == false);
+				}
+			}else{
+				categoryList = categoryManager.getAllCategories();	
+				assertFalse("The category report data is incorrect!", !categoryList.isEmpty());
+			}
+		}catch(ApplicationGUIException aguie){
+			aguie.printStackTrace();
+			Assert.fail(aguie.getDisplayMessage());
+		}
+		
+	}
+	
+	@Test
+	public void testGetreportHeader(){
+		String[] reportHeaderArray = categoryReport.getReportHeader();
+		if(reportHeaderArray != null && reportHeaderArray.length > 0){
+			for(String reportHeader : reportHeaderArray){
+				
 			}
 		}else{
-			categoryList = categoryManager.getAllCategories();	
-			assertFalse("The category report data is incorrect!", !categoryList.isEmpty());
+			Assert.fail("The headers are incorrect");
 		}
 	}
 	
@@ -55,10 +74,10 @@ public class CategoryReportTest {
 	/**
 	 * Method to check whether the array got a invalid data
 	 * */
-	private boolean checkArrayHasNullOrEmpty(String[] memberArray){
+	private boolean checkArrayHasNullOrEmpty(String[] productArray){
 		
-		for(String memberDetails : memberArray){
-			if(memberDetails == null || memberDetails == ""){
+		for(String productDetails : productArray){
+			if(productDetails == null || productDetails == ""){
 				return false;
 			}
 		}
