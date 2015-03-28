@@ -181,6 +181,28 @@ public class ProductManager {
 		}
 		return lowInventoryProducts;
 	}
+	
+	/**
+	 * Method to check if given products has low inventory
+	 * @param productList List of product to be check if it has low inventory
+	 * @return listing of product with low inventory
+	 * @throws ApplicationGUIException Exception while retrieving all products
+	 * */
+	public List<Product> getProductsWithLowInventory(List<Product> productList) throws ApplicationGUIException {
+		List<Product> lowInventoryProducts = new LinkedList<Product>();
+
+		if(!productList.isEmpty() && productList != null) {
+			for(Product prod : productList) {
+				//Refresh product to reflect their updated quantity upon checkout
+				Product existingProduct = ProductManager.getProductManager().getProductById(prod.getProductId());
+				if(existingProduct.getAvailableQuantity() <= existingProduct.getOrderThreshold()) {
+					lowInventoryProducts.add(prod);	
+				}
+				
+			}
+		}
+		return lowInventoryProducts;
+	}
 
 	/**
 	 * Method to retrieve all products from data source for a particular category
