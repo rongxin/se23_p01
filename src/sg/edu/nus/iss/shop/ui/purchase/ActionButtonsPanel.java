@@ -7,9 +7,9 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import sg.edu.nus.iss.shop.model.domain.Transaction;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 
 public class ActionButtonsPanel extends JPanel {
@@ -73,14 +73,22 @@ public class ActionButtonsPanel extends JPanel {
 		checkoutButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				String paidAmount = checkoutWindow.getMakePaymentPanel().getPaidAmountField().getText().trim();
+				if ("".equals(paidAmount)) {
+					JOptionPane.showMessageDialog(null, "Please input amount paid by customer.");
+				}
+
 				CardLayout cl = (CardLayout) (checkoutWindow.getPurchaseCardPanel().getLayout());
 				cl.show(checkoutWindow.getPurchaseCardPanel(), CARD_SUMMARY);
 				scanItemsButton.setEnabled(false);
 				checkoutButton.setEnabled(false);
 				proceedPaymentButton.setEnabled(false);
 
-				Transaction transaction = shopApplication.checkout(checkoutWindow.getProducts(), checkoutWindow.getCustomer(),
- checkoutWindow.getLoyalPointsUsed(), checkoutWindow.getDiscount());
+				shopApplication.checkout(checkoutWindow.getProducts(), checkoutWindow.getCustomer(),
+						checkoutWindow.getLoyalPointsUsed(),
+						checkoutWindow.getTotalDiscountedPrice(), new Double(paidAmount));
+
+				checkoutWindow.getPurchaseSummaryPanel().refreshPurchaseSummaryPanel();
 			}
 		});
 		add(checkoutButton);
