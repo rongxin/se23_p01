@@ -6,7 +6,6 @@ import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -15,6 +14,7 @@ import sg.edu.nus.iss.shop.model.domain.Customer;
 import sg.edu.nus.iss.shop.model.domain.Member;
 import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
+import sg.edu.nus.iss.shop.ui.util.IconHelper;
 import sg.edu.nus.iss.shop.ui.util.PriceHelper;
 
 public class CheckoutWindow extends JFrame {
@@ -28,13 +28,6 @@ public class CheckoutWindow extends JFrame {
 	private ShopApplication shopApplication;
 	private JPanel purchaseCardPanel;
 
-	private JPanel memberInfoPanel;
-
-	private JLabel memberIdValuelabel;
-	private JLabel memberNameValuelabel;
-	private JLabel memberLoyaltyPointsValueLabel;
-	private JLabel memberTypeValuelabel;
-
 	private Customer customer;
 	private List<Product> products = new ArrayList<>();
 	private Double totalPrice;
@@ -44,7 +37,9 @@ public class CheckoutWindow extends JFrame {
 	private Integer loyalPointsUsed = 0;
 	private Integer discount = 0;
 
+
 	private ListPurchaseItemPanel listPurchaseItemPanel;
+	private CustomerInfoPanel memberInfoPanel;
 	private PurchaseInfoPanel purchaseInfoPanel;
 	private ActionButtonsPanel actionButtonsPanel;
 	private MakePaymentPanel makePaymentPanel;
@@ -76,7 +71,9 @@ public class CheckoutWindow extends JFrame {
 
 	private JPanel createRightPanel() {
 		JPanel p = new JPanel(new GridLayout(3, 1));
-		p.add(createMemerInfoPanel());
+		memberInfoPanel = new CustomerInfoPanel(shopApplication, this);
+		memberInfoPanel.setVisible(false);
+		p.add(memberInfoPanel);
 
 		purchaseInfoPanel = new PurchaseInfoPanel(shopApplication, this);
 		purchaseInfoPanel.setVisible(false);
@@ -87,40 +84,7 @@ public class CheckoutWindow extends JFrame {
 		return p;
 	}
 
-	private JPanel createMemerInfoPanel() {
 
-		memberInfoPanel = new JPanel(new GridLayout(0, 2));
-		memberInfoPanel.setVisible(false);
-
-		memberInfoPanel.setBorder(BorderFactory.createCompoundBorder(
-				BorderFactory.createTitledBorder(" Member Information "), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-
-		JLabel memberTypeLabel = new JLabel("Member Type: ");
-		memberInfoPanel.add(memberTypeLabel);
-
-		memberTypeValuelabel = new JLabel("");
-		memberInfoPanel.add(memberTypeValuelabel);
-
-		JLabel memberIdLabel = new JLabel("Member ID: ");
-		memberInfoPanel.add(memberIdLabel);
-
-		memberIdValuelabel = new JLabel("");
-		memberInfoPanel.add(memberIdValuelabel);
-
-		JLabel memberNameLabel = new JLabel("Member Name: ");
-		memberInfoPanel.add(memberNameLabel);
-
-		memberNameValuelabel = new JLabel("");
-		memberInfoPanel.add(memberNameValuelabel);
-
-		JLabel loyaltypointsLabel = new JLabel("Loyalty Points: ");
-		memberInfoPanel.add(loyaltypointsLabel);
-
-		memberLoyaltyPointsValueLabel = new JLabel("0");
-		memberInfoPanel.add(memberLoyaltyPointsValueLabel);
-
-		return memberInfoPanel;
-	}
 
 	private JPanel createPurchaseCardPanel() {
 		purchaseCardPanel = new JPanel();
@@ -160,10 +124,10 @@ public class CheckoutWindow extends JFrame {
 
 		if (member instanceof Member) {
 
-			memberTypeValuelabel.setText("Member");
-			memberIdValuelabel.setText(member.getId());
-			memberIdValuelabel.setToolTipText(member.getId());
-			memberNameValuelabel.setText(((Member) member).getName());
+			memberInfoPanel.getMemberTypeValuelabel().setIcon(IconHelper.createImageIcon("customer_member.png"));
+			memberInfoPanel.getMemberTypeValuelabel().setToolTipText("Member");
+			memberInfoPanel.getMemberIdValuelabel().setText(member.getId());
+			memberInfoPanel.getMemberNameValuelabel().setText(((Member) member).getName());
 			Integer displayLoyalPoints = 0;
 			if (((Member) member).getLoyalPoints() > 0) {
 				displayLoyalPoints = ((Member) member).getLoyalPoints();
@@ -171,13 +135,14 @@ public class CheckoutWindow extends JFrame {
 			} else {
 				makePaymentPanel.getLoyatyPointsField().setEnabled(false);
 			}
-			memberLoyaltyPointsValueLabel.setText("" + displayLoyalPoints);
+			memberInfoPanel.getMemberLoyaltyPointsValueLabel().setText("" + displayLoyalPoints);
 
 		} else {
-			memberTypeValuelabel.setText("None Member");
-			memberIdValuelabel.setText(member.getId());
-			memberNameValuelabel.setText("N.A.");
-			memberLoyaltyPointsValueLabel.setText("N.A.");
+			memberInfoPanel.getMemberTypeValuelabel().setIcon(IconHelper.createImageIcon("customer_public.png"));
+			memberInfoPanel.getMemberTypeValuelabel().setToolTipText("Non Member");
+			memberInfoPanel.getMemberIdValuelabel().setText(member.getId());
+			memberInfoPanel.getMemberNameValuelabel().setText("N.A.");
+			memberInfoPanel.getMemberLoyaltyPointsValueLabel().setText("N.A.");
 			makePaymentPanel.getLoyatyPointsField().setEnabled(false);
 		}
 
@@ -267,6 +232,10 @@ public class CheckoutWindow extends JFrame {
 
 	public void setCashReceived(Double cashReceived) {
 		this.cashReceived = cashReceived;
+	}
+
+	public CustomerInfoPanel getMemberInfoPanel() {
+		return memberInfoPanel;
 	}
 
 }
