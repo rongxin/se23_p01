@@ -1,12 +1,9 @@
 package sg.edu.nus.iss.shop.ui.product;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 
 import sg.edu.nus.iss.shop.model.domain.Product;
@@ -18,21 +15,10 @@ public class LowStockProductTableModel extends AbstractTableModel {
 
 	private List<Object[]> tableData = new ArrayList<>();
 
-	public void addToTable(Product product) {
-		JButton button = new JButton("Order");
-		button.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(button),
-						"Order for product:"
-						+ product.getProductId());
-
-			}
-		});
-
+	public void addToTable(Product product, JButton orderButton) {
 		Object[] rowData = new Object[] { product.getProductId(), product.getName(), product.getDescription(),
 				product.getAvailableQuantity(), product.getPrice(), product.getBarcodeNumber(),
-				product.getOrderThreshold(), product.getOrderQuantity(), button };
+				product.getOrderThreshold(), product.getOrderQuantity(), orderButton };
 		tableData.add(rowData);
 		fireTableDataChanged();
 	}

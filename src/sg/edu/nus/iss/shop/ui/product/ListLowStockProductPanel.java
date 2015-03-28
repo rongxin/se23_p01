@@ -1,8 +1,12 @@
 package sg.edu.nus.iss.shop.ui.product;
 
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -31,7 +35,16 @@ public class ListLowStockProductPanel extends JPanel {
 		tableModel = new LowStockProductTableModel();
 
 		for (Product product : products) {
-			tableModel.addToTable(product);
+			JButton orderButton = new JButton("Order");
+			orderButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(orderButton), "Order for product:"
+							+ product.getProductId());
+
+				}
+			});
+			tableModel.addToTable(product, orderButton);
 		}
 
 		JTable table = new JTable(tableModel);
