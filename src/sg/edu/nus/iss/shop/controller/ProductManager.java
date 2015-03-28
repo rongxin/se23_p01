@@ -11,7 +11,6 @@ import sg.edu.nus.iss.shop.dao.PersistentService;
 import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.Category;
 import sg.edu.nus.iss.shop.model.domain.Product;
-import sg.edu.nus.iss.shop.model.domain.Vendor;
 
 public class ProductManager {
 
@@ -228,16 +227,6 @@ public class ProductManager {
 			}
 		}
 		return productsWithCategory;
-	}
-
-	/**
-	 * Method to generateOrder for all products that have low inventory
-	 * @param product product object (for product that has low inventory)
-	 * @param vendor vendor object
-	 * @return order number
-	 * */
-	public long generateOrder(Product product, Vendor vendor) {
-		return 0;
 	}
 
 	/**

@@ -97,6 +97,9 @@ public class TransactionManagerTest {
 
 		points = tm.convertCashToPoints(555);
 		assertEquals("555 dollars should be 55 points", points, 55, 0);
+		
+		points = tm.convertCashToPoints(78.2);
+		assertEquals("78.2 dollars should be 7 points", points, 7, 0);
 	}
 
 	@Test
