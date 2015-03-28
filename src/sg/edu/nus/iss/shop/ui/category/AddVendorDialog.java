@@ -8,10 +8,12 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import sg.edu.nus.iss.shop.model.domain.Category;
@@ -31,7 +33,7 @@ public class AddVendorDialog extends OkCancelDialog {
 	private ListVendorPanel listPanel;
 
 	public AddVendorDialog(ShopApplication shopApplication, ListVendorPanel listPanel, Category category) {
-		super(shopApplication.getMainWindow().getMainPanel().getCategoryWindow(), "Add Vendor");
+		super((JFrame) SwingUtilities.getWindowAncestor(listPanel), "Add Vendor");
 		this.shopApplication = shopApplication;
 		this.listPanel = listPanel;
 		this.category = category;
@@ -102,13 +104,7 @@ public class AddVendorDialog extends OkCancelDialog {
 
 		Vendor vendor = shopApplication.addVendor(category, vendorName, vendorDescription);
 
-		// Category category = shopApplication.addVendor(categoryCode,
-		// categoryName);
-
-		// JButton vendorButton = new JButton("Vendors");
-		// vendorButton.addActionListener(new
-		// ViewCategoryVendorListener(category));
-		// listPanel.getTableModel().addToTable(category, vendorButton);
+		listPanel.getTableModel().addToTable(vendor);
 		return true;
 	}
 
