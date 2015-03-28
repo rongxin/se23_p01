@@ -2,6 +2,7 @@ package sg.edu.nus.iss.shop.ui.main;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import sg.edu.nus.iss.shop.controller.MemberManager;
 import sg.edu.nus.iss.shop.controller.ProductManager;
 import sg.edu.nus.iss.shop.controller.ReportManager;
 import sg.edu.nus.iss.shop.controller.TransactionManager;
+import sg.edu.nus.iss.shop.controller.VendorManager;
 import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.Category;
 import sg.edu.nus.iss.shop.model.domain.Customer;
@@ -21,6 +23,7 @@ import sg.edu.nus.iss.shop.model.domain.Discount;
 import sg.edu.nus.iss.shop.model.domain.Member;
 import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.model.domain.Transaction;
+import sg.edu.nus.iss.shop.model.domain.Vendor;
 import sg.edu.nus.iss.shop.ui.util.ProductItemsHelper;
 
 public class ShopApplication {
@@ -31,6 +34,7 @@ public class ShopApplication {
 	private MemberManager memberManager;
 	private TransactionManager transactionManager;
 	private DiscountManager discountManager;
+	private VendorManager vendorManager;
 
 	public ShopApplication() {
 		loginDialog = new LoginDialog(this);
@@ -39,6 +43,7 @@ public class ShopApplication {
 		loginDialog.setVisible(true);
 
 		categoryManager = CategoryManager.getCategoryManager();
+		vendorManager = VendorManager.getVendorManager();
 		productManager = ProductManager.getProductManager();
 		memberManager = MemberManager.getMemberManager();
 		transactionManager = TransactionManager.getInstance();
@@ -99,6 +104,16 @@ public class ShopApplication {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public Vendor addVendor(Category category, String vendorName, String vendorDescription) {
+		Vendor vendor = null;
+		try {
+			vendor = vendorManager.addVendor(vendorName, vendorDescription, Arrays.asList(category));
+		} catch (ApplicationGUIException e) {
+			e.printStackTrace();
+		}
+		return vendor;
 	}
 
 	public List<Product> getProducts() {
@@ -298,6 +313,5 @@ public class ShopApplication {
 		List<Discount> allDiscounts = discountManager.getAllDiscounts();
 		return allDiscounts;
 	}
-
 
 }

@@ -15,6 +15,7 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
 import sg.edu.nus.iss.shop.model.domain.Category;
+import sg.edu.nus.iss.shop.model.domain.Vendor;
 import sg.edu.nus.iss.shop.ui.OkCancelDialog;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
@@ -24,7 +25,8 @@ public class AddVendorDialog extends OkCancelDialog {
 	private static final long serialVersionUID = 1L;
 	private ShopApplication shopApplication;
 	private Category category;
-	private JTextField categoryNameField;
+	private JTextField vendorNameField;
+	private JTextField vendorDescriptionField;
 	private JLabel messageLabel;
 	private ListVendorPanel listPanel;
 
@@ -52,24 +54,29 @@ public class AddVendorDialog extends OkCancelDialog {
 	private JPanel createInputFormPanel() {
 		JPanel p = new JPanel();
 		p.setLayout(new GridBagLayout());
-		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(" Add Category "),
+		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(" Add Vendor "),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		GridBagConstraints gc = new GridBagConstraints();
 
 		// column 1
 		gc = LayoutHelper.createCellConstraint(0, 0);
-		JLabel categoryCodeLabel = new JLabel("Category Code: ");
+		JLabel categoryCodeLabel = new JLabel("Vendor Name: ");
 		p.add(categoryCodeLabel, gc);
 
 		gc = LayoutHelper.createCellConstraint(0, 1);
-		JLabel categoryNameLabel = new JLabel("Category Name: ");
+		JLabel categoryNameLabel = new JLabel("Vendor Description: ");
 		p.add(categoryNameLabel, gc);
 
 		// column 2
 		gc = LayoutHelper.createCellConstraint(1, 0);
-		categoryNameField = new JTextField(20);
-		categoryNameField.setToolTipText("Please input name for the vendor");
-		p.add(categoryNameField, gc);
+		vendorNameField = new JTextField(20);
+		vendorNameField.setToolTipText("Please input name for the vendor");
+		p.add(vendorNameField, gc);
+
+		gc = LayoutHelper.createCellConstraint(1, 1);
+		vendorDescriptionField = new JTextField(20);
+		vendorDescriptionField.setToolTipText("Please input description for the vendor");
+		p.add(vendorDescriptionField, gc);
 
 		return p;
 	}
@@ -77,7 +84,7 @@ public class AddVendorDialog extends OkCancelDialog {
 	private JPanel createFormMessagePanel() {
 		JPanel p = new JPanel(new GridLayout(0, 1));
 		messageLabel = new JLabel(" ", SwingConstants.CENTER);
-		messageLabel.setText("Please input category code and name.");
+		messageLabel.setText("Please input vendor name and description.");
 
 		p.add(messageLabel);
 		return p;
@@ -85,12 +92,16 @@ public class AddVendorDialog extends OkCancelDialog {
 
 	@Override
 	protected boolean performOkAction() {
-		String categoryName = categoryNameField.getText().trim();
-		if ((categoryName.length() == 0)) {
-			messageLabel.setText("Category code and  name are compulsory.");
+		String vendorName = vendorNameField.getText().trim();
+		String vendorDescription = vendorDescriptionField.getText().trim();
+		if ((vendorName.length() == 0 || vendorDescription.length() == 0)) {
+			messageLabel.setText("Vendor name and description are compulsory.");
 			messageLabel.setForeground(Color.RED);
 			return false;
 		}
+
+		Vendor vendor = shopApplication.addVendor(category, vendorName, vendorDescription);
+
 		// Category category = shopApplication.addVendor(categoryCode,
 		// categoryName);
 
@@ -99,6 +110,10 @@ public class AddVendorDialog extends OkCancelDialog {
 		// ViewCategoryVendorListener(category));
 		// listPanel.getTableModel().addToTable(category, vendorButton);
 		return true;
+	}
+
+	public JTextField getVendorDescriptionField() {
+		return vendorDescriptionField;
 	}
 }
 
