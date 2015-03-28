@@ -22,10 +22,10 @@ public class ReportTabPanePanel extends JPanel {
 	private JPanel createTapPanel() {
 		JPanel p = new JPanel();
 		JTabbedPane reportTabs = new JTabbedPane();
-		reportTabs.addTab("report 1", createReport1());
-		reportTabs.addTab("report 2", createReport2());
-		reportTabs.addTab("report 3", createReport3());
-		reportTabs.addTab("report 4", createReport4());
+		reportTabs.addTab("Category Report", createReport1());
+		reportTabs.addTab("Products Report", createReport2());
+		reportTabs.addTab("Transactions Report", createReport3());
+		reportTabs.addTab("Members Report", createReport4());
 		p.add(reportTabs);
 		return p;
 	}
