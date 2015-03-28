@@ -24,8 +24,7 @@ public class AdminManager {
 	
 	public StoreKeeper login(String username,String password) throws ApplicationGUIException
 	{
-		if (username.isEmpty() || password.isEmpty()) {	
-			System.out.println("username or password empty and return null");
+		if (username.isEmpty() || password.isEmpty()) {				
 			log.log("username or password empty and return null");
 			return null;
 		}		
@@ -34,13 +33,11 @@ public class AdminManager {
 		while (it.hasNext()) {
 			StoreKeeper storekeeper = it.next();
 			if (storekeeper.getName().equals(username) && storekeeper.getPassword().equals(password)) {
-				System.out.println("Login success username:"+username+" pass:"+password);
 				log.log("Login success username:"+username+" pass:"+password);
 				return storekeeper;
 			}	
 			
-		}
-		System.out.println("Login fail and return null username:"+username+" pass:"+password);
+		}		
 		log.log("Login fail and return null username:"+username+" pass:"+password);
 		return null;
 	
@@ -88,11 +85,10 @@ public class AdminManager {
 		if(oldStoreKeeper != null) {
 			//change password
 			oldStoreKeeper.setPassword(newpassword);	
-			System.out.println("Password Changed to "+newpassword);
+			
 			log.log("Password Changed to "+newpassword);
 			try {
-				PersistentService.getService().saveRecord(oldStoreKeeper);				
-				System.out.println("Password Changed to "+newpassword +"Saved Record");
+				PersistentService.getService().saveRecord(oldStoreKeeper);							
 				log.log("Password Changed to "+newpassword +"Saved Record");
 			}catch(Exception e){
 				throw new ApplicationGUIException(e.toString());
