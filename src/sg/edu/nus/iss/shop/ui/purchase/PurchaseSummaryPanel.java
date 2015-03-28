@@ -40,7 +40,12 @@ public class PurchaseSummaryPanel extends JPanel {
 
 		JLabel messageLabel = new JLabel("Transaction Completed!");
 		add(messageLabel, gc);
+		gc = createInventoryAlertPanel();
+		add(inventoryAlertPanel, gc);
+	}
 
+	private GridBagConstraints createInventoryAlertPanel() {
+		GridBagConstraints gc;
 		tableModel = new LowInventoryProductTableModel();
 
 		JTable table = new JTable(tableModel);
@@ -58,10 +63,11 @@ public class PurchaseSummaryPanel extends JPanel {
 		inventoryAlertPanel.add("North", alertLabel);
 		inventoryAlertPanel.add("Center", scrollPane);
 		inventoryAlertPanel.setVisible(false);
-		add(inventoryAlertPanel, gc);
+		return gc;
 	}
 
 	public void refreshPurchaseSummaryPanel() {
+
 		List<Product> lowStockProducts = shopApplication.getLowStockProducts(checkoutWindow.getProducts());
 		if (lowStockProducts.size() > 0) {
 			inventoryAlertPanel.setVisible(true);

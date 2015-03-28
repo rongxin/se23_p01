@@ -40,6 +40,7 @@ public class CheckoutWindow extends JFrame {
 	private Double totalPrice;
 	private Double totalDiscountedPrice;
 	private Double totalPayable;
+	private Double cashReceived;
 	private Integer loyalPointsUsed = 0;
 	private Integer discount = 0;
 
@@ -147,9 +148,11 @@ public class CheckoutWindow extends JFrame {
 
 		getPurchaseInfoPanel().getTotalAmountValueLabel().setText(PriceHelper.getPriceDisplay(totalPrice));
 		getPurchaseInfoPanel().getDiscountValueLabel().setText(PriceHelper.getPriceDisplay(discountPrice));
-		getPurchaseInfoPanel().getTotalPayableAmountValueLabel().setText(PriceHelper.getPriceDisplay(totalPayable));
+		getPurchaseInfoPanel().getTotalAfterDiscountValueLabel().setText(PriceHelper.getPriceDisplay(totalPayable));
+		getPurchaseInfoPanel().getCashToPayValueLabel().setText(PriceHelper.getPriceDisplay(totalPayable));
 
 		getMakePaymentPanel().getAmountToBePaidValue().setText(PriceHelper.getPriceDisplay(totalPayable));
+
 	}
 
 	public void updateMemberRelatedInfomation(Customer member) {
@@ -256,6 +259,14 @@ public class CheckoutWindow extends JFrame {
 
 	public PurchaseSummaryPanel getPurchaseSummaryPanel() {
 		return purchaseSummaryPanel;
+	}
+
+	public Double getCashReceived() {
+		return cashReceived;
+	}
+
+	public void setCashReceived(Double cashReceived) {
+		this.cashReceived = cashReceived;
 	}
 
 }
