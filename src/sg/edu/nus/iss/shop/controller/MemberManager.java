@@ -35,7 +35,7 @@ public class MemberManager {
 
 	public Member addMember(String id, String name)
 			throws ApplicationGUIException {
-		
+
 		if (id == null || id.trim().length() < MemberManager.MIN_ID_LENGTH
 				|| id.trim().length() > MemberManager.MAX_ID_LENGTH) {
 			throw new ApplicationGUIException(
@@ -47,13 +47,15 @@ public class MemberManager {
 			throw new ApplicationGUIException(
 					MemberManager.INVALID_NAME_ERROR_MESSAGE);
 		}
-		
-		Member existingMember = MemberManager.getMemberManager().getMemberById(id);
+
+		Member existingMember = MemberManager.getMemberManager().getMemberById(
+				id);
 		if (existingMember != null) {
-			throw new ApplicationGUIException(MemberManager.MEMBER_EXISTS_ERROR_MESSAGE);
+			throw new ApplicationGUIException(
+					MemberManager.MEMBER_EXISTS_ERROR_MESSAGE);
 		}
-		
-		Member newMember = new Member(id,name);
+
+		Member newMember = new Member(id, name);
 		try {
 			PersistentService.getService().saveRecord(newMember);
 		} catch (Exception e) {
@@ -66,7 +68,8 @@ public class MemberManager {
 		List<Member> memberList = new LinkedList<Member>();
 
 		try {
-			memberList = PersistentService.getService().retrieveAll(Member.class);
+			memberList = PersistentService.getService().retrieveAll(
+					Member.class);
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new ApplicationGUIException(e.toString());
@@ -82,9 +85,10 @@ public class MemberManager {
 
 	public Member getMemberById(String id) throws ApplicationGUIException {
 		Member member = null;
-		
+
 		try {
-			member = PersistentService.getService().retrieveObject(Member.class, id);
+			member = PersistentService.getService().retrieveObject(
+					Member.class, id);
 		} catch (InvalidDomainObject e) {
 			e.printStackTrace();
 			throw new ApplicationGUIException(e.toString());
@@ -104,6 +108,11 @@ public class MemberManager {
 
 	public void reduceLoyalPoints(Member member, int usedPoints)
 			throws ApplicationGUIException {
+		if (member.getLoyalPoints() < 0) {
+			member.setLoyalPoints(0);
+			return;
+		}
+		
 		if (member.getLoyalPoints() < usedPoints) {
 			throw new ApplicationGUIException(
 					MemberManager.NOT_SUFFICIENT_POINTS_ERROR_MESSAGE);
@@ -115,16 +124,16 @@ public class MemberManager {
 			e.printStackTrace();
 			throw new ApplicationGUIException(e.toString());
 		}
-		
-//		return member.getLoyalPoints();
 	}
 
 	public void increaseLoyalPoints(Member member, int earnPoints)
 			throws ApplicationGUIException {
+		System.out.println(member.getName() + ", " + member.getLoyalPoints());
+
 		if (member.getLoyalPoints() < 0) {
 			member.setLoyalPoints(0);
 		}
-		
+
 		member.setLoyalPoints(member.getLoyalPoints() + earnPoints);
 		try {
 			PersistentService.getService().saveRecord(member);
