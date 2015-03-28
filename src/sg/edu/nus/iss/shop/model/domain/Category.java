@@ -6,6 +6,7 @@ package sg.edu.nus.iss.shop.model.domain;
 import java.util.LinkedList;
 import java.util.List;
 
+import sg.edu.nus.iss.shop.controller.ProductManager;
 import sg.edu.nus.iss.shop.dao.PersistentService;
 import sg.edu.nus.iss.shop.model.domain.Vendor;
 
@@ -13,6 +14,7 @@ public class Category {
 	private String code;
 	private String name;
 	private List<Vendor> vendorList;
+	private List<Product> productList;
 
 	/**
 	 * Constructor for Category
@@ -95,7 +97,7 @@ public class Category {
 	 * @return vendor list for this category      
 	 * */
 	public List<Vendor> getVendorList() {
-		//Lazy load vendorlist
+		//Lazy load vendor list
 		loadVendorList();
 		return this.vendorList;
 	}
@@ -112,16 +114,55 @@ public class Category {
 	 * Method to load Vendor list for this category by calling persistent service    
 	 * */
 	private void loadVendorList() {
-		
+		this.vendorList = new LinkedList<Vendor>();
 		try {
 			this.vendorList = PersistentService.getService().retrieveVendors(this);
 		} catch (Exception e) {
-			e.printStackTrace();
-			this.vendorList = new LinkedList<Vendor>();
+			e.printStackTrace();	
 		}
-		
 		setVendorList(this.vendorList);
 	}
+	
+	/**
+	 * Method to get Product list
+	 * @return product list for this category      
+	 * */
+	public List<Product> getProductList() {
+		//Lazy load product list
+		loadProductList();
+		return this.productList;
+	}
+	
+	/**
+	 * Method to set product list for this particular category
+	 * @param vendor list for this category that has been retrieved     
+	 * */
+	public void setProductList(List<Product> productList) {
+ 		this.productList = productList;
+ 	}
+	
+	/**
+	 * Method to load product list for this category by calling ProductManager and iterate through the records
+	 * */
+	private void loadProductList() {
+		this.productList = new LinkedList<Product>();
+		try {
+			//Retrieve all product 
+			List<Product> allProducts = ProductManager.getProductManager().getAllProducts();
+			if(!allProducts.isEmpty() && allProducts != null) {
+				for(Product prod : allProducts) {
+					//Check if Product belongs to this category
+					if(prod.getProductId().substring(0,getCode().length()).equals(getCode())) {
+						this.productList.add(prod);
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		setProductList(this.productList );
+	}
+	
 
 	
 }
