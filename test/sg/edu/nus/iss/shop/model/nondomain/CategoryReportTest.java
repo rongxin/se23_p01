@@ -62,9 +62,7 @@ public class CategoryReportTest {
 	public void testGetreportHeader(){
 		String[] reportHeaderArray = categoryReport.getReportHeader();
 		if(reportHeaderArray != null && reportHeaderArray.length > 0){
-			for(String reportHeader : reportHeaderArray){
-				
-			}
+			assertFalse("The no of items in heading is incorrect.",reportHeaderArray.length != 3);
 		}else{
 			Assert.fail("The headers are incorrect");
 		}

@@ -54,6 +54,15 @@ public class MemberReportTest {
 		}
 	}
 	
+	@Test
+	public void testGetreportHeader(){
+		String[] reportHeaderArray = memberReport.getReportHeader();
+		if(reportHeaderArray != null && reportHeaderArray.length > 0){
+			assertFalse("The no of items in heading is incorrect.",reportHeaderArray.length != 3);
+		}else{
+			Assert.fail("The headers are incorrect");
+		}
+	}
 	
 	/**
 	 * Method to check whether the array got a invalid data
