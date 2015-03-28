@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
+import sg.edu.nus.iss.shop.model.domain.Discount;
 import sg.edu.nus.iss.shop.model.domain.Member;
 
 public class MemberManagerTest {
@@ -57,7 +58,7 @@ public class MemberManagerTest {
 	}
 	
 	@Test
-	public void testReduceLoyalPoints() {
+	public void testReduceLoyalPoints1() {
 		String testMemberId = "F42563743156";
 		int previousPoints = -1;
 		int usedPoints = 9;
@@ -73,24 +74,42 @@ public class MemberManagerTest {
 	}
 	
 	@Test
-	public void testAdjustLoyalPoints() {
-		String testMemberId = "F42563743156";
-		int previousPoints = -1;
-		int positivePoints = 9;
-		int negativePoints = -8;
+	public void testReduceLoyalPoint2(){
+		String testMemberId = "A0135925";
+		String testMemberName = "Tao Tong";
+		int previousMaxDiscount = 0;
 		
 		try {
-			Member member = MemberManager.getMemberManager().getMemberById(testMemberId);
+			MemberManager.getMemberManager().addMember(testMemberId, testMemberName);
+			Member testMember = MemberManager.getMemberManager().getMemberById(testMemberId);
 			
-			previousPoints = member.getLoyalPoints();
-			MemberManager.getMemberManager().adjustLoyalPoints(member, positivePoints);
-			assertEquals(previousPoints - positivePoints,member.getLoyalPoints());
+			previousMaxDiscount = testMember.getMaxDiscount().getDiscountPercentage();
 			
-			previousPoints = member.getLoyalPoints();
-			MemberManager.getMemberManager().adjustLoyalPoints(member, negativePoints);
-			assertEquals(previousPoints - negativePoints,member.getLoyalPoints());
 		} catch (ApplicationGUIException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
+	@Test
+	public void testAdjustLoyalPoints() {
+		String testMemberId = "A0135925";
+		String testMemberName = "Tao Tong";
+		int earnPoints = 100;
+
+		try {
+			Discount discount = DiscountManager.getDiscountManager().getSubsequentDiscountList();
+			MemberManager.getMemberManager().addMember(testMemberId, testMemberName);
+			Member member = MemberManager.getMemberManager().getMemberById(testMemberId);
+			MemberManager.getMemberManager().increaseLoyalPoints(member, earnPoints);
+			
+			member = MemberManager.getMemberManager().getMemberById(testMemberId);
+			assertEquals(earnPoints,member.getLoyalPoints());
+			assertEquals(discount.getDiscountPercentage(),member.getMaxDiscount().getDiscountPercentage());
+		} catch (ApplicationGUIException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
