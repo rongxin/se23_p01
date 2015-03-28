@@ -13,4 +13,8 @@ public class ApplicationGUIException extends Exception {
 	public String getDisplayMessage(){
 		return this.displayMessage;
 	}
+	
+	public String getMessage(){
+		return this.displayMessage;
+	}
 }

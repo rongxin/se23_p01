@@ -77,8 +77,8 @@ public class ShopApplication {
 		ShopApplication shop = new ShopApplication();
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-				| UnsupportedLookAndFeelException e) {
+		} catch (ClassNotFoundException | InstantiationException
+				| IllegalAccessException | UnsupportedLookAndFeelException e) {
 			e.printStackTrace();
 		}
 		shop.start();
@@ -97,7 +97,8 @@ public class ShopApplication {
 	}
 
 	public Category addCategory(String categoryCode, String categoryName) {
-		System.out.println("Add Category: " + categoryCode + ",  " + categoryName);
+		System.out.println("Add Category: " + categoryCode + ",  "
+				+ categoryName);
 		try {
 			return categoryManager.createCategory(categoryCode, categoryName);
 		} catch (ApplicationGUIException e) {
@@ -106,10 +107,12 @@ public class ShopApplication {
 		return null;
 	}
 
-	public Vendor addVendor(Category category, String vendorName, String vendorDescription) {
+	public Vendor addVendor(Category category, String vendorName,
+			String vendorDescription) {
 		Vendor vendor = null;
 		try {
-			vendor = vendorManager.addVendor(vendorName, vendorDescription, Arrays.asList(category));
+			vendor = vendorManager.addVendor(vendorName, vendorDescription,
+					Arrays.asList(category));
 		} catch (ApplicationGUIException e) {
 			e.printStackTrace();
 		}
@@ -140,7 +143,8 @@ public class ShopApplication {
 	public List<Product> getLowStockProducts(List<Product> checkProducts) {
 		List<Product> products = new ArrayList<>();
 		try {
-			products = productManager.getProductsWithLowInventory(checkProducts);
+			products = productManager
+					.getProductsWithLowInventory(checkProducts);
 		} catch (ApplicationGUIException e) {
 			e.printStackTrace();
 		}
@@ -148,14 +152,16 @@ public class ShopApplication {
 		return products;
 	}
 
-	public Product addProduct(String categoryCode, String name, String description, Integer availableQuantity,
-			Double price, String barcodeNumber, Integer orderThreshold, Integer orderQuantity) {
+	public Product addProduct(String categoryCode, String name,
+			String description, Integer availableQuantity, Double price,
+			String barcodeNumber, Integer orderThreshold, Integer orderQuantity) {
 
 		System.out.println("Add Product ");
 		try {
 			Category category = categoryManager.getCategory(categoryCode);
-			return productManager.addProduct(category, name, description, availableQuantity, price.doubleValue(),
-					barcodeNumber, orderThreshold, orderQuantity);
+			return productManager.addProduct(category, name, description,
+					availableQuantity, price.doubleValue(), barcodeNumber,
+					orderThreshold, orderQuantity);
 		} catch (ApplicationGUIException e) {
 			e.printStackTrace();
 		}
@@ -174,7 +180,8 @@ public class ShopApplication {
 	}
 
 	public Member addMember(String memberId, String memberName) {
-		System.out.println("Add Member, memberId:" + memberId + ", memberName:" + memberName);
+		System.out.println("Add Member, memberId:" + memberId + ", memberName:"
+				+ memberName);
 
 		try {
 			return memberManager.addMember(memberId, memberName);
@@ -254,17 +261,9 @@ public class ShopApplication {
 		}
 	}
 
-	public List<String[]> getTransactionReport(String startDate, String endDate) {
+	public List<String[]> getTransactionReport(String startDate, String endDate) throws ParseException, ApplicationGUIException {
 		ReportManager rm = ReportManager.getReportManager();
-		try {
-			return rm.getTransactionReport(startDate, endDate);
-		} catch (ApplicationGUIException e) {
-			e.printStackTrace();
-			return null;
-		} catch (ParseException e) {
-			e.printStackTrace();
-			return null;
-		}
+		return rm.getTransactionReport(startDate, endDate);
 	}
 
 	public String[] getMemberReportHeader() {
@@ -288,25 +287,26 @@ public class ShopApplication {
 	}
 
 	public Double calculateCashToPay(Integer loyalPoints, Double totalPayable) {
-		double cashToPay = transactionManager.calculateCashToPay(loyalPoints, totalPayable);
+		double cashToPay = transactionManager.calculateCashToPay(loyalPoints,
+				totalPayable);
 		return cashToPay;
 	}
 
-	public Transaction checkout(List<Product> products, Customer customer, Integer loyalPointsUsed,
-			Double discountedPrice, Double paidAmount) {
+	public Transaction checkout(List<Product> products, Customer customer,
+			Integer loyalPointsUsed, Double discountedPrice, Double paidAmount) {
 
 		Transaction transactionResult = null;
-		Hashtable<Product, Integer> productsWithCount = ProductItemsHelper.convertProductListToHashTable(products);
+		Hashtable<Product, Integer> productsWithCount = ProductItemsHelper
+				.convertProductListToHashTable(products);
 
 		try {
-			transactionResult = transactionManager.endTransaction(customer, productsWithCount, discountedPrice,
-					loyalPointsUsed, paidAmount);
+			transactionResult = transactionManager.endTransaction(customer,
+					productsWithCount, discountedPrice, loyalPointsUsed,
+					paidAmount);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return transactionResult;
-
 	}
 
 	public List<Discount> getDiscounts() {

@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -17,7 +16,7 @@ public abstract class ReportTabPanel extends JPanel {
 	protected ReportWindow reportWindow;
 	protected ShopApplication shopApplication;
 	protected ReportTableModel reportTableModel;
-	
+
 	public ReportTabPanel(ReportWindow reportWindow,
 			ShopApplication shopApplication) {
 		super();
@@ -32,49 +31,43 @@ public abstract class ReportTabPanel extends JPanel {
 	public abstract JPanel createReportTablePanel();
 
 	public abstract JPanel createFilterPanel();
-	
+
 	public abstract Object[] getHeader();
-	
+
 	public abstract List<String[]> getData();
-	
-	protected JPanel refreshPanel(){
+
+	protected JPanel refreshPanel() {
 		JPanel report = new JPanel();
 		Object[] columnNames = getHeader();
 
 		List<String[]> unformatedReportData = getData();
-		//System.out.println(unformatedReportData.size());
+		// System.out.println(unformatedReportData.size());
 		if (unformatedReportData != null && unformatedReportData.size() > 0) {
-			//Object reportData[][] = new Object[unformatedReportData.size()][unformatedReportData
-			//		.get(0).length];
-			ArrayList<Object[]> reportData = new ArrayList<Object[]>();
-			for (String[] data : unformatedReportData) {
-				int j = 0;
-				Object rowData[] = new Object[unformatedReportData.get(0).length];
-				for (String value : data) {
-					rowData[j] = value;
-					j++;
-				}
-				reportData.add(rowData);
-			}
-			reportTableModel = new ReportTableModel(columnNames, unformatedReportData);
-			
-			JTable table = new JTable(reportTableModel);
-			table.setName("Items");
-			table.setEnabled(false);
-			table.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
-			JScrollPane scrollPane = new JScrollPane(table);
-			report.add(scrollPane);
+			reportTableModel = new ReportTableModel(columnNames,
+					unformatedReportData);
 		} else {
-			report.add(new JLabel("Could not load report"));
+			reportTableModel = new ReportTableModel(columnNames,
+					new ArrayList<String[]>());
 		}
+
+		JTable table = new JTable(reportTableModel);
+		table.setName("Items");
+		table.setEnabled(false);
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+		JScrollPane scrollPane = new JScrollPane(table);
+		report.add(scrollPane);
 		return report;
 	}
-	
-	protected void refreshTable(){
-		//System.out.println("Start refresh");
+
+	protected void refreshTable() {
+		// System.out.println("Start refresh");
 		List<String[]> unformatedReportData = getData();
-		//	System.out.println("Number of rows: " + unformatedReportData.size());
-		reportTableModel.setTableData(unformatedReportData);
-		
+		if (unformatedReportData != null && unformatedReportData.size() > 0) {
+			// System.out.println("Number of rows: " +
+			// unformatedReportData.size());
+			reportTableModel.setTableData(unformatedReportData);
+		} else {
+			reportTableModel.setTableData(new ArrayList<String[]>());
+		}
 	}
 }

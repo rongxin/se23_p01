@@ -1,7 +1,5 @@
 package sg.edu.nus.iss.shop.controller;
 
-import java.util.Random;
-
 import sg.edu.nus.iss.shop.model.domain.Member;
 import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.model.domain.Transaction;
@@ -53,7 +51,7 @@ public class PrinterManager {
 				+ formatString(PriceHelper.getPriceDisplay(t.getTotalPrice()),
 						20, false) + " \n";
 		text += " DISCOUNT           "
-				+ formatString(PriceHelper.getPriceDisplay(t.getDiscount()),
+				+ formatString(PriceHelper.getPriceDisplay(-t.getDiscount()),
 						20, false) + " \n";
 		text += " TOTAL              "
 				+ formatString(PriceHelper.getPriceDisplay(t.getFinalPrice()),
