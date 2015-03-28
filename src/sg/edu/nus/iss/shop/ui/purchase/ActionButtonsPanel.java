@@ -80,7 +80,8 @@ public class ActionButtonsPanel extends JPanel {
 				proceedPaymentButton.setEnabled(false);
 
 				Transaction transaction = shopApplication.checkout(checkoutWindow.getProducts(), checkoutWindow.getCustomer(),
- checkoutWindow.getLoyalPointsUsed(), checkoutWindow.getDiscount());
+						checkoutWindow.getLoyalPointsUsed(),
+						checkoutWindow.getTotalDiscountedPrice());
 			}
 		});
 		add(checkoutButton);

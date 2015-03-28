@@ -39,7 +39,7 @@ public class CheckoutWindow extends JFrame {
 	private Customer customer;
 	private List<Product> products = new ArrayList<>();
 	private Double totalPrice;
-	private Double totalDiscountPrice;
+	private Double totalDiscountedPrice;
 	private Double totalPayable;
 	private Integer loyalPointsUsed = 0;
 	private Integer discount = 0;
@@ -139,7 +139,7 @@ public class CheckoutWindow extends JFrame {
 
 	public void updatePurchaseInfo(Double totalPrice, Double discountPrice, Double totalPayable) {
 		setTotalPrice(totalPrice);
-		setTotalDiscountPrice(discountPrice);
+		setTotalDiscountedPrice(discountPrice);
 		setTotalPayable(totalPayable);
 
 		getPurchaseInfoPanel().getTotalAmountValueLabel().setText(PriceHelper.getPriceDisplay(totalPrice));
@@ -220,12 +220,12 @@ public class CheckoutWindow extends JFrame {
 		this.totalPrice = totalPrice;
 	}
 
-	public Double getTotalDiscountPrice() {
-		return totalDiscountPrice;
+	public Double getTotalDiscountedPrice() {
+		return totalDiscountedPrice;
 	}
 
-	public void setTotalDiscountPrice(Double totalDiscountPrice) {
-		this.totalDiscountPrice = totalDiscountPrice;
+	public void setTotalDiscountedPrice(Double totalDiscountedPrice) {
+		this.totalDiscountedPrice = totalDiscountedPrice;
 	}
 
 	public Double getTotalPayable() {
