@@ -3,18 +3,19 @@ package sg.edu.nus.iss.shop.ui.category;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.table.AbstractTableModel;
 
 import sg.edu.nus.iss.shop.model.domain.Category;
 
 public class CategoryTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
-	private String[] columnNames = { "Category Code", "Category Name", };
+	private String[] columnNames = { "Category Code", "Category Name", "Action" };
 
 	private List<Object[]> tableData = new ArrayList<>();
 
-	public void addToTable(Category category) {
-		Object[] rowData = new Object[] { category.getCode(), category.getName() };
+	public void addToTable(Category category, JButton vendorButton) {
+		Object[] rowData = new Object[] { category.getCode(), category.getName(), vendorButton };
 		tableData.add(rowData);
 		fireTableDataChanged();
 	}

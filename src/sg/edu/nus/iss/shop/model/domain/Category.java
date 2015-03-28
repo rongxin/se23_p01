@@ -149,7 +149,7 @@ public class Category {
 		try {
 			//Retrieve all product 
 			List<Product> allProducts = ProductManager.getProductManager().getAllProducts();
-			if(!allProducts.isEmpty() && allProducts != null) {
+			if(allProducts != null && !allProducts.isEmpty()) {
 				for(Product prod : allProducts) {
 					//Check if Product belongs to this category
 					if(prod.getProductId().substring(0,getCode().length()).equals(getCode())) {
