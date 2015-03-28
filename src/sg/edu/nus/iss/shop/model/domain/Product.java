@@ -234,13 +234,12 @@ public class Product {
 	 * Method to load category by calling CategoryManager
 	 * */
 	private void loadCategory() {
-		this.category = null;
+		
 		try {
 			//Retrieve Category for this particular category code
-			category = CategoryManager.getCategoryManager().getCategory(this.getProductId().substring(0, getProductId().length()));
+			this.category = CategoryManager.getCategoryManager().getCategory(this.getProductId().substring(0, getProductId().length()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		setCategory(this.category);
 	}
 }

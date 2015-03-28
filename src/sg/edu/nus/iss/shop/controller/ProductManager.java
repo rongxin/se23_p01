@@ -134,7 +134,7 @@ public class ProductManager {
 		List<Product> allProducts = ProductManager.getProductManager().getAllProducts();
 		Product product = null;
 		
-		if(!allProducts.isEmpty() && allProducts != null) {
+		if(allProducts != null && !allProducts.isEmpty()) {
 			for(Product prod : allProducts) {
 				if(prod.getBarcodeNumber().equals(barcodeNumber)) {
 					product = prod;
@@ -171,7 +171,7 @@ public class ProductManager {
 		List<Product> allProducts = ProductManager.getProductManager().getAllProducts();
 		List<Product> lowInventoryProducts = new LinkedList<Product>();
 
-		if(!allProducts.isEmpty() && allProducts != null) {
+		if(allProducts != null && !allProducts.isEmpty()) {
 			for(Product prod : allProducts) {
 				if(prod.getAvailableQuantity() <= prod.getOrderThreshold()) {
 					lowInventoryProducts.add(prod);	
@@ -191,7 +191,7 @@ public class ProductManager {
 	public List<Product> getProductsWithLowInventory(List<Product> productList) throws ApplicationGUIException {
 		List<Product> lowInventoryProducts = new LinkedList<Product>();
 
-		if(!productList.isEmpty() && productList != null) {
+		if(productList!= null && !productList.isEmpty()) {
 			for(Product prod : productList) {
 				//Refresh product to reflect their updated quantity upon checkout
 				Product existingProduct = ProductManager.getProductManager().getProductById(prod.getProductId());
