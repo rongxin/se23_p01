@@ -172,6 +172,11 @@ public class TransactionManager {
 
 		// Update Member DB
 		updateMemberPoints(transaction);
+		
+		//Print the transaction
+		transaction.setCashPayed(500);
+		PrinterManager pm = PrinterManager.getInstance();
+		pm.PrintTransaction(transaction);
 	}
 
 	/**
