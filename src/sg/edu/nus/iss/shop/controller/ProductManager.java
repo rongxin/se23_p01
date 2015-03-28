@@ -196,7 +196,7 @@ public class ProductManager {
 				//Refresh product to reflect their updated quantity upon checkout
 				Product existingProduct = ProductManager.getProductManager().getProductById(prod.getProductId());
 				if(existingProduct.getAvailableQuantity() <= existingProduct.getOrderThreshold()) {
-					lowInventoryProducts.add(prod);	
+					lowInventoryProducts.add(existingProduct);	
 				}
 				
 			}
