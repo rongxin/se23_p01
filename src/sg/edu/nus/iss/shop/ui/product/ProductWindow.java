@@ -8,6 +8,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 
@@ -15,6 +16,7 @@ public class ProductWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private ShopApplication shopApplication;
 	private ListProductPanel listPanel;
+	private ListLowStockProductPanel listLowStockPanel;
 	private AddProductDialog addDialog;
 
 	public ProductWindow(ShopApplication shopApplication) {
@@ -30,8 +32,14 @@ public class ProductWindow extends JFrame {
 		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("  Products  "),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
+		JTabbedPane tabs = new JTabbedPane();
 		listPanel = new ListProductPanel(shopApplication);
-		p.add(listPanel);
+		listLowStockPanel = new ListLowStockProductPanel(shopApplication);
+
+		tabs.addTab("All Products", listPanel);
+		tabs.addTab("Low Stock Products", listLowStockPanel);
+
+		p.add(tabs);
 		return p;
 	}
 
