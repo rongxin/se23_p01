@@ -24,6 +24,7 @@ public class GetMemberInfoPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private CheckoutWindow checkoutWindow;
 	private ShopApplication shopApplication;
+	private BarcodeScannerEmulatorDialog memberScanner;
 
 	public GetMemberInfoPanel(CheckoutWindow checkoutWindow, ShopApplication shopApplication) {
 		this.checkoutWindow = checkoutWindow;
@@ -56,27 +57,28 @@ public class GetMemberInfoPanel extends JPanel {
 		scanMemberCardButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				BarcodeScannerEmulatorDialog d = new BarcodeScannerEmulatorDialog(p.getParent());
-				d.pack();
-				d.setLocationByPlatform(true);
-				d.setVisible(true);
-				d.addConfirmListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						String memberId = d.getScannedBarcodeNumber();
+				if (memberScanner == null) {
+					memberScanner = new BarcodeScannerEmulatorDialog(p.getParent());
+					memberScanner.pack();
+					memberScanner.setLocationByPlatform(true);
 
-						Member member = shopApplication.getMember(memberId);
-						if (member != null) {
-							checkoutWindow.updateMemberRelatedInfomation(member);
-							d.setVisible(false);
-							d.dispose();
-						} else {
-							JOptionPane.showMessageDialog(null, "Unable to find member information for card number:"
-									+ memberId);
+					memberScanner.addConfirmListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							String memberId = memberScanner.getScannedBarcodeNumber();
+							Member member = shopApplication.getMember(memberId);
+							if (member != null) {
+								checkoutWindow.updateMemberRelatedInfomation(member);
+								memberScanner.setVisible(false);
+								memberScanner.dispose();
+							} else {
+								JOptionPane.showMessageDialog(null, "Unable to find member information for card number:"
+										+ memberId);
+							}
 						}
-					}
-				});
-
+					});
+				}
+				memberScanner.setVisible(true);
 			}
 		});
 		p.add(scanMemberCardButton, gc);
