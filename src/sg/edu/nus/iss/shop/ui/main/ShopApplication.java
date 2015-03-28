@@ -121,6 +121,18 @@ public class ShopApplication {
 		return products;
 	}
 
+	public List<Product> getLowStockProducts(List<Product> checkProducts) {
+		List<Product> products = new ArrayList<>();
+		try {
+			// TODO use get low inventory product for a specific list
+			products = productManager.getProductsWithLowInventory();
+		} catch (ApplicationGUIException e) {
+			e.printStackTrace();
+		}
+
+		return products;
+	}
+
 	public Product addProduct(String categoryCode, String name, String description, Integer availableQuantity,
 			Double price, String barcodeNumber, Integer orderThreshold, Integer orderQuantity) {
 
@@ -296,5 +308,6 @@ public class ShopApplication {
 		List<Discount> allDiscounts = discountManager.getAllDiscounts();
 		return allDiscounts;
 	}
+
 
 }

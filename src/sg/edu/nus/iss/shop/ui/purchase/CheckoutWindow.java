@@ -2,7 +2,6 @@ package sg.edu.nus.iss.shop.ui.purchase;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Component;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +46,8 @@ public class CheckoutWindow extends JFrame {
 	private ListPurchaseItemPanel listPurchaseItemPanel;
 	private PurchaseInfoPanel purchaseInfoPanel;
 	private ActionButtonsPanel actionButtonsPanel;
-	private MakePaymentPanel makePaymentPanel;;
+	private MakePaymentPanel makePaymentPanel;
+	private PurchaseSummaryPanel purchaseSummaryPanel;
 
 	public CheckoutWindow(ShopApplication shopApplication) {
 		this.shopApplication = shopApplication;
@@ -133,7 +133,10 @@ public class CheckoutWindow extends JFrame {
 
 		makePaymentPanel = new MakePaymentPanel(shopApplication, this);
 		getPurchaseCardPanel().add(makePaymentPanel, CARD_PAYMENT);
-		getPurchaseCardPanel().add(createSummaryPanel(), CARD_SUMMARY);
+
+		purchaseSummaryPanel = new PurchaseSummaryPanel(this, shopApplication);
+
+		getPurchaseCardPanel().add(purchaseSummaryPanel, CARD_SUMMARY);
 		return getPurchaseCardPanel();
 	}
 
@@ -186,11 +189,6 @@ public class CheckoutWindow extends JFrame {
 
 	}
 
-	private Component createSummaryPanel() {
-		JPanel p = new JPanel();
-		p.add(new JLabel("Transaction Completed!"));
-		return p;
-	}
 
 	public JPanel getPurchaseCardPanel() {
 		return purchaseCardPanel;
@@ -254,6 +252,10 @@ public class CheckoutWindow extends JFrame {
 
 	public void setDiscount(Integer discount) {
 		this.discount = discount;
+	}
+
+	public PurchaseSummaryPanel getPurchaseSummaryPanel() {
+		return purchaseSummaryPanel;
 	}
 
 }
