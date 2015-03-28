@@ -6,8 +6,11 @@ import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.TableCellRenderer;
 
 import sg.edu.nus.iss.shop.model.domain.Product;
+import sg.edu.nus.iss.shop.ui.JTableButtonMouseListener;
+import sg.edu.nus.iss.shop.ui.JTableButtonRenderer;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 
 public class ListLowStockProductPanel extends JPanel {
@@ -32,8 +35,12 @@ public class ListLowStockProductPanel extends JPanel {
 		}
 
 		JTable table = new JTable(tableModel);
+		TableCellRenderer buttonRenderer = new JTableButtonRenderer();
+		table.getColumn("Action").setCellRenderer(buttonRenderer);
+		table.addMouseListener(new JTableButtonMouseListener(table));
+
 		table.setName("Items");
-		table.setEnabled(false);
+		table.setEnabled(true);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
 		JScrollPane scrollPane = new JScrollPane(table);
 		scrollPane.setPreferredSize(new Dimension(750, 450));
