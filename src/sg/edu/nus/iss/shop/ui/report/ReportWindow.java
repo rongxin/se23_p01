@@ -1,8 +1,8 @@
 package sg.edu.nus.iss.shop.ui.report;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
 
-import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -23,14 +23,14 @@ public class ReportWindow extends JFrame{
 	
 	private JPanel createTitlePanel() {
 		JPanel p = new JPanel();
-		p.add(new JLabel("Reports"));
+		JLabel title = new JLabel("Reports");
+		title.setFont(new Font("Arial", 1, 18));
+		p.add(title);
 		return p;
 	}
 	
 	private JPanel createReportTabPanel(){
 		JPanel p = new JPanel();
-		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("  Reports  "),
-				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		ReportTabPanePanel rtp = new ReportTabPanePanel(this, shopApplication);
 		p.add(rtp);
 		return p;
