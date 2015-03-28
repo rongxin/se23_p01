@@ -24,7 +24,7 @@ public class ListLowStockProductPanel extends JPanel {
 	private JPanel createMainPanel() {
 		JPanel p = new JPanel();
 
-		List<Product> products = shopApplication.getProducts();
+		List<Product> products = shopApplication.getLowStockProducts();
 		tableModel = new LowStockProductTableModel();
 
 		for (Product product : products) {

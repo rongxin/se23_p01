@@ -36,8 +36,11 @@ public class ProductWindow extends JFrame {
 		listPanel = new ListProductPanel(shopApplication);
 		listLowStockPanel = new ListLowStockProductPanel(shopApplication);
 
-		tabs.addTab("All Products", listPanel);
-		tabs.addTab("Low Stock Products", listLowStockPanel);
+		int allProductsCount = listPanel.getTableModel().getRowCount();
+		int lowStockNumber = listLowStockPanel.getTableModel().getRowCount();
+
+		tabs.addTab("All Products (" + allProductsCount + ")", listPanel);
+		tabs.addTab("Low Stock Products (" + lowStockNumber + ")", listLowStockPanel);
 
 		p.add(tabs);
 		return p;
