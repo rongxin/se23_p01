@@ -29,7 +29,7 @@ public class ReportCategory extends ReportTabPanel {
 		refresh.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//How to refresh here???
+				refreshTable();
 			}
 		});
 		panel.add(refresh);

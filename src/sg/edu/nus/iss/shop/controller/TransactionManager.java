@@ -173,8 +173,8 @@ public class TransactionManager {
 
 		// Update Member DB
 		updateMemberPoints(transaction);
-		
-		//Print the transaction
+
+		// Print the transaction
 		PrinterManager pm = PrinterManager.getInstance();
 		pm.PrintTransaction(transaction);
 	}
@@ -266,20 +266,21 @@ public class TransactionManager {
 		TransactionRecord transRecord;
 		for (Object tr : transList) {
 			transRecord = (TransactionRecord) tr;
-			//System.out.println("Parsing " + transRecord.getProductId());
+			// System.out.println("Parsing " + transRecord.getProductId());
 			// Oscar: Adding the transaction to the list of transactions.
 			if (!transactions.containsKey(transRecord.getId())) {
 				// Transaction doesn't exist create a new one.
 				Transaction t = new Transaction(transRecord.getId(),
 						transRecord.getTransactionDate());
-				Customer m = MemberManager.getMemberManager().getMemberById(transRecord.getCustomerId());
-				if (m == null){
+				Customer m = MemberManager.getMemberManager().getMemberById(
+						transRecord.getCustomerId());
+				if (m == null) {
 					m = MemberManager.getMemberManager().generateNonMember();
 				}
 				t.setCustomer(m);
-				
+
 				transactions.put(t.getId(), t);
-				
+
 				// } else {
 				// Transaction exists in hash, do nothing
 			}
@@ -289,7 +290,7 @@ public class TransactionManager {
 						transRecord.getProductId());
 				// This guy is Throwing a generic Exception, need to change to a
 				// more defined Exception
-				//System.out.println("Product " + p);
+				// System.out.println("Product " + p);
 				// Update the transaction with the product and quantity.
 				transactions.get(transRecord.getId()).changeProductQuantity(p,
 						transRecord.getQuantity());
@@ -344,7 +345,8 @@ public class TransactionManager {
 		ArrayList<Transaction> rangeTransactions = new ArrayList<Transaction>();
 
 		for (Transaction t : allTransaction) {
-			if (startDate.before(t.getDate()) && endDate.after(t.getDate())) {
+			if ((startDate.before(t.getDate()) || startDate.equals(t.getDate())) && 
+				(endDate.after(t.getDate()) || (endDate.equals(t.getDate())))) {
 				rangeTransactions.add(t);
 				// System.out.println("inc " + startDate + " < " + t.getDate() +
 				// " < " + endDate);

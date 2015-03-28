@@ -1,6 +1,7 @@
 package sg.edu.nus.iss.shop.ui.report;
 
 import java.awt.BorderLayout;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JLabel;
@@ -15,6 +16,7 @@ public abstract class ReportTabPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	protected ReportWindow reportWindow;
 	protected ShopApplication shopApplication;
+	protected ReportTableModel reportTableModel;
 	
 	public ReportTabPanel(ReportWindow reportWindow,
 			ShopApplication shopApplication) {
@@ -37,25 +39,26 @@ public abstract class ReportTabPanel extends JPanel {
 	
 	protected JPanel refreshPanel(){
 		JPanel report = new JPanel();
-		Object columnNames[] = getHeader();
+		Object[] columnNames = getHeader();
 
 		List<String[]> unformatedReportData = getData();
 		//System.out.println(unformatedReportData.size());
 		if (unformatedReportData != null && unformatedReportData.size() > 0) {
-			Object reportData[][] = new Object[unformatedReportData.size()][unformatedReportData
-					.get(0).length];
-
-			int i = 0;
+			//Object reportData[][] = new Object[unformatedReportData.size()][unformatedReportData
+			//		.get(0).length];
+			ArrayList<Object[]> reportData = new ArrayList<Object[]>();
 			for (String[] data : unformatedReportData) {
 				int j = 0;
+				Object rowData[] = new Object[unformatedReportData.get(0).length];
 				for (String value : data) {
-					reportData[i][j] = value;
+					rowData[j] = value;
 					j++;
 				}
-				i++;
+				reportData.add(rowData);
 			}
-
-			JTable table = new JTable(reportData, columnNames);
+			reportTableModel = new ReportTableModel(columnNames, unformatedReportData);
+			
+			JTable table = new JTable(reportTableModel);
 			table.setName("Items");
 			table.setEnabled(false);
 			table.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
@@ -65,5 +68,13 @@ public abstract class ReportTabPanel extends JPanel {
 			report.add(new JLabel("Could not load report"));
 		}
 		return report;
+	}
+	
+	protected void refreshTable(){
+		//System.out.println("Start refresh");
+		List<String[]> unformatedReportData = getData();
+		//	System.out.println("Number of rows: " + unformatedReportData.size());
+		reportTableModel.setTableData(unformatedReportData);
+		
 	}
 }
