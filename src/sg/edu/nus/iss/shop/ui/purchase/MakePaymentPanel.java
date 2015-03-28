@@ -98,7 +98,8 @@ public class MakePaymentPanel extends JPanel {
 					amountToBePaidValue.setText(PriceHelper.getPriceDisplay(cashToBePay));
 					checkoutWindow.setLoyalPointsUsed(loyalPointsToUse);
 
-					checkoutWindow.getPurchaseInfoPanel().getCashToPayValueLabel().setText("" + cashToBePay);
+					checkoutWindow.getPurchaseInfoPanel().getCashToPayValueLabel()
+							.setText(PriceHelper.getPriceDisplay(cashToBePay));
 					checkoutWindow.getPurchaseInfoPanel().getLoyalPointsUsedValueLabel().setText("" + loyalPointsToUse);
 				}
 			}
