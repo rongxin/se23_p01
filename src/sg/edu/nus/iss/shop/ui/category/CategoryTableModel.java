@@ -13,9 +13,10 @@ public class CategoryTableModel extends AbstractTableModel {
 
 	private List<Object[]> tableData = new ArrayList<>();
 
-	public void addToTable(Category discount) {
-		Object[] rowData = new Object[] { discount.getCode(), discount.getName() };
+	public void addToTable(Category category) {
+		Object[] rowData = new Object[] { category.getCode(), category.getName() };
 		tableData.add(rowData);
+		fireTableDataChanged();
 	}
 
 	@Override

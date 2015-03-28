@@ -12,6 +12,7 @@ import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 public class ListCategoryPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private ShopApplication shopApplication;
+	private CategoryTableModel tableModel;
 
 	public ListCategoryPanel(ShopApplication shopApplication) {
 		super();
@@ -24,7 +25,7 @@ public class ListCategoryPanel extends JPanel {
 
 		List<Category> categories = shopApplication.getCategories();
 
-		CategoryTableModel tableModel = new CategoryTableModel();
+		tableModel = new CategoryTableModel();
 		for (Category category : categories) {
 			tableModel.addToTable(category);
 		}
@@ -38,7 +39,9 @@ public class ListCategoryPanel extends JPanel {
 		return p;
 	}
 
-
+	public CategoryTableModel getTableModel() {
+		return tableModel;
+	}
 
 
 }

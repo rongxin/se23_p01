@@ -13,6 +13,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
+import sg.edu.nus.iss.shop.model.domain.Member;
 import sg.edu.nus.iss.shop.ui.OkCancelDialog;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
@@ -25,10 +26,12 @@ public class AddMemberDialog extends OkCancelDialog {
 	private JTextField nameField;
 	private JLabel messageLabel;
 
+	private ListMemberPanel listPanel;
 
-	public AddMemberDialog(ShopApplication shopApplication) {
+	public AddMemberDialog(ShopApplication shopApplication, ListMemberPanel listPanel) {
 		super(shopApplication.getMainWindow().getMainPanel().getMemberWindow(), "Add Member");
 		this.shopApplication = shopApplication;
+		this.listPanel = listPanel;
 	}
 
 	@Override
@@ -60,7 +63,6 @@ public class AddMemberDialog extends OkCancelDialog {
 		gc = LayoutHelper.createCellConstraint(0, 1);
 		JLabel cardNumberLabel = new JLabel("Student/Staff Card Number: ");
 		p.add(cardNumberLabel, gc);
-
 		// column 2
 
 		gc = LayoutHelper.createCellConstraint(1, 0);
@@ -70,7 +72,6 @@ public class AddMemberDialog extends OkCancelDialog {
 
 
 		gc = LayoutHelper.createCellConstraint(1, 1);
-
 		cardNumberField = new JTextField(20);
 		cardNumberField.setToolTipText("Please input student or staff card number.");
 		p.add(cardNumberField, gc);
@@ -97,7 +98,8 @@ public class AddMemberDialog extends OkCancelDialog {
 		String cardNumber = cardNumberField.getText().trim();
 		String memberName = nameField.getText().trim();
 
-		shopApplication.addMember(cardNumber, memberName);
+		Member member = shopApplication.addMember(cardNumber, memberName);
+		listPanel.getTableModel().addToTable(member);
 
 		return true;
 	}
@@ -119,5 +121,9 @@ public class AddMemberDialog extends OkCancelDialog {
 		}
 
 		return true;
+	}
+
+	public ListMemberPanel getListPanel() {
+		return listPanel;
 	}
 }

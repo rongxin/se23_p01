@@ -14,6 +14,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
+import sg.edu.nus.iss.shop.model.domain.Category;
 import sg.edu.nus.iss.shop.ui.OkCancelDialog;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
@@ -26,10 +27,12 @@ public class AddCategoryDialog extends OkCancelDialog {
 	private JTextField categoryCodeField;
 	private JTextField categoryNameField;
 	private JLabel messageLabel;
+	private ListCategoryPanel listPanel;
 
-	public AddCategoryDialog(ShopApplication shopApplication) {
+	public AddCategoryDialog(ShopApplication shopApplication, ListCategoryPanel listPanel) {
 		super(shopApplication.getMainWindow().getMainPanel().getCategoryWindow(), "Add Category");
 		this.shopApplication = shopApplication;
+		this.listPanel = listPanel;
 	}
 
 	@Override
@@ -97,7 +100,8 @@ public class AddCategoryDialog extends OkCancelDialog {
 			messageLabel.setForeground(Color.RED);
 			return false;
 		}
-		shopApplication.addCategory (categoryCode, categoryName);
+		Category category = shopApplication.addCategory(categoryCode, categoryName);
+		listPanel.getTableModel().addToTable(category);
 		return true;
 	}
 }

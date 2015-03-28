@@ -14,10 +14,11 @@ import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 public class MemberWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private ShopApplication shopApplication;
+	private ListMemberPanel listPanel;
+	private AddMemberDialog addDialog;
 
 	public MemberWindow(ShopApplication shopApplication) {
 		super();
-		this.shopApplication = shopApplication;
 		this.shopApplication = shopApplication;
 		setLayout(new BorderLayout());
 		this.add("North", createTitlePanel());
@@ -29,7 +30,7 @@ public class MemberWindow extends JFrame {
 		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("  Members  "),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
-		ListMemberPanel listPanel = new ListMemberPanel(shopApplication);
+		listPanel = new ListMemberPanel(shopApplication);
 		p.add(listPanel);
 		return p;
 	}
@@ -41,19 +42,27 @@ public class MemberWindow extends JFrame {
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
 
-		JButton addCategoryButton = new JButton("Register Member");
-		addCategoryButton.addActionListener(new ActionListener() {
+		JButton addButton = new JButton("Register Member");
+		addButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				AddMemberDialog d = new AddMemberDialog(shopApplication);
-				d.pack();
-				d.setLocationByPlatform(true);
-				d.setVisible(true);
+				addDialog = new AddMemberDialog(shopApplication, listPanel);
+				addDialog.pack();
+				addDialog.setLocationByPlatform(true);
+				addDialog.setVisible(true);
 			}
 		});
 
-		p.add(addCategoryButton, BorderLayout.WEST);
+		p.add(addButton, BorderLayout.WEST);
 		return p;
+	}
+
+	public ListMemberPanel getListPanel() {
+		return listPanel;
+	}
+
+	public AddMemberDialog getAddDialog() {
+		return addDialog;
 	}
 
 }
