@@ -12,6 +12,7 @@ import org.junit.Test;
 import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.Category;
 import sg.edu.nus.iss.shop.model.domain.Vendor;
+import sg.edu.nus.iss.shop.util.Logger;
 
 public class VendorManagerTest {
 
@@ -49,7 +50,7 @@ public class VendorManagerTest {
 			List<Vendor> newVendors = category.getVendorList();
 			int oldVendorCount = oldCount.get(category);
 			int newVendorCount = newVendors.size();
-			System.out.println("old: " + oldVendorCount + " new: " + newVendorCount);
+			Logger.getLog().log("old: " + oldVendorCount + " new: " + newVendorCount);
 			Assert.assertEquals(oldVendorCount + 1, newVendorCount);
 		}
 
@@ -205,7 +206,7 @@ public class VendorManagerTest {
 				VendorManager.getVendorManager().addVendor("Zhu Bin"+ new Random().nextLong(), "Test Vendor getAllVendorsTest3", newAddCategories);
 			}
 			catch(Exception e){
-				System.out.println(((ApplicationGUIException)e).getDisplayMessage());
+				Logger.getLog().log(((ApplicationGUIException)e).getDisplayMessage());
 				e.printStackTrace();
 				Assert.fail("Exception occurred when adding a vendor");
 				return ;
@@ -250,7 +251,7 @@ public class VendorManagerTest {
 				Assert.fail("Exception did not occur when vendor name contains invalid string: " + testString);
 			}
 			catch(ApplicationGUIException e){
-				System.out.println(e.getDisplayMessage());
+				Logger.getLog().log(e.getDisplayMessage());
 				Assert.assertEquals("Invalid vendor name", e.getDisplayMessage());
 			}
 		}
@@ -279,7 +280,7 @@ public class VendorManagerTest {
 				Assert.fail("Exception did not occur when vendor name contains invalid string: " + testString);
 			}
 			catch(ApplicationGUIException e){
-				System.out.println(e.getDisplayMessage());
+				Logger.getLog().log(e.getDisplayMessage());
 				Assert.assertEquals("Invalid vendor description", e.getDisplayMessage());
 			}
 		}

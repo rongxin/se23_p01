@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import sg.edu.nus.iss.shop.controller.CategoryManager;
 import sg.edu.nus.iss.shop.controller.VendorManager;
+import sg.edu.nus.iss.shop.util.Logger;
 
 public class VendorTest {
 
@@ -60,7 +61,7 @@ public class VendorTest {
 		Iterator<Category> it = categoryList.iterator();
 		while (it.hasNext()){
 			Category category = it.next();
-			System.out.println(category.getVendorList().size());
+			Logger.getLog().log(category.getVendorList().size()+"");
 		}
 	}
 	
