@@ -88,6 +88,8 @@ public class ActionButtonsPanel extends JPanel {
 				Transaction transaction = shopApplication.checkout(checkoutWindow.getProducts(), checkoutWindow.getCustomer(),
 						checkoutWindow.getLoyalPointsUsed(),
 						checkoutWindow.getTotalDiscountedPrice(), new Double(paidAmount));
+
+				checkoutWindow.getPurchaseSummaryPanel().refreshPurchaseSummaryPanel();
 			}
 		});
 		add(checkoutButton);

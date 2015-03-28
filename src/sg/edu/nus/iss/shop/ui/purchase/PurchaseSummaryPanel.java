@@ -5,6 +5,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -29,9 +30,13 @@ public class PurchaseSummaryPanel extends JPanel {
 
 	private void initPurchaseSummaryPanel() {
 		setLayout(new GridBagLayout());
+		setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(" Purchase Summary "),
+				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		GridBagConstraints gc = new GridBagConstraints();
 		gc = LayoutHelper.createCellConstraint(0, 0);
-		add(new JLabel("Transaction Completed!"), gc);
+
+		JLabel messageLabel = new JLabel("Transaction Completed!");
+		add(messageLabel, gc);
 
 		tableModel = new LowInventoryProductTableModel();
 
@@ -41,7 +46,9 @@ public class PurchaseSummaryPanel extends JPanel {
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
 		JScrollPane scrollPane = new JScrollPane(table);
 		scrollPane.setPreferredSize(new Dimension(300, 300));
-		add(scrollPane);
+
+		gc = LayoutHelper.createCellConstraint(0, 1);
+		add(scrollPane, gc);
 	}
 
 	public void refreshPurchaseSummaryPanel() {
