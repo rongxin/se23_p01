@@ -1,11 +1,8 @@
 package sg.edu.nus.iss.shop.ui.category;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -34,14 +31,7 @@ public class ListCategoryPanel extends JPanel {
 		tableModel = new CategoryTableModel();
 		for (Category category : categories) {
 			JButton vendorButton = new JButton("Vendors");
-			vendorButton.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(vendorButton), "vendor for product:"
-							+ category.getCode());
-
-				}
-			});
+			vendorButton.addActionListener(new ViewCategoryVendorListener(category));
 			tableModel.addToTable(category, vendorButton);
 		}
 
