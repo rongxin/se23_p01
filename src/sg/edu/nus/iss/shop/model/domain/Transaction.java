@@ -164,9 +164,9 @@ public class Transaction {
 	 * Should it compare the product codes?
 	 */
 	private TransactionDetail findTransactionDetail(Product product){
-		System.out.println("searching for " + product);
+		//System.out.println("searching for " + product);
 		for (TransactionDetail transactionDetail : transactionDetails) {
-			System.out.println("is " + transactionDetail.getProduct());
+			//System.out.println("is " + transactionDetail.getProduct());
 		    if (transactionDetail.getProduct().getProductId() == product.getProductId())
 		    	return transactionDetail;
 		}

@@ -190,9 +190,9 @@ public class TransactionManager {
 				Member m = (Member) transaction.getCustomer();
 
 				mm.reduceLoyalPoints(m, transaction.getLoyaltyPointsUsed());
-				//System.out.println(transaction.getCashPayed());
+				// System.out.println(transaction.getCashPayed());
 				int points = convertCashToPoints(transaction.getCashPayed());
-				//System.out.println(points);
+				// System.out.println(points);
 				mm.adjustLoyalPoints(m, -(points));
 			}
 			return true;
@@ -261,13 +261,20 @@ public class TransactionManager {
 		TransactionRecord transRecord;
 		for (Object tr : transList) {
 			transRecord = (TransactionRecord) tr;
-			System.out.println("Parsing " + transRecord.getProductId());
+			//System.out.println("Parsing " + transRecord.getProductId());
 			// Oscar: Adding the transaction to the list of transactions.
 			if (!transactions.containsKey(transRecord.getId())) {
 				// Transaction doesn't exist create a new one.
 				Transaction t = new Transaction(transRecord.getId(),
 						transRecord.getTransactionDate());
+				Customer m = MemberManager.getMemberManager().getMemberById(transRecord.getCustomerId());
+				if (m == null){
+					m = MemberManager.getMemberManager().generateNonMember();
+				}
+				t.setCustomer(m);
+				
 				transactions.put(t.getId(), t);
+				
 				// } else {
 				// Transaction exists in hash, do nothing
 			}
@@ -277,7 +284,7 @@ public class TransactionManager {
 						transRecord.getProductId());
 				// This guy is Throwing a generic Exception, need to change to a
 				// more defined Exception
-				System.out.println("Product " + p);
+				//System.out.println("Product " + p);
 				// Update the transaction with the product and quantity.
 				transactions.get(transRecord.getId()).changeProductQuantity(p,
 						transRecord.getQuantity());
@@ -334,11 +341,11 @@ public class TransactionManager {
 		for (Transaction t : allTransaction) {
 			if (startDate.before(t.getDate()) && endDate.after(t.getDate())) {
 				rangeTransactions.add(t);
-				System.out.println("inc " + startDate + " < " + t.getDate()
-						+ " < " + endDate);
+				// System.out.println("inc " + startDate + " < " + t.getDate() +
+				// " < " + endDate);
 			} else {
-				System.out.println("exc " + startDate + " < " + t.getDate()
-						+ " < " + endDate);
+				// System.out.println("exc " + startDate + " < " + t.getDate() +
+				// " < " + endDate);
 			}
 		}
 
