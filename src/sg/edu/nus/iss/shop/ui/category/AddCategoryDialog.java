@@ -8,6 +8,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -101,7 +102,10 @@ public class AddCategoryDialog extends OkCancelDialog {
 			return false;
 		}
 		Category category = shopApplication.addCategory(categoryCode, categoryName);
-		listPanel.getTableModel().addToTable(category);
+
+		JButton vendorButton = new JButton("Vendors");
+		vendorButton.addActionListener(new ViewCategoryVendorListener(category));
+		listPanel.getTableModel().addToTable(category, vendorButton);
 		return true;
 	}
 }
