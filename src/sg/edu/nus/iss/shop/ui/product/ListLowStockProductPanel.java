@@ -48,8 +48,7 @@ public class ListLowStockProductPanel extends JPanel {
 		}
 
 		JTable table = new JTable(tableModel);
-		TableCellRenderer buttonRenderer = new JTableButtonRenderer();
-		table.getColumn("Action").setCellRenderer(buttonRenderer);
+		table.getColumn("Action").setCellRenderer(new JTableButtonRenderer());
 		table.addMouseListener(new JTableButtonMouseListener(table));
 
 		table.setName("Items");

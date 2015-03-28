@@ -6,9 +6,13 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -101,7 +105,17 @@ public class AddCategoryDialog extends OkCancelDialog {
 			return false;
 		}
 		Category category = shopApplication.addCategory(categoryCode, categoryName);
-		listPanel.getTableModel().addToTable(category);
+
+		JButton vendorButton = new JButton("Vendors");
+		vendorButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(vendorButton), "vendor for product:"
+						+ category.getCode());
+
+			}
+		});
+		listPanel.getTableModel().addToTable(category, vendorButton);
 		return true;
 	}
 }
