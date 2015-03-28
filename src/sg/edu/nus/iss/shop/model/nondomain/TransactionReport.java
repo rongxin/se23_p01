@@ -100,6 +100,7 @@ public class TransactionReport extends Report {
 							transactionArray = new String[]{
 									String.valueOf(transactionId), 
 									/*customerId,*/
+									productId,
 									productName, 
 									productDescription, 
 									String.valueOf(quantity),
@@ -164,6 +165,7 @@ public class TransactionReport extends Report {
 		String[] transactionReportHeader = new String[]{
 				"Transaction Id",
 				/*"Category Id",*/
+				"Product Id",
 				"Product Name",
 				"Product Desc",
 				"Quantity",
