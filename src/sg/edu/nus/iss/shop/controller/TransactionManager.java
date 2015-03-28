@@ -135,7 +135,7 @@ public class TransactionManager {
 	 */
 	public Transaction endTransaction(Customer customer,
 			Hashtable<Product, Integer> products, double discountedAmount,
-			int loyalPointsUsed) throws Exception {
+			int loyalPointsUsed, double cashPayed) throws Exception {
 		// Getting the all transaction to get the next transaction ID
 		ArrayList<Transaction> list = getAllTransaction();
 		Transaction t = new Transaction(list.size() + 1, new Date());
@@ -144,6 +144,7 @@ public class TransactionManager {
 		t.setCustomer(customer);
 		t.setDiscount(discountedAmount);
 		t.setLoyaltyPointsUsed(loyalPointsUsed);
+		t.setCashPayed(cashPayed);
 
 		// Setting the transaction details.
 		for (Product key : products.keySet()) {
@@ -172,6 +173,10 @@ public class TransactionManager {
 
 		// Update Member DB
 		updateMemberPoints(transaction);
+		
+		//Print the transaction
+		PrinterManager pm = PrinterManager.getInstance();
+		pm.PrintTransaction(transaction);
 	}
 
 	/**

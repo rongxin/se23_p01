@@ -283,7 +283,7 @@ public class ShopApplication {
 
 		try {
 			transactionResult = transactionManager.endTransaction(customer, productsWithCount, discount,
-					loyalPointsUsed);
+					loyalPointsUsed,100.00);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
