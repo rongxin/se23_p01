@@ -99,14 +99,14 @@ public class ActionButtonsPanel extends JPanel {
 		});
 		add(checkoutButton);
 
-		JButton cancelButton = new JButton("Cancel");
-		cancelButton.addActionListener(new ActionListener() {
+		JButton returnButton = new JButton("Return");
+		returnButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				checkoutWindow.dispose();
 			}
 		});
-		add(cancelButton);
+		add(returnButton);
 
 	}
 
