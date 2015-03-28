@@ -193,7 +193,7 @@ public class TransactionManager {
 				// System.out.println(transaction.getCashPayed());
 				int points = convertCashToPoints(transaction.getCashPayed());
 				// System.out.println(points);
-				mm.adjustLoyalPoints(m, -(points));
+				mm.increaseLoyalPoints(m, points);
 			}
 			return true;
 		} catch (ApplicationGUIException e) {
