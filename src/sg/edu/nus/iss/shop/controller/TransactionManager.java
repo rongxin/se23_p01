@@ -71,7 +71,8 @@ public class TransactionManager {
 
 		// Remove the non 100 points value
 		// Disabled this if you don't want to use the 100 based points value
-		//points = (int) (Math.floor(points / RATE_POINTS_TO_CASH_MIN_POINTS) * RATE_POINTS_TO_CASH_MIN_POINTS);
+		// points = (int) (Math.floor(points / RATE_POINTS_TO_CASH_MIN_POINTS) *
+		// RATE_POINTS_TO_CASH_MIN_POINTS);
 
 		// Change value to double if you don't want to use the 100 based points
 		// value
@@ -109,9 +110,9 @@ public class TransactionManager {
 	public double calculateCashToPay(int loyalPointsUsed, double finalAmount) {
 		double cash;
 		cash = convertPointsToCash(loyalPointsUsed);
-		//int maxPoints = maxNumberOfPointsForAmount(finalAmount);
+		// int maxPoints = maxNumberOfPointsForAmount(finalAmount);
 		// System.out.println(maxPoints);
-		//if (maxPoints <= loyalPointsUsed) {
+		// if (maxPoints <= loyalPointsUsed) {
 		if (finalAmount <= cash) {
 			// throw new Exception(
 			// "You don't need to use that many amount of points you only need: "
@@ -133,7 +134,7 @@ public class TransactionManager {
 	 * @throws Exception
 	 */
 	public Transaction endTransaction(Customer customer,
-			Hashtable<Product, Integer> products, int discount,
+			Hashtable<Product, Integer> products, double discountedAmount,
 			int loyalPointsUsed) throws Exception {
 		// Getting the all transaction to get the next transaction ID
 		ArrayList<Transaction> list = getAllTransaction();
@@ -141,24 +142,22 @@ public class TransactionManager {
 
 		// Setting the customer.
 		t.setCustomer(customer);
-		t.setDiscount(discount);
+		t.setDiscount(discountedAmount);
 		t.setLoyaltyPointsUsed(loyalPointsUsed);
-		t.setCashPayed(calculateCashToPay(loyalPointsUsed, t.getFinalPrice()));
 
 		// Setting the transaction details.
 		for (Product key : products.keySet()) {
 			t.changeProductQuantity(key, products.get(key));
 		}
+		t.setCashPayed(calculateCashToPay(loyalPointsUsed, t.getFinalPrice()));
 
 		endTransaction(t);
 		return t;
 	}
 
 	/**
-	 * Update the DB following the below 
-	 * <li> The products quantity
-	 * <li> The Transactions
-	 * <li> Member Points
+	 * Update the DB following the below <li>The products quantity <li>The
+	 * Transactions <li>Member Points
 	 * 
 	 * @param transaction
 	 * @throws ApplicationGUIException
@@ -177,6 +176,7 @@ public class TransactionManager {
 
 	/**
 	 * Update the Member Points
+	 * 
 	 * @param transaction
 	 * @return true if success
 	 * @throws ApplicationGUIException
@@ -190,9 +190,10 @@ public class TransactionManager {
 				Member m = (Member) transaction.getCustomer();
 
 				mm.reduceLoyalPoints(m, transaction.getLoyaltyPointsUsed());
-
+				//System.out.println(transaction.getCashPayed());
 				int points = convertCashToPoints(transaction.getCashPayed());
-				mm.adjustLoyalPoints(m, points);
+				//System.out.println(points);
+				mm.adjustLoyalPoints(m, -(points));
 			}
 			return true;
 		} catch (ApplicationGUIException e) {
@@ -204,6 +205,7 @@ public class TransactionManager {
 
 	/**
 	 * Add the Transaction to the DB
+	 * 
 	 * @param transaction
 	 * @return
 	 * @throws ApplicationGUIException
@@ -221,6 +223,7 @@ public class TransactionManager {
 
 	/**
 	 * Update the Products quantity
+	 * 
 	 * @param transaction
 	 * @return
 	 * @throws ApplicationGUIException
@@ -233,7 +236,8 @@ public class TransactionManager {
 					.getTransactionDetails()) {
 				pm.adjustQuantity(transactionDetail.getProduct(),
 						transactionDetail.getQuantity());
-
+				// System.out.println(transactionDetail.getProduct() + " " +
+				// transactionDetail.getQuantity());
 			}
 			return true;
 		} catch (ApplicationGUIException e) {
@@ -245,6 +249,7 @@ public class TransactionManager {
 
 	/**
 	 * Parse List of TransactionRecord to List of Transactions
+	 * 
 	 * @param transList
 	 * @return
 	 * @throws ApplicationGUIException
@@ -279,7 +284,8 @@ public class TransactionManager {
 			} catch (ApplicationGUIException e) {
 				// TODO Auto-generated catch block
 				// e.printStackTrace();
-				System.out.println("No product found: " + transRecord.getProductId());
+				System.out.println("No product found: "
+						+ transRecord.getProductId());
 				throw e;
 			}
 		}
@@ -292,10 +298,12 @@ public class TransactionManager {
 
 	/**
 	 * Return all Transactions in the DB
+	 * 
 	 * @return
 	 * @throws ApplicationGUIException
 	 */
-	public ArrayList<Transaction> getAllTransaction() throws ApplicationGUIException {
+	public ArrayList<Transaction> getAllTransaction()
+			throws ApplicationGUIException {
 		try {
 			List<TransactionRecord> transList;
 			transList = PersistentService.getService().retrieveAll(
@@ -304,30 +312,33 @@ public class TransactionManager {
 		} catch (IOException | InvalidDataFormat | InvalidDomainObject e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			//Should I return null or throw exception??
-			//return null;
+			// Should I return null or throw exception??
+			// return null;
 			throw new ApplicationGUIException(e.getMessage());
 		}
 	}
 
 	/**
 	 * Return all transactions applicable for the specific range.
+	 * 
 	 * @param startDate
 	 * @param endDate
 	 * @return
 	 * @throws ApplicationGUIException
 	 */
-	public ArrayList<Transaction> getAllTransaction(Date startDate,
-			Date endDate) throws ApplicationGUIException {
+	public ArrayList<Transaction> getAllTransaction(Date startDate, Date endDate)
+			throws ApplicationGUIException {
 		ArrayList<Transaction> allTransaction = getAllTransaction();
 		ArrayList<Transaction> rangeTransactions = new ArrayList<Transaction>();
 
 		for (Transaction t : allTransaction) {
 			if (startDate.before(t.getDate()) && endDate.after(t.getDate())) {
 				rangeTransactions.add(t);
-				System.out.println("inc " + startDate + " < " + t.getDate() + " < " + endDate);
-			}else{
-				System.out.println("exc " + startDate + " < " + t.getDate() + " < " + endDate);
+				System.out.println("inc " + startDate + " < " + t.getDate()
+						+ " < " + endDate);
+			} else {
+				System.out.println("exc " + startDate + " < " + t.getDate()
+						+ " < " + endDate);
 			}
 		}
 
