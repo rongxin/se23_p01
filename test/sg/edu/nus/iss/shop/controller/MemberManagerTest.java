@@ -74,26 +74,7 @@ public class MemberManagerTest {
 	}
 	
 	@Test
-	public void testReduceLoyalPoint2(){
-		String testMemberId = "A0135925";
-		String testMemberName = "Tao Tong";
-		int previousMaxDiscount = 0;
-		
-		try {
-			MemberManager.getMemberManager().addMember(testMemberId, testMemberName);
-			Member testMember = MemberManager.getMemberManager().getMemberById(testMemberId);
-			
-			previousMaxDiscount = testMember.getMaxDiscount().getDiscountPercentage();
-			
-		} catch (ApplicationGUIException e) {
-			e.printStackTrace();
-		}
-		
-		
-	}
-	
-	@Test
-	public void testAdjustLoyalPoints() {
+	public void testIncreaseLoyalPoints() {
 		String testMemberId = "A0135925";
 		String testMemberName = "Tao Tong";
 		int earnPoints = 100;

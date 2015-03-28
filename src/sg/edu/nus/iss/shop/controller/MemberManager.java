@@ -10,6 +10,7 @@ import sg.edu.nus.iss.shop.dao.exception.InvalidDomainObject;
 import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.Member;
 import sg.edu.nus.iss.shop.model.domain.NonMemberCustomer;
+import sg.edu.nus.iss.shop.util.Logger;
 
 public class MemberManager {
 	private static final String NOT_SUFFICIENT_POINTS_ERROR_MESSAGE = "There is insufficient points in member's account.";
@@ -21,7 +22,8 @@ public class MemberManager {
 	private static final int MIN_NAME_LENGTH = 5;
 	private static final int MAX_NAME_LENGTH = 30;
 	private static MemberManager theOnlyMemberManager;
-
+	private Logger log = Logger.getLog();
+	
 	private MemberManager() {
 
 	}
@@ -128,7 +130,8 @@ public class MemberManager {
 
 	public void increaseLoyalPoints(Member member, int earnPoints)
 			throws ApplicationGUIException {
-		System.out.println(member.getName() + ", " + member.getLoyalPoints());
+//		System.out.println(member.getName() + ", " + member.getLoyalPoints());
+		log.log(member.getName() + ", " + member.getLoyalPoints());
 
 		if (member.getLoyalPoints() < 0) {
 			member.setLoyalPoints(0);
