@@ -121,6 +121,17 @@ public class ShopApplication {
 		return products;
 	}
 
+	public List<Product> getLowStockProducts(List<Product> checkProducts) {
+		List<Product> products = new ArrayList<>();
+		try {
+			products = productManager.getProductsWithLowInventory(checkProducts);
+		} catch (ApplicationGUIException e) {
+			e.printStackTrace();
+		}
+
+		return products;
+	}
+
 	public Product addProduct(String categoryCode, String name, String description, Integer availableQuantity,
 			Double price, String barcodeNumber, Integer orderThreshold, Integer orderQuantity) {
 
@@ -235,7 +246,6 @@ public class ShopApplication {
 			e.printStackTrace();
 			return null;
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
 		}
@@ -266,7 +276,8 @@ public class ShopApplication {
 		return cashToPay;
 	}
 
-	public Transaction checkout(List<Product> products, Customer customer, Integer loyalPointsUsed, Integer discount) {
+	public Transaction checkout(List<Product> products, Customer customer, Integer loyalPointsUsed,
+			Double discountedPrice, Double paidAmount) {
 
 		Transaction transactionResult = null;
 
@@ -282,8 +293,8 @@ public class ShopApplication {
 		}
 
 		try {
-			transactionResult = transactionManager.endTransaction(customer, productsWithCount, discount,
-					loyalPointsUsed,100.00);
+			transactionResult = transactionManager.endTransaction(customer, productsWithCount, discountedPrice,
+					loyalPointsUsed, paidAmount);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -296,5 +307,6 @@ public class ShopApplication {
 		List<Discount> allDiscounts = discountManager.getAllDiscounts();
 		return allDiscounts;
 	}
+
 
 }
