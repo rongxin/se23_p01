@@ -3,6 +3,8 @@
  */
 package sg.edu.nus.iss.shop.model.domain;
 
+import sg.edu.nus.iss.shop.controller.CategoryManager;
+
 public class Product {
 
 	private String productId;
@@ -13,6 +15,7 @@ public class Product {
 	private String barcodeNumber;
 	private int orderThreshold;
 	private int orderQuantity;
+	private Category category;
 
 	/**
 	 * Constructor for Product
@@ -207,5 +210,37 @@ public class Product {
 		} else if (!productId.equals(other.productId))
 			return false;
 		return true;
+	}
+	
+	/**
+	 * Method to get Category
+	 * @return category for this Product      
+	 * */
+	public Category getCategory() {
+		//Lazy load Category
+		loadCategory();
+		return this.category;
+	}
+	
+	/**
+	 * Method to set category for this product
+	 * @param category for this product   
+	 * */
+	public void setCategory(Category category) {
+ 		this.category = category;
+ 	}
+	
+	/**
+	 * Method to load category by calling CategoryManager
+	 * */
+	private void loadCategory() {
+		this.category = null;
+		try {
+			//Retrieve Category for this particular category code
+			category = CategoryManager.getCategoryManager().getCategory(this.getProductId().substring(0, getProductId().length()));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		setCategory(this.category);
 	}
 }
