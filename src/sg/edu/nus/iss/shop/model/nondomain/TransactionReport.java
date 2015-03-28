@@ -32,7 +32,15 @@ public class TransactionReport extends Report {
 		this.endDate = new Date();
 	}
 	
-	public static TransactionReport getTransactionReport(Date startDate, Date endDate){
+	public static TransactionReport getTransactionReport(Date startDate, Date endDate) throws ApplicationGUIException{
+		Date currentDate = new Date();
+		if(startDate.after(currentDate)){
+			throw new ApplicationGUIException("Start Date cannot be a future Date");
+		}else if(endDate.after(currentDate)){
+			throw new ApplicationGUIException("End Date cannot be a future Date");
+		}else if(startDate.after(endDate)){
+			throw new ApplicationGUIException("Start Date cannot be more than End Date");
+		}
 		if(TransactionReport.theOnlyTransactionReport == null){
 			TransactionReport.theOnlyTransactionReport = new TransactionReport();
 		}
@@ -87,11 +95,11 @@ public class TransactionReport extends Report {
 							transactionDate = transaction.getDate();
 							customerInTransaction = transaction.getCustomer();
 							
-							customerId = customerInTransaction.getId();
+							//customerId = customerInTransaction.getId();
 							
 							transactionArray = new String[]{
 									String.valueOf(transactionId), 
-									customerId,
+									/*customerId,*/
 									productName, 
 									productDescription, 
 									String.valueOf(quantity),
@@ -155,7 +163,7 @@ public class TransactionReport extends Report {
 
 		String[] transactionReportHeader = new String[]{
 				"Transaction Id",
-				"Category Id",
+				/*"Category Id",*/
 				"Product Name",
 				"Product Desc",
 				"Quantity",
