@@ -5,6 +5,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Hashtable;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -16,6 +19,7 @@ import javax.swing.JTable;
 import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
+import sg.edu.nus.iss.shop.ui.util.ProductItemsHelper;
 
 public class PurchaseSummaryPanel extends JPanel {
 
@@ -40,7 +44,12 @@ public class PurchaseSummaryPanel extends JPanel {
 
 		JLabel messageLabel = new JLabel("Transaction Completed!");
 		add(messageLabel, gc);
+		gc = createInventoryAlertPanel();
+		add(inventoryAlertPanel, gc);
+	}
 
+	private GridBagConstraints createInventoryAlertPanel() {
+		GridBagConstraints gc;
 		tableModel = new LowInventoryProductTableModel();
 
 		JTable table = new JTable(tableModel);
@@ -58,11 +67,15 @@ public class PurchaseSummaryPanel extends JPanel {
 		inventoryAlertPanel.add("North", alertLabel);
 		inventoryAlertPanel.add("Center", scrollPane);
 		inventoryAlertPanel.setVisible(false);
-		add(inventoryAlertPanel, gc);
+		return gc;
 	}
 
 	public void refreshPurchaseSummaryPanel() {
-		List<Product> lowStockProducts = shopApplication.getLowStockProducts(checkoutWindow.getProducts());
+		Hashtable<Product, Integer> productsWithCounts = ProductItemsHelper
+				.convertProductListToHashTable(checkoutWindow.getProducts());
+		ArrayList<Product> uniqueProducts = Collections.list(productsWithCounts.keys());
+		List<Product> lowStockProducts = shopApplication
+				.getLowStockProducts(uniqueProducts);
 		if (lowStockProducts.size() > 0) {
 			inventoryAlertPanel.setVisible(true);
 		}

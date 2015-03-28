@@ -73,10 +73,12 @@ public class ActionButtonsPanel extends JPanel {
 		checkoutButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String paidAmount = checkoutWindow.getMakePaymentPanel().getPaidAmountField().getText().trim();
-				if ("".equals(paidAmount)) {
+				String cashReceived = checkoutWindow.getMakePaymentPanel().getPaidAmountField().getText().trim();
+				if ("".equals(cashReceived)) {
 					JOptionPane.showMessageDialog(null, "Please input amount paid by customer.");
 				}
+
+				checkoutWindow.setCashReceived(new Double(cashReceived));
 
 				CardLayout cl = (CardLayout) (checkoutWindow.getPurchaseCardPanel().getLayout());
 				cl.show(checkoutWindow.getPurchaseCardPanel(), CARD_SUMMARY);
@@ -86,7 +88,7 @@ public class ActionButtonsPanel extends JPanel {
 
 				shopApplication.checkout(checkoutWindow.getProducts(), checkoutWindow.getCustomer(),
 						checkoutWindow.getLoyalPointsUsed(),
-						checkoutWindow.getTotalDiscountedPrice(), new Double(paidAmount));
+						checkoutWindow.getTotalDiscountedPrice(), new Double(cashReceived));
 
 				checkoutWindow.getPurchaseSummaryPanel().refreshPurchaseSummaryPanel();
 			}
