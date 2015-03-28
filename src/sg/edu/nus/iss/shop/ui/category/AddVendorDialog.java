@@ -8,7 +8,6 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -19,21 +18,21 @@ import sg.edu.nus.iss.shop.model.domain.Category;
 import sg.edu.nus.iss.shop.ui.OkCancelDialog;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
-import sg.edu.nus.iss.shop.ui.util.TextFieldLimit;
 
-public class AddCategoryDialog extends OkCancelDialog {
+public class AddVendorDialog extends OkCancelDialog {
 
 	private static final long serialVersionUID = 1L;
 	private ShopApplication shopApplication;
-	private JTextField categoryCodeField;
+	private Category category;
 	private JTextField categoryNameField;
 	private JLabel messageLabel;
-	private ListCategoryPanel listPanel;
+	private ListVendorPanel listPanel;
 
-	public AddCategoryDialog(ShopApplication shopApplication, ListCategoryPanel listPanel) {
-		super(shopApplication.getMainWindow().getMainPanel().getCategoryWindow(), "Add Category");
+	public AddVendorDialog(ShopApplication shopApplication, ListVendorPanel listPanel, Category category) {
+		super(shopApplication.getMainWindow().getMainPanel().getCategoryWindow(), "Add Vendor");
 		this.shopApplication = shopApplication;
 		this.listPanel = listPanel;
+		this.category = category;
 	}
 
 	@Override
@@ -68,16 +67,8 @@ public class AddCategoryDialog extends OkCancelDialog {
 
 		// column 2
 		gc = LayoutHelper.createCellConstraint(1, 0);
-		gc.anchor = GridBagConstraints.LAST_LINE_START;
-		gc.fill = GridBagConstraints.NONE;
-		categoryCodeField = new JTextField(3);
-		categoryCodeField.setDocument(new TextFieldLimit(3));
-		categoryCodeField.setToolTipText("Please input three-letter code for the new category");
-		p.add(categoryCodeField, gc);
-
-		gc = LayoutHelper.createCellConstraint(1, 1);
 		categoryNameField = new JTextField(20);
-		categoryNameField.setToolTipText("Please input name for the category");
+		categoryNameField.setToolTipText("Please input name for the vendor");
 		p.add(categoryNameField, gc);
 
 		return p;
@@ -94,18 +85,19 @@ public class AddCategoryDialog extends OkCancelDialog {
 
 	@Override
 	protected boolean performOkAction() {
-		String categoryCode = categoryCodeField.getText().trim();
 		String categoryName = categoryNameField.getText().trim();
-		if ((categoryCode.length() == 0) || (categoryName.length() == 0)) {
+		if ((categoryName.length() == 0)) {
 			messageLabel.setText("Category code and  name are compulsory.");
 			messageLabel.setForeground(Color.RED);
 			return false;
 		}
-		Category category = shopApplication.addCategory(categoryCode, categoryName);
+		// Category category = shopApplication.addVendor(categoryCode,
+		// categoryName);
 
-		JButton vendorButton = new JButton("Vendors");
-		vendorButton.addActionListener(new ViewCategoryVendorListener(shopApplication, category));
-		listPanel.getTableModel().addToTable(category, vendorButton);
+		// JButton vendorButton = new JButton("Vendors");
+		// vendorButton.addActionListener(new
+		// ViewCategoryVendorListener(category));
+		// listPanel.getTableModel().addToTable(category, vendorButton);
 		return true;
 	}
 }
