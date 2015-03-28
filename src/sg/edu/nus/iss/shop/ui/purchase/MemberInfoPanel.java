@@ -1,12 +1,14 @@
 package sg.edu.nus.iss.shop.ui.purchase;
 
-import java.awt.GridLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
+import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
 
 public class MemberInfoPanel extends JPanel {
 
@@ -24,36 +26,58 @@ public class MemberInfoPanel extends JPanel {
 	}
 
 	private void initMemerInfoPanel() {
-		setLayout(new GridLayout(0, 2));
-		setVisible(false);
+		setLayout(new GridBagLayout());
 
 		setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(" Customer  Information "),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
+		GridBagConstraints gc;
+
+		// column 1
+		gc = LayoutHelper.createCellConstraint(0, 0);
 		JLabel memberTypeLabel = new JLabel("Customer Type: ");
-		add(memberTypeLabel);
+		add(memberTypeLabel, gc);
 
-		memberTypeValuelabel = new JLabel("");
-		add(memberTypeValuelabel);
-
+		gc = LayoutHelper.createCellConstraint(0, 1);
 		JLabel memberIdLabel = new JLabel("Member ID: ");
-		add(memberIdLabel);
+		add(memberIdLabel, gc);
 
-		memberIdValuelabel = new JLabel("");
-		add(memberIdValuelabel);
-
+		gc = LayoutHelper.createCellConstraint(0, 2);
 		JLabel memberNameLabel = new JLabel("Member Name: ");
-		add(memberNameLabel);
+		add(memberNameLabel, gc);
 
-		memberNameValuelabel = new JLabel("");
-		add(memberNameValuelabel);
-
+		gc = LayoutHelper.createCellConstraint(0, 3);
 		JLabel loyaltypointsLabel = new JLabel("Loyalty Points: ");
-		add(loyaltypointsLabel);
+		add(loyaltypointsLabel, gc);
 
+		gc = LayoutHelper.createCellConstraint(0, 4);
+		add(new JLabel(), gc);
+
+		gc = LayoutHelper.createCellConstraint(0, 5);
+		add(new JLabel(), gc);
+
+		// column 2
+		gc = LayoutHelper.createCellConstraint(1, 0);
+		memberTypeValuelabel = new JLabel("");
+		add(memberTypeValuelabel, gc);
+
+		gc = LayoutHelper.createCellConstraint(1, 1);
+		memberIdValuelabel = new JLabel("");
+		add(memberIdValuelabel, gc);
+
+		gc = LayoutHelper.createCellConstraint(1, 2);
+		memberNameValuelabel = new JLabel("");
+		add(memberNameValuelabel, gc);
+
+		gc = LayoutHelper.createCellConstraint(1, 3);
 		memberLoyaltyPointsValueLabel = new JLabel("0");
-		add(memberLoyaltyPointsValueLabel);
+		add(memberLoyaltyPointsValueLabel, gc);
 
+		gc = LayoutHelper.createCellConstraint(1, 4);
+		add(new JPanel(), gc);
+
+		gc = LayoutHelper.createCellConstraint(1, 5);
+		add(new JPanel(), gc);
 	}
 
 	public JLabel getMemberTypeValuelabel() {
