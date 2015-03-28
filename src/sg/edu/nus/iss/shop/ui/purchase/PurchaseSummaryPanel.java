@@ -1,5 +1,7 @@
 package sg.edu.nus.iss.shop.ui.purchase;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -20,6 +22,7 @@ public class PurchaseSummaryPanel extends JPanel {
 	private CheckoutWindow checkoutWindow;
 	private ShopApplication shopApplication;
 	private LowInventoryProductTableModel tableModel;
+	private JPanel inventoryAlertPanel;
 
 	public PurchaseSummaryPanel(CheckoutWindow checkoutWindow, ShopApplication shopApplication) {
 		this.checkoutWindow = checkoutWindow;
@@ -48,16 +51,30 @@ public class PurchaseSummaryPanel extends JPanel {
 		scrollPane.setPreferredSize(new Dimension(300, 300));
 
 		gc = LayoutHelper.createCellConstraint(0, 1);
-		add(scrollPane, gc);
+
+		inventoryAlertPanel = new JPanel(new BorderLayout());
+		JLabel alertLabel = new JLabel("Below products are at low inventory level!");
+		alertLabel.setForeground(Color.red);
+		inventoryAlertPanel.add("North", alertLabel);
+		inventoryAlertPanel.add("Center", scrollPane);
+		inventoryAlertPanel.setVisible(false);
+		add(inventoryAlertPanel, gc);
 	}
 
 	public void refreshPurchaseSummaryPanel() {
 		List<Product> lowStockProducts = shopApplication.getLowStockProducts(checkoutWindow.getProducts());
+		if (lowStockProducts.size() > 0) {
+			inventoryAlertPanel.setVisible(true);
+		}
+
 		for (Product product : lowStockProducts) {
 			tableModel.addItem(product);
 		}
 
 	}
 
+	public JPanel getInventoryAlertPanel() {
+		return inventoryAlertPanel;
+	}
 
 }

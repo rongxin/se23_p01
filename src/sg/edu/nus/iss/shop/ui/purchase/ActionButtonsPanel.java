@@ -10,7 +10,6 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import sg.edu.nus.iss.shop.model.domain.Transaction;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 
 public class ActionButtonsPanel extends JPanel {
@@ -85,7 +84,7 @@ public class ActionButtonsPanel extends JPanel {
 				checkoutButton.setEnabled(false);
 				proceedPaymentButton.setEnabled(false);
 
-				Transaction transaction = shopApplication.checkout(checkoutWindow.getProducts(), checkoutWindow.getCustomer(),
+				shopApplication.checkout(checkoutWindow.getProducts(), checkoutWindow.getCustomer(),
 						checkoutWindow.getLoyalPointsUsed(),
 						checkoutWindow.getTotalDiscountedPrice(), new Double(paidAmount));
 

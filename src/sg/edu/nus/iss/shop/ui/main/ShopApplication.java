@@ -124,8 +124,7 @@ public class ShopApplication {
 	public List<Product> getLowStockProducts(List<Product> checkProducts) {
 		List<Product> products = new ArrayList<>();
 		try {
-			// TODO use get low inventory product for a specific list
-			products = productManager.getProductsWithLowInventory();
+			products = productManager.getProductsWithLowInventory(checkProducts);
 		} catch (ApplicationGUIException e) {
 			e.printStackTrace();
 		}
@@ -247,7 +246,6 @@ public class ShopApplication {
 			e.printStackTrace();
 			return null;
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
 		}
