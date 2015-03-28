@@ -47,6 +47,5 @@ public class DataWriter extends DataRespository
 		}		
 		pw.close();
 		fw.close();
-	}
-	
+	}	
 }

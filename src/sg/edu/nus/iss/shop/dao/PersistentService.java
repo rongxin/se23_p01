@@ -22,6 +22,7 @@ import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.model.domain.StoreKeeper;
 import sg.edu.nus.iss.shop.model.domain.Transaction;
 import sg.edu.nus.iss.shop.model.domain.Vendor;
+import sg.edu.nus.iss.shop.util.Logger;
 
 public class PersistentService
 {
@@ -49,7 +50,7 @@ public class PersistentService
 					dataWriter.finalize();
 				} catch (Throwable e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					//e.printStackTrace();
 				}
 			}
 		});
@@ -569,7 +570,8 @@ public class PersistentService
 			dataWriter.finalize();
 			service = null;
 		} catch (Throwable e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			Logger.getLog().log(e.getMessage());
 		}
 	}
 

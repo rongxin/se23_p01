@@ -7,11 +7,12 @@ import sg.edu.nus.iss.shop.dao.PersistentService;
 import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.model.domain.StoreKeeper;
+import sg.edu.nus.iss.shop.util.Logger;
 
 public class AdminManager {
 
 	private static AdminManager theOnlyAdminManager;
-	
+	private Logger log = Logger.getLog();
 	private AdminManager() {
 	}
 	public static AdminManager getAdminManager() {
@@ -25,6 +26,7 @@ public class AdminManager {
 	{
 		if (username.isEmpty() || password.isEmpty()) {	
 			System.out.println("username or password empty and return null");
+			log.log("username or password empty and return null");
 			return null;
 		}		
 		List<StoreKeeper> storeKeepers = getAllStoreKeepers();
@@ -33,11 +35,13 @@ public class AdminManager {
 			StoreKeeper storekeeper = it.next();
 			if (storekeeper.getName().equals(username) && storekeeper.getPassword().equals(password)) {
 				System.out.println("Login success username:"+username+" pass:"+password);
+				log.log("Login success username:"+username+" pass:"+password);
 				return storekeeper;
 			}	
 			
 		}
-		System.out.println("Login fail and return null username:"+username+" pass:"+password);			
+		System.out.println("Login fail and return null username:"+username+" pass:"+password);
+		log.log("Login fail and return null username:"+username+" pass:"+password);
 		return null;
 	
 	}
@@ -85,9 +89,11 @@ public class AdminManager {
 			//change password
 			oldStoreKeeper.setPassword(newpassword);	
 			System.out.println("Password Changed to "+newpassword);
+			log.log("Password Changed to "+newpassword);
 			try {
 				PersistentService.getService().saveRecord(oldStoreKeeper);				
 				System.out.println("Password Changed to "+newpassword +"Saved Record");
+				log.log("Password Changed to "+newpassword +"Saved Record");
 			}catch(Exception e){
 				throw new ApplicationGUIException(e.toString());
 			}

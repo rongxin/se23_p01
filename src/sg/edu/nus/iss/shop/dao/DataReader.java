@@ -9,8 +9,11 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import sg.edu.nus.iss.shop.util.Logger;
+
 public class DataReader extends DataRespository
 {
+	private Logger logger = Logger.getLog();
 	public List<DataRecord> read(String dataSetName)  
 	{
 		super.setupRepository();
@@ -25,6 +28,7 @@ public class DataReader extends DataRespository
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			//e.printStackTrace();
+			logger.log(e.getMessage());
 			return records;
 		}
 		
@@ -39,7 +43,8 @@ public class DataReader extends DataRespository
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
+			logger.log(e.getMessage());
 		}
 		finally
 		{
@@ -50,7 +55,8 @@ public class DataReader extends DataRespository
 					br.close();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					//e.printStackTrace();
+					logger.log(e.getMessage());
 				}
 			}
 		}

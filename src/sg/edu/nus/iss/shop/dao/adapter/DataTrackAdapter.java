@@ -2,12 +2,14 @@ package sg.edu.nus.iss.shop.dao.adapter;
 
 import sg.edu.nus.iss.shop.dao.DaoConstant;
 import sg.edu.nus.iss.shop.dao.DataRecord;
+import sg.edu.nus.iss.shop.util.Logger;
  
 public class DataTrackAdapter implements DataRecordAdapter
 {
 
-	DataRecord dataRecord;
-	String dataSetName;
+	private Logger logger = Logger.getLog();
+	private DataRecord dataRecord;
+	private String dataSetName;
 	
 	/**
 	 * Convert dirty data to tracked data
@@ -43,11 +45,14 @@ public class DataTrackAdapter implements DataRecordAdapter
 		String recordString =dataRecord.toString();
 		int pkIndx = recordString.indexOf("*#PK#*" + DaoConstant.SEPARATOR);
 		
-		System.out.println("recordString:" + recordString);
+		logger.log("recordString:" + recordString);
+		
 		String dirtyData = recordString.substring(pkIndx+("*#PK#*" + DaoConstant.SEPARATOR).length());
-		System.out.println("dirtyData:" + dirtyData);
+		//System.out.println("dirtyData:" + dirtyData);
+		logger.log("dirtyData:" + dirtyData);
 		String pkValue = recordString.substring(0, pkIndx-1);
-		System.out.println("pkValue:" + pkValue);
+		//System.out.println("pkValue:" + pkValue);
+		logger.log("pkValue:" + pkValue);
 		
 		String[] pkValues = pkValue.split(DaoConstant.SEPARATOR);
 		
@@ -66,8 +71,8 @@ public class DataTrackAdapter implements DataRecordAdapter
 		 
 		DataRecord newRecord = new DataRecord(dirtyData);
 		newRecord.setPk(sbPK.toString());
-		System.out.println("sbPK:" + sbPK.toString());
-		
+		//System.out.println("sbPK:" + sbPK.toString());
+		logger.log("sbPK:" + sbPK.toString());
 		return newRecord;
 	}
 	
