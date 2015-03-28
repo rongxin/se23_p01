@@ -20,6 +20,7 @@ public class Transaction {
 	private double discount;
 	private int loyaltyPointsUsed;
 	private double cashPayed;
+	private double amountReceived;
 
 	public Transaction(int id, Date date){
 		super();
@@ -86,6 +87,10 @@ public class Transaction {
 		return totalPrice;
 	}
 
+	/**
+	 * Final price after loyal points are redeemed
+	 * @return
+	 */
 	public double getCashPayed() {
 		return cashPayed;
 	}
@@ -100,6 +105,14 @@ public class Transaction {
 	 */
 	public double getFinalPrice(){
 		return this.getTotalPrice() - this.discount;
+	}
+	
+	public double getAmountReceived() {
+		return amountReceived;
+	}
+
+	public void setAmountReceived(double amountReceived) {
+		this.amountReceived = amountReceived;
 	}
 
 	/**
