@@ -32,15 +32,21 @@ public class TransactionReport extends Report {
 		this.endDate = new Date();
 	}
 	
-	private TransactionReport(Date startDate, Date endDate){
-		this.startDate = startDate;
-		this.endDate = endDate;
-	}
-	
-	public static TransactionReport getTransactionReport(Date startDate, Date endDate){
-		if(TransactionReport.theOnlyTransactionReport == null){
-			TransactionReport.theOnlyTransactionReport = new TransactionReport(startDate, endDate);
+	public static TransactionReport getTransactionReport(Date startDate, Date endDate) throws ApplicationGUIException{
+		Date currentDate = new Date();
+		if(startDate.after(currentDate)){
+			throw new ApplicationGUIException("Start Date cannot be a future Date");
+		}else if(endDate.after(currentDate)){
+			throw new ApplicationGUIException("End Date cannot be a future Date");
+		}else if(startDate.after(endDate)){
+			throw new ApplicationGUIException("Start Date cannot be more than End Date");
 		}
+		if(TransactionReport.theOnlyTransactionReport == null){
+			TransactionReport.theOnlyTransactionReport = new TransactionReport();
+		}
+		//Added by Oscar: The dates are not being updated if the instance is already created.
+		TransactionReport.theOnlyTransactionReport.startDate = startDate;
+		TransactionReport.theOnlyTransactionReport.endDate = endDate;
 		return TransactionReport.theOnlyTransactionReport;
 	}
 	
@@ -76,7 +82,7 @@ public class TransactionReport extends Report {
 			if(sortedTransactionMap != null && !sortedTransactionMap.isEmpty()){
 				for(Integer transactionId : sortedTransactionMap.keySet()){
 					productSortedTDMap = sortedTransactionMap.get(transactionId);
-					if(productSortedTDMap != null && productSortedTDMap.isEmpty()){
+					if(productSortedTDMap != null && !productSortedTDMap.isEmpty()){
 						for(String productId : productSortedTDMap.keySet()){
 							transactionDetail = productSortedTDMap.get(productId);
 							quantity = transactionDetail.getQuantity();
@@ -89,11 +95,11 @@ public class TransactionReport extends Report {
 							transactionDate = transaction.getDate();
 							customerInTransaction = transaction.getCustomer();
 							
-							customerId = customerInTransaction.getId();
+							//customerId = customerInTransaction.getId();
 							
 							transactionArray = new String[]{
 									String.valueOf(transactionId), 
-									customerId,
+									/*customerId,*/
 									productName, 
 									productDescription, 
 									String.valueOf(quantity),
@@ -157,7 +163,7 @@ public class TransactionReport extends Report {
 
 		String[] transactionReportHeader = new String[]{
 				"Transaction Id",
-				"Category Id",
+				/*"Category Id",*/
 				"Product Name",
 				"Product Desc",
 				"Quantity",
