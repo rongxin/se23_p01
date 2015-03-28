@@ -8,45 +8,44 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import sg.edu.nus.iss.shop.model.domain.Category;
-import sg.edu.nus.iss.shop.ui.JTableButtonMouseListener;
-import sg.edu.nus.iss.shop.ui.JTableButtonRenderer;
+import sg.edu.nus.iss.shop.model.domain.Vendor;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 
-public class ListCategoryPanel extends JPanel {
+public class ListVendorPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private ShopApplication shopApplication;
-	private CategoryTableModel tableModel;
+	private VendorTableModel tableModel;
+	private Category category;
 
-	public ListCategoryPanel(ShopApplication shopApplication) {
+	public ListVendorPanel(ShopApplication shopApplication, Category category) {
 		super();
 		this.shopApplication = shopApplication;
+		this.category = category;
 		this.add(createMainPanel());
 	}
 
 	private JPanel createMainPanel() {
 		JPanel p = new JPanel();
 
-		List<Category> categories = shopApplication.getCategories();
+		List<Vendor> vendors = category.getVendorList();
 
-		tableModel = new CategoryTableModel();
-		for (Category category : categories) {
+		tableModel = new VendorTableModel();
+		for (Vendor vendor : vendors) {
 			JButton vendorButton = new JButton("Vendors");
 			vendorButton.addActionListener(new ViewCategoryVendorListener(shopApplication, category));
-			tableModel.addToTable(category, vendorButton);
+			tableModel.addToTable(vendor);
 		}
 
 		JTable table = new JTable(tableModel);
-		table.getColumn("Action").setCellRenderer(new JTableButtonRenderer());
-		table.addMouseListener(new JTableButtonMouseListener(table));
 		table.setName("Items");
-		table.setEnabled(true);
+		table.setEnabled(false);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
 		JScrollPane scrollPane = new JScrollPane(table);
 		p.add(scrollPane);
 		return p;
 	}
 
-	public CategoryTableModel getTableModel() {
+	public VendorTableModel getTableModel() {
 		return tableModel;
 	}
 
