@@ -93,7 +93,8 @@ public class MakePaymentPanel extends JPanel {
 					JOptionPane.showMessageDialog(null, "Not enough loyalty points.");
 				}
 
-				Double cashToBePay = shopApplication.calculateCashToPay(loyalPoints, checkoutWindow.getTotalPayable());
+				Double cashToBePay = shopApplication.calculateCashToPay(loyalPointsToUse,
+						checkoutWindow.getTotalPayable());
 				amountToBePaidValue.setText(PriceHelper.getPriceDisplay(cashToBePay));
 				checkoutWindow.setLoyalPointsUsed(loyalPointsToUse);
 			}

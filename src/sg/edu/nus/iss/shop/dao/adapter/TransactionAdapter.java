@@ -58,7 +58,7 @@ public class TransactionAdapter
 		while(it.hasNext())
 		{
 			record = it.next();
-			System.out.println("record:" + record);
+			//System.out.println("record:" + record);
 			transList.add(convert(record)); 
 		}	 
 	}

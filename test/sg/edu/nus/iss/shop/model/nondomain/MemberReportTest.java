@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -30,24 +31,38 @@ public class MemberReportTest {
 	}
 	
 	@Test
-	public void testRetreiveAndGenerateReportData() throws ApplicationGUIException{
+	public void testRetreiveAndGenerateReportData(){
 		
 		List<String[]> memberReportList = null;
 		List<Member> memberList = null;
-		memberReportList = memberReport.retreiveAndGenerateReportData();
-		assertNotNull("The member report data should not be null", memberReportList);
-		if(memberReportList.size() > 0){
-			for(String[] memberArray : memberReportList){
-				assertNotNull("The member array should not be null!", memberArray);
-				boolean isInvalidaData = checkArrayHasNullOrEmpty(memberArray);
-				assertFalse("The value inside member array should not be null or empty", isInvalidaData == false);
+		try{
+			memberReportList = memberReport.retreiveAndGenerateReportData();
+			assertNotNull("The member report data should not be null", memberReportList);
+			if(memberReportList.size() > 0){
+				for(String[] memberArray : memberReportList){
+					assertNotNull("The member array should not be null!", memberArray);
+					boolean isInvalidaData = checkArrayHasNullOrEmpty(memberArray);
+					assertFalse("The value inside member array should not be null or empty", isInvalidaData == false);
+				}
+			}else{
+				memberList = memberManager.getAllMembers();	
+				assertFalse("The member report data is incorrect!", !memberList.isEmpty());
 			}
-		}else{
-			memberList = memberManager.getAllMembers();	
-			assertFalse("The member report data is incorrect!", !memberList.isEmpty());
+		}catch(ApplicationGUIException aguie){
+			aguie.printStackTrace();
+			Assert.fail(aguie.getDisplayMessage());
 		}
 	}
 	
+	@Test
+	public void testGetreportHeader(){
+		String[] reportHeaderArray = memberReport.getReportHeader();
+		if(reportHeaderArray != null && reportHeaderArray.length > 0){
+			assertFalse("The no of items in heading is incorrect.",reportHeaderArray.length != 3);
+		}else{
+			Assert.fail("The headers are incorrect");
+		}
+	}
 	
 	/**
 	 * Method to check whether the array got a invalid data
