@@ -9,12 +9,14 @@ import java.util.List;
 import sg.edu.nus.iss.shop.controller.ProductManager;
 import sg.edu.nus.iss.shop.dao.PersistentService;
 import sg.edu.nus.iss.shop.model.domain.Vendor;
+import sg.edu.nus.iss.shop.util.Logger;
 
 public class Category {
 	private String code;
 	private String name;
 	private List<Vendor> vendorList;
 	private List<Product> productList;
+	private Logger log = Logger.getLog();
 
 	/**
 	 * Constructor for Category
@@ -118,7 +120,7 @@ public class Category {
 		try {
 			this.vendorList = PersistentService.getService().retrieveVendors(this);
 		} catch (Exception e) {
-			e.printStackTrace();	
+			log.log(e.toString());
 		}
 		setVendorList(this.vendorList);
 	}
@@ -158,7 +160,7 @@ public class Category {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.log(e.toString());
 		}
 		setProductList(this.productList );
 	}

@@ -5,6 +5,7 @@ package sg.edu.nus.iss.shop.controller;
 
 import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.Category;
+import sg.edu.nus.iss.shop.util.Logger;
 import sg.edu.nus.iss.shop.dao.PersistentService;
 
 import java.util.LinkedList;
@@ -17,7 +18,7 @@ public class CategoryManager {
 	private static final String INVALID_CODE_ERROR_MESSAGE = "Invalid Code";
 	private static final String INVALID_NAME_ERROR_MESSAGE = "Invalid Name";
 	private static final int FIXED_CODE_LENGTH = 3;
-
+	private Logger log = Logger.getLog();
 	// Private Constructor to prevent Object instantiation
 	private CategoryManager() {
 
@@ -98,7 +99,7 @@ public class CategoryManager {
 		try {
 			allCategories = PersistentService.getService().retrieveAll(Category.class);
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.log(e.toString());
 			throw new ApplicationGUIException(e.toString());
 		}
 		return allCategories;
