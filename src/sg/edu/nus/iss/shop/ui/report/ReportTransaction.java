@@ -1,5 +1,6 @@
 package sg.edu.nus.iss.shop.ui.report;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -28,9 +29,9 @@ public class ReportTransaction extends ReportTabPanel{
 	public JPanel createFilterPanel() {
 		JPanel panel = new JPanel();
 		JLabel lblStartDate = new JLabel("Start Date");
-		JTextField startDate = new JTextField();
+		JTextField startDate = new JTextField(10);
 		JLabel lblEndDate = new JLabel("End Date");
-		JTextField endDate = new JTextField();
+		JTextField endDate = new JTextField(10);
 		JButton refresh = new JButton("Refresh");
 		refresh.addActionListener(new ActionListener() {
 			@Override

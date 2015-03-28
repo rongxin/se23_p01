@@ -40,6 +40,7 @@ public abstract class ReportTabPanel extends JPanel {
 		Object columnNames[] = getHeader();
 
 		List<String[]> unformatedReportData = getData();
+		//System.out.println(unformatedReportData.size());
 		if (unformatedReportData != null && unformatedReportData.size() > 0) {
 			Object reportData[][] = new Object[unformatedReportData.size()][unformatedReportData
 					.get(0).length];

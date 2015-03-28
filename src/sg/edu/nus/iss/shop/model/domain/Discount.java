@@ -18,8 +18,7 @@ public abstract class Discount {
 	private String description;
 	private int discountPercentage;
 	
-	public Discount(String discountCode, String description, int discountPercentage) {
-		super();
+	protected Discount(String discountCode, String description, int discountPercentage) {
 		this.discountCode = discountCode;
 		this.description = description;
 		this.discountPercentage = discountPercentage;

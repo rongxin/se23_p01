@@ -119,13 +119,13 @@ public class MemberManager {
 //		return member.getLoyalPoints();
 	}
 
-	public void adjustLoyalPoints(Member member, int points)
+	public void increaseLoyalPoints(Member member, int earnPoints)
 			throws ApplicationGUIException {
-		if (points >= 0 && member.getLoyalPoints() < points) {
-			throw new ApplicationGUIException(
-					MemberManager.NOT_SUFFICIENT_POINTS_ERROR_MESSAGE);
-		} 
-		member.setLoyalPoints(member.getLoyalPoints() - points);
+		if (member.getLoyalPoints() < 0) {
+			member.setLoyalPoints(0);
+		}
+		
+		member.setLoyalPoints(member.getLoyalPoints() + earnPoints);
 		try {
 			PersistentService.getService().saveRecord(member);
 		} catch (Exception e) {
@@ -133,5 +133,4 @@ public class MemberManager {
 			throw new ApplicationGUIException(e.toString());
 		}
 	}
-
 }
