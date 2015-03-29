@@ -120,7 +120,7 @@ public class Category {
 		try {
 			this.vendorList = PersistentService.getService().retrieveVendors(this);
 		} catch (Exception e) {
-			log.log(e.toString());
+			log.log("loadVendorList:"+ e.toString());
 		}
 		setVendorList(this.vendorList);
 	}
@@ -160,7 +160,7 @@ public class Category {
 				}
 			}
 		} catch (Exception e) {
-			log.log(e.toString());
+			log.log("loadProductList:"+e.toString());
 		}
 		setProductList(this.productList );
 	}

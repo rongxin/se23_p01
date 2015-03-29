@@ -62,6 +62,7 @@ public class CategoryManager {
 			PersistentService.getService().saveRecord(new Category(code, name));
 			return new Category(code, name);
 		} catch (Exception e) {
+			log.log("createCategory:" + e.toString());
 			throw new ApplicationGUIException(e.toString());
 		}
 
@@ -82,6 +83,7 @@ public class CategoryManager {
 		try {
 			existingCategory = (Category) PersistentService.getService().retrieveObject(Category.class, code);
 		} catch (Exception e) {
+			log.log("getCategory:" + e.toString());
 			throw new ApplicationGUIException(e.toString());
 		}
 		return existingCategory;
@@ -99,7 +101,7 @@ public class CategoryManager {
 		try {
 			allCategories = PersistentService.getService().retrieveAll(Category.class);
 		} catch (Exception e) {
-			log.log(e.toString());
+			log.log("getAllCategories:" + e.toString());
 			throw new ApplicationGUIException(e.toString());
 		}
 		return allCategories;

@@ -241,7 +241,7 @@ public class Product {
 			//Retrieve Category for this particular category code
 			this.category = CategoryManager.getCategoryManager().getCategory(this.getProductId().substring(0, getProductId().length()));
 		} catch (Exception e) {
-			log.log(e.toString());
+			log.log("loadCategory" + e.toString());
 		}
 	}
 }

@@ -104,7 +104,7 @@ public class ProductManager {
 			PersistentService.getService().saveRecord(newProduct);
 			return newProduct;
 		} catch (Exception e) {
-			log.log(e.toString());
+			log.log("addProduct:" + e.toString());
 			throw new ApplicationGUIException(e.toString());
 		}
 	}
@@ -120,7 +120,7 @@ public class ProductManager {
 		try {
 			existingProduct = PersistentService.getService().retrieveObject(Product.class, productId);
 		}catch (Exception e) {
-			log.log(e.toString());
+			log.log("getProductById:" + e.toString());
 			throw new ApplicationGUIException(e.toString());
 		}
 		return existingProduct;
@@ -146,7 +146,7 @@ public class ProductManager {
 			}
 		} else {
 			//Log all products is null or isEmpty
-			log.log("All products is null or empty");
+			log.log("getProductByBarcode : Retrieved product list from getAllProducts() is null or empty");
 		}
 		return product;
 	}
@@ -161,7 +161,7 @@ public class ProductManager {
 		try {
 			allProducts  = PersistentService.getService().retrieveAll(Product.class);
 		}catch (Exception e){
-			log.log(e.toString());
+			log.log("getAllProducts():" + e.toString());
 			throw new ApplicationGUIException(e.toString());
 		}
 		return  allProducts;
@@ -186,7 +186,7 @@ public class ProductManager {
 			}
 		} else {
 			//Log all products is null or isEmpty
-			log.log("All products is null or empty");
+			log.log("getProductWithLowInventory : Retrieved product list from getAllProducts() is null or empty");
 		}
 		return lowInventoryProducts;
 	}
@@ -211,7 +211,7 @@ public class ProductManager {
 			}
 		} else {
 			//Log all products is null or isEmpty
-			log.log("Request product list is null or empty");
+			log.log("getProductWithLowInventory : Request product list is null or empty");
 		}
 		return lowInventoryProducts;
 	}
@@ -240,7 +240,7 @@ public class ProductManager {
 			}
 		} else {
 			//Log all products is null or isEmpty
-			log.log("All products is null or empty");
+			log.log("getProductForCategory: Retrieved product list from getAllProducts() is null or empty");
 		}
 		return productsWithCategory;
 	}
@@ -261,7 +261,7 @@ public class ProductManager {
 			try {
 				PersistentService.getService().saveRecord(existingProduct);
 			}catch(Exception e){
-				log.log(e.toString());
+				log.log("adjustQuantity:" + e.toString());
 				throw new ApplicationGUIException(e.toString());
 			}
 		} else {
