@@ -36,6 +36,8 @@ public class PersistentService
 	private boolean hasBuildPK4StoreKeeper = false;
 	private boolean hasBuildPK4Discount = false;
 	private List<String> vendorsDS = new ArrayList<String>();
+	
+	private Logger logger = Logger.getLog();
 
 	private PersistentService()
 	{
@@ -271,7 +273,8 @@ public class PersistentService
 			}
 			catch (InvalidDataFormat e)
 			{
-				e.printStackTrace();
+				//e.printStackTrace();
+				logger.log("buildPK4CachedCategory:" +e.getMessage());
 			}
 		}
 		hasBuildPK4Category = true;
@@ -290,7 +293,8 @@ public class PersistentService
 			}
 			catch (InvalidDataFormat e)
 			{
-				e.printStackTrace();
+				//e.printStackTrace();
+				logger.log("buildPK4CachedProduct:" +e.getMessage());
 			}
 		}
 		hasBuildPK4Product = true;
@@ -309,7 +313,8 @@ public class PersistentService
 			}
 			catch (InvalidDataFormat e)
 			{
-				e.printStackTrace();
+				//e.printStackTrace();
+				logger.log("buildPK4CachedMember:" +e.getMessage());
 			}
 		}
 		hasBuildPK4Member = true;
@@ -328,7 +333,8 @@ public class PersistentService
 			}
 			catch (InvalidDataFormat e)
 			{
-				e.printStackTrace();
+				//e.printStackTrace();
+				logger.log("buildPK4CachedStoreKeeper:" +e.getMessage());
 			}
 		}
 		hasBuildPK4StoreKeeper = true;
@@ -347,7 +353,8 @@ public class PersistentService
 			}
 			catch (InvalidDataFormat e)
 			{
-				e.printStackTrace();
+				//e.printStackTrace();
+				logger.log("buildPK4CachedDiscount:" +e.getMessage());
 			}
 		}
 		hasBuildPK4Discount = true;
@@ -366,7 +373,8 @@ public class PersistentService
 			}
 			catch (InvalidDataFormat e)
 			{
-				e.printStackTrace();
+				//e.printStackTrace();
+				logger.log("buildPK4CachedVendor:" +e.getMessage());
 			}
 		}
 		vendorsDS.add(dataSetName) ;
@@ -443,7 +451,8 @@ public class PersistentService
 			adapter = new TransactionAdapter(records);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
+			logger.log("retrieveAllTransactions:" +e.getMessage());
 			return null;
 		}
 		 
@@ -571,7 +580,7 @@ public class PersistentService
 			service = null;
 		} catch (Throwable e) {
 			//e.printStackTrace();
-			Logger.getLog().log(e.getMessage());
+			logger.log("releaseService:" +e.getMessage());
 		}
 	}
 

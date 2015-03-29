@@ -12,6 +12,10 @@ public class Logger {
 	
 	private LoggerWriter writer = null;
 	private SimpleDateFormat logDateTime = new SimpleDateFormat("yyyy-MM-DD HH:mm:ss");
+	private String error ="Error:";
+	private String warn ="Warn:";
+	private String info ="Info:";
+	private String debug ="Debug:";
 	
 	private Logger()
 	{
@@ -51,5 +55,30 @@ public class Logger {
 	{
 		//String logRecord = logDateTime.format(new Date()) + ":" + message;		
 		writer.writeLog( logDateTime.format(new Date()) + "    " + message);
+	}
+	
+	public void error(String message)
+	{
+		logLevel(error, message);
+	}
+	
+	public void warn(String message)
+	{
+		logLevel(warn, message);
+	}
+	
+	public void info(String message)
+	{
+		logLevel(info, message);
+	}
+	
+	public void debug(String message)
+	{
+		logLevel(debug, message);
+	}
+	
+	private void logLevel(String level, String message)
+	{
+		writer.writeLog( logDateTime.format(new Date()) + " " + level + "    " + message);
 	}
 }

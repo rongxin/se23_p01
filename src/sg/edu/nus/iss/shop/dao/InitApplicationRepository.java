@@ -2,6 +2,7 @@ package sg.edu.nus.iss.shop.dao;
 
 import sg.edu.nus.iss.shop.model.domain.Category;
 import sg.edu.nus.iss.shop.model.domain.StoreKeeper;
+import sg.edu.nus.iss.shop.util.Logger;
  
 
 public class InitApplicationRepository 
@@ -48,7 +49,8 @@ public class InitApplicationRepository
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
+			Logger.getLog().log("initRepository:" +e.getMessage());
 		}
 		
 	}

@@ -28,7 +28,7 @@ public class DataReader extends DataRespository
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			//e.printStackTrace();
-			logger.log(e.getMessage());
+			logger.log("read1:" + e.getMessage());
 			return records;
 		}
 		
@@ -44,7 +44,7 @@ public class DataReader extends DataRespository
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			//e.printStackTrace();
-			logger.log(e.getMessage());
+			logger.log("read2:" +e.getMessage());
 		}
 		finally
 		{
@@ -56,7 +56,7 @@ public class DataReader extends DataRespository
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					//e.printStackTrace();
-					logger.log(e.getMessage());
+					logger.log("read3:" +e.getMessage());
 				}
 			}
 		}

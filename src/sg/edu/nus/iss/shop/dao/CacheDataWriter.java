@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Timer;
 
 import sg.edu.nus.iss.shop.dao.adapter.DataTrackAdapter;
+import sg.edu.nus.iss.shop.util.Logger;
 
 public class CacheDataWriter extends DataCache
 {
@@ -31,7 +32,8 @@ public class CacheDataWriter extends DataCache
 					write();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					//e.printStackTrace();
+					Logger.getLog().log("callback:" + e.getMessage());
 				}
 			}
 		});
@@ -116,7 +118,8 @@ public class CacheDataWriter extends DataCache
 			writer.write(DIRTYDATASETNAME, dirtyData);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
+			Logger.getLog().log("writeDirtyData:" + e.getMessage());
 		}
 		WRITING_DIRTY=false;
 	}
