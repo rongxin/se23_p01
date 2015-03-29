@@ -83,6 +83,7 @@ public class ActionButtonsPanel extends JPanel {
 				}
 
 				checkoutWindow.setCashReceived(new Double(cashReceived));
+				checkoutWindow.setChangesGiven(new Double(cashReceived) - checkoutWindow.getTotalPayable());
 
 				CardLayout cl = (CardLayout) (checkoutWindow.getPurchaseCardPanel().getLayout());
 				cl.show(checkoutWindow.getPurchaseCardPanel(), CARD_SUMMARY);
@@ -94,7 +95,7 @@ public class ActionButtonsPanel extends JPanel {
 						checkoutWindow.getLoyalPointsUsed(),
 						checkoutWindow.getTotalDiscountedPrice(), new Double(cashReceived));
 
-				checkoutWindow.getPurchaseSummaryPanel().refreshPurchaseSummaryPanel();
+				checkoutWindow.getPurchaseSummaryPanel().updateAfterCheckout();
 			}
 		});
 		add(checkoutButton);

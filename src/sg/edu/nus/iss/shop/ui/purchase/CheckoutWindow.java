@@ -34,6 +34,7 @@ public class CheckoutWindow extends JFrame {
 	private Double totalDiscountedPrice;
 	private Double totalPayable;
 	private Double cashReceived;
+	private Double changesGiven;
 	private Integer loyalPointsUsed = 0;
 	private Integer discount = 0;
 
@@ -64,7 +65,7 @@ public class CheckoutWindow extends JFrame {
 	private JPanel createMessagePanel() {
 		JPanel p = new JPanel();
 		JLabel messageLabel = new JLabel();
-		messageLabel.setText("Please scan items");
+		messageLabel.setText("");
 		p.add(messageLabel);
 		return p;
 	}
@@ -236,6 +237,14 @@ public class CheckoutWindow extends JFrame {
 
 	public CustomerInfoPanel getMemberInfoPanel() {
 		return memberInfoPanel;
+	}
+
+	public Double getChangesGiven() {
+		return changesGiven;
+	}
+
+	public void setChangesGiven(Double changesGiven) {
+		this.changesGiven = changesGiven;
 	}
 
 }
