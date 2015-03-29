@@ -127,6 +127,8 @@ public class AddProductDialog extends OkCancelDialog {
 
 		gc = LayoutHelper.createCellConstraint(1, 2);
 		descriptionField = new JTextArea(5, 20);
+		descriptionField.setWrapStyleWord(true);
+		descriptionField.setLineWrap(true);
 		descriptionField.setBorder(BorderFactory.createLineBorder(Color.lightGray));
 		descriptionField.setToolTipText("Please input product description.");
 		JScrollPane productDescriptionFieldScroll = new JScrollPane(descriptionField);
