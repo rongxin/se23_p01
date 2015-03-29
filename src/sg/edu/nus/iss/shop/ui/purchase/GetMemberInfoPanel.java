@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import sg.edu.nus.iss.shop.model.domain.Customer;
@@ -18,6 +17,7 @@ import sg.edu.nus.iss.shop.model.domain.NonMemberCustomer;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 import sg.edu.nus.iss.shop.ui.util.IconHelper;
 import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
+import sg.edu.nus.iss.shop.ui.util.MessageHelper;
 
 public class GetMemberInfoPanel extends JPanel {
 
@@ -72,7 +72,8 @@ public class GetMemberInfoPanel extends JPanel {
 								memberScanner.setVisible(false);
 								memberScanner.dispose();
 							} else {
-								JOptionPane.showMessageDialog(null, "Unable to find member information for card number:"
+								MessageHelper.showErrorMessage(scanMemberCardButton,
+										"Unable to find member information for card number:"
 										+ memberId);
 							}
 						}

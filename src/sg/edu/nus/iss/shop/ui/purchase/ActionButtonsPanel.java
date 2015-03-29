@@ -7,11 +7,10 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
+import sg.edu.nus.iss.shop.ui.util.MessageHelper;
 import sg.edu.nus.iss.shop.ui.util.PriceHelper;
 
 public class ActionButtonsPanel extends JPanel {
@@ -83,11 +82,11 @@ public class ActionButtonsPanel extends JPanel {
 
 				// validation
 				if (!PriceHelper.isValidPrice(cashReceived)) {
-					JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(checkoutButton),
+					MessageHelper.showErrorMessage((checkoutButton),
 							"Please input amount paid by customer.");
 					return;
 				} else if (new Double(cashReceived) < checkoutWindow.getTotalPayable()) {
-					JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(checkoutButton),
+					MessageHelper.showErrorMessage((checkoutButton),
 							"Paid amount is not enough!");
 					return;
 				}

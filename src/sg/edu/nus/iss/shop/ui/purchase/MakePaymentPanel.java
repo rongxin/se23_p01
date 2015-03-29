@@ -8,14 +8,13 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 
 import sg.edu.nus.iss.shop.model.domain.Member;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
+import sg.edu.nus.iss.shop.ui.util.MessageHelper;
 import sg.edu.nus.iss.shop.ui.util.PriceHelper;
 
 public class MakePaymentPanel extends JPanel {
@@ -91,8 +90,7 @@ public class MakePaymentPanel extends JPanel {
 				Integer loyalPointsToUse = Integer.valueOf(loyaltyPointsField.getText().trim());
 
 				if (loyalPointsToUse > loyalPoints) {
-					JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(redeemButton),
-							"Not enough loyalty points.");
+					MessageHelper.showErrorMessage(redeemButton, "Not enough loyalty points.");
 				} else {
 
 					Double cashToBePay = shopApplication.calculateCashToPay(loyalPointsToUse,

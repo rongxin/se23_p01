@@ -24,6 +24,7 @@ import sg.edu.nus.iss.shop.model.domain.Member;
 import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.model.domain.Transaction;
 import sg.edu.nus.iss.shop.model.domain.Vendor;
+import sg.edu.nus.iss.shop.ui.util.MessageHelper;
 import sg.edu.nus.iss.shop.ui.util.ProductItemsHelper;
 
 public class ShopApplication {
@@ -35,6 +36,7 @@ public class ShopApplication {
 	private TransactionManager transactionManager;
 	private DiscountManager discountManager;
 	private VendorManager vendorManager;
+	private ReportManager reportManager;
 
 	public ShopApplication() {
 		loginDialog = new LoginDialog(this);
@@ -42,12 +44,17 @@ public class ShopApplication {
 		loginDialog.setLocationByPlatform(true);
 		loginDialog.setVisible(true);
 
+		initManagers();
+	}
+
+	private void initManagers() {
 		categoryManager = CategoryManager.getCategoryManager();
 		vendorManager = VendorManager.getVendorManager();
 		productManager = ProductManager.getProductManager();
 		memberManager = MemberManager.getMemberManager();
 		transactionManager = TransactionManager.getInstance();
 		discountManager = DiscountManager.getDiscountManager();
+		reportManager = ReportManager.getReportManager();
 	}
 
 	public void start() {
@@ -79,7 +86,7 @@ public class ShopApplication {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (ClassNotFoundException | InstantiationException
 				| IllegalAccessException | UnsupportedLookAndFeelException e) {
-			e.printStackTrace();
+			MessageHelper.showErrorMessage(shop.getShopWindow(), e.getMessage());
 		}
 		shop.start();
 	}
@@ -89,20 +96,17 @@ public class ShopApplication {
 		try {
 			allCategories = categoryManager.getAllCategories();
 		} catch (ApplicationGUIException e) {
-			e.printStackTrace();
+			MessageHelper.showErrorMessage(getShopWindow(), e.getMessage());
 		}
 
-		System.out.println("Get categories, size:" + allCategories.size());
 		return allCategories;
 	}
 
 	public Category addCategory(String categoryCode, String categoryName) {
-		System.out.println("Add Category: " + categoryCode + ",  "
-				+ categoryName);
 		try {
 			return categoryManager.createCategory(categoryCode, categoryName);
 		} catch (ApplicationGUIException e) {
-			e.printStackTrace();
+			MessageHelper.showErrorMessage(getShopWindow(), e.getMessage());
 		}
 		return null;
 	}
@@ -114,7 +118,7 @@ public class ShopApplication {
 			vendor = vendorManager.addVendor(vendorName, vendorDescription,
 					Arrays.asList(category));
 		} catch (ApplicationGUIException e) {
-			e.printStackTrace();
+			MessageHelper.showErrorMessage(getShopWindow(), e.getMessage());
 		}
 		return vendor;
 	}
@@ -124,7 +128,7 @@ public class ShopApplication {
 		try {
 			products = productManager.getAllProducts();
 		} catch (ApplicationGUIException e) {
-			e.printStackTrace();
+			MessageHelper.showErrorMessage(getShopWindow(), e.getMessage());
 		}
 		return products;
 	}
@@ -134,7 +138,7 @@ public class ShopApplication {
 		try {
 			products = productManager.getProductsWithLowInventory();
 		} catch (ApplicationGUIException e) {
-			e.printStackTrace();
+			MessageHelper.showErrorMessage(getShopWindow(), e.getMessage());
 		}
 
 		return products;
@@ -146,7 +150,7 @@ public class ShopApplication {
 			products = productManager
 					.getProductsWithLowInventory(checkProducts);
 		} catch (ApplicationGUIException e) {
-			e.printStackTrace();
+			MessageHelper.showErrorMessage(getShopWindow(), e.getMessage());
 		}
 
 		return products;
@@ -156,37 +160,33 @@ public class ShopApplication {
 			String description, Integer availableQuantity, Double price,
 			String barcodeNumber, Integer orderThreshold, Integer orderQuantity) {
 
-		System.out.println("Add Product ");
 		try {
 			Category category = categoryManager.getCategory(categoryCode);
 			return productManager.addProduct(category, name, description,
 					availableQuantity, price.doubleValue(), barcodeNumber,
 					orderThreshold, orderQuantity);
 		} catch (ApplicationGUIException e) {
-			e.printStackTrace();
+			MessageHelper.showErrorMessage(getShopWindow(), e.getMessage());
 		}
 		return null;
 	}
 
 	public Product getProductByBarcode(String scannedId) {
-		System.out.println("Get product by barcode:" + scannedId);
 		Product product = null;
 		try {
 			product = productManager.getProductByBarcode(scannedId);
 		} catch (ApplicationGUIException e) {
-			e.printStackTrace();
+			MessageHelper.showErrorMessage(getShopWindow(), e.getMessage());
 		}
 		return product;
 	}
 
 	public Member addMember(String memberId, String memberName) {
-		System.out.println("Add Member, memberId:" + memberId + ", memberName:"
-				+ memberName);
 
 		try {
 			return memberManager.addMember(memberId, memberName);
 		} catch (ApplicationGUIException e) {
-			e.printStackTrace();
+			MessageHelper.showErrorMessage(getShopWindow(), e.getMessage());
 		}
 		return null;
 	}
@@ -196,7 +196,7 @@ public class ShopApplication {
 		try {
 			members = memberManager.getAllMembers();
 		} catch (ApplicationGUIException e) {
-			e.printStackTrace();
+			MessageHelper.showErrorMessage(getShopWindow(), e.getMessage());
 		}
 		return members;
 	}
@@ -206,57 +206,52 @@ public class ShopApplication {
 		try {
 			member = memberManager.getMemberById(memberId);
 		} catch (ApplicationGUIException e) {
-			e.printStackTrace();
+			MessageHelper.showErrorMessage(getShopWindow(), e.getMessage());
 		}
 		return member;
 	}
 
 	public List<String[]> getCategoryReport() {
-		ReportManager rm = ReportManager.getReportManager();
 		try {
-			return rm.getCategoryreport();
+			return reportManager.getCategoryreport();
 		} catch (ApplicationGUIException e) {
-			e.printStackTrace();
+			MessageHelper.showErrorMessage(getShopWindow(), e.getMessage());
 			return null;
 		}
 	}
 
 	public String[] getCategoryReportHeader() {
-		ReportManager rm = ReportManager.getReportManager();
 		try {
-			return rm.getCategoryReportHeader();
+			return reportManager.getCategoryReportHeader();
 		} catch (Exception e) {
-			e.printStackTrace();
+			MessageHelper.showErrorMessage(getShopWindow(), e.getMessage());
 			return null;
 		}
 	}
 
 	public String[] getProductReportHeader() {
-		ReportManager rm = ReportManager.getReportManager();
 		try {
-			return rm.getProductReportHeader();
+			return reportManager.getProductReportHeader();
 		} catch (Exception e) {
-			e.printStackTrace();
+			MessageHelper.showErrorMessage(getShopWindow(), e.getMessage());
 			return null;
 		}
 	}
 
 	public List<String[]> getProductReport() {
-		ReportManager rm = ReportManager.getReportManager();
 		try {
-			return rm.getProductReport();
+			return reportManager.getProductReport();
 		} catch (ApplicationGUIException e) {
-			e.printStackTrace();
+			MessageHelper.showErrorMessage(getShopWindow(), e.getMessage());
 			return null;
 		}
 	}
 
 	public String[] getTransactionReportHeader() {
-		ReportManager rm = ReportManager.getReportManager();
 		try {
-			return rm.getTransactionReportHeader();
+			return reportManager.getTransactionReportHeader();
 		} catch (Exception e) {
-			e.printStackTrace();
+			MessageHelper.showErrorMessage(getShopWindow(), e.getMessage());
 			return null;
 		}
 	}
@@ -267,21 +262,19 @@ public class ShopApplication {
 	}
 
 	public String[] getMemberReportHeader() {
-		ReportManager rm = ReportManager.getReportManager();
 		try {
-			return rm.getMemberReportHeader();
+			return reportManager.getMemberReportHeader();
 		} catch (Exception e) {
-			e.printStackTrace();
+			MessageHelper.showErrorMessage(getShopWindow(), e.getMessage());
 			return null;
 		}
 	}
 
 	public List<String[]> getMemberReport() {
-		ReportManager rm = ReportManager.getReportManager();
 		try {
-			return rm.getMemberReport();
+			return reportManager.getMemberReport();
 		} catch (ApplicationGUIException e) {
-			e.printStackTrace();
+			MessageHelper.showErrorMessage(getShopWindow(), e.getMessage());
 			return null;
 		}
 	}
@@ -304,7 +297,7 @@ public class ShopApplication {
 					productsWithCount, discountedPrice, loyalPointsUsed,
 					paidAmount);
 		} catch (Exception e) {
-			e.printStackTrace();
+			MessageHelper.showErrorMessage(getShopWindow(), e.getMessage());
 		}
 		return transactionResult;
 	}
@@ -312,6 +305,10 @@ public class ShopApplication {
 	public List<Discount> getDiscounts() {
 		List<Discount> allDiscounts = discountManager.getAllDiscounts();
 		return allDiscounts;
+	}
+
+	public ShopMainWindow getShopWindow() {
+		return shopWindow;
 	}
 
 }

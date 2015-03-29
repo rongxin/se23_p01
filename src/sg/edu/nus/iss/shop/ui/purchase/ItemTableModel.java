@@ -25,16 +25,13 @@ public class ItemTableModel extends AbstractTableModel {
 	 */
 	public void addItem(Product item) {
 		if (items.get(item.getProductId()) == null) {
-			// System.out.println("First time item");
 			items.put(item.getProductId(), 1);
 			Integer itemCount = items.get(item.getProductId());
 			Object[] rowData = new Object[] { item.getProductId(), item.getName(), item.getPrice(), itemCount,
 					item.getPrice() * itemCount };
 			tableData.add(rowData);
 		} else {
-			// System.out.println("Updating count");
 			Integer itemQty = items.get(item.getProductId());
-			// System.out.println("itemQty:" + itemQty);
 			items.put(item.getProductId(), itemQty + 1);
 			Integer itemCount = items.get(item.getProductId());
 

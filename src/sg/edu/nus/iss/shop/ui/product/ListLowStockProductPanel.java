@@ -6,16 +6,15 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.table.TableCellRenderer;
 
 import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.ui.JTableButtonMouseListener;
 import sg.edu.nus.iss.shop.ui.JTableButtonRenderer;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
+import sg.edu.nus.iss.shop.ui.util.MessageHelper;
 
 public class ListLowStockProductPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -39,7 +38,7 @@ public class ListLowStockProductPanel extends JPanel {
 			orderButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(orderButton), "Order for product:"
+					MessageHelper.showErrorMessage(orderButton, "Order for product:"
 							+ product.getProductId());
 
 				}

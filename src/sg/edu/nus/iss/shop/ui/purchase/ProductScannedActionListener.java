@@ -4,11 +4,11 @@ import java.awt.event.ActionEvent;
 import java.util.List;
 
 import javax.swing.AbstractAction;
-import javax.swing.JOptionPane;
 
 import sg.edu.nus.iss.shop.model.domain.Discount;
 import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
+import sg.edu.nus.iss.shop.ui.util.MessageHelper;
 import sg.edu.nus.iss.shop.ui.util.PriceHelper;
 
 public class ProductScannedActionListener extends AbstractAction {
@@ -28,15 +28,14 @@ public class ProductScannedActionListener extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String barcodeNumber = scanner.getScannedBarcodeNumber();
-		System.out.println("Scanned: " + barcodeNumber);
 		Product product = shopApplication.getProductByBarcode(barcodeNumber);
 		if (product == null) {
-			JOptionPane.showMessageDialog(null, "Unable to find product for barcode number:" + barcodeNumber);
+			MessageHelper.showErrorMessage("Unable to find product for barcode number:"
+					+ barcodeNumber);
 		} else if (product.getAvailableQuantity() <= 0) {
-			JOptionPane.showMessageDialog(null, "Product out of stock for barcode number:" + barcodeNumber);
+			MessageHelper.showErrorMessage("Product out of stock for barcode number:"
+					+ barcodeNumber);
 		} else {
-			System.out.println("Product scanned:" + product.getName());
-
 			ItemTableModel model = (ItemTableModel) checkoutWindow.getListPurchaseItemPanel().getTable().getModel();
 			model.addItem(product);
 
@@ -48,11 +47,10 @@ public class ProductScannedActionListener extends AbstractAction {
 			Discount discount = checkoutWindow.getCustomer().getMaxDiscount();
 			Double discountPrice = new Double(0);
 			if (discount == null) {
-				System.err.println("Could not get discount:");
+				MessageHelper.showErrorMessage("Could not get discount.");
 			} else {
 				checkoutWindow.setDiscount(discount.getDiscountPercentage());
 				double discountPercentage = discount.getDiscountPercentage() / 100.00;
-				System.out.println("Discount purcentage:" + discountPercentage);
 				discountPrice = totalPrice * discountPercentage;
 			}
 
