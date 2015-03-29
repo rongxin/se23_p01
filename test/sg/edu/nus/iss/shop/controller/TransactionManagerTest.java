@@ -7,6 +7,7 @@ import static org.junit.Assert.fail;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
@@ -193,23 +194,36 @@ public class TransactionManagerTest {
 			ApplicationGUIException {
 
 		SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
-		/*
-		 * Transaction trans = new Transaction(1, m1, ft.parse("2015-03-14"));
-		 * trans.changeProductQuantity(product1, 1);
-		 * assertTrue(trans.getTransactionDetails().size() > 0); try {
-		 * service.saveRecord(trans); } catch (Exception e) { throw new
-		 * ApplicationGUIException(e.getMessage()); } Transaction trans1 = new
-		 * Transaction(2, m1, ft.parse("2015-01-14"));
-		 * trans1.changeProductQuantity(product1, 1);
-		 * trans1.changeProductQuantity(product2, 1);
-		 * assertTrue(trans1.getTransactionDetails().size() > 0); try {
-		 * service.saveRecord(trans1); } catch (Exception e) { throw new
-		 * ApplicationGUIException(e.getMessage()); }
-		 */
-		ArrayList<Transaction> l;
-		l = tm.getAllTransaction();
+		ArrayList<Transaction> allTransactions;
+		ArrayList<Transaction> rangedTransactions;
+		allTransactions = tm.getAllTransaction();
 		//assertEquals("List should have 2 items", 2, l.size());
-		l = tm.getAllTransaction(ft.parse("2015-02-13"), ft.parse("2015-04-14"));
+		Date startDate = ft.parse("2015-02-13");
+		Date endDate = ft.parse("2015-04-14");
+		rangedTransactions = tm.getAllTransaction(startDate, endDate);
 		//assertEquals("Range List should have 1 items", 2, l.size());
+		for (Transaction t : rangedTransactions){
+			if (t.getDate().before(startDate)){
+				fail("Transaction " + t.getId() + "should not be returned by the range.");
+			}
+			if (t.getDate().after(endDate)){
+				fail("Transaction " + t.getId() + "should not be returned by the range.");
+			}
+		}
+		//Making sure nothing was left behind.
+		for (Transaction t : allTransactions){
+			if ((startDate.before(t.getDate()) || startDate.equals(t.getDate()))
+					&& (endDate.after(t.getDate()) || (endDate.equals(t
+							.getDate())))) {
+				Transaction temp = null;
+				for (Transaction t2 : rangedTransactions){
+					if (t.getId() == t2.getId()){
+						temp = t;
+					}
+				}
+				if (temp == null)
+					fail("Transaction " + t.getId() + "Should be in the ranged transactions");
+			}
+		}
 	}
 }

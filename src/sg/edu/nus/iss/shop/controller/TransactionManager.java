@@ -44,7 +44,7 @@ public class TransactionManager {
 	 * Return conversion of points earn by using the cash amount
 	 * 
 	 * @param cash
-	 *            Amount to be converted to points
+	 *            amount to be converted to points
 	 * @return number of points earn by paying the cash amount
 	 */
 	public int convertCashToPoints(double cash) {
@@ -135,7 +135,8 @@ public class TransactionManager {
 	 */
 	public Transaction endTransaction(Customer customer,
 			Hashtable<Product, Integer> products, double discountedAmount,
-			int loyalPointsUsed, double amountReceived) throws Exception {
+			int loyalPointsUsed, double amountReceived)
+			throws ApplicationGUIException {
 		// Getting the all transaction to get the next transaction ID
 		ArrayList<Transaction> list = getAllTransaction();
 		Transaction t = new Transaction(list.size() + 1, new Date());
@@ -203,7 +204,6 @@ public class TransactionManager {
 			return true;
 		} catch (ApplicationGUIException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
 			throw e;
 		}
 	}
@@ -235,21 +235,15 @@ public class TransactionManager {
 	 */
 	private boolean updateProductsInTransactioDetails(Transaction transaction)
 			throws ApplicationGUIException {
-		try {
-			ProductManager pm = ProductManager.getProductManager();
-			for (TransactionDetail transactionDetail : transaction
-					.getTransactionDetails()) {
-				pm.adjustQuantity(transactionDetail.getProduct(),
-						transactionDetail.getQuantity());
-				// System.out.println(transactionDetail.getProduct() + " " +
-				// transactionDetail.getQuantity());
-			}
-			return true;
-		} catch (ApplicationGUIException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			throw e;
+		ProductManager pm = ProductManager.getProductManager();
+		for (TransactionDetail transactionDetail : transaction
+				.getTransactionDetails()) {
+			pm.adjustQuantity(transactionDetail.getProduct(),
+					transactionDetail.getQuantity());
+			// System.out.println(transactionDetail.getProduct() + " " +
+			// transactionDetail.getQuantity());
 		}
+		return true;
 	}
 
 	/**
@@ -284,23 +278,15 @@ public class TransactionManager {
 				// } else {
 				// Transaction exists in hash, do nothing
 			}
-			try {
-				// Get the product
-				Product p = ProductManager.getProductManager().getProductById(
-						transRecord.getProductId());
-				// This guy is Throwing a generic Exception, need to change to a
-				// more defined Exception
-				// System.out.println("Product " + p);
-				// Update the transaction with the product and quantity.
-				transactions.get(transRecord.getId()).changeProductQuantity(p,
-						transRecord.getQuantity());
-			} catch (ApplicationGUIException e) {
-				// TODO Auto-generated catch block
-				// e.printStackTrace();
-				System.out.println("No product found: "
-						+ transRecord.getProductId());
-				throw e;
-			}
+			// Get the product
+			Product p = ProductManager.getProductManager().getProductById(
+					transRecord.getProductId());
+			// This guy is Throwing a generic Exception, need to change to a
+			// more defined Exception
+			// System.out.println("Product " + p);
+			// Update the transaction with the product and quantity.
+			transactions.get(transRecord.getId()).changeProductQuantity(p,
+					transRecord.getQuantity());
 		}
 		ArrayList<Transaction> finalList = new ArrayList<Transaction>();
 		for (Transaction t : transactions.values()) {
@@ -323,8 +309,6 @@ public class TransactionManager {
 					Transaction.class);
 			return parseTransactions(transList);
 		} catch (IOException | InvalidDataFormat | InvalidDomainObject e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 			// Should I return null or throw exception??
 			// return null;
 			throw new ApplicationGUIException(e.getMessage());
@@ -345,8 +329,9 @@ public class TransactionManager {
 		ArrayList<Transaction> rangeTransactions = new ArrayList<Transaction>();
 
 		for (Transaction t : allTransaction) {
-			if ((startDate.before(t.getDate()) || startDate.equals(t.getDate())) && 
-				(endDate.after(t.getDate()) || (endDate.equals(t.getDate())))) {
+			if ((startDate.before(t.getDate()) || startDate.equals(t.getDate()))
+					&& (endDate.after(t.getDate()) || (endDate.equals(t
+							.getDate())))) {
 				rangeTransactions.add(t);
 				// System.out.println("inc " + startDate + " < " + t.getDate() +
 				// " < " + endDate);
@@ -355,7 +340,6 @@ public class TransactionManager {
 				// " < " + endDate);
 			}
 		}
-
 		return rangeTransactions;
 	}
 }
