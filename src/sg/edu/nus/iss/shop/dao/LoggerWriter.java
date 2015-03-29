@@ -1,6 +1,7 @@
 package sg.edu.nus.iss.shop.dao;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,7 +17,14 @@ public class LoggerWriter extends DataRespository{
 	{
 		super.setupRepository();
 		
-		Path filePath = Paths.get(DaoConstant.RELATIVE_FOLDER, loggerName+DaoConstant.EXT_LOG);
+		Path logFolderPath = Paths.get(DaoConstant.RELATIVE_FOLDER,DaoConstant.LOG_FOLDER);
+		File logFolder = new File(logFolderPath.toString());
+		if(!logFolder.exists())
+		{
+			logFolder.mkdirs();
+		}		 
+		
+		Path filePath = Paths.get(DaoConstant.RELATIVE_FOLDER,DaoConstant.LOG_FOLDER, loggerName+DaoConstant.EXT_LOG);
 		FileWriter fw = new FileWriter(filePath.toString(), true);
 		BufferedWriter bw = new BufferedWriter(fw);
 		pw = new PrintWriter(bw);  
