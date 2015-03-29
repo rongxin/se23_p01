@@ -16,6 +16,7 @@ import sg.edu.nus.iss.shop.model.domain.Discount;
 import sg.edu.nus.iss.shop.model.domain.FirstPurchaseDiscount;
 import sg.edu.nus.iss.shop.model.domain.PublicDiscount;
 import sg.edu.nus.iss.shop.model.domain.SubsequentDiscount;
+import sg.edu.nus.iss.shop.util.Logger;
 
 /**
  * @author User
@@ -29,7 +30,7 @@ public class DiscountManager {
 //	private static final String PUBLIC_DISCOUNT_IN_DAYS_ERROR = "The valid days of public discount can not be ALWAYS!";
 	private static final String DISCOUNT_PERCENTAGE_ERROR = "The discount percentage can not be less than zero!";
 	private static DiscountManager theOnlyDiscountManager;
-
+	private Logger log = Logger.getLog();
 	private DiscountManager() {
 
 	}
@@ -47,13 +48,10 @@ public class DiscountManager {
 		try {
 			discount = PersistentService.getService().retrieveObject(Discount.class, discountCode);
 		} catch (InvalidDomainObject e) {
-			e.printStackTrace();
 			throw new ApplicationGUIException(e.toString());
 		} catch (InvalidDataFormat e) {
-			e.printStackTrace();
 			throw new ApplicationGUIException(e.toString());
 		} catch (IOException e) {
-			e.printStackTrace();
 			throw new ApplicationGUIException(e.toString());
 		}
 		return discount;
@@ -65,7 +63,6 @@ public class DiscountManager {
 		try {
 			previousDiscount = this.getDiscountByCode(previousDiscountCode);
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw new ApplicationGUIException(e.toString());
 		}
 		
@@ -82,7 +79,6 @@ public class DiscountManager {
 		try {
 			PersistentService.getService().saveRecord(previousDiscount);
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw new ApplicationGUIException(e.toString());
 		}
 		
@@ -110,11 +106,12 @@ public class DiscountManager {
 		try {
 			discountList = PersistentService.getService().retrieveAll(Discount.class);
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.log(e.toString());
 		} catch (InvalidDataFormat e) {
-			e.printStackTrace();
+			log.log(e.toString());
 		} catch (InvalidDomainObject e) {
-			e.printStackTrace();
+//			e.printStackTrace();
+			log.log(e.toString());
 		}
 		return discountList;
 	}

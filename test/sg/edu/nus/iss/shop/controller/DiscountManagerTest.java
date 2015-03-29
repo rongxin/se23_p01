@@ -60,7 +60,6 @@ public class DiscountManagerTest extends TestCase {
 					.getFirstPurchaseDiscountList();
 			assertEquals(firstPurchaseDiscountCode, memberDiscount.getDiscountCode());
 		} catch (Exception e) {
-			e.printStackTrace();
 			Assert.fail("Exception occured when getting first purchase discount.");
 		}
 	}
@@ -87,7 +86,6 @@ public class DiscountManagerTest extends TestCase {
 					.getDiscountManager().getMaxValidPublicDiscount();
 			assertEquals(publicDiscountCode, maxValidPublicDiscount.getDiscountCode());
 		} catch (Exception e) {
-			e.printStackTrace();
 			Assert.fail("Exception occured when getting max public discount.");
 		}
 	}

@@ -19,7 +19,8 @@ public class MemberManagerTest {
 		try {
 			MemberManager.getMemberManager().addMember("A0135867R", "Zhu Bin");
 		} catch (Exception e) {
-			e.printStackTrace();
+//			e.printStackTrace();
+			Assert.fail("failed to setup a member");
 		}
 	}
 
@@ -32,7 +33,6 @@ public class MemberManagerTest {
 		try {
 			MemberManager.getMemberManager().addMember("B0135868R" + new Random().nextInt(), "Zhu Bin");
 		} catch (Exception e) {
-			e.printStackTrace();
 			Assert.fail("failed to add a member");
 		}
 		Assert.assertEquals(MemberManager.getMemberManager().getAllMembers().size(), oldMemberCount+1);
@@ -69,7 +69,8 @@ public class MemberManagerTest {
 			MemberManager.getMemberManager().reduceLoyalPoints(member, usedPoints);
 			assertEquals(previousPoints - usedPoints,member.getLoyalPoints());
 		} catch (ApplicationGUIException e) {
-			e.printStackTrace();
+//			e.printStackTrace();
+			Assert.fail("failed to decrease loyal points of member.");
 		}
 	}
 	
@@ -89,9 +90,10 @@ public class MemberManagerTest {
 			assertEquals(earnPoints,member.getLoyalPoints());
 			assertEquals(discount.getDiscountPercentage(),member.getMaxDiscount().getDiscountPercentage());
 		} catch (ApplicationGUIException e) {
-			e.printStackTrace();
+			Assert.fail(e.toString());
 		} catch (Exception e) {
-			e.printStackTrace();
+//			e.printStackTrace();
+			Assert.fail(e.toString());
 		}
 	}
 }
