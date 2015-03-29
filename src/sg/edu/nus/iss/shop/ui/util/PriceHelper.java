@@ -18,4 +18,16 @@ public class PriceHelper {
 		return "" + String.format("%1$,.2f", price);
 	}
 
+	public static boolean isValidPrice(String priceInput) {
+		if (priceInput == null || priceInput.trim().equals("")) {
+			return false;
+		}
+		try {
+			double d = Double.parseDouble(priceInput);
+		} catch (NumberFormatException nfe) {
+			return false;
+		}
+		return true;
+	}
+
 }

@@ -9,8 +9,10 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
+import sg.edu.nus.iss.shop.ui.util.PriceHelper;
 
 public class ActionButtonsPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -78,8 +80,16 @@ public class ActionButtonsPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String cashReceived = checkoutWindow.getMakePaymentPanel().getPaidAmountField().getText().trim();
-				if ("".equals(cashReceived)) {
-					JOptionPane.showMessageDialog(null, "Please input amount paid by customer.");
+
+				// validation
+				if (!PriceHelper.isValidPrice(cashReceived)) {
+					JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(checkoutButton),
+							"Please input amount paid by customer.");
+					return;
+				} else if (new Double(cashReceived) < checkoutWindow.getTotalPayable()) {
+					JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(checkoutButton),
+							"Paid amount is not enough!");
+					return;
 				}
 
 				checkoutWindow.setCashReceived(new Double(cashReceived));

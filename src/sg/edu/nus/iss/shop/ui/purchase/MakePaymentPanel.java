@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 import sg.edu.nus.iss.shop.model.domain.Member;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
@@ -90,7 +91,8 @@ public class MakePaymentPanel extends JPanel {
 				Integer loyalPointsToUse = Integer.valueOf(loyaltyPointsField.getText().trim());
 
 				if (loyalPointsToUse > loyalPoints) {
-					JOptionPane.showMessageDialog(null, "Not enough loyalty points.");
+					JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(redeemButton),
+							"Not enough loyalty points.");
 				} else {
 
 					Double cashToBePay = shopApplication.calculateCashToPay(loyalPointsToUse,
@@ -99,7 +101,7 @@ public class MakePaymentPanel extends JPanel {
 					checkoutWindow.setLoyalPointsUsed(loyalPointsToUse);
 
 					checkoutWindow.getPurchaseInfoPanel().getCashToPayValueLabel()
-							.setText(PriceHelper.getPriceDisplay(cashToBePay));
+					.setText(PriceHelper.getPriceDisplay(cashToBePay));
 					checkoutWindow.getPurchaseInfoPanel().getLoyalPointsUsedValueLabel().setText("" + loyalPointsToUse);
 				}
 			}
