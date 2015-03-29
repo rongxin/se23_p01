@@ -73,13 +73,10 @@ public class MemberManager {
 			memberList = PersistentService.getService().retrieveAll(
 					Member.class);
 		} catch (IOException e) {
-			e.printStackTrace();
 			throw new ApplicationGUIException(e.toString());
 		} catch (InvalidDataFormat e) {
-			e.printStackTrace();
 			throw new ApplicationGUIException(e.toString());
 		} catch (InvalidDomainObject e) {
-			e.printStackTrace();
 			throw new ApplicationGUIException(e.toString());
 		}
 		return memberList;
@@ -92,13 +89,10 @@ public class MemberManager {
 			member = PersistentService.getService().retrieveObject(
 					Member.class, id);
 		} catch (InvalidDomainObject e) {
-			e.printStackTrace();
 			throw new ApplicationGUIException(e.toString());
 		} catch (InvalidDataFormat e) {
-			e.printStackTrace();
 			throw new ApplicationGUIException(e.toString());
 		} catch (IOException e) {
-			e.printStackTrace();
 			throw new ApplicationGUIException(e.toString());
 		}
 		return member;
@@ -123,7 +117,6 @@ public class MemberManager {
 		try {
 			PersistentService.getService().saveRecord(member);
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw new ApplicationGUIException(e.toString());
 		}
 	}
@@ -141,7 +134,6 @@ public class MemberManager {
 		try {
 			PersistentService.getService().saveRecord(member);
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw new ApplicationGUIException(e.toString());
 		}
 	}

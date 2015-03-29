@@ -1,11 +1,13 @@
 package sg.edu.nus.iss.shop.model.domain;
 
 import sg.edu.nus.iss.shop.controller.DiscountManager;
+import sg.edu.nus.iss.shop.util.Logger;
 
 public class Member extends Customer {
 	private String name;
 	private int loyalPoints;
-
+	private Logger log = Logger.getLog();
+	
 	//lazy loading for loyal point if needed
 	public Member(String id) {
 		super(id);
@@ -50,7 +52,8 @@ public class Member extends Customer {
 		try {
 			maxDiscount = DiscountManager.getDiscountManager().getMaxValidPublicDiscount();
 		} catch (Exception e) {
-			e.printStackTrace();
+//			e.printStackTrace();
+			log.log(e.toString());
 		}
 
 		if (this.isFirstPurchase()) {
@@ -63,7 +66,8 @@ public class Member extends Customer {
 					maxDiscount = firstPurchaseDiscount;
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+//				e.printStackTrace();
+				log.log(e.toString());
 			}
 		} else {
 			try {
@@ -75,7 +79,8 @@ public class Member extends Customer {
 					maxDiscount = subsequentDiscount;
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+//				e.printStackTrace();
+				log.log(e.toString());
 			}
 		}
 
