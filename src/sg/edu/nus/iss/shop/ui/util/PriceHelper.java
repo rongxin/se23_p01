@@ -29,5 +29,32 @@ public class PriceHelper {
 		}
 		return true;
 	}
+	public static boolean ParseDoubleValue(String value)
+	{		
+		try
+		{
+			Double doubleValue= new Double(value.trim()); 	
+			if(doubleValue<=0){return false;}
+			return true;
+		}
+		catch(Exception e)
+		{
+			return false;
+		}
+	}
+	public static boolean ParseIntValue(String value)
+	{		
+		try
+		{
+			Integer intValue= new Integer(value.trim()); 
+			if(intValue<=0){return false;}
+			return true;
+		}
+		catch(Exception e)
+		{
+			return false;
+		}
+	}
+	
 
 }

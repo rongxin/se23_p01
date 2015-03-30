@@ -190,6 +190,18 @@ public class ShopApplication {
 		}
 		return null;
 	}
+	
+	public Member addDiscount(String discountCode, String description, String percent,String startDate,String period,String appliableTo) {
+
+		/*try {
+			//return discountManager.add
+			
+			
+		} catch (ApplicationGUIException e) {
+			MessageHelper.showErrorMessage(getShopWindow(), e.getMessage());
+		}*/
+		return null;
+	}
 
 	public List<Member> getMembers() {
 		List<Member> members = new ArrayList<>();
