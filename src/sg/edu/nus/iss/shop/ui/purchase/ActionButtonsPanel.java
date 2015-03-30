@@ -23,6 +23,7 @@ public class ActionButtonsPanel extends JPanel {
 	private JButton scanItemsButton;
 	private JButton checkoutButton;
 	private JButton proceedPaymentButton;
+	private JButton returnButton;
 	private ShopApplication shopApplication;
 	private CheckoutWindow checkoutWindow;
 	private BarcodeScannerEmulatorDialog itemScanner;
@@ -105,11 +106,12 @@ public class ActionButtonsPanel extends JPanel {
 						checkoutWindow.getTotalDiscountedPrice(), new Double(cashReceived));
 
 				checkoutWindow.getPurchaseSummaryPanel().updateAfterCheckout();
+				returnButton.setText("Return");
 			}
 		});
 		add(checkoutButton);
 
-		JButton returnButton = new JButton("Return");
+		returnButton = new JButton("Cancel");
 		returnButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
