@@ -115,6 +115,9 @@ public class ActionButtonsPanel extends JPanel {
 		returnButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if (itemScanner != null) {
+					itemScanner.dispose();
+				}
 				checkoutWindow.dispose();
 			}
 		});
