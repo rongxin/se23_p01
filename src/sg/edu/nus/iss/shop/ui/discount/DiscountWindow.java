@@ -11,10 +11,13 @@ import javax.swing.JPanel;
 
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 
+
 public class DiscountWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private ShopApplication shopApplication;
-
+	private AddDiscountDialog addDialog;
+	private ListDiscountPanel listPanel;
+	
 	public DiscountWindow(ShopApplication shopApplication) {
 		super();
 		this.shopApplication = shopApplication;
@@ -28,7 +31,7 @@ public class DiscountWindow extends JFrame {
 		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("  Discounts  "),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
-		ListDiscountPanel listPanel = new ListDiscountPanel(shopApplication);
+		listPanel = new ListDiscountPanel(shopApplication);
 		p.add("Center", listPanel);
 		return p;
 	}
@@ -44,10 +47,10 @@ public class DiscountWindow extends JFrame {
 		addButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// AddDiscountDialog d = new AddDiscountDialog(shopApplication);
-				// d.pack();
-				// d.setLocationByPlatform(true);
-				// d.setVisible(true);
+				addDialog = new AddDiscountDialog(shopApplication, listPanel);
+				addDialog.pack();
+				addDialog.setLocationByPlatform(true);
+				addDialog.setVisible(true);
 			}
 		});
 

@@ -85,6 +85,11 @@ public class DiscountManager {
 		return previousDiscount;
 	}
 	
+
+	
+	
+	
+	
 	public List<Discount> getAllDiscounts() {
 //		List<Discount> discountList = new LinkedList<Discount>();
 //		List<Object> objectList = null;
