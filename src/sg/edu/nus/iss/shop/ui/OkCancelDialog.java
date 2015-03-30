@@ -23,6 +23,13 @@ public abstract class OkCancelDialog extends JDialog {
 		add("South", createButtonPanel());
 	}
 
+	/*
+	 * allow set the form panel after dialog created
+	 */
+	public void setFormPanel(JPanel formPanel) {
+		add("Center", formPanel);
+	}
+
 	public OkCancelDialog(JFrame parent, String title) {
 		super (parent, title);
 		add ("Center", createFormPanel());

@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
+import sg.edu.nus.iss.shop.model.domain.Category;
 import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.model.domain.Vendor;
 import sg.edu.nus.iss.shop.ui.OkCancelDialog;
@@ -29,18 +30,23 @@ public class GenerateProductOrderDialog extends OkCancelDialog {
 	private JTextField orderQuantityValueField;
 	private JComboBox<String> vendorCombo;;
 	private JLabel messageLabel;
-	private ListProductPanel listPanel;
 	private Product product;
 
-	public GenerateProductOrderDialog(ShopApplication shopApplication, ListProductPanel listPanel, Product product) {
+	public GenerateProductOrderDialog(ShopApplication shopApplication, Product product) {
 		super(shopApplication.getMainWindow().getMainPanel().getCategoryWindow(), "Order Products");
 		this.shopApplication = shopApplication;
-		this.listPanel = listPanel;
 		this.product = product;
+
+		setFormPanel(createNewFormPanel());
 	}
+
 
 	@Override
 	protected JPanel createFormPanel() {
+		return new JPanel();
+	}
+
+	protected JPanel createNewFormPanel() {
 		JPanel mainPanel = new JPanel(new BorderLayout());
 
 		mainPanel.add(new JPanel(), BorderLayout.NORTH);
@@ -51,7 +57,6 @@ public class GenerateProductOrderDialog extends OkCancelDialog {
 		UIManager.put("title.font", new Font("Arial", Font.BOLD, 14));
 		return mainPanel;
 	}
-
 
 	private JPanel createInputFormPanel() {
 		JPanel p = new JPanel();
@@ -74,8 +79,11 @@ public class GenerateProductOrderDialog extends OkCancelDialog {
 		gc.anchor = GridBagConstraints.LAST_LINE_START;
 		gc.fill = GridBagConstraints.NONE;
 		List<String> vendorNames = new ArrayList<String>();
-		for (Vendor vendor : product.getCategory().getVendorList()) {
-			vendorNames.add(vendor.getName());
+		Category category = product.getCategory();
+		if (category != null && category.getVendorList() != null) {
+			for (Vendor vendor : category.getVendorList()) {
+				vendorNames.add(vendor.getName());
+			}
 		}
 		vendorCombo = new JComboBox<>(vendorNames.toArray(new String[vendorNames.size()]));
 		vendorCombo.setToolTipText("Please choose a vendor");
@@ -101,8 +109,6 @@ public class GenerateProductOrderDialog extends OkCancelDialog {
 	@Override
 	protected boolean performOkAction() {
 
-
 		return true;
 	}
 }
-
