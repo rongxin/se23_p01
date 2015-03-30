@@ -57,8 +57,8 @@ public class AdminManager {
 			try {
 				throw new ApplicationGUIException(e.toString());
 			} catch (ApplicationGUIException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				// TODO Auto-generated catch block				
+				log.log(e1.toString());
 			}
 		}
 		//Check if the objects are null or empty
@@ -84,8 +84,7 @@ public class AdminManager {
 		StoreKeeper oldStoreKeeper = AdminManager.getAdminManager().getUsersByName(storekeeper.getName());
 		if(oldStoreKeeper != null) {
 			//change password
-			oldStoreKeeper.setPassword(newpassword);	
-			
+			oldStoreKeeper.setPassword(newpassword);				
 			log.log("Password Changed to "+newpassword);
 			try {
 				PersistentService.getService().saveRecord(oldStoreKeeper);							
