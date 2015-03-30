@@ -1,7 +1,6 @@
 package sg.edu.nus.iss.shop.ui.category;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -19,6 +18,7 @@ import sg.edu.nus.iss.shop.model.domain.Category;
 import sg.edu.nus.iss.shop.ui.OkCancelDialog;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
+import sg.edu.nus.iss.shop.ui.util.MessageHelper;
 import sg.edu.nus.iss.shop.ui.util.TextFieldLimit;
 
 public class AddCategoryDialog extends OkCancelDialog {
@@ -97,18 +97,19 @@ public class AddCategoryDialog extends OkCancelDialog {
 		String categoryCode = categoryCodeField.getText().trim();
 		String categoryName = categoryNameField.getText().trim();
 		if ((categoryCode.length() == 0) || (categoryName.length() == 0)) {
-			messageLabel.setText("Category code and  name are compulsory.");
-			messageLabel.setForeground(Color.RED);
+			MessageHelper.showErrorMessage("Category code and  name are compulsory.");
 			return false;
 		}
+
 		Category category = shopApplication.addCategory(categoryCode, categoryName);
 
 		JButton vendorButton = new JButton("Vendors");
 		vendorButton.addActionListener(new ViewCategoryVendorListener(shopApplication, category));
 		if (category != null) {
 			listPanel.getTableModel().addToTable(category, vendorButton);
+			return true;
 		}
-		return true;
+		return false;
 	}
 }
 

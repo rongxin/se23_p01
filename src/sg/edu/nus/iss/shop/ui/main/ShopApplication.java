@@ -106,7 +106,7 @@ public class ShopApplication {
 		try {
 			return categoryManager.createCategory(categoryCode, categoryName);
 		} catch (ApplicationGUIException e) {
-			MessageHelper.showErrorMessage(getShopWindow(), e.getMessage());
+			MessageHelper.showErrorMessage(e.getMessage());
 		}
 		return null;
 	}
