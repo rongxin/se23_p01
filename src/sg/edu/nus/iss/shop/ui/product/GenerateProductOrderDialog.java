@@ -22,6 +22,8 @@ import sg.edu.nus.iss.shop.model.domain.Vendor;
 import sg.edu.nus.iss.shop.ui.OkCancelDialog;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
+import sg.edu.nus.iss.shop.ui.util.MessageHelper;
+import sg.edu.nus.iss.shop.ui.util.NumberHelper;
 
 public class GenerateProductOrderDialog extends OkCancelDialog {
 
@@ -80,8 +82,9 @@ public class GenerateProductOrderDialog extends OkCancelDialog {
 		gc.fill = GridBagConstraints.NONE;
 		List<String> vendorNames = new ArrayList<String>();
 		Category category = product.getCategory();
-		if (category != null && category.getVendorList() != null) {
-			for (Vendor vendor : category.getVendorList()) {
+		List<Vendor> vendorList = category.getVendorList();
+		if (category != null && vendorList != null) {
+			for (Vendor vendor : vendorList) {
 				vendorNames.add(vendor.getName());
 			}
 		}
@@ -109,6 +112,17 @@ public class GenerateProductOrderDialog extends OkCancelDialog {
 	@Override
 	protected boolean performOkAction() {
 		String vendor = (String) vendorCombo.getSelectedItem();
+
+		String orderQuantityInput = orderQuantityValueField.getText().trim();
+
+		if (vendor == null || vendor.equals("")) {
+			MessageHelper.showErrorMessage("Please set vendor for the product.");
+			return false;
+		} else if (!NumberHelper.isValidNumber(orderQuantityInput)) {
+			MessageHelper.showErrorMessage("Please input valid quantity.");
+			return false;
+		}
+
 		Integer orderQuantity = Integer.valueOf(orderQuantityValueField.getText().trim());
 		OrderProductWindow window = new OrderProductWindow(product, vendor, orderQuantity);
 		window.pack();

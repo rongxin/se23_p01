@@ -11,6 +11,7 @@ import javax.swing.JTextPane;
 
 import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.ui.util.IconHelper;
+import sg.edu.nus.iss.shop.ui.util.PriceHelper;
 
 public class OrderProductWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -30,7 +31,7 @@ public class OrderProductWindow extends JFrame {
 
 	private JPanel createMainPanel() {
 		JPanel p = new JPanel();
-		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("  Order Product  "),
+		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(""),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
 		JTextPane text = new JTextPane();
@@ -47,8 +48,12 @@ public class OrderProductWindow extends JFrame {
 	private String getOrderContent() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<html><body>");
-		sb.append("<center><h1> Product Order Form</h1></center>");
-		sb.append("<br><hr>");
+		sb.append("<center><h2> Product Order Form</h2></center>");
+		sb.append("<br>");
+
+		sb.append("<b style=\"color:black\">Vendor: </b>    ");
+		sb.append(vendor);
+		sb.append("<br>");
 
 		sb.append("<b style=\"color:black\">Product ID: </b>    ");
 		sb.append(product.getProductId());
@@ -58,12 +63,16 @@ public class OrderProductWindow extends JFrame {
 		sb.append(product.getName());
 		sb.append("<br>");
 
-		sb.append("<b style=\"color:black\">Vendor: </b>    ");
-		sb.append(vendor);
+		sb.append("<b style=\"color:black\">Product Price ($): </b>    ");
+		sb.append(PriceHelper.getPriceDisplay(product.getPrice()));
 		sb.append("<br>");
 
 		sb.append("<b style=\"color:black\">Order Quantity: </b>    ");
 		sb.append(orderQuantity);
+		sb.append("<br>");
+
+		sb.append("<b style=\"color:black\">Total  Price ($): </b>    ");
+		sb.append(PriceHelper.getPriceDisplay(orderQuantity * product.getPrice()));
 		sb.append("<br>");
 
 		sb.append("</body></html>");
