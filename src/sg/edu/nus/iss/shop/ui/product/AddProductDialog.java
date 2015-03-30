@@ -183,7 +183,9 @@ public class AddProductDialog extends OkCancelDialog {
 		Product product = shopApplication.addProduct(categoryCombo.getSelectedItem().toString(), name, description, availableQuantity,
 				price, barcodeNumber, orderThreshold, orderQuantity);
 
-		listPanel.getTableModel().addToTable(product);
+		if (product != null) {
+			listPanel.getTableModel().addToTable(product);
+		}
 		return true;
 	}
 }

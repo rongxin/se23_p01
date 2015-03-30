@@ -105,7 +105,9 @@ public class AddCategoryDialog extends OkCancelDialog {
 
 		JButton vendorButton = new JButton("Vendors");
 		vendorButton.addActionListener(new ViewCategoryVendorListener(shopApplication, category));
-		listPanel.getTableModel().addToTable(category, vendorButton);
+		if (category != null) {
+			listPanel.getTableModel().addToTable(category, vendorButton);
+		}
 		return true;
 	}
 }

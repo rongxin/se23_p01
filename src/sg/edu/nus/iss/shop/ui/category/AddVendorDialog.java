@@ -104,7 +104,9 @@ public class AddVendorDialog extends OkCancelDialog {
 
 		Vendor vendor = shopApplication.addVendor(category, vendorName, vendorDescription);
 
-		listPanel.getTableModel().addToTable(vendor);
+		if (vendor != null) {
+			listPanel.getTableModel().addToTable(vendor);
+		}
 		return true;
 	}
 

@@ -99,8 +99,9 @@ public class AddMemberDialog extends OkCancelDialog {
 		String memberName = nameField.getText().trim();
 
 		Member member = shopApplication.addMember(cardNumber, memberName);
-		listPanel.getTableModel().addToTable(member);
-
+		if (member != null) {
+			listPanel.getTableModel().addToTable(member);
+		}
 		return true;
 	}
 
