@@ -74,7 +74,7 @@ public class GetMemberInfoPanel extends JPanel {
 							} else {
 								MessageHelper.showErrorMessage(scanMemberCardButton,
 										"Unable to find member information for card number:"
-										+ memberId);
+												+ memberId);
 							}
 						}
 					});
@@ -91,6 +91,9 @@ public class GetMemberInfoPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				Customer customer = new NonMemberCustomer();
 				checkoutWindow.updateMemberRelatedInfomation(customer);
+				if (memberScanner != null) {
+					memberScanner.dispose();
+				}
 			}
 		});
 		p.add(publicMemberButton, gc);
@@ -106,5 +109,9 @@ public class GetMemberInfoPanel extends JPanel {
 		gc = LayoutHelper.createCellConstraint(2, 3);
 		p.add(new JLabel(""));
 		return p;
+	}
+
+	public BarcodeScannerEmulatorDialog getMemberScanner() {
+		return memberScanner;
 	}
 }

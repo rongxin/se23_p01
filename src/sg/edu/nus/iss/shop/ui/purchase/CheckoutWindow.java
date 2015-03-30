@@ -38,7 +38,7 @@ public class CheckoutWindow extends JFrame {
 	private Integer loyalPointsUsed = 0;
 	private Integer discount = 0;
 
-
+	private GetMemberInfoPanel getMemberInfoPanel;
 	private ListPurchaseItemPanel listPurchaseItemPanel;
 	private CustomerInfoPanel memberInfoPanel;
 	private PurchaseInfoPanel purchaseInfoPanel;
@@ -92,7 +92,7 @@ public class CheckoutWindow extends JFrame {
 	private JPanel createPurchaseCardPanel() {
 		purchaseCardPanel = new JPanel();
 		getPurchaseCardPanel().setLayout(new CardLayout());
-		GetMemberInfoPanel getMemberInfoPanel = new GetMemberInfoPanel(this, shopApplication);
+		getMemberInfoPanel = new GetMemberInfoPanel(this, shopApplication);
 
 		getPurchaseCardPanel().add(getMemberInfoPanel, CARD_MEMBER);
 
@@ -248,6 +248,10 @@ public class CheckoutWindow extends JFrame {
 
 	public void setChangesGiven(Double changesGiven) {
 		this.changesGiven = changesGiven;
+	}
+
+	public GetMemberInfoPanel getGetMemberInfoPanel() {
+		return getMemberInfoPanel;
 	}
 
 }
