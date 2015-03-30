@@ -9,6 +9,7 @@ import java.util.List;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import sg.edu.nus.iss.shop.controller.AdminManager;
 import sg.edu.nus.iss.shop.controller.CategoryManager;
 import sg.edu.nus.iss.shop.controller.DiscountManager;
 import sg.edu.nus.iss.shop.controller.MemberManager;
@@ -22,6 +23,7 @@ import sg.edu.nus.iss.shop.model.domain.Customer;
 import sg.edu.nus.iss.shop.model.domain.Discount;
 import sg.edu.nus.iss.shop.model.domain.Member;
 import sg.edu.nus.iss.shop.model.domain.Product;
+import sg.edu.nus.iss.shop.model.domain.StoreKeeper;
 import sg.edu.nus.iss.shop.model.domain.Transaction;
 import sg.edu.nus.iss.shop.model.domain.Vendor;
 import sg.edu.nus.iss.shop.ui.util.MessageHelper;
@@ -37,6 +39,8 @@ public class ShopApplication {
 	private DiscountManager discountManager;
 	private VendorManager vendorManager;
 	private ReportManager reportManager;
+	private AdminManager adminManager;
+	private StoreKeeper loggedInUser;
 
 	public ShopApplication() {
 		loginDialog = new LoginDialog(this);
@@ -48,6 +52,7 @@ public class ShopApplication {
 	}
 
 	private void initManagers() {
+		adminManager = AdminManager.getAdminManager();
 		categoryManager = CategoryManager.getCategoryManager();
 		vendorManager = VendorManager.getVendorManager();
 		productManager = ProductManager.getProductManager();
@@ -61,15 +66,25 @@ public class ShopApplication {
 		loginDialog.setVisible(true);
 	}
 
-	public void login(String userName, String password) {
-		// TODO login validation here
+	public StoreKeeper login(String userName, String password) {
+		StoreKeeper admin = null;
+		try {
+			admin = adminManager.login(userName, password);
+		} catch (ApplicationGUIException e) {
+			MessageHelper.showErrorMessage(e.getDisplayMessage());
+		}
+		if (admin != null) {
+			loginDialog.setVisible(false);
+			shopWindow = new ShopMainWindow(this);
+			shopWindow.pack();
+			shopWindow.setLocationRelativeTo(null);
+			shopWindow.setVisible(true);
+		} else {
+			loginDialog.setVisible(true);
+		}
 
-		// success to show the main application window
-		loginDialog.setVisible(false);
-		shopWindow = new ShopMainWindow(this);
-		shopWindow.pack();
-		shopWindow.setLocationRelativeTo(null);
-		shopWindow.setVisible(true);
+		return admin;
+
 	}
 
 	public void shutdown() {
@@ -321,6 +336,14 @@ public class ShopApplication {
 
 	public ShopMainWindow getShopWindow() {
 		return shopWindow;
+	}
+
+	public StoreKeeper getLoggedInUser() {
+		return loggedInUser;
+	}
+
+	public void setLoggedInUser(StoreKeeper loggedInUser) {
+		this.loggedInUser = loggedInUser;
 	}
 
 }

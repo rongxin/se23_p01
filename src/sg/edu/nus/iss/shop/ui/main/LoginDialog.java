@@ -15,9 +15,11 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
+import sg.edu.nus.iss.shop.model.domain.StoreKeeper;
 import sg.edu.nus.iss.shop.ui.OkCancelDialog;
 import sg.edu.nus.iss.shop.ui.util.IconHelper;
 import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
+import sg.edu.nus.iss.shop.ui.util.MessageHelper;
 
 public class LoginDialog extends OkCancelDialog {
 	private static final long serialVersionUID = 1L;
@@ -83,7 +85,7 @@ public class LoginDialog extends OkCancelDialog {
 		gc = LayoutHelper.createCellConstraint(1, 1);
 		passwordField = new JPasswordField(15);
 		// TODO remove later
-		passwordField.setText("test");
+		passwordField.setText("Stacy");
 		passwordField.setToolTipText("Please input name for the category");
 		p.add(passwordField, gc);
 
@@ -103,7 +105,18 @@ public class LoginDialog extends OkCancelDialog {
 	protected boolean performOkAction() {
 		String userName = userNameField.getText().trim();
 		String password = new String(passwordField.getPassword());
-		shopApplication.login(userName, password);
+		if ("".equals(userName) || "".equals(password)) {
+			MessageHelper.showErrorMessage("Please input username or password.");
+		}
+		StoreKeeper loggedInUser = shopApplication.login(userName, password);
+		if (loggedInUser == null) {
+			MessageHelper.showErrorMessage("Login failed!");
+			return false;
+		}
+
+		shopApplication.setLoggedInUser(loggedInUser);
+		shopApplication.getMainWindow().getMainPanel().getShopKeeperInfoLabel()
+				.setText("Hello " + loggedInUser.getName());
 		return true;
 	}
 

@@ -24,6 +24,7 @@ import sg.edu.nus.iss.shop.ui.util.IconHelper;
 public class MainPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private ShopApplication shopApplication;
+	private JLabel shopKeeperInfoLabel;
 	private CategoryWindow categoryWindow;
 	private CheckoutWindow checkoutWindow;
 	private MemberWindow memberWindow;
@@ -45,9 +46,9 @@ public class MainPanel extends JPanel {
 
 	private JPanel createInformationPanel() {
 		JPanel p = new JPanel(new GridLayout(0, 1));
-		JLabel shopKeeperInfoLabel = new JLabel();
+		shopKeeperInfoLabel = new JLabel();
 		shopKeeperInfoLabel.setIcon(IconHelper.createImageIcon("user.png"));
-		shopKeeperInfoLabel.setText("Hello Stacy");
+		shopKeeperInfoLabel.setText("Hello ");
 		shopKeeperInfoLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		p.add(shopKeeperInfoLabel);
 		setMargin(p);
@@ -193,6 +194,10 @@ public class MainPanel extends JPanel {
 		window.setLocationByPlatform(true);
 		window.setLocationRelativeTo(null);
 		window.setVisible(true);
+	}
+
+	public JLabel getShopKeeperInfoLabel() {
+		return shopKeeperInfoLabel;
 	}
 
 }
