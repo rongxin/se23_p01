@@ -108,7 +108,9 @@ public class GenerateProductOrderDialog extends OkCancelDialog {
 
 	@Override
 	protected boolean performOkAction() {
-		OrderProductWindow window = new OrderProductWindow();
+		String vendor = (String) vendorCombo.getSelectedItem();
+		Integer orderQuantity = Integer.valueOf(orderQuantityValueField.getText().trim());
+		OrderProductWindow window = new OrderProductWindow(product, vendor, orderQuantity);
 		window.pack();
 		window.setLocationByPlatform(true);
 		window.setLocationRelativeTo(null);

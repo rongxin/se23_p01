@@ -9,13 +9,22 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 
+import sg.edu.nus.iss.shop.model.domain.Product;
+import sg.edu.nus.iss.shop.ui.util.IconHelper;
+
 public class OrderProductWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
+	private Product product;
+	private String vendor;
+	private Integer orderQuantity;
 
-
-	public OrderProductWindow() {
+	public OrderProductWindow(Product product, String vendor, Integer orderQuantity) {
 		super("Order Products");
+		setIconImage(IconHelper.createImageIcon("shop.png").getImage());
 		setLayout(new BorderLayout());
+		this.product = product;
+		this.vendor = vendor;
+		this.orderQuantity = orderQuantity;
 		this.add("Center", createMainPanel());
 	}
 
@@ -42,19 +51,19 @@ public class OrderProductWindow extends JFrame {
 		sb.append("<br><hr>");
 
 		sb.append("<b style=\"color:black\">Product ID: </b>    ");
-		sb.append("CLO/1");
+		sb.append(product.getProductId());
 		sb.append("<br>");
 
 		sb.append("<b style=\"color:black\">Product Name: </b>    ");
-		sb.append("Product Name");
+		sb.append(product.getName());
 		sb.append("<br>");
 
 		sb.append("<b style=\"color:black\">Vendor: </b>    ");
-		sb.append("Vendor Name");
+		sb.append(vendor);
 		sb.append("<br>");
 
 		sb.append("<b style=\"color:black\">Order Quantity: </b>    ");
-		sb.append("100");
+		sb.append(orderQuantity);
 		sb.append("<br>");
 
 		sb.append("</body></html>");
