@@ -108,6 +108,11 @@ public class GenerateProductOrderDialog extends OkCancelDialog {
 
 	@Override
 	protected boolean performOkAction() {
+		OrderProductWindow window = new OrderProductWindow();
+		window.pack();
+		window.setLocationByPlatform(true);
+		window.setLocationRelativeTo(null);
+		window.setVisible(true);
 
 		return true;
 	}

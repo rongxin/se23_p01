@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
+import sg.edu.nus.iss.shop.ui.util.IconHelper;
 
 public class ProductWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -20,7 +21,8 @@ public class ProductWindow extends JFrame {
 	private AddProductDialog addDialog;
 
 	public ProductWindow(ShopApplication shopApplication) {
-		super();
+		super("Products");
+		setIconImage(IconHelper.createImageIcon("shop.png").getImage());
 		this.shopApplication = shopApplication;
 		setLayout(new BorderLayout());
 		this.add("North", createTitlePanel());

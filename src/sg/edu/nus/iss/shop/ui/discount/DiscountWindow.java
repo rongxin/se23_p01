@@ -10,13 +10,15 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
+import sg.edu.nus.iss.shop.ui.util.IconHelper;
 
 public class DiscountWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private ShopApplication shopApplication;
 
 	public DiscountWindow(ShopApplication shopApplication) {
-		super();
+		super("Discount");
+		setIconImage(IconHelper.createImageIcon("shop.png").getImage());
 		this.shopApplication = shopApplication;
 		setLayout(new BorderLayout());
 		this.add("North", createTitlePanel());
