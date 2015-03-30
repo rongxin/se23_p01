@@ -17,6 +17,7 @@ import sg.edu.nus.iss.shop.model.domain.Member;
 import sg.edu.nus.iss.shop.ui.OkCancelDialog;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
+import sg.edu.nus.iss.shop.ui.util.MessageHelper;
 
 public class AddMemberDialog extends OkCancelDialog {
 
@@ -101,24 +102,19 @@ public class AddMemberDialog extends OkCancelDialog {
 		Member member = shopApplication.addMember(cardNumber, memberName);
 		if (member != null) {
 			listPanel.getTableModel().addToTable(member);
+			return true;
 		}
-		return true;
+		return false;
 	}
 
 	private boolean validateFields() {
-		int errorCount = 0;
+
 
 		if ("".equals(cardNumberField.getText().trim())) {
-			cardNumberField.requestFocus();
-			errorCount++;
-		}
-		if ("".equals(nameField.getText().trim())) {
-			nameField.requestFocus();
-			errorCount++;
-		}
-
-		if (errorCount > 0) {
+			MessageHelper.showErrorMessage("Please input card number.");
 			return false;
+		} else if ("".equals(nameField.getText().trim())) {
+			MessageHelper.showErrorMessage("Please input member name.");
 		}
 
 		return true;

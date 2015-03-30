@@ -186,17 +186,17 @@ public class ShopApplication {
 		try {
 			return memberManager.addMember(memberId, memberName);
 		} catch (ApplicationGUIException e) {
-			MessageHelper.showErrorMessage(getShopWindow(), e.getMessage());
+			MessageHelper.showErrorMessage(e.getMessage());
 		}
 		return null;
 	}
-	
+
 	public Member addDiscount(String discountCode, String description, String percent,String startDate,String period,String appliableTo) {
 
 		/*try {
 			//return discountManager.add
-			
-			
+
+
 		} catch (ApplicationGUIException e) {
 			MessageHelper.showErrorMessage(getShopWindow(), e.getMessage());
 		}*/
