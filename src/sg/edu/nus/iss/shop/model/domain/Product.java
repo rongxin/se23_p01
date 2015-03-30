@@ -213,33 +213,34 @@ public class Product {
 			return false;
 		return true;
 	}
-	
+
 	/**
 	 * Method to get Category
-	 * @return category for this Product      
+	 * @return category for this Product
 	 * */
 	public Category getCategory() {
 		//Lazy load Category
 		loadCategory();
-		return this.category;
+		return category;
 	}
-	
+
 	/**
 	 * Method to set category for this product
-	 * @param category for this product   
+	 * @param category for this product
 	 * */
 	public void setCategory(Category category) {
- 		this.category = category;
- 	}
-	
+		this.category = category;
+	}
+
 	/**
 	 * Method to load category by calling CategoryManager
 	 * */
 	private void loadCategory() {
-		
+
 		try {
 			//Retrieve Category for this particular category code
-			this.category = CategoryManager.getCategoryManager().getCategory(this.getProductId().substring(0, getProductId().length()));
+			String substring = getProductId().substring(0, getProductId().length() - 2);
+			category = CategoryManager.getCategoryManager().getCategory(substring);
 		} catch (Exception e) {
 			log.log("loadCategory" + e.toString());
 		}

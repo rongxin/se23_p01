@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
+import sg.edu.nus.iss.shop.ui.util.IconHelper;
 
 public class CategoryWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -18,8 +19,8 @@ public class CategoryWindow extends JFrame {
 	private AddCategoryDialog addDialog;
 
 	public CategoryWindow(ShopApplication shopApplication) {
-		super();
-		this.shopApplication = shopApplication;
+		super("Category");
+		setIconImage(IconHelper.createImageIcon("shop.png").getImage());
 		this.shopApplication = shopApplication;
 		setLayout(new BorderLayout());
 		this.add("North", createTitlePanel());

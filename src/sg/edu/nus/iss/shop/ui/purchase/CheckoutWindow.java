@@ -47,6 +47,8 @@ public class CheckoutWindow extends JFrame {
 	private PurchaseSummaryPanel purchaseSummaryPanel;
 
 	public CheckoutWindow(ShopApplication shopApplication) {
+		super("Purchase");
+		setIconImage(IconHelper.createImageIcon("shop.png").getImage());
 		this.shopApplication = shopApplication;
 		setLayout(new BorderLayout());
 		this.add("North", createTitlePanel());
