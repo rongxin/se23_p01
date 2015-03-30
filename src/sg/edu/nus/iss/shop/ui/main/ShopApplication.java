@@ -166,7 +166,7 @@ public class ShopApplication {
 					availableQuantity, price.doubleValue(), barcodeNumber,
 					orderThreshold, orderQuantity);
 		} catch (ApplicationGUIException e) {
-			MessageHelper.showErrorMessage(getShopWindow(), e.getMessage());
+			MessageHelper.showErrorMessage(e.getMessage());
 		}
 		return null;
 	}

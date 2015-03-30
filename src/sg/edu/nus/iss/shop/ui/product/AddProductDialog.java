@@ -23,6 +23,9 @@ import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.ui.OkCancelDialog;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
+import sg.edu.nus.iss.shop.ui.util.MessageHelper;
+import sg.edu.nus.iss.shop.ui.util.NumberHelper;
+import sg.edu.nus.iss.shop.ui.util.PriceHelper;
 
 public class AddProductDialog extends OkCancelDialog {
 
@@ -166,9 +169,7 @@ public class AddProductDialog extends OkCancelDialog {
 
 	@Override
 	protected boolean performOkAction() {
-		if ((nameField.getText().trim().length() == 0) || (descriptionField.getText().length() == 0)) {
-			messageLabel.setText("Please input all necessary fields.");
-			messageLabel.setForeground(Color.RED);
+		if (!validateProductInput()) {
 			return false;
 		}
 
@@ -180,13 +181,42 @@ public class AddProductDialog extends OkCancelDialog {
 		Integer orderThreshold = new Integer(reorderThresholdField.getText().trim());
 		Integer orderQuantity = new Integer(reorderQuantityField.getText().trim());
 
-		Product product = shopApplication.addProduct(categoryCombo.getSelectedItem().toString(), name, description, availableQuantity,
-				price, barcodeNumber, orderThreshold, orderQuantity);
+		Product product = shopApplication.addProduct(categoryCombo.getSelectedItem().toString(), name, description,
+				availableQuantity, price, barcodeNumber, orderThreshold, orderQuantity);
 
 		if (product != null) {
 			listPanel.getTableModel().addToTable(product);
+			return true;
 		}
-		return true;
+		return false;
+	}
+
+	private boolean validateProductInput() {
+		if ((nameField.getText().trim().length() == 0)) {
+			MessageHelper.showErrorMessage("Please input product name.");
+			return false;
+		} else if (NumberHelper.isValidNumber(quantityField.getText().trim())
+				|| "".equals((quantityField.getText().trim()))) {
+			MessageHelper.showErrorMessage("Please input valid quantity.");
+			return false;
+		} else if (NumberHelper.isValidNumber(barCodeNumberField.getText().trim())
+				|| "".equals((barCodeNumberField.getText().trim()))) {
+			MessageHelper.showErrorMessage("Please input valid barcode number.");
+			return false;
+		} else if (NumberHelper.isValidNumber(reorderThresholdField.getText().trim())
+				|| "".equals((reorderThresholdField.getText().trim()))) {
+			MessageHelper.showErrorMessage("Please input valid threshold number.");
+			return false;
+		} else if (NumberHelper.isValidNumber(reorderQuantityField.getText().trim())
+				|| "".equals((reorderQuantityField.getText().trim()))) {
+			MessageHelper.showErrorMessage("Please input valid order quantity.");
+			return false;
+		} else if (PriceHelper.isValidPrice(priceField.getText().trim()) || "".equals((priceField.getText().trim()))) {
+			MessageHelper.showErrorMessage("Please input valid price.");
+			return false;
+		} else {
+			return true;
+		}
 	}
 }
 
