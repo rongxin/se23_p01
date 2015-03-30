@@ -100,7 +100,7 @@ public class TransactionReportTest {
 		transactionReport = TransactionReport.getTransactionReport();
 		String[] reportHeaderArray = transactionReport.getReportHeader();
 		if(reportHeaderArray != null && reportHeaderArray.length > 0){
-			assertFalse("The no of items in heading is incorrect.",reportHeaderArray.length != 6);
+			assertFalse("The no of items in heading is incorrect.",reportHeaderArray.length != 7);
 		}else{
 			Assert.fail("The headers are incorrect");
 		}

@@ -95,11 +95,11 @@ public class TransactionReport extends Report {
 							transactionDate = transaction.getDate();
 							customerInTransaction = transaction.getCustomer();
 							
-							//customerId = customerInTransaction.getId();
+							customerId = customerInTransaction.getId();
 							
 							transactionArray = new String[]{
 									String.valueOf(transactionId), 
-									/*customerId,*/
+									customerId,
 									productId,
 									productName, 
 									productDescription, 
@@ -164,7 +164,7 @@ public class TransactionReport extends Report {
 
 		String[] transactionReportHeader = new String[]{
 				"Transaction Id",
-				/*"Category Id",*/
+				"Customer Id",
 				"Product Id",
 				"Product Name",
 				"Product Desc",
