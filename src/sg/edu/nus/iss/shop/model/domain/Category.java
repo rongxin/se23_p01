@@ -45,7 +45,7 @@ public class Category {
 	 * @return category code
 	 * */
 	public String getCode() {
-		return this.code;
+		return code;
 	}
 
 	/**
@@ -62,7 +62,7 @@ public class Category {
 	 * @return category name        
 	 * */
 	public String getName() {
-		return this.name;
+		return name;
 	}
 
 	/**
