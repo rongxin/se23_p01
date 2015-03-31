@@ -9,15 +9,13 @@ public class Logger implements ILogger {
 	
 	private Logger() 
 	{ 
-		consoleLogger = new ConsoleLogger();
-		fileLogger = new FileLogger();
+		instantiateConsoleLogger();		
+		instantiateFileLogger();
 	}
 	
 	public static ILogger getLog()
 	{
-		if(fileLogger == null)
-			fileLogger = new FileLogger();
-		
+		instantiateFileLogger();		
 		return fileLogger;
 	}
 	
@@ -25,22 +23,31 @@ public class Logger implements ILogger {
 	{ 	
 		if(type == LoggerType.CONSOLE_OUTPUT)
 		{			 
-			if(consoleLogger == null)
-				consoleLogger = new ConsoleLogger();
+			instantiateConsoleLogger();
 			return consoleLogger;
 		}
 		else if(type == LoggerType.FILE_OUTPUT)
 		{
-			if(fileLogger == null)
-				fileLogger = new FileLogger();
+			instantiateFileLogger();
 			return fileLogger;
 		}		 
 		else
 		{	if(logger == null)
 				logger = new Logger();
 			return logger;
-		}
-			
+		}			
+	}
+	
+	private static void instantiateConsoleLogger()
+	{
+		if(consoleLogger == null)
+			consoleLogger = new ConsoleLogger();
+	}
+	
+	private static void instantiateFileLogger()
+	{
+		if(fileLogger == null)
+			fileLogger = new FileLogger();
 	}
 	
 	public void log(String message)

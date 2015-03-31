@@ -12,7 +12,8 @@ public class LoggerImpl implements ILogger{
 	private String info ="Info:";
 	private String debug ="Debug:";
 	
-	
+	protected LoggerImpl()
+	{}
 	protected String getLogMessage(String message)
 	{
 		return logDateTime.format(new Date()) + "    " + message;
