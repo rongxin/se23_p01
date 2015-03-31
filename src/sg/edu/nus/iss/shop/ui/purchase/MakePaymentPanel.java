@@ -15,6 +15,7 @@ import sg.edu.nus.iss.shop.model.domain.Member;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
 import sg.edu.nus.iss.shop.ui.util.MessageHelper;
+import sg.edu.nus.iss.shop.ui.util.NumberHelper;
 import sg.edu.nus.iss.shop.ui.util.PriceHelper;
 
 public class MakePaymentPanel extends JPanel {
@@ -85,8 +86,12 @@ public class MakePaymentPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				Integer loyalPoints = ((Member) checkoutWindow.getCustomer()).getLoyalPoints();
+				if (!NumberHelper.isValidNumber(loyaltyPointsField.getText().trim())) {
+					MessageHelper.showErrorMessage("Please input valid loyal point.");
+					return;
+				}
 
+				Integer loyalPoints = ((Member) checkoutWindow.getCustomer()).getLoyalPoints();
 				Integer loyalPointsToUse = Integer.valueOf(loyaltyPointsField.getText().trim());
 
 				if (loyalPointsToUse > loyalPoints) {
@@ -100,6 +105,8 @@ public class MakePaymentPanel extends JPanel {
 
 					checkoutWindow.getPurchaseInfoPanel().getCashToPayValueLabel()
 					.setText(PriceHelper.getPriceDisplay(cashToBePay));
+					// update total payable
+					checkoutWindow.setTotalPayable(cashToBePay);
 					checkoutWindow.getPurchaseInfoPanel().getLoyalPointsUsedValueLabel().setText("" + loyalPointsToUse);
 				}
 			}
