@@ -11,7 +11,6 @@ import javax.swing.JTextPane;
 
 import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.ui.util.IconHelper;
-import sg.edu.nus.iss.shop.ui.util.PriceHelper;
 
 public class OrderProductWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -32,7 +31,7 @@ public class OrderProductWindow extends JFrame {
 	private JPanel createMainPanel() {
 		JPanel p = new JPanel();
 		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(""),
-				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+				BorderFactory.createEmptyBorder(10, 10, 10, 10)));
 
 		JTextPane text = new JTextPane();
 		text.setContentType("text/html");
@@ -51,6 +50,10 @@ public class OrderProductWindow extends JFrame {
 		sb.append("<center><h2> Product Order Form</h2></center>");
 		sb.append("<br>");
 
+		sb.append("<b style=\"color:black\">Category: </b>    ");
+		sb.append(product.getCategory().getCode() + " / " + product.getCategory().getName());
+		sb.append("<br>");
+
 		sb.append("<b style=\"color:black\">Vendor: </b>    ");
 		sb.append(vendor);
 		sb.append("<br>");
@@ -59,20 +62,16 @@ public class OrderProductWindow extends JFrame {
 		sb.append(product.getProductId());
 		sb.append("<br>");
 
+		sb.append("<b style=\"color:black\">Barcode Number: </b>    ");
+		sb.append(product.getBarcodeNumber());
+		sb.append("<br>");
+
 		sb.append("<b style=\"color:black\">Product Name: </b>    ");
 		sb.append(product.getName());
 		sb.append("<br>");
 
-		sb.append("<b style=\"color:black\">Product Price ($): </b>    ");
-		sb.append(PriceHelper.getPriceDisplay(product.getPrice()));
-		sb.append("<br>");
-
 		sb.append("<b style=\"color:black\">Order Quantity: </b>    ");
 		sb.append(orderQuantity);
-		sb.append("<br>");
-
-		sb.append("<b style=\"color:black\">Total  Price ($): </b>    ");
-		sb.append(PriceHelper.getPriceDisplay(orderQuantity * product.getPrice()));
 		sb.append("<br>");
 
 		sb.append("</body></html>");
