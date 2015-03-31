@@ -6,8 +6,6 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
-
-
 import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.Category;
 import sg.edu.nus.iss.shop.model.domain.Product;
@@ -15,6 +13,7 @@ import sg.edu.nus.iss.shop.model.domain.Product;
 public class ProductManagerTest extends TestCase {
 	private ProductManager productManager;
 	private Product testProduct;
+	private Product existingProduct;
 	private Category newCategory;
 	private Category validCategory;
 
@@ -29,18 +28,28 @@ public class ProductManagerTest extends TestCase {
 
 	// Test Create Product
 	@Test
-	public void testCreateProduct() {
+	public void testCreateProduct() throws ApplicationGUIException {
 		newCategory = new Category("STA", "Stationary");
-		try {
-			testProduct = ProductManager.getProductManager().addProduct(
-					newCategory, "Testing Product 3", "Testing Product 44", 100,
-					11.00, "2016", 30, 50);
-			assertNotNull(testProduct.getProductId());
-			assertEquals("2016", testProduct.getBarcodeNumber());
-		} catch (Exception e) {
-			fail("failed to create category");
+		existingProduct = ProductManager.getProductManager()
+				.getProductByBarcode("2017");
+
+		// Product already exists
+		if (existingProduct != null) {
+			assertTrue("Duplicate Barcode Number", existingProduct
+					.getBarcodeNumber().equals("2017"));
+		} else {
+			try {
+				testProduct = ProductManager.getProductManager().addProduct(
+						newCategory, "Testing Product Beta",
+						"Testing Product Beta #1", 100, 11.00, "2017", 30, 50);
+				assertNotNull(testProduct.getProductId());
+				assertEquals("2017", testProduct.getBarcodeNumber());
+			} catch (Exception e) {
+				fail("failed to create category");
+			}
+			assertNotNull(testProduct);
 		}
-		assertNotNull(testProduct);
+
 	}
 
 	// Test Retrieve Product by Product ID (Valid)
@@ -51,15 +60,15 @@ public class ProductManagerTest extends TestCase {
 		assertNotNull(validProd);
 		assertEquals("CLO/1", validProd.getProductId());
 	}
-	
-	// Test Retrieve Product by Barcode number(Valid)
-		@Test
-		public void testRetrieveProductByBardcode() throws ApplicationGUIException {
-			Product validProd = ProductManager.getProductManager().getProductByBarcode("2016");
-			assertNotNull(validProd.getBarcodeNumber(),validProd);
-			assertEquals("2016", validProd.getBarcodeNumber());
-		}
 
+	// Test Retrieve Product by Barcode number(Valid)
+	@Test
+	public void testRetrieveProductByBardcode() throws ApplicationGUIException {
+		Product validProd = ProductManager.getProductManager()
+				.getProductByBarcode("2017");
+		assertNotNull(validProd.getBarcodeNumber(), validProd);
+		assertEquals("2017", validProd.getBarcodeNumber());
+	}
 
 	// Test Retrieve all Products
 	@Test
@@ -88,39 +97,41 @@ public class ProductManagerTest extends TestCase {
 			assertNull("No Products in the list", allProducts);
 		}
 	}
-	
+
 	// Test Retrieve all Product that has low inventory
 	@Test
 	public void testRetrieveLowInvetoryProducts()
 			throws ApplicationGUIException {
-			List<Product> lowInventoryProducts = ProductManager.getProductManager().getProductsWithLowInventory();
+		List<Product> lowInventoryProducts = ProductManager.getProductManager()
+				.getProductsWithLowInventory();
+		assertNotNull(lowInventoryProducts);
+		if (!lowInventoryProducts.isEmpty() && lowInventoryProducts != null) {
 			assertNotNull(lowInventoryProducts);
-			if(!lowInventoryProducts.isEmpty() && lowInventoryProducts != null) {
-				assertNotNull(lowInventoryProducts);
-				for(Product prod : lowInventoryProducts) {
-					System.out.println(prod.getProductId());
-					System.out.println("Current:"+prod.getAvailableQuantity());
-					System.out.println("Threshold:"+prod.getOrderThreshold());
-				}
+			for (Product prod : lowInventoryProducts) {
+				System.out.println(prod.getProductId());
+				System.out.println("Current:" + prod.getAvailableQuantity());
+				System.out.println("Threshold:" + prod.getOrderThreshold());
 			}
-		
+		}
+
 	}
-	
+
 	// Test Retrieve adjust product quantity
-	public void testAdjustProductQuantity()
-			throws ApplicationGUIException {
+	public void testAdjustProductQuantity() throws ApplicationGUIException {
 		int oldQty = 0;
 		int deductQty = 10;
-		//Retrieve Existing Product 
+		// Retrieve Existing Product
 		Product existingProduct = ProductManager.getProductManager()
 				.getProductById("CLO/1");
-		if(existingProduct != null) {
-			assertNotNull("Prouct is Null",existingProduct);
-			//Store Old Quantity in local var
+		if (existingProduct != null) {
+			assertNotNull("Prouct is Null", existingProduct);
+			// Store Old Quantity in local var
 			oldQty = existingProduct.getAvailableQuantity();
-			//Adjust Quantity
-			existingProduct = ProductManager.getProductManager().adjustQuantity(existingProduct, deductQty);
-			assertEquals(oldQty,existingProduct.getAvailableQuantity() + deductQty);
+			// Adjust Quantity
+			existingProduct = ProductManager.getProductManager()
+					.adjustQuantity(existingProduct, deductQty);
+			assertEquals(oldQty, existingProduct.getAvailableQuantity()
+					+ deductQty);
 		}
 	}
 }

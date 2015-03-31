@@ -24,6 +24,7 @@ public class ProductManager {
 	private static final String INVALID_BARCODE_NUMBER_ERROR_MESSAGE = "Invalid Barcode Number";
 	private static final String INVALID_ORDER_QUANTITY_ERROR_MESSAGE = "Invalid Order Quantity";
 	private static final String INVALID_ORDER_THRESHOLD_ERROR_MESSAGE = "Invalid Order Threshold";
+	private static final String DUPLICATE_BARCODE_ERROR_MESSAGE = "Duplicated Barcode Number";
 	private ILogger log = Logger.getLog();
 	
 	private ProductManager() {
@@ -80,7 +81,14 @@ public class ProductManager {
 		if (orderQuantity <= 0){
 			throw new ApplicationGUIException(ProductManager.INVALID_ORDER_QUANTITY_ERROR_MESSAGE);
 		}
-
+		
+		// Check if there's an existing Product with the same Barcode Number
+		Product existingProduct= ProductManager.getProductManager().getProductByBarcode(barcodeNumber);
+		if (existingProduct != null) {
+			log.log("getProductByBarcode:" + DUPLICATE_BARCODE_ERROR_MESSAGE );
+			throw new ApplicationGUIException(ProductManager.DUPLICATE_BARCODE_ERROR_MESSAGE);
+		}
+		
 		//Retrieve existing products with the given category to be added
 		List<Product> productsWithCategory= ProductManager.getProductManager().getProductsForCategory(category);
 		int maxId = 0;
@@ -99,7 +107,7 @@ public class ProductManager {
 			newProduct = new Product(category.getCode()+"/"+(maxId+1),name,description,
 					availableQuantity,price,barcodeNumber,orderThreshold,orderQuantity);
 		}
-
+		
 		//Save Product
 		try {
 			PersistentService.getService().saveRecord(newProduct);
@@ -134,22 +142,14 @@ public class ProductManager {
 	 * @throws ApplicationGUIException Exception while retrieving a product based on given barcode number
 	 * */
 	public Product getProductByBarcode(String barcodeNumber)throws ApplicationGUIException {
-		//Retrieve all products
-		List<Product> allProducts = ProductManager.getProductManager().getAllProducts();
-		Product product = null;
-		
-		if(allProducts != null && !allProducts.isEmpty()) {
-			for(Product prod : allProducts) {
-				if(prod.getBarcodeNumber().equals(barcodeNumber)) {
-					product = prod;
-					break;
-				}
-			}
-		} else {
-			//Log all products is null or isEmpty
-			log.log("getProductByBarcode : Retrieved product list from getAllProducts() is null or empty");
+		Product existingProduct = null;
+		try {
+			existingProduct = PersistentService.getService().retrieveProductByBarcode(barcodeNumber);
+		}catch (Exception e) {
+			log.log("getProductByBarcode:" + e.toString());
+			throw new ApplicationGUIException(e.toString());
 		}
-		return product;
+		return existingProduct;
 	}
 
 	/**
