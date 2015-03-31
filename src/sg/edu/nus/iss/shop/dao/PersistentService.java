@@ -90,12 +90,13 @@ public class PersistentService
 		{
 			buildPK4CachedProduct(dsName);
 			adapter = new ProductRecordAdapter((Product)recordObj);
+			verifyDuplicatedProductBarcode(adapter.getDataRecord());
 		}
 		else if(recordObj instanceof Discount)
 		{
 			dsName = recordObj.getClass().getSuperclass().getSimpleName() + DaoConstant.DS_SUFFIX;
 			buildPK4CachedDiscount(dsName);
-			adapter = new DiscountRecordAdapter((Discount)recordObj);
+			adapter = new DiscountRecordAdapter((Discount)recordObj);			
 		}
 		else if(recordObj instanceof Transaction)
 		{			
@@ -549,6 +550,28 @@ public class PersistentService
 			}
 		}
 		return null;
+	}
+	
+	private void verifyDuplicatedProductBarcode(DataRecord prodRecord) throws Exception
+	{
+		String dataSetName = Product.class.getSimpleName() + DaoConstant.DS_SUFFIX;
+		buildPK4CachedProduct(dataSetName);
+		
+		//System.out.println("objectId:" + objectId);
+		for(DataRecord record : dataReader.getCachedData(dataSetName))
+		{
+			//System.out.println("PK:" + record.getPK());
+			if(prodRecord != null && !prodRecord.getUK().isEmpty()
+					&& prodRecord.getUK().equals(record.getUK()))
+			{
+				if(prodRecord.getPK().equals(record.getPK()))
+					return ;
+				else
+					throw new Exception("unique constraint: same barcode existing in products");
+			}
+		}
+		
+		return ;
 	}
 	
 	public Product retrieveProductByBarcode(String barcode) throws IOException, InvalidDataFormat

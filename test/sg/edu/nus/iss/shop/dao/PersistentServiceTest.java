@@ -171,7 +171,7 @@ public class PersistentServiceTest {
 			assertEquals(prod2, retrieved2);
 
 			Product prod3 = new Product("STA/2", "NUS Notepad",
-					"Great notepad for those", 315, 21.45, "1234", 10, 100);
+					"Great notepad for those", 315, 21.45, "12345", 10, 100);
 			service.saveRecord(prod3);
 			Product retrieved3 = service.retrieveObject(Product.class,
 					prod3.getProductId());

@@ -4,8 +4,8 @@ package sg.edu.nus.iss.shop.util;
 public class Logger implements ILogger {
 	
 	private static ILogger logger = null;  
-	private static ConsoleLogger consoleLogger = null;
-	private static FileLogger fileLogger = null;
+	private static ILogger consoleLogger = null;
+	private static ILogger fileLogger = null;
 	
 	private Logger() 
 	{ 
