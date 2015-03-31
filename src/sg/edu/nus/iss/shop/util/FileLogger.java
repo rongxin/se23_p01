@@ -50,25 +50,25 @@ public class FileLogger extends LoggerImpl{
 	@Override
 	public void error(String message) {
 		// TODO Auto-generated method stub
-		writer.writeLog(this.getLogLevelMessage(error,message));
+		writer.writeLog(this.getErrorMessage(message));
 	}
 
 	@Override
 	public void warn(String message) {
 		// TODO Auto-generated method stub
-		writer.writeLog(this.getLogLevelMessage(warn,message));
+		writer.writeLog(this.getWarnMessage(message));
 	}
 
 	@Override
 	public void info(String message) {
 		// TODO Auto-generated method stub
-		writer.writeLog(this.getLogLevelMessage(info,message));
+		writer.writeLog(this.getInfoMessage(message));
 	}
 
 	@Override
 	public void debug(String message) {
 		// TODO Auto-generated method stub
-		writer.writeLog(this.getLogLevelMessage(debug,message));
+		writer.writeLog(this.getDebugMessage(message));
 	}
 
 }

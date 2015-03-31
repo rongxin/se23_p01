@@ -17,25 +17,25 @@ public class ConsoleLogger extends LoggerImpl {
 	@Override
 	public void error(String message) {
 		// TODO Auto-generated method stub
-		System.out.println(this.getLogLevelMessage(error,message));
+		System.out.println(this.getErrorMessage(message));
 	}
 
 	@Override
 	public void warn(String message) {
 		// TODO Auto-generated method stub
-		System.out.println(this.getLogLevelMessage(warn,message));
+		System.out.println(this.getWarnMessage(message));
 	}
 
 	@Override
 	public void info(String message) {
 		// TODO Auto-generated method stub
-		System.out.println(this.getLogLevelMessage(info,message));
+		System.out.println(this.getInfoMessage(message));
 	}
 
 	@Override
 	public void debug(String message) {
 		// TODO Auto-generated method stub
-		System.out.println(this.getLogLevelMessage(debug,message));
+		System.out.println(this.getDebugMessage(message));
 	}
 
 }

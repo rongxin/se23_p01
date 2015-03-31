@@ -7,18 +7,39 @@ public class LoggerImpl implements ILogger{
 
 	private SimpleDateFormat logDateTime = new SimpleDateFormat("yyyy-MM-DD HH:mm:ss");
 	
-	protected String error ="Error:";
-	protected String warn ="Warn:";
-	protected String info ="Info:";
-	protected String debug ="Debug:";
+	private String error ="Error:";
+	private String warn ="Warn:";
+	private String info ="Info:";
+	private String debug ="Debug:";
 	
 	
 	protected String getLogMessage(String message)
 	{
 		return logDateTime.format(new Date()) + "    " + message;
 	}
+	 
+	protected String getErrorMessage(String message)
+	{
+		return getLogLevelMessage(error,message);
+	}
 	
-	protected String getLogLevelMessage(String level, String message)
+	protected String getWarnMessage(String message)
+	{
+		return getLogLevelMessage(warn,message);
+	}
+	
+	protected String getInfoMessage(String message)
+	{
+		return getLogLevelMessage(info,message);
+	}
+	
+	protected String getDebugMessage(String message)
+	{
+		return getLogLevelMessage(debug,message);
+	}
+	
+	
+	private String getLogLevelMessage(String level, String message)
 	{
 		return logDateTime.format(new Date()) + " " + level + "    " + message;
 	}
