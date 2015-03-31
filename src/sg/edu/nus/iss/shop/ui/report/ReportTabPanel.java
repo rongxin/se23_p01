@@ -53,8 +53,12 @@ public abstract class ReportTabPanel extends JPanel {
 		JTable table = new JTable(reportTableModel);
 		table.setName("Items");
 		table.setEnabled(false);
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
-		JScrollPane scrollPane = new JScrollPane(table);
+		if(table.getPreferredSize().width < table.getPreferredScrollableViewportSize().width){
+			table.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+		}else{
+			table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		}
+		JScrollPane scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		report.add(scrollPane);
 		return report;
 	}
