@@ -13,6 +13,7 @@ import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 public class ListDiscountPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private ShopApplication shopApplication;
+	private DiscountTableModel tableModel;
 
 	public ListDiscountPanel(ShopApplication shopApplication) {
 		super();
@@ -23,7 +24,7 @@ public class ListDiscountPanel extends JPanel {
 
 	private void createMainPanel() {
 		List<Discount> discounts = shopApplication.getDiscounts();
-		DiscountTableModel tableModel = new DiscountTableModel();
+		tableModel = new DiscountTableModel();
 
 		for (Discount discount : discounts) {
 			tableModel.addDiscountToTable(discount);
@@ -38,7 +39,8 @@ public class ListDiscountPanel extends JPanel {
 		this.add(scrollPane);
 	}
 
-
-
+	public DiscountTableModel getTableModel() {
+		return tableModel;
+	}
 
 }
