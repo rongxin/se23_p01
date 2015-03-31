@@ -2,6 +2,7 @@ package sg.edu.nus.iss.shop.ui.discount;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -11,6 +12,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -131,18 +134,17 @@ public class AddDiscountDialog extends OkCancelDialog {
 		periodField.setToolTipText("Please input discount period.");
 		p.add(periodField, gc);
 
-
-		gc = LayoutHelper.createCellConstraint(1, 5);
-		final JRadioButton radMember = new JRadioButton("Member", true);
-		radMember.setMnemonic(KeyEvent.VK_C);
-		radMember.setSelected(true);
-		p.add(radMember, gc);
-
+		ButtonGroup bg = new ButtonGroup();
+		gc = LayoutHelper.createCellConstraint(1, 5);		
+		JRadioButton rb1=new JRadioButton("Member" ,true);
+		bg.add(rb1);
+		p.add(rb1, gc);
+		 
 		gc = LayoutHelper.createCellConstraint(1, 6);
-		final JRadioButton radAll = new JRadioButton("All");
-		radAll.setMnemonic(KeyEvent.VK_M);
-		p.add(radAll, gc);
-
+		JRadioButton rb2=new JRadioButton("All");      
+	    bg.add(rb2);	 	   
+	    p.add(rb2, gc);
+	    
 		return p;
 	}
 
