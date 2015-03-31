@@ -10,6 +10,7 @@ import sg.edu.nus.iss.shop.dao.exception.InvalidDomainObject;
 import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.Member;
 import sg.edu.nus.iss.shop.model.domain.NonMemberCustomer;
+import sg.edu.nus.iss.shop.util.ILogger;
 import sg.edu.nus.iss.shop.util.Logger;
 
 public class MemberManager {
@@ -22,7 +23,7 @@ public class MemberManager {
 	private static final int MIN_NAME_LENGTH = 5;
 	private static final int MAX_NAME_LENGTH = 30;
 	private static MemberManager theOnlyMemberManager;
-	private Logger log = Logger.getLog();
+	private ILogger log = Logger.getLog();
 	
 	private MemberManager() {
 

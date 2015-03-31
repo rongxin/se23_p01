@@ -1,84 +1,81 @@
 package sg.edu.nus.iss.shop.util;
+ 
 
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import sg.edu.nus.iss.shop.dao.LoggerWriter;
-
-public class Logger {
+public class Logger implements ILogger {
 	
-	private static Logger logger = null;
+	private static ILogger logger = null;  
+	private static ConsoleLogger consoleLogger = null;
+	private static FileLogger fileLogger = null;
 	
-	private LoggerWriter writer = null;
-	private SimpleDateFormat logDateTime = new SimpleDateFormat("yyyy-MM-DD HH:mm:ss");
-	private String error ="Error:";
-	private String warn ="Warn:";
-	private String info ="Info:";
-	private String debug ="Debug:";
-	
-	private Logger()
-	{
-		
-		SimpleDateFormat dft = new SimpleDateFormat("yyyy-MM-dd");
-		String loggerName = "Log_"+ dft.format(new Date()) ;
-		try {
-			writer = new LoggerWriter(loggerName);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-		}
-		
-		Runtime.getRuntime().addShutdownHook(new Thread() {
-			@Override
-			public void run() {
-				try {
-					writer.releaseLoggerWriter();
-				} catch (Throwable e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		});
-		
+	private Logger() 
+	{ 
+		consoleLogger = new ConsoleLogger();
+		fileLogger = new FileLogger();
 	}
-	//DataWriter writer = new Data
-	public static Logger getLog()
+	
+	public static ILogger getLog()
 	{
-		if(logger == null)
-			logger = new Logger();
+		if(fileLogger == null)
+			fileLogger = new FileLogger();
 		
-		return logger;
+		return fileLogger;
+	}
+	
+	public static ILogger getLog(LoggerType type)
+	{ 	
+		if(type == LoggerType.CONSOLE_OUTPUT)
+		{			 
+			if(consoleLogger == null)
+				consoleLogger = new ConsoleLogger();
+			return consoleLogger;
+		}
+		else if(type == LoggerType.FILE_OUTPUT)
+		{
+			if(fileLogger == null)
+				fileLogger = new FileLogger();
+			return fileLogger;
+		}		 
+		else
+		{	if(logger == null)
+				logger = new Logger();
+			return logger;
+		}
+			
 	}
 	
 	public void log(String message)
 	{
-		//String logRecord = logDateTime.format(new Date()) + ":" + message;		
-		writer.writeLog( logDateTime.format(new Date()) + "    " + message);
+		consoleLogger.log(message);
+		fileLogger.log(message);
 	}
 	
 	public void error(String message)
 	{
-		logLevel(error, message);
+		consoleLogger.error(message);
+		fileLogger.error(message);
 	}
 	
 	public void warn(String message)
 	{
-		logLevel(warn, message);
+		consoleLogger.warn(message);
+		fileLogger.warn(message);	
 	}
 	
 	public void info(String message)
 	{
-		logLevel(info, message);
+		consoleLogger.info(message);
+		fileLogger.info(message);	
 	}
 	
 	public void debug(String message)
 	{
-		logLevel(debug, message);
-	}
+		consoleLogger.debug(message);
+		fileLogger.debug(message);
+	} 
 	
-	private void logLevel(String level, String message)
-	{
-		writer.writeLog( logDateTime.format(new Date()) + " " + level + "    " + message);
+	@Override
+	public void log(Exception message) {
+		// TODO Auto-generated method stub
+		consoleLogger.log(message);
 	}
 }

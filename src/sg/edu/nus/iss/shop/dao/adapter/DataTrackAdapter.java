@@ -2,12 +2,13 @@ package sg.edu.nus.iss.shop.dao.adapter;
 
 import sg.edu.nus.iss.shop.dao.DaoConstant;
 import sg.edu.nus.iss.shop.dao.DataRecord;
+import sg.edu.nus.iss.shop.util.ILogger;
 import sg.edu.nus.iss.shop.util.Logger;
  
 public class DataTrackAdapter implements DataRecordAdapter
 {
 
-	private Logger logger = Logger.getLog();
+	private ILogger logger = Logger.getLog();
 	private DataRecord dataRecord;
 	private String dataSetName;
 	

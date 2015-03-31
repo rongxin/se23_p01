@@ -1,12 +1,13 @@
 package sg.edu.nus.iss.shop.model.domain;
 
 import sg.edu.nus.iss.shop.controller.DiscountManager;
+import sg.edu.nus.iss.shop.util.ILogger;
 import sg.edu.nus.iss.shop.util.Logger;
 
 public class Member extends Customer {
 	private String name;
 	private int loyalPoints;
-	private Logger log = Logger.getLog();
+	private ILogger log = Logger.getLog();
 	
 	//lazy loading for loyal point if needed
 	public Member(String id) {

@@ -5,6 +5,7 @@ package sg.edu.nus.iss.shop.controller;
 
 import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.Category;
+import sg.edu.nus.iss.shop.util.ILogger;
 import sg.edu.nus.iss.shop.util.Logger;
 import sg.edu.nus.iss.shop.dao.PersistentService;
 
@@ -18,7 +19,7 @@ public class CategoryManager {
 	private static final String INVALID_CODE_ERROR_MESSAGE = "Invalid Code";
 	private static final String INVALID_NAME_ERROR_MESSAGE = "Invalid Name";
 	private static final int FIXED_CODE_LENGTH = 3;
-	private Logger log = Logger.getLog();
+	private ILogger log = Logger.getLog();
 	// Private Constructor to prevent Object instantiation
 	private CategoryManager() {
 

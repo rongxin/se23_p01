@@ -16,6 +16,7 @@ import sg.edu.nus.iss.shop.model.domain.Discount;
 import sg.edu.nus.iss.shop.model.domain.FirstPurchaseDiscount;
 import sg.edu.nus.iss.shop.model.domain.PublicDiscount;
 import sg.edu.nus.iss.shop.model.domain.SubsequentDiscount;
+import sg.edu.nus.iss.shop.util.ILogger;
 import sg.edu.nus.iss.shop.util.Logger;
 
 /**
@@ -30,7 +31,7 @@ public class DiscountManager {
 //	private static final String PUBLIC_DISCOUNT_IN_DAYS_ERROR = "The valid days of public discount can not be ALWAYS!";
 	private static final String DISCOUNT_PERCENTAGE_ERROR = "The discount percentage can not be less than zero!";
 	private static DiscountManager theOnlyDiscountManager;
-	private Logger log = Logger.getLog();
+	private ILogger log = Logger.getLog();
 	private DiscountManager() {
 
 	}

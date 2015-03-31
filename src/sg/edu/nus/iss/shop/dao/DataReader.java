@@ -9,11 +9,13 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import sg.edu.nus.iss.shop.util.ILogger;
 import sg.edu.nus.iss.shop.util.Logger;
+import sg.edu.nus.iss.shop.util.LoggerType;
 
 public class DataReader extends DataRespository
 {
-	private Logger logger = Logger.getLog();
+	private ILogger logger = Logger.getLog(LoggerType.ALL_OUTPUT);
 	public List<DataRecord> read(String dataSetName)  
 	{
 		super.setupRepository();

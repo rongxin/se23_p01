@@ -22,6 +22,7 @@ import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.model.domain.StoreKeeper;
 import sg.edu.nus.iss.shop.model.domain.Transaction;
 import sg.edu.nus.iss.shop.model.domain.Vendor;
+import sg.edu.nus.iss.shop.util.ILogger;
 import sg.edu.nus.iss.shop.util.Logger;
 
 public class PersistentService
@@ -37,7 +38,7 @@ public class PersistentService
 	private boolean hasBuildPK4Discount = false;
 	private List<String> vendorsDS = new ArrayList<String>();
 	
-	private Logger logger = Logger.getLog();
+	private ILogger logger = Logger.getLog();
 
 	private PersistentService()
 	{

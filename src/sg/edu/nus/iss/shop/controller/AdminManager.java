@@ -7,12 +7,13 @@ import sg.edu.nus.iss.shop.dao.PersistentService;
 import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.model.domain.StoreKeeper;
+import sg.edu.nus.iss.shop.util.ILogger;
 import sg.edu.nus.iss.shop.util.Logger;
 
 public class AdminManager {
 
 	private static AdminManager theOnlyAdminManager;
-	private Logger log = Logger.getLog();
+	private ILogger log = Logger.getLog();
 	private AdminManager() {
 	}
 	public static AdminManager getAdminManager() {

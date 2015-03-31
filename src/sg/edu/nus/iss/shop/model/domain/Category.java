@@ -9,6 +9,7 @@ import java.util.List;
 import sg.edu.nus.iss.shop.controller.ProductManager;
 import sg.edu.nus.iss.shop.dao.PersistentService;
 import sg.edu.nus.iss.shop.model.domain.Vendor;
+import sg.edu.nus.iss.shop.util.ILogger;
 import sg.edu.nus.iss.shop.util.Logger;
 
 public class Category {
@@ -16,7 +17,7 @@ public class Category {
 	private String name;
 	private List<Vendor> vendorList;
 	private List<Product> productList;
-	private Logger log = Logger.getLog();
+	private ILogger log = Logger.getLog();
 
 	/**
 	 * Constructor for Category

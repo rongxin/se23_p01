@@ -4,6 +4,7 @@
 package sg.edu.nus.iss.shop.model.domain;
 
 import sg.edu.nus.iss.shop.controller.CategoryManager;
+import sg.edu.nus.iss.shop.util.ILogger;
 import sg.edu.nus.iss.shop.util.Logger;
 
 public class Product {
@@ -17,7 +18,7 @@ public class Product {
 	private int orderThreshold;
 	private int orderQuantity;
 	private Category category;
-	private Logger log = Logger.getLog();
+	private ILogger log = Logger.getLog();
 
 	/**
 	 * Constructor for Product
