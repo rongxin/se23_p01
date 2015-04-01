@@ -60,28 +60,36 @@ public class ProductManager {
 		Product newProduct;
 
 		if (category == null){
-			throw new ApplicationGUIException(ProductManager.INVALID_CATEGORY_ERROR_MESSAGE);
+			log.log("addProduct:" + ProductManager.INVALID_CATEGORY_ERROR_MESSAGE);
+			throw new ApplicationGUIException(ProductManager.INVALID_CATEGORY_ERROR_MESSAGE);		
 		}
 		if (name == null || name.trim().length()< 0){
+			log.log("addProduct:" + ProductManager.INVALID_CATEGORY_ERROR_MESSAGE);
 			throw new ApplicationGUIException(ProductManager.INVALID_NAME_ERROR_MESSAGE);
 		}
 		if (description == null || description.trim().length()< 0){
+			log.log("addProduct:" + ProductManager.INVALID_NAME_ERROR_MESSAGE);
 			throw new ApplicationGUIException(ProductManager.INVALID_NAME_ERROR_MESSAGE);
 		}
 		if (availableQuantity <= 0){
+			log.log("addProduct:" + ProductManager.INVALID_AVAILABLE_QUANTITY_ERROR_MESSAGE);
 			throw new ApplicationGUIException(ProductManager.INVALID_AVAILABLE_QUANTITY_ERROR_MESSAGE );
 		}
 		if (price  <= 0){
+			log.log("addProduct:" + ProductManager.INVALID_PRICE_ERROR_MESSAGE);
 			throw new ApplicationGUIException(ProductManager.INVALID_PRICE_ERROR_MESSAGE );
 		} 
 		
 		if (barcodeNumber== null || barcodeNumber.trim().length()< 0){
+			log.log("addProduct:" + ProductManager.INVALID_BARCODE_NUMBER_ERROR_MESSAGE);
 			throw new ApplicationGUIException(ProductManager.INVALID_BARCODE_NUMBER_ERROR_MESSAGE);
 		}
 		if (orderThreshold  <= 0){
+			log.log("addProduct:" + ProductManager.INVALID_ORDER_THRESHOLD_ERROR_MESSAGE);
 			throw new ApplicationGUIException(ProductManager.INVALID_ORDER_THRESHOLD_ERROR_MESSAGE );
 		}
 		if (orderQuantity <= 0){
+			log.log("addProduct:" + ProductManager.INVALID_ORDER_QUANTITY_ERROR_MESSAGE);
 			throw new ApplicationGUIException(ProductManager.INVALID_ORDER_QUANTITY_ERROR_MESSAGE);
 		}
 		
