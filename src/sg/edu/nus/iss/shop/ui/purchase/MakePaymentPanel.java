@@ -91,17 +91,24 @@ public class MakePaymentPanel extends JPanel {
 					return;
 				}
 
-				Integer loyalPoints = ((Member) checkoutWindow.getCustomer()).getLoyalPoints();
+				Member member = (Member) checkoutWindow.getCustomer();
+				Integer loyalPoints = member.getLoyalPoints();
 				Integer loyalPointsToUse = Integer.valueOf(loyaltyPointsField.getText().trim());
 
 				if (loyalPointsToUse > loyalPoints) {
 					MessageHelper.showErrorMessage(redeemButton, "Not enough loyalty points.");
-				} else {
+				}else if(checkoutWindow.getTotalPayable()<=0){
+					MessageHelper.showErrorMessage(redeemButton, "Redeem not needed already.");
+				}
+				else {
 
 					Double cashToBePay = shopApplication.calculateCashToPay(loyalPointsToUse,
-							checkoutWindow.getTotalPayable());
+							checkoutWindow.getTotalAmountAfterDiscount());
 					amountToBePaidValue.setText(PriceHelper.getPriceDisplay(cashToBePay));
 					checkoutWindow.setLoyalPointsUsed(loyalPointsToUse);
+					// update member points in the system
+					Integer remainPoints = member.getLoyalPoints() - loyalPointsToUse;
+					checkoutWindow.getMemberInfoPanel().getMemberLoyaltyPointsValueLabel().setText("" + remainPoints);
 
 					checkoutWindow.getPurchaseInfoPanel().getCashToPayValueLabel()
 					.setText(PriceHelper.getPriceDisplay(cashToBePay));

@@ -47,16 +47,16 @@ public class ProductScannedActionListener extends AbstractAction {
 			Discount discount = checkoutWindow.getCustomer().getMaxDiscount();
 			Double discountPrice = new Double(0);
 			if (discount == null) {
-				MessageHelper.showErrorMessage("Could not get discount.");
+				// MessageHelper.showErrorMessage("Could not get discount.");
 			} else {
 				checkoutWindow.setDiscount(discount.getDiscountPercentage());
 				double discountPercentage = discount.getDiscountPercentage() / 100.00;
 				discountPrice = totalPrice * discountPercentage;
 			}
 
-			Double totalPayable = totalPrice - discountPrice;
+			Double totalAmountAfterDiscount = totalPrice - discountPrice;
 
-			checkoutWindow.updatePurchaseInfo(totalPrice, discountPrice, totalPayable);
+			checkoutWindow.updatePurchaseInfo(totalPrice, discountPrice, totalAmountAfterDiscount);
 
 		}
 

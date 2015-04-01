@@ -32,6 +32,7 @@ public class CheckoutWindow extends JFrame {
 	private List<Product> products = new ArrayList<>();
 	private Double totalPrice;
 	private Double totalDiscountedPrice;
+	private Double totalAmountAfterDiscount;
 	private Double totalPayable;
 	private Double cashReceived;
 	private Double changesGiven;
@@ -108,18 +109,19 @@ public class CheckoutWindow extends JFrame {
 		return getPurchaseCardPanel();
 	}
 
-	public void updatePurchaseInfo(Double totalPrice, Double discountPrice, Double totalPayable) {
+	public void updatePurchaseInfo(Double totalPrice, Double discountPrice, Double totalPriceAfterDiscount) {
 		setTotalPrice(totalPrice);
 		setTotalDiscountedPrice(discountPrice);
-		setTotalPayable(totalPayable);
+		setTotalAmountAfterDiscount(totalPriceAfterDiscount);
+		setTotalPayable(totalPriceAfterDiscount);
 
 		getPurchaseInfoPanel().getTotalAmountValueLabel().setText(PriceHelper.getPriceDisplay(totalPrice));
 		//Oscar: Added the negative in the form
 		getPurchaseInfoPanel().getDiscountValueLabel().setText("-" + PriceHelper.getPriceDisplay(discountPrice));
-		getPurchaseInfoPanel().getTotalAfterDiscountValueLabel().setText(PriceHelper.getPriceDisplay(totalPayable));
-		getPurchaseInfoPanel().getCashToPayValueLabel().setText(PriceHelper.getPriceDisplay(totalPayable));
+		getPurchaseInfoPanel().getTotalAfterDiscountValueLabel().setText(PriceHelper.getPriceDisplay(totalPriceAfterDiscount));
+		getPurchaseInfoPanel().getCashToPayValueLabel().setText(PriceHelper.getPriceDisplay(totalPriceAfterDiscount));
 
-		getMakePaymentPanel().getAmountToBePaidValue().setText(PriceHelper.getPriceDisplay(totalPayable));
+		getMakePaymentPanel().getAmountToBePaidValue().setText(PriceHelper.getPriceDisplay(totalPriceAfterDiscount));
 
 	}
 
@@ -252,6 +254,14 @@ public class CheckoutWindow extends JFrame {
 
 	public GetMemberInfoPanel getGetMemberInfoPanel() {
 		return getMemberInfoPanel;
+	}
+
+	public Double getTotalAmountAfterDiscount() {
+		return totalAmountAfterDiscount;
+	}
+
+	public void setTotalAmountAfterDiscount(Double totalAmountAfterDiscount) {
+		this.totalAmountAfterDiscount = totalAmountAfterDiscount;
 	}
 
 }
