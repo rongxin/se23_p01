@@ -195,16 +195,16 @@ public class AddProductDialog extends OkCancelDialog {
 		if ((nameField.getText().trim().length() == 0)) {
 			MessageHelper.showErrorMessage("Please input product name.");
 			return false;
-		} else if (!NumberHelper.isValidNumber(quantityField.getText().trim())) {
+		} else if (!NumberHelper.isValidPositiveInteger(quantityField.getText().trim())) {
 			MessageHelper.showErrorMessage("Please input valid quantity.");
 			return false;
-		} else if (!NumberHelper.isValidNumber(barCodeNumberField.getText().trim())) {
+		} else if (!NumberHelper.isValidPositiveInteger(barCodeNumberField.getText().trim())) {
 			MessageHelper.showErrorMessage("Please input valid barcode number.");
 			return false;
-		} else if (!NumberHelper.isValidNumber(reorderThresholdField.getText().trim())) {
+		} else if (!NumberHelper.isValidPositiveInteger(reorderThresholdField.getText().trim())) {
 			MessageHelper.showErrorMessage("Please input valid threshold number.");
 			return false;
-		} else if (!NumberHelper.isValidNumber(reorderQuantityField.getText().trim())) {
+		} else if (!NumberHelper.isValidPositiveInteger(reorderQuantityField.getText().trim())) {
 			MessageHelper.showErrorMessage("Please input valid order quantity.");
 			return false;
 		} else if (!PriceHelper.isValidPrice(priceField.getText().trim())) {

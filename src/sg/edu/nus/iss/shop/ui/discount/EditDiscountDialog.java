@@ -92,7 +92,7 @@ public class EditDiscountDialog extends OkCancelDialog {
 	protected boolean performOkAction() {
 		String discountPercentage= percentageField.getText().trim();
 
-		if (!NumberHelper.isValidNumber(discountPercentage))
+		if (!NumberHelper.isValidPositiveInteger(discountPercentage))
 		{
 			MessageHelper.showErrorMessage("Please input percentage.");
 			return false;

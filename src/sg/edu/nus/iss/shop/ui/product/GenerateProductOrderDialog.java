@@ -118,7 +118,7 @@ public class GenerateProductOrderDialog extends OkCancelDialog {
 		if (vendor == null || vendor.equals("")) {
 			MessageHelper.showErrorMessage("Please set vendor for the product.");
 			return false;
-		} else if (!NumberHelper.isValidNumber(orderQuantityInput)) {
+		} else if (!NumberHelper.isValidPositiveInteger(orderQuantityInput)) {
 			MessageHelper.showErrorMessage("Please input valid quantity.");
 			return false;
 		}

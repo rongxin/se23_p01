@@ -1,28 +1,56 @@
 package sg.edu.nus.iss.shop.ui.util;
 
+/**
+ * @author Xia Rongxin
+ */
 public class NumberHelper {
 
-	public static boolean isValidNumber(String strInput) {
+	/**
+	 * check if the input string is a valid positive integer
+	 *
+	 * @param strInput
+	 * @return
+	 */
+	public static boolean isValidPositiveInteger(String strInput) {
 		if (strInput == null || strInput.trim().equals("")) {
 			return false;
 		}
+		Integer d = null;
 		try {
-			Integer d = Integer.parseInt(strInput);
+			d = Integer.parseInt(strInput);
 		} catch (NumberFormatException nfe) {
 			return false;
 		}
+
+		if (d < 0) {
+			return false;
+		}
+
 		return true;
 	}
 
-	public static boolean isValidDouble(String strInput) {
+	/**
+	 * check if the input string is a valid positive double value
+	 *
+	 * @param strInput
+	 * @return
+	 */
+	public static boolean isValidPositiveDouble(String strInput) {
 		if (strInput == null || strInput.trim().equals("")) {
 			return false;
 		}
+
+		Double d = null;
 		try {
-			Double d = Double.parseDouble(strInput);
+			d = Double.parseDouble(strInput);
 		} catch (NumberFormatException nfe) {
 			return false;
 		}
+
+		if (d < 0) {
+			return false;
+		}
+
 		return true;
 	}
 }

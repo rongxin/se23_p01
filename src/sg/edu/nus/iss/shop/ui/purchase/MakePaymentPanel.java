@@ -86,7 +86,7 @@ public class MakePaymentPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				if (!NumberHelper.isValidNumber(loyaltyPointsField.getText().trim())) {
+				if (!NumberHelper.isValidPositiveInteger(loyaltyPointsField.getText().trim())) {
 					MessageHelper.showErrorMessage("Please input valid loyal point.");
 					return;
 				}
