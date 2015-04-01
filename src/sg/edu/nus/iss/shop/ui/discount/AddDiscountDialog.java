@@ -8,9 +8,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
@@ -24,12 +22,11 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
-import sg.edu.nus.iss.shop.model.domain.Category;
+import sg.edu.nus.iss.shop.model.domain.Discount;
 import sg.edu.nus.iss.shop.ui.OkCancelDialog;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
 import sg.edu.nus.iss.shop.ui.util.PriceHelper;
-import sg.edu.nus.iss.shop.ui.util.TextFieldLimit;
 
 public class AddDiscountDialog extends OkCancelDialog {
 
@@ -41,6 +38,8 @@ public class AddDiscountDialog extends OkCancelDialog {
 	private JTextField startDateField;
 	private JTextField periodField;
 	private JComboBox<String> appliableCombo;
+	private JRadioButton radMember;
+	private JRadioButton radAll;
 	private JLabel messageLabel;
 
 	public AddDiscountDialog(ShopApplication shopApplication,ListDiscountPanel listPanel) {
@@ -71,7 +70,7 @@ public class AddDiscountDialog extends OkCancelDialog {
 		// column 1
 		gc = LayoutHelper.createCellConstraint(0, 0);
 		JLabel discountCodeLabel = new JLabel("Discount Code:");
-		p.add(discountCodeLabel, gc);	
+		p.add(discountCodeLabel, gc);
 
 		gc = LayoutHelper.createCellConstraint(0, 1);
 		JLabel discountDescriptionLabel = new JLabel("Discount Description:");
@@ -93,12 +92,12 @@ public class AddDiscountDialog extends OkCancelDialog {
 		JLabel discountAppliableLabel = new JLabel("Appliable to member:");
 		p.add(discountAppliableLabel, gc);
 
-		
+
 		// column 2
 		gc = LayoutHelper.createCellConstraint(1, 0);
 		gc.anchor = GridBagConstraints.LAST_LINE_START;
 		gc.fill = GridBagConstraints.NONE;
-		discountCodeField = new JTextField(20);	
+		discountCodeField = new JTextField(20);
 		discountCodeField.setToolTipText("Please input three-letter code for the new category");
 		p.add(discountCodeField, gc);
 
@@ -111,13 +110,13 @@ public class AddDiscountDialog extends OkCancelDialog {
 		JScrollPane discountDescriptionFieldScroll = new JScrollPane(discountDescriptionField);
 		discountDescriptionFieldScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		p.add(discountDescriptionFieldScroll, gc);
-		
-		
+
+
 		gc = LayoutHelper.createCellConstraint(1, 2);
 		percentageField = new JTextField(20);
 		percentageField.setToolTipText("Please input percentage.");
-		p.add(percentageField, gc);	
-				
+		p.add(percentageField, gc);
+
 		gc = LayoutHelper.createCellConstraint(1, 3);
 		startDateField = new JTextField(10);
 		Calendar cal = Calendar.getInstance();
@@ -125,25 +124,25 @@ public class AddDiscountDialog extends OkCancelDialog {
 				Calendar.getInstance().getActualMinimum(Calendar.DAY_OF_MONTH));
 		startDateField.setText(new SimpleDateFormat("dd/MM/yyyy").format(cal.getTime()));
 		p.add(startDateField, gc);
-		
-		
+
+
 		gc = LayoutHelper.createCellConstraint(1, 4);
 		periodField = new JTextField(20);
 		periodField.setToolTipText("Please input discount period.");
-		p.add(periodField, gc);	
-		
-	
+		p.add(periodField, gc);
+
+
 		gc = LayoutHelper.createCellConstraint(1, 5);
-		final JRadioButton radMember = new JRadioButton("Member", true);	   
-	    radMember.setMnemonic(KeyEvent.VK_C);	    
-	    radMember.setSelected(true);
+		radMember = new JRadioButton("Member", true);
+		radMember.setMnemonic(KeyEvent.VK_C);
+		radMember.setSelected(true);
 		p.add(radMember, gc);
-		
+
 		gc = LayoutHelper.createCellConstraint(1, 6);
-		final JRadioButton radAll = new JRadioButton("All");
-		radAll.setMnemonic(KeyEvent.VK_M); 
-		p.add(radAll, gc);		
-		
+		radAll = new JRadioButton("All");
+		radAll.setMnemonic(KeyEvent.VK_M);
+		p.add(radAll, gc);
+
 		return p;
 	}
 
@@ -158,10 +157,11 @@ public class AddDiscountDialog extends OkCancelDialog {
 	@Override
 	protected boolean performOkAction() {
 		String discountCode = discountCodeField.getText().trim();
-		String discountDesc = discountDescriptionField.getText().trim();		
+		String discountDesc = discountDescriptionField.getText().trim();
 		String discountPercentage= percentageField.getText().trim();
 		String discountPeriod= periodField.getText().trim();
-		
+		String startDate = startDateField.getText().trim();
+
 		if ((discountCode.length() == 0) || (discountDesc.length() == 0 || discountPercentage.length()==0)) {
 			messageLabel.setText("All fields are compulsory.");
 			messageLabel.setForeground(Color.RED);
@@ -179,15 +179,23 @@ public class AddDiscountDialog extends OkCancelDialog {
 			messageLabel.setForeground(Color.RED);
 			return false;
 		}
-		
-		Double discountPercentageDouble = new Double(discountPercentage); 
+
+		Double discountPercentageDouble = new Double(discountPercentage);
 		Integer discountPeriodInteger= new Integer(discountPeriod);
-		// Add discount here.
-		//shopApplication.addCategory (discountCode, discountDesc);
-	
+
+
+		Boolean applicableToMember = false;
+		if (radMember.isSelected()) {
+			applicableToMember = true;
+		}
+
+		Discount discount = shopApplication.addDiscount(discountCode, discountDesc, discountPercentage, startDate,
+				discountPeriod,
+				applicableToMember);
+
 		return true;
 	}
-	
-	
+
+
 }
 
