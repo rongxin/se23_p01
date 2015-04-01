@@ -206,7 +206,8 @@ public class ShopApplication {
 		return null;
 	}
 
-	public Member addDiscount(String discountCode, String description, String percent, String startDate, String period,
+	public Discount addDiscount(String discountCode, String description, String percent, String startDate,
+			String period,
 			Boolean applicableToMember) {
 
 		// TODO integrate add discount

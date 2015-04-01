@@ -183,6 +183,7 @@ public class AddDiscountDialog extends OkCancelDialog {
 		Double discountPercentageDouble = new Double(discountPercentage);
 		Integer discountPeriodInteger= new Integer(discountPeriod);
 
+
 		Boolean applicableToMember = false;
 		if (radMember.isSelected()) {
 			applicableToMember = true;
