@@ -41,7 +41,7 @@ public class ProductManagerTest extends TestCase {
 			try {
 				testProduct = ProductManager.getProductManager().addProduct(
 						newCategory, "Testing Product Beta",
-						"Testing Product Beta #1", 100, 11.00, "2017", 30, 50);
+						"Testing Product Beta #1", 100, 11.3399909, "2017", 30, 50);
 				assertNotNull(testProduct.getProductId());
 				assertEquals("2017", testProduct.getBarcodeNumber());
 			} catch (Exception e) {
