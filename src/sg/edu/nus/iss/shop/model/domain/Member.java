@@ -67,8 +67,7 @@ public class Member extends Customer {
 					maxDiscount = firstPurchaseDiscount;
 				}
 			} catch (Exception e) {
-//				e.printStackTrace();
-				log.log(e.toString());
+				log.log("get max first purchase discount for member" + e.toString());
 			}
 		} else {
 			try {
@@ -80,11 +79,14 @@ public class Member extends Customer {
 					maxDiscount = subsequentDiscount;
 				}
 			} catch (Exception e) {
-//				e.printStackTrace();
-				log.log(e.toString());
+				log.log("get max first purchase discount for member" + e.toString());
 			}
 		}
-
+		
+		if (maxDiscount == null) {
+			maxDiscount = new PublicDiscount("MAX_DISCOUNT","Max Discount",0,"ALWAYS","ALWAYS");
+		}
+		
 		return maxDiscount;
 	}
 }
