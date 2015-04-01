@@ -55,8 +55,8 @@ public class ProductScannedActionListener extends AbstractAction {
 			}
 
 			Double totalAmountAfterDiscount = totalPrice - discountPrice;
-
 			checkoutWindow.updatePurchaseInfo(totalPrice, discountPrice, totalAmountAfterDiscount);
+
 
 		}
 

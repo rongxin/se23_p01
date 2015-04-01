@@ -123,6 +123,11 @@ public class CheckoutWindow extends JFrame {
 
 		getMakePaymentPanel().getAmountToBePaidValue().setText(PriceHelper.getPriceDisplay(totalPriceAfterDiscount));
 
+		// enable the payment button if more than one items
+		if (products.size() > 0) {
+			actionButtonsPanel.getProceedPaymentButton().setEnabled(true);
+		}
+
 	}
 
 	public void updateMemberRelatedInfomation(Customer member) {
@@ -159,7 +164,7 @@ public class CheckoutWindow extends JFrame {
 
 		actionButtonsPanel.getScanItemsButton().setEnabled(true);
 		actionButtonsPanel.getCheckoutButton().setEnabled(false);
-		actionButtonsPanel.getProceedPaymentButton().setEnabled(true);
+		actionButtonsPanel.getProceedPaymentButton().setEnabled(false);
 
 	}
 
