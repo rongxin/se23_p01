@@ -182,7 +182,7 @@ public class AddDiscountDialog extends OkCancelDialog {
 		
 		Double discountPercentageDouble = new Double(discountPercentage); 
 		Integer discountPeriodInteger= new Integer(discountPeriod);
-		
+		// Add discount here.
 		//shopApplication.addCategory (discountCode, discountDesc);
 	
 		return true;
