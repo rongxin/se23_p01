@@ -49,9 +49,11 @@ public class VendorWindow extends JFrame {
 		addCategoryButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				addDialog = new AddVendorDialog(shopApplication, listPanel, category);
-				addDialog.pack();
-				addDialog.setLocationByPlatform(true);
+				if (addDialog == null) {
+					addDialog = new AddVendorDialog(shopApplication, listPanel, category);
+					addDialog.pack();
+					addDialog.setLocationByPlatform(true);
+				}
 				addDialog.setVisible(true);
 			}
 		});
