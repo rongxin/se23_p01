@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -26,7 +27,8 @@ import sg.edu.nus.iss.shop.model.domain.Discount;
 import sg.edu.nus.iss.shop.ui.OkCancelDialog;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
-import sg.edu.nus.iss.shop.ui.util.PriceHelper;
+import sg.edu.nus.iss.shop.ui.util.MessageHelper;
+import sg.edu.nus.iss.shop.ui.util.NumberHelper;
 
 public class AddDiscountDialog extends OkCancelDialog {
 
@@ -41,10 +43,12 @@ public class AddDiscountDialog extends OkCancelDialog {
 	private JRadioButton radMember;
 	private JRadioButton radAll;
 	private JLabel messageLabel;
+	private ListDiscountPanel listPanel;
 
 	public AddDiscountDialog(ShopApplication shopApplication,ListDiscountPanel listPanel) {
 		super(shopApplication.getMainWindow().getMainPanel().getCategoryWindow(), "Add Discount");
 		this.shopApplication = shopApplication;
+		this.listPanel = listPanel;
 	}
 
 	@Override
@@ -141,7 +145,10 @@ public class AddDiscountDialog extends OkCancelDialog {
 		gc = LayoutHelper.createCellConstraint(1, 6);
 		radAll = new JRadioButton("All");
 		radAll.setMnemonic(KeyEvent.VK_M);
+		ButtonGroup applicableButtonGroup = new ButtonGroup();
 		p.add(radAll, gc);
+		applicableButtonGroup.add(radMember);
+		applicableButtonGroup.add(radAll);
 
 		return p;
 	}
@@ -158,42 +165,44 @@ public class AddDiscountDialog extends OkCancelDialog {
 	protected boolean performOkAction() {
 		String discountCode = discountCodeField.getText().trim();
 		String discountDesc = discountDescriptionField.getText().trim();
-		String discountPercentage= percentageField.getText().trim();
-		String discountPeriod= periodField.getText().trim();
+		String discountPercentageValue= percentageField.getText().trim();
+		String discountPeriodValue= periodField.getText().trim();
 		String startDate = startDateField.getText().trim();
 
-		if ((discountCode.length() == 0) || (discountDesc.length() == 0 || discountPercentage.length()==0)) {
-			messageLabel.setText("All fields are compulsory.");
-			messageLabel.setForeground(Color.RED);
+		if (discountCode.length() == 0) {
+			MessageHelper.showErrorMessage("Please input discount code.");
 			return false;
-		}
-		if(!PriceHelper.ParseDoubleValue(discountPercentage))
+		} else if (!NumberHelper.isValidPositiveInteger(discountPercentageValue))
 		{
-			messageLabel.setText("Invalid percentage.");
-			messageLabel.setForeground(Color.RED);
+			MessageHelper.showErrorMessage("Please input valid discount percentage.");
 			return false;
-		}
-		if(!PriceHelper.ParseIntValue(discountPeriod))
+		} else if (!NumberHelper.isValidPositiveInteger(discountPeriodValue))
 		{
-			messageLabel.setText("Invalid period.");
-			messageLabel.setForeground(Color.RED);
+			MessageHelper.showErrorMessage("Please input valid discount period.");
 			return false;
 		}
 
-		Double discountPercentageDouble = new Double(discountPercentage);
-		Integer discountPeriodInteger= new Integer(discountPeriod);
+		Integer discountPercentage = new Integer(discountPercentageValue);
+		Integer discountPeriod= new Integer(discountPeriodValue);
 
 
-		Boolean applicableToMember = false;
+		String discountApplicableTo = "";
 		if (radMember.isSelected()) {
-			applicableToMember = true;
+			discountApplicableTo = "M";
+		} else {
+			discountApplicableTo = "A";
 		}
 
 		Discount discount = shopApplication.addDiscount(discountCode, discountDesc, discountPercentage, startDate,
 				discountPeriod,
-				applicableToMember);
+				discountApplicableTo);
 
-		return true;
+		if (discount != null) {
+			listPanel.getTableModel().addDiscountToTable(discount);
+			return true;
+		}
+
+		return false;
 	}
 
 

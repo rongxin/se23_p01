@@ -206,11 +206,17 @@ public class ShopApplication {
 		return null;
 	}
 
-	public Discount addDiscount(String discountCode, String description, String percent, String startDate,
-			String period,
-			Boolean applicableToMember) {
+	public Discount addDiscount(String discountCode, String description, Integer discountPercentage, String startDate,
+			Integer discountPeriod,
+			String discountApplicableTo) {
 
-		// TODO integrate add discount
+		try {
+			return discountManager.addDiscount(discountCode, description, discountPercentage, startDate,
+					discountPeriod.toString(),
+					discountApplicableTo);
+		} catch (ApplicationGUIException e) {
+			MessageHelper.showErrorMessage(e.getMessage());
+		}
 		return null;
 	}
 
