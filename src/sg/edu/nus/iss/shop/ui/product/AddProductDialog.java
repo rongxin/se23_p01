@@ -195,23 +195,19 @@ public class AddProductDialog extends OkCancelDialog {
 		if ((nameField.getText().trim().length() == 0)) {
 			MessageHelper.showErrorMessage("Please input product name.");
 			return false;
-		} else if (!NumberHelper.isValidNumber(quantityField.getText().trim())
-				|| "".equals((quantityField.getText().trim()))) {
+		} else if (!NumberHelper.isValidNumber(quantityField.getText().trim())) {
 			MessageHelper.showErrorMessage("Please input valid quantity.");
 			return false;
-		} else if (!NumberHelper.isValidNumber(barCodeNumberField.getText().trim())
-				|| "".equals((barCodeNumberField.getText().trim()))) {
+		} else if (!NumberHelper.isValidNumber(barCodeNumberField.getText().trim())) {
 			MessageHelper.showErrorMessage("Please input valid barcode number.");
 			return false;
-		} else if (!NumberHelper.isValidNumber(reorderThresholdField.getText().trim())
-				|| "".equals((reorderThresholdField.getText().trim()))) {
+		} else if (!NumberHelper.isValidNumber(reorderThresholdField.getText().trim())) {
 			MessageHelper.showErrorMessage("Please input valid threshold number.");
 			return false;
-		} else if (!NumberHelper.isValidNumber(reorderQuantityField.getText().trim())
-				|| "".equals((reorderQuantityField.getText().trim()))) {
+		} else if (!NumberHelper.isValidNumber(reorderQuantityField.getText().trim())) {
 			MessageHelper.showErrorMessage("Please input valid order quantity.");
 			return false;
-		} else if (!PriceHelper.isValidPrice(priceField.getText().trim()) || "".equals((priceField.getText().trim()))) {
+		} else if (!PriceHelper.isValidPrice(priceField.getText().trim())) {
 			MessageHelper.showErrorMessage("Please input valid price.");
 			return false;
 		} else {

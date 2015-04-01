@@ -7,7 +7,7 @@ public class NumberHelper {
 			return false;
 		}
 		try {
-			double d = Integer.parseInt(strInput);
+			Integer d = Integer.parseInt(strInput);
 		} catch (NumberFormatException nfe) {
 			return false;
 		}
@@ -19,7 +19,7 @@ public class NumberHelper {
 			return false;
 		}
 		try {
-			double d = Double.parseDouble(strInput);
+			Double d = Double.parseDouble(strInput);
 		} catch (NumberFormatException nfe) {
 			return false;
 		}
