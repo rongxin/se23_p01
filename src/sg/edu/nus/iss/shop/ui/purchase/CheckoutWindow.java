@@ -117,7 +117,7 @@ public class CheckoutWindow extends JFrame {
 
 		getPurchaseInfoPanel().getTotalAmountValueLabel().setText(PriceHelper.getPriceDisplay(totalPrice));
 		//Oscar: Added the negative in the form
-		getPurchaseInfoPanel().getDiscountValueLabel().setText("-" + PriceHelper.getPriceDisplay(discountPrice));
+		getPurchaseInfoPanel().getDiscountValueLabel().setText("(" + PriceHelper.getPriceDisplay(discountPrice) + ")");
 		getPurchaseInfoPanel().getTotalAfterDiscountValueLabel().setText(PriceHelper.getPriceDisplay(totalPriceAfterDiscount));
 		getPurchaseInfoPanel().getCashToPayValueLabel().setText(PriceHelper.getPriceDisplay(totalPriceAfterDiscount));
 
