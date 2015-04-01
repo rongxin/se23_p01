@@ -97,9 +97,11 @@ public class MakePaymentPanel extends JPanel {
 
 				if (loyalPointsToUse > loyalPoints) {
 					MessageHelper.showErrorMessage(redeemButton, "Not enough loyalty points.");
-				}else if(checkoutWindow.getTotalPayable()<=0){
-					MessageHelper.showErrorMessage(redeemButton, "Redeem not needed already.");
 				}
+				//Commented by Oscar
+				/*else if(checkoutWindow.getTotalPayable()<=0){
+					MessageHelper.showErrorMessage(redeemButton, "Redeem not needed already.");
+				}*/
 				else {
 
 					Double cashToBePay = shopApplication.calculateCashToPay(loyalPointsToUse,

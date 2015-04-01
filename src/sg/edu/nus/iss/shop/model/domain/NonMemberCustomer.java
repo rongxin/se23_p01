@@ -24,10 +24,12 @@ public class NonMemberCustomer extends Customer {
 		try {
 			maxDiscount = DiscountManager.getDiscountManager().getMaxValidPublicDiscount();
 		} catch (Exception e) {
-//			e.printStackTrace();
-			log.log(e.toString());
+			log.log("get max discount for non member cusomter" + e.toString());
 		}
 		
+		if (maxDiscount == null) {
+			maxDiscount = new PublicDiscount("MAX_DISCOUNT","Max Discount",0,"ALWAYS","ALWAYS");
+		}
 		return maxDiscount;
 	}
 }

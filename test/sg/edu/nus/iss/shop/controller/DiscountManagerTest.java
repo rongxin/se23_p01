@@ -10,24 +10,13 @@ import org.junit.Before;
 import sg.edu.nus.iss.shop.controller.DiscountManager;
 import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.Discount;
-import sg.edu.nus.iss.shop.model.domain.FirstPurchaseDiscount;
-import sg.edu.nus.iss.shop.model.domain.SubsequentDiscount;
-import sg.edu.nus.iss.shop.model.domain.PublicDiscount;
 
 public class DiscountManagerTest extends TestCase {
 	private DiscountManager discountManager;
-	private FirstPurchaseDiscount firstPurchaseDiscount;
-	private SubsequentDiscount subsequentDiscount;
-	private PublicDiscount publicDiscount;
 
 	@Before
 	public void setup() {
-		publicDiscount = new PublicDiscount("CENTENARY",
-				"Centenary Celebration in 2014", 10, "2014-01-01", "365");
-		firstPurchaseDiscount = new FirstPurchaseDiscount("MEMBER_FIRST",
-				"First purchase by member", 20);
-		subsequentDiscount = new SubsequentDiscount("MEMBER_SUBSEQ",
-				"Subsequent purchase by member", 10);
+
 	}
 
 	@Test
@@ -121,5 +110,23 @@ public class DiscountManagerTest extends TestCase {
 	
 		DiscountManager.getDiscountManager().editDiscount("CENTENARY", newDiscountPercentage);
 		assertEquals(newDiscountPercentage,DiscountManager.getDiscountManager().getDiscountByCode("CENTENARY").getDiscountPercentage());
+	}
+	
+	@Test
+	public void testAddDiscount(){
+		String discountCode = "CHRISTMAS_DAY";
+		String description = "Christmas Day";
+		int discountPercentage = 5;
+		String startDate = "2015-05-01";
+		String discountInDays = "30";
+		String applicableToMember = "A";
+		
+		try {
+			DiscountManager.getDiscountManager().addDiscount(discountCode, description, discountPercentage, startDate, discountInDays, applicableToMember);
+			assertEquals(description,DiscountManager.getDiscountManager().getDiscountByCode(discountCode).getDescription());
+		} catch (Exception e) {
+			Assert.fail("Exception occured when adding new discount." + e.toString());
+		}
+		
 	}
 }
