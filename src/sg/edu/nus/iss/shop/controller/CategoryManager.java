@@ -46,16 +46,19 @@ public class CategoryManager {
 	public Category createCategory(String code, String name) throws ApplicationGUIException {
 		// Check if category code is of 3 Character or null
 		if (code == null || code.trim().length() != CategoryManager.FIXED_CODE_LENGTH) {
+			log.log("createCategory:" +  CategoryManager.INVALID_CODE_ERROR_MESSAGE);
 			throw new ApplicationGUIException(CategoryManager.INVALID_CODE_ERROR_MESSAGE);
 		}
 		// Check if category name is null
 		if (name == null || name.trim().length() <= 0) {
+			log.log("createCategory:" +  CategoryManager.INVALID_NAME_ERROR_MESSAGE);
 			throw new ApplicationGUIException(CategoryManager.INVALID_NAME_ERROR_MESSAGE);
 		}
 
 		// Check if there's an existing category
 		Category existingCategory = CategoryManager.getCategoryManager().getCategory(code);
 		if (existingCategory != null) {
+			log.log("createCategory:" +  CategoryManager.CATEGORY_EXISTS_ERROR_MESSAGE);
 			throw new ApplicationGUIException(CategoryManager.CATEGORY_EXISTS_ERROR_MESSAGE);
 		}
 		// Save Category

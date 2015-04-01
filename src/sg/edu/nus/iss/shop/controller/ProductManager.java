@@ -3,6 +3,7 @@
  */
 package sg.edu.nus.iss.shop.controller;
 
+import java.text.DecimalFormat;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,6 +27,7 @@ public class ProductManager {
 	private static final String INVALID_ORDER_THRESHOLD_ERROR_MESSAGE = "Invalid Order Threshold";
 	private static final String DUPLICATE_BARCODE_ERROR_MESSAGE = "Duplicated Barcode Number";
 	private ILogger log = Logger.getLog();
+	private DecimalFormat twoDForm = new DecimalFormat("#.##");
 	
 	private ProductManager() {
 
@@ -58,27 +60,36 @@ public class ProductManager {
 		Product newProduct;
 
 		if (category == null){
-			throw new ApplicationGUIException(ProductManager.INVALID_CATEGORY_ERROR_MESSAGE);
+			log.log("addProduct:" + ProductManager.INVALID_CATEGORY_ERROR_MESSAGE);
+			throw new ApplicationGUIException(ProductManager.INVALID_CATEGORY_ERROR_MESSAGE);		
 		}
 		if (name == null || name.trim().length()< 0){
+			log.log("addProduct:" + ProductManager.INVALID_CATEGORY_ERROR_MESSAGE);
 			throw new ApplicationGUIException(ProductManager.INVALID_NAME_ERROR_MESSAGE);
 		}
 		if (description == null || description.trim().length()< 0){
+			log.log("addProduct:" + ProductManager.INVALID_NAME_ERROR_MESSAGE);
 			throw new ApplicationGUIException(ProductManager.INVALID_NAME_ERROR_MESSAGE);
 		}
 		if (availableQuantity <= 0){
+			log.log("addProduct:" + ProductManager.INVALID_AVAILABLE_QUANTITY_ERROR_MESSAGE);
 			throw new ApplicationGUIException(ProductManager.INVALID_AVAILABLE_QUANTITY_ERROR_MESSAGE );
 		}
 		if (price  <= 0){
+			log.log("addProduct:" + ProductManager.INVALID_PRICE_ERROR_MESSAGE);
 			throw new ApplicationGUIException(ProductManager.INVALID_PRICE_ERROR_MESSAGE );
-		}
+		} 
+		
 		if (barcodeNumber== null || barcodeNumber.trim().length()< 0){
+			log.log("addProduct:" + ProductManager.INVALID_BARCODE_NUMBER_ERROR_MESSAGE);
 			throw new ApplicationGUIException(ProductManager.INVALID_BARCODE_NUMBER_ERROR_MESSAGE);
 		}
 		if (orderThreshold  <= 0){
+			log.log("addProduct:" + ProductManager.INVALID_ORDER_THRESHOLD_ERROR_MESSAGE);
 			throw new ApplicationGUIException(ProductManager.INVALID_ORDER_THRESHOLD_ERROR_MESSAGE );
 		}
 		if (orderQuantity <= 0){
+			log.log("addProduct:" + ProductManager.INVALID_ORDER_QUANTITY_ERROR_MESSAGE);
 			throw new ApplicationGUIException(ProductManager.INVALID_ORDER_QUANTITY_ERROR_MESSAGE);
 		}
 		
@@ -105,7 +116,7 @@ public class ProductManager {
 				}
 			}
 			newProduct = new Product(category.getCode()+"/"+(maxId+1),name,description,
-					availableQuantity,price,barcodeNumber,orderThreshold,orderQuantity);
+					availableQuantity,Double.valueOf(twoDForm.format(price)),barcodeNumber,orderThreshold,orderQuantity);
 		}
 		
 		//Save Product
