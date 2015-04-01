@@ -111,7 +111,7 @@ public class ShopApplication {
 		try {
 			allCategories = categoryManager.getAllCategories();
 		} catch (ApplicationGUIException e) {
-			MessageHelper.showErrorMessage(getShopWindow(), e.getMessage());
+			MessageHelper.showErrorMessage(e.getMessage());
 		}
 
 		return allCategories;
@@ -133,7 +133,7 @@ public class ShopApplication {
 			vendor = vendorManager.addVendor(vendorName, vendorDescription,
 					Arrays.asList(category));
 		} catch (ApplicationGUIException e) {
-			MessageHelper.showErrorMessage(getShopWindow(), e.getMessage());
+			MessageHelper.showErrorMessage(e.getMessage());
 		}
 		return vendor;
 	}
@@ -143,7 +143,7 @@ public class ShopApplication {
 		try {
 			products = productManager.getAllProducts();
 		} catch (ApplicationGUIException e) {
-			MessageHelper.showErrorMessage(getShopWindow(), e.getMessage());
+			MessageHelper.showErrorMessage(e.getMessage());
 		}
 		return products;
 	}
@@ -153,7 +153,7 @@ public class ShopApplication {
 		try {
 			products = productManager.getProductsWithLowInventory();
 		} catch (ApplicationGUIException e) {
-			MessageHelper.showErrorMessage(getShopWindow(), e.getMessage());
+			MessageHelper.showErrorMessage(e.getMessage());
 		}
 
 		return products;
@@ -165,7 +165,7 @@ public class ShopApplication {
 			products = productManager
 					.getProductsWithLowInventory(checkProducts);
 		} catch (ApplicationGUIException e) {
-			MessageHelper.showErrorMessage(getShopWindow(), e.getMessage());
+			MessageHelper.showErrorMessage(e.getMessage());
 		}
 
 		return products;
@@ -191,7 +191,7 @@ public class ShopApplication {
 		try {
 			product = productManager.getProductByBarcode(scannedId);
 		} catch (ApplicationGUIException e) {
-			MessageHelper.showErrorMessage(getShopWindow(), e.getMessage());
+			MessageHelper.showErrorMessage(e.getMessage());
 		}
 		return product;
 	}
@@ -214,12 +214,22 @@ public class ShopApplication {
 		return null;
 	}
 
+	public Discount editDiscount(String discountCode, Integer discountPercentage) {
+		try {
+			return discountManager.editDiscount(discountCode, discountPercentage);
+		} catch (ApplicationGUIException e) {
+			MessageHelper.showErrorMessage(e.getMessage());
+		}
+
+		return null;
+	}
+
 	public List<Member> getMembers() {
 		List<Member> members = new ArrayList<>();
 		try {
 			members = memberManager.getAllMembers();
 		} catch (ApplicationGUIException e) {
-			MessageHelper.showErrorMessage(getShopWindow(), e.getMessage());
+			MessageHelper.showErrorMessage(e.getMessage());
 		}
 		return members;
 	}
@@ -229,7 +239,7 @@ public class ShopApplication {
 		try {
 			member = memberManager.getMemberById(memberId);
 		} catch (ApplicationGUIException e) {
-			MessageHelper.showErrorMessage(getShopWindow(), e.getMessage());
+			MessageHelper.showErrorMessage(e.getMessage());
 		}
 		return member;
 	}
@@ -238,7 +248,7 @@ public class ShopApplication {
 		try {
 			return reportManager.getCategoryreport();
 		} catch (ApplicationGUIException e) {
-			MessageHelper.showErrorMessage(getShopWindow(), e.getMessage());
+			MessageHelper.showErrorMessage(e.getMessage());
 			return null;
 		}
 	}
@@ -247,7 +257,7 @@ public class ShopApplication {
 		try {
 			return reportManager.getCategoryReportHeader();
 		} catch (Exception e) {
-			MessageHelper.showErrorMessage(getShopWindow(), e.getMessage());
+			MessageHelper.showErrorMessage(e.getMessage());
 			return null;
 		}
 	}
@@ -256,7 +266,7 @@ public class ShopApplication {
 		try {
 			return reportManager.getProductReportHeader();
 		} catch (Exception e) {
-			MessageHelper.showErrorMessage(getShopWindow(), e.getMessage());
+			MessageHelper.showErrorMessage(e.getMessage());
 			return null;
 		}
 	}
@@ -265,7 +275,7 @@ public class ShopApplication {
 		try {
 			return reportManager.getProductReport();
 		} catch (ApplicationGUIException e) {
-			MessageHelper.showErrorMessage(getShopWindow(), e.getMessage());
+			MessageHelper.showErrorMessage(e.getMessage());
 			return null;
 		}
 	}
@@ -274,7 +284,7 @@ public class ShopApplication {
 		try {
 			return reportManager.getTransactionReportHeader();
 		} catch (Exception e) {
-			MessageHelper.showErrorMessage(getShopWindow(), e.getMessage());
+			MessageHelper.showErrorMessage(e.getMessage());
 			return null;
 		}
 	}
@@ -288,7 +298,7 @@ public class ShopApplication {
 		try {
 			return reportManager.getMemberReportHeader();
 		} catch (Exception e) {
-			MessageHelper.showErrorMessage(getShopWindow(), e.getMessage());
+			MessageHelper.showErrorMessage(e.getMessage());
 			return null;
 		}
 	}
@@ -297,7 +307,7 @@ public class ShopApplication {
 		try {
 			return reportManager.getMemberReport();
 		} catch (ApplicationGUIException e) {
-			MessageHelper.showErrorMessage(getShopWindow(), e.getMessage());
+			MessageHelper.showErrorMessage(e.getMessage());
 			return null;
 		}
 	}
@@ -320,7 +330,7 @@ public class ShopApplication {
 					productsWithCount, discountedPrice, loyalPointsUsed,
 					paidAmount);
 		} catch (Exception e) {
-			MessageHelper.showErrorMessage(getShopWindow(), e.getMessage());
+			MessageHelper.showErrorMessage(e.getMessage());
 		}
 		return transactionResult;
 	}
@@ -341,5 +351,6 @@ public class ShopApplication {
 	public void setLoggedInUser(StoreKeeper loggedInUser) {
 		this.loggedInUser = loggedInUser;
 	}
+
 
 }
