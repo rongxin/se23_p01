@@ -144,13 +144,17 @@ public class TransactionManager {
 		// Setting the customer.
 		t.setCustomer(customer);
 		t.setDiscount(discountedAmount);
-		t.setLoyaltyPointsUsed(loyalPointsUsed);
 
 		// Setting the transaction details.
 		for (Product key : products.keySet()) {
 			t.changeProductQuantity(key, products.get(key));
-		}
+		}		
 		t.setCashPayed(calculateCashToPay(loyalPointsUsed, t.getFinalPrice()));
+		int maxLoyalPoints = maxNumberOfPointsForAmount(t.getFinalPrice());
+		if (loyalPointsUsed > maxLoyalPoints){
+			loyalPointsUsed = maxLoyalPoints;
+		}
+		t.setLoyaltyPointsUsed(loyalPointsUsed);
 		t.setAmountReceived(amountReceived);
 
 		endTransaction(t);
@@ -194,7 +198,7 @@ public class TransactionManager {
 			if (transaction.getCustomer() instanceof Member) {
 				MemberManager mm = MemberManager.getMemberManager();
 				Member m = (Member) transaction.getCustomer();
-
+				//System.out.println(transaction.getLoyaltyPointsUsed());
 				mm.reduceLoyalPoints(m, transaction.getLoyaltyPointsUsed());
 				// System.out.println(transaction.getCashPayed());
 				int points = convertCashToPoints(transaction.getCashPayed());
