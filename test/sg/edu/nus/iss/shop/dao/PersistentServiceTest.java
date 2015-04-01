@@ -82,7 +82,7 @@ public class PersistentServiceTest {
 			assertNotNull(retrieved3);
 			assertEquals(category3, retrieved3);
 
-			Category retrieved4 = service.retrieveObject(Category.class, "CLA");
+			Category retrieved4 = service.retrieveObject(Category.class, "CLB");
 			assertNull(retrieved4);
 			assertNotEquals(category3, retrieved4);
 
@@ -122,7 +122,7 @@ public class PersistentServiceTest {
 				}
 			}
 
-			if (!r) {
+			if (!r && categories.size()>retrievedList.size()) {
 				fail("failed to retrieve all categories");
 			}
 
@@ -217,7 +217,7 @@ public class PersistentServiceTest {
 				}
 			}
 
-			if (!r) {
+			if (!r && products.size()>retrievedList.size()) {
 				fail("failed to retrieve all products");
 			}
 
@@ -303,7 +303,7 @@ public class PersistentServiceTest {
 				}
 			}
 
-			if (!r) {
+			if (!r && storekeepers.size()>retrievedList.size()) {
 				fail("failed to retrieve all storekeeper");
 			}
 
@@ -385,7 +385,7 @@ public class PersistentServiceTest {
 				}
 			}
 
-			if (!r) {
+			if (!r && members.size()>retrievedList.size()) {
 				fail("failed to retrieve all members");
 			}
 
@@ -472,7 +472,7 @@ public class PersistentServiceTest {
 				}
 			}
 
-			if (!r) {
+			if (!r && discounts.size()>retrievedList.size()) {
 				fail("failed to retrieve all discounts");
 			}
 
