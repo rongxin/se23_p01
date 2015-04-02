@@ -45,8 +45,10 @@ public class AddDiscountDialog extends OkCancelDialog {
 	private JLabel messageLabel;
 	private ListDiscountPanel listPanel;
 
-	public AddDiscountDialog(ShopApplication shopApplication,ListDiscountPanel listPanel) {
-		super(shopApplication.getMainWindow().getMainPanel().getCategoryWindow(), "Add Discount");
+	public AddDiscountDialog(ShopApplication shopApplication,
+			ListDiscountPanel listPanel) {
+		super(shopApplication.getMainWindow().getMainPanel()
+				.getCategoryWindow(), "Add Discount");
 		this.shopApplication = shopApplication;
 		this.listPanel = listPanel;
 	}
@@ -67,7 +69,8 @@ public class AddDiscountDialog extends OkCancelDialog {
 	private JPanel createInputFormPanel() {
 		JPanel p = new JPanel();
 		p.setLayout(new GridBagLayout());
-		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(" Add Discount "),
+		p.setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createTitledBorder(" Add Discount "),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		GridBagConstraints gc = new GridBagConstraints();
 
@@ -96,25 +99,28 @@ public class AddDiscountDialog extends OkCancelDialog {
 		JLabel discountAppliableLabel = new JLabel("Appliable to member:");
 		p.add(discountAppliableLabel, gc);
 
-
 		// column 2
 		gc = LayoutHelper.createCellConstraint(1, 0);
 		gc.anchor = GridBagConstraints.LAST_LINE_START;
 		gc.fill = GridBagConstraints.NONE;
 		discountCodeField = new JTextField(20);
-		discountCodeField.setToolTipText("Please input three-letter code for the new category");
+		discountCodeField
+				.setToolTipText("Please input three-letter code for the new category");
 		p.add(discountCodeField, gc);
 
-		gc = LayoutHelper.createCellConstraint(1,1);
+		gc = LayoutHelper.createCellConstraint(1, 1);
 		discountDescriptionField = new JTextArea(5, 20);
 		discountDescriptionField.setWrapStyleWord(true);
 		discountDescriptionField.setLineWrap(true);
-		discountDescriptionField.setBorder(BorderFactory.createLineBorder(Color.lightGray));
-		discountDescriptionField.setToolTipText("Please input discount description.");
-		JScrollPane discountDescriptionFieldScroll = new JScrollPane(discountDescriptionField);
-		discountDescriptionFieldScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		discountDescriptionField.setBorder(BorderFactory
+				.createLineBorder(Color.lightGray));
+		discountDescriptionField
+				.setToolTipText("Please input discount description.");
+		JScrollPane discountDescriptionFieldScroll = new JScrollPane(
+				discountDescriptionField);
+		discountDescriptionFieldScroll
+				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		p.add(discountDescriptionFieldScroll, gc);
-
 
 		gc = LayoutHelper.createCellConstraint(1, 2);
 		percentageField = new JTextField(20);
@@ -126,15 +132,14 @@ public class AddDiscountDialog extends OkCancelDialog {
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.DAY_OF_MONTH,
 				Calendar.getInstance().getActualMinimum(Calendar.DAY_OF_MONTH));
-		startDateField.setText(new SimpleDateFormat("dd/MM/yyyy").format(cal.getTime()));
+		startDateField.setText(new SimpleDateFormat("dd/MM/yyyy").format(cal
+				.getTime()));
 		p.add(startDateField, gc);
-
 
 		gc = LayoutHelper.createCellConstraint(1, 4);
 		periodField = new JTextField(20);
 		periodField.setToolTipText("Please input discount period.");
 		p.add(periodField, gc);
-
 
 		gc = LayoutHelper.createCellConstraint(1, 5);
 		radMember = new JRadioButton("Member", true);
@@ -165,25 +170,28 @@ public class AddDiscountDialog extends OkCancelDialog {
 	protected boolean performOkAction() {
 		String discountCode = discountCodeField.getText().trim();
 		String discountDesc = discountDescriptionField.getText().trim();
-		String discountPercentageValue= percentageField.getText().trim();
-		String discountPeriodValue= periodField.getText().trim();
+		String discountPercentageValue = percentageField.getText().trim();
+		String discountPeriodValue = periodField.getText().trim();
 		String startDate = startDateField.getText().trim();
 
 		if (discountCode.length() == 0) {
 			MessageHelper.showErrorMessage("Please input discount code.");
 			return false;
-		} else if (!NumberHelper.isValidPositiveInteger(discountPercentageValue))
-		{
-			MessageHelper.showErrorMessage("Please input valid discount percentage.");
+		} else if (!NumberHelper
+				.isValidPositiveInteger(discountPercentageValue)) {
+			MessageHelper
+					.showErrorMessage("Please input valid discount percentage.");
 			return false;
-		} else if (!NumberHelper.isValidPositiveInteger(discountPeriodValue))
-		{
-			MessageHelper.showErrorMessage("Please input valid discount period.");
+		} else if (!NumberHelper.isValidPositiveInteger(discountPeriodValue)
+				&& !discountPeriodValue.equals(Discount.ALWAY_VALID_DAYS)) {
+			MessageHelper
+					.showErrorMessage("Please input valid discount period.");
 			return false;
 		}
 
 		Integer discountPercentage = new Integer(discountPercentageValue);
-		Integer discountPeriod= new Integer(discountPeriodValue);
+
+		// Integer discountPeriod= new Integer(discountPeriodValue);
 
 		String discountApplicableTo = "";
 		if (radMember.isSelected()) {
@@ -191,25 +199,27 @@ public class AddDiscountDialog extends OkCancelDialog {
 		} else {
 			discountApplicableTo = "A";
 		}
-		
-//		convert date format
+
+		// convert date format
 		SimpleDateFormat fromUI = new SimpleDateFormat("dd/MM/yyyy");
 		SimpleDateFormat discountStartDate = new SimpleDateFormat("yyyy-MM-dd");
 		String reformattedStartDate = "";
 		try {
-			reformattedStartDate = discountStartDate.format(fromUI.parse(startDate));
+			reformattedStartDate = discountStartDate.format(fromUI
+					.parse(startDate));
 		} catch (ParseException e) {
 			MessageHelper.showErrorMessage("Reformat date error.");
 			return false;
 		}
-		
-		Discount discount = shopApplication.addDiscount(discountCode, discountDesc, discountPercentage, reformattedStartDate,
-				discountPeriod,
-				discountApplicableTo);
+
+		Discount discount = shopApplication.addDiscount(discountCode,
+				discountDesc, discountPercentage, reformattedStartDate,
+				discountPeriodValue, discountApplicableTo);
 
 		if (discount != null) {
 			JButton editButton = new JButton("Edit");
-			editButton.addActionListener(new EditDiscountListener(shopApplication, listPanel, discount));
+			editButton.addActionListener(new EditDiscountListener(
+					shopApplication, listPanel, discount));
 			listPanel.getTableModel().addDiscountToTable(discount, editButton);
 			return true;
 		}
@@ -217,4 +227,3 @@ public class AddDiscountDialog extends OkCancelDialog {
 		return false;
 	}
 }
-

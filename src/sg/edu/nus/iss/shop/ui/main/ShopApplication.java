@@ -101,7 +101,8 @@ public class ShopApplication {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (ClassNotFoundException | InstantiationException
 				| IllegalAccessException | UnsupportedLookAndFeelException e) {
-			MessageHelper.showErrorMessage(shop.getShopWindow(), e.getMessage());
+			MessageHelper
+					.showErrorMessage(shop.getShopWindow(), e.getMessage());
 		}
 		shop.start();
 	}
@@ -206,13 +207,13 @@ public class ShopApplication {
 		return null;
 	}
 
-	public Discount addDiscount(String discountCode, String description, Integer discountPercentage, String startDate,
-			Integer discountPeriod,
-			String discountApplicableTo) {
+	public Discount addDiscount(String discountCode, String description,
+			Integer discountPercentage, String startDate,
+			String discountPeriod, String discountApplicableTo) {
 
 		try {
-			return discountManager.addDiscount(discountCode, description, discountPercentage, startDate,
-					discountPeriod.toString(),
+			return discountManager.addDiscount(discountCode, description,
+					discountPercentage, startDate, discountPeriod,
 					discountApplicableTo);
 		} catch (ApplicationGUIException e) {
 			MessageHelper.showErrorMessage(e.getMessage());
@@ -222,7 +223,8 @@ public class ShopApplication {
 
 	public Discount editDiscount(String discountCode, Integer discountPercentage) {
 		try {
-			return discountManager.editDiscount(discountCode, discountPercentage);
+			return discountManager.editDiscount(discountCode,
+					discountPercentage);
 		} catch (ApplicationGUIException e) {
 			MessageHelper.showErrorMessage(e.getMessage());
 		}
@@ -295,7 +297,8 @@ public class ShopApplication {
 		}
 	}
 
-	public List<String[]> getTransactionReport(String startDate, String endDate) throws ParseException, ApplicationGUIException {
+	public List<String[]> getTransactionReport(String startDate, String endDate)
+			throws ParseException, ApplicationGUIException {
 		ReportManager rm = ReportManager.getReportManager();
 		return rm.getTransactionReport(startDate, endDate);
 	}
@@ -357,6 +360,5 @@ public class ShopApplication {
 	public void setLoggedInUser(StoreKeeper loggedInUser) {
 		this.loggedInUser = loggedInUser;
 	}
-
 
 }

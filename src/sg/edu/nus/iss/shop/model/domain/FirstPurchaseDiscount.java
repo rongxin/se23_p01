@@ -1,12 +1,13 @@
 package sg.edu.nus.iss.shop.model.domain;
 
 public class FirstPurchaseDiscount extends Discount {
-	
-	private String startDate =ALWAY_VALID_START_DATE;
+
+	private String startDate = ALWAY_VALID_START_DATE;
 	private String discountInDays = ALWAY_VALID_DAYS;
 	private String applicableToMember = APPLICABLETOMEMBER;
-	
-	public FirstPurchaseDiscount(String discountCode, String description, int discountPercentage) {
+
+	public FirstPurchaseDiscount(String discountCode, String description,
+			int discountPercentage) {
 		super(discountCode, description, discountPercentage);
 	}
 
