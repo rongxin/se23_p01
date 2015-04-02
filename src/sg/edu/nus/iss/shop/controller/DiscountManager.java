@@ -121,7 +121,7 @@ public class DiscountManager {
 					newDiscount = new SubsequentDiscount(discountCode,description,discountPercentage);
 				}else if (discountCode == "MEMBER_SUBSEQ" && DiscountManager.getDiscountManager().getSubsequentDiscountList() != null){
 					throw new ApplicationGUIException(DiscountManager.MEMBER_SUBSEQUENT_DISCOUNT_EXIST);
-				}else if (discountCode != "MEMBER_FIRST" || discountCode != "MEMBER_SUBSEQ") {
+				}else if (discountCode != "MEMBER_FIRST" && discountCode != "MEMBER_SUBSEQ") {
 					throw new ApplicationGUIException(DiscountManager.DISCOUNTCODE_NOT_MATCH_APPLICABLETOMEMBER);
 				}
 			} catch (Exception e) {

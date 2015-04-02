@@ -7,6 +7,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -184,15 +185,25 @@ public class AddDiscountDialog extends OkCancelDialog {
 		Integer discountPercentage = new Integer(discountPercentageValue);
 		Integer discountPeriod= new Integer(discountPeriodValue);
 
-
 		String discountApplicableTo = "";
 		if (radMember.isSelected()) {
 			discountApplicableTo = "M";
 		} else {
 			discountApplicableTo = "A";
 		}
-
-		Discount discount = shopApplication.addDiscount(discountCode, discountDesc, discountPercentage, startDate,
+		
+//		convert date format
+		SimpleDateFormat fromUI = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat discountStartDate = new SimpleDateFormat("yyyy-MM-dd");
+		String reformattedStartDate = "";
+		try {
+			reformattedStartDate = discountStartDate.format(fromUI.parse(startDate));
+		} catch (ParseException e) {
+			MessageHelper.showErrorMessage("Reformat date error.");
+			return false;
+		}
+		
+		Discount discount = shopApplication.addDiscount(discountCode, discountDesc, discountPercentage, reformattedStartDate,
 				discountPeriod,
 				discountApplicableTo);
 
@@ -205,7 +216,5 @@ public class AddDiscountDialog extends OkCancelDialog {
 
 		return false;
 	}
-
-
 }
 
