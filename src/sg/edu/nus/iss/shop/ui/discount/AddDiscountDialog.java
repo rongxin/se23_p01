@@ -12,7 +12,7 @@ import java.util.Calendar;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
-import javax.swing.JComboBox;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -39,7 +39,6 @@ public class AddDiscountDialog extends OkCancelDialog {
 	private JTextField percentageField;
 	private JTextField startDateField;
 	private JTextField periodField;
-	private JComboBox<String> appliableCombo;
 	private JRadioButton radMember;
 	private JRadioButton radAll;
 	private JLabel messageLabel;
@@ -198,7 +197,9 @@ public class AddDiscountDialog extends OkCancelDialog {
 				discountApplicableTo);
 
 		if (discount != null) {
-			listPanel.getTableModel().addDiscountToTable(discount);
+			JButton editButton = new JButton("Edit");
+			editButton.addActionListener(new EditDiscountListener(shopApplication, listPanel, discount));
+			listPanel.getTableModel().addDiscountToTable(discount, editButton);
 			return true;
 		}
 
