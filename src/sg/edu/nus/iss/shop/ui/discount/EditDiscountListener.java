@@ -10,6 +10,7 @@ public class EditDiscountListener implements ActionListener {
 	private ShopApplication shopApplication;
 	private Discount discount;
 	private ListDiscountPanel listPanel;
+	private EditDiscountDialog editDialog;
 
 	public EditDiscountListener(ShopApplication shopApplication, ListDiscountPanel listDiscountPanel, Discount discount) {
 		this.shopApplication = shopApplication;
@@ -19,9 +20,11 @@ public class EditDiscountListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		EditDiscountDialog editDialog = new EditDiscountDialog(shopApplication, listPanel, discount);
-		editDialog.pack();
-		editDialog.setLocationByPlatform(true);
+		if (editDialog == null) {
+			editDialog = new EditDiscountDialog(shopApplication, listPanel, discount);
+			editDialog.pack();
+			editDialog.setLocationByPlatform(true);
+		}
 		editDialog.setVisible(true);
 	}
 
