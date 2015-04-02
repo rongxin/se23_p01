@@ -128,7 +128,7 @@ public class MainPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				discountWindow = new DiscountWindow(shopApplication);
 				initializeWindow(discountWindow);
-				discountWindow.setSize(700, 600);
+				discountWindow.setSize(750, 600);
 			}
 		});
 		JPanel discountsPanel = new JPanel();
