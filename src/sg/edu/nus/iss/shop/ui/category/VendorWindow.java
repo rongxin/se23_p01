@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 
 import sg.edu.nus.iss.shop.model.domain.Category;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
+import sg.edu.nus.iss.shop.ui.util.IconHelper;
 
 /**
  * @author Xia Rongxin
@@ -48,7 +49,7 @@ public class VendorWindow extends JFrame {
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
 
-		JButton addCategoryButton = new JButton("Add Vendor");
+		JButton addCategoryButton = new JButton("Add Vendor", IconHelper.createImageIcon("add.png"));
 		addCategoryButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

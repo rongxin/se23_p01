@@ -1,7 +1,6 @@
 package sg.edu.nus.iss.shop.ui.category;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -21,6 +20,7 @@ import sg.edu.nus.iss.shop.model.domain.Vendor;
 import sg.edu.nus.iss.shop.ui.OkCancelDialog;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
+import sg.edu.nus.iss.shop.ui.util.MessageHelper;
 
 /**
  * @author Xia Rongxin
@@ -100,8 +100,7 @@ public class AddVendorDialog extends OkCancelDialog {
 		String vendorName = vendorNameField.getText().trim();
 		String vendorDescription = vendorDescriptionField.getText().trim();
 		if ((vendorName.length() == 0 || vendorDescription.length() == 0)) {
-			messageLabel.setText("Vendor name and description are compulsory.");
-			messageLabel.setForeground(Color.RED);
+			MessageHelper.showErrorMessage("Vendor name and description are compulsory.");
 			return false;
 		}
 
@@ -109,8 +108,9 @@ public class AddVendorDialog extends OkCancelDialog {
 
 		if (vendor != null) {
 			listPanel.getTableModel().addToTable(vendor);
+			return true;
 		}
-		return true;
+		return false;
 	}
 
 	public JTextField getVendorDescriptionField() {

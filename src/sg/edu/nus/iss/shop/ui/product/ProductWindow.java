@@ -54,7 +54,7 @@ public class ProductWindow extends JFrame {
 		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("  Actions  "),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
-		JButton addButton = new JButton("Add Product");
+		JButton addButton = new JButton("Add Product", IconHelper.createImageIcon("add.png"));
 		addButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

@@ -49,7 +49,7 @@ public class MemberWindow extends JFrame {
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
 
-		JButton addButton = new JButton("Register Member");
+		JButton addButton = new JButton("Add Member", IconHelper.createImageIcon("add.png"));
 		addButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
