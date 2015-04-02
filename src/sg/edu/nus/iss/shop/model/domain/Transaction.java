@@ -3,6 +3,8 @@ package sg.edu.nus.iss.shop.model.domain;
 import java.util.ArrayList;
 import java.util.Date;
 
+import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
+
 /**
  * 
  * @author Oscar Castro Araya
@@ -12,16 +14,25 @@ import java.util.Date;
  */
 public class Transaction {
 	private int id;
-	private Member member;
+	private Customer customer;
 	private ArrayList<TransactionDetail> transactionDetails;
 	private Date date;
+	private double discount;
+	private int loyaltyPointsUsed;
+	private double cashPayed;
+	private double amountReceived;
 
-	public Transaction(int id, Member member, Date date) {
+	public Transaction(int id, Date date){
 		super();
 		this.id = id;
-		this.member = member;
 		this.date = date;
 		this.transactionDetails = new ArrayList<TransactionDetail>();
+		this.loyaltyPointsUsed = 0;
+	}
+	
+	public Transaction(int id, Customer customer, Date date) {
+		this(id, date);
+		this.customer = customer;
 	}
 
 	public int getId() {
@@ -32,12 +43,12 @@ public class Transaction {
 		this.id = id;
 	}
 
-	public Member getMember() {
-		return member;
+	public Customer getCustomer() {
+		return customer;
 	}
 
-	public void setMember(Member member) {
-		this.member = member;
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 
 	public Date getDate() {
@@ -46,6 +57,62 @@ public class Transaction {
 
 	public void setDate(Date date) {
 		this.date = date;
+	}
+	
+	public void setDiscount(double discount){
+		this.discount = discount;
+	}
+	
+	public double getDiscount(){
+		return this.discount;
+	}
+	
+	public int getLoyaltyPointsUsed() {
+		return loyaltyPointsUsed;
+	}
+
+	public void setLoyaltyPointsUsed(int loyaltyPointsUsed) {
+		this.loyaltyPointsUsed = loyaltyPointsUsed;
+	}
+	
+	/**
+	 * 
+	 * @return The total amount to pay before applying discount
+	 */
+	public double getTotalPrice(){
+		double totalPrice = 0;
+		for (TransactionDetail transactionDetail : this.transactionDetails) {
+			totalPrice += transactionDetail.getTotalPrice();
+		}
+		return totalPrice;
+	}
+
+	/**
+	 * Final price after loyal points are redeemed
+	 * @return
+	 */
+	public double getCashPayed() {
+		return cashPayed;
+	}
+
+	public void setCashPayed(double cashPayed) {
+		this.cashPayed = cashPayed;
+	}
+	
+	/**
+	 * 
+	 * @return Final price after discount is applied.
+	 */
+	public double getFinalPrice(){
+		return this.getTotalPrice() - this.discount;
+	}
+	
+	public double getAmountReceived() {
+		return amountReceived;
+	}
+
+	public void setAmountReceived(double amountReceived) {
+		this.amountReceived = amountReceived;
 	}
 
 	/**
@@ -76,8 +143,8 @@ public class Transaction {
 	 * @BugFixed 4Mar2015 Oscar Castro: Exception is not thrown for negative
 	 *           quantity
 	 */
-	public void ChangeProductQuantity(Product product, int newQuantity)
-			throws Exception {
+	public void changeProductQuantity(Product product, int newQuantity)
+			throws ApplicationGUIException {
 		//Find Transaction Detail with the selected product
 		TransactionDetail transactionDetail;
 		transactionDetail = findTransactionDetail(product);
@@ -88,14 +155,14 @@ public class Transaction {
 			} else if (newQuantity == 0) {
 				transactionDetails.remove(transactionDetail);
 			} else {
-				throw new Exception("New Quantity should not be less than 0");
+				throw new ApplicationGUIException("New Quantity should not be less than 0");
 			}
 		} else {
 			if (newQuantity > 0) {
 				transactionDetails.add(new TransactionDetail(this,
 						product, newQuantity));
 			} else {
-				throw new Exception("New Quantity should be more than 0");
+				throw new ApplicationGUIException("New Quantity should be more than 0");
 			}
 		}
 		//return transactionDetail;
@@ -106,12 +173,14 @@ public class Transaction {
 	 * @param product
 	 * @return product found in the list or null if not found
 	 * 
-	 * @Bug 7Mar2015 Oscar Castro: Comparing the products references.
+	 * @BugFixed 7Mar2015 Oscar Castro: Comparing the products references.
 	 * Should it compare the product codes?
 	 */
 	private TransactionDetail findTransactionDetail(Product product){
+		//System.out.println("searching for " + product);
 		for (TransactionDetail transactionDetail : transactionDetails) {
-		    if (transactionDetail.getProduct() == product)
+			//System.out.println("is " + transactionDetail.getProduct());
+		    if (transactionDetail.getProduct().getProductId() == product.getProductId())
 		    	return transactionDetail;
 		}
 		return null;

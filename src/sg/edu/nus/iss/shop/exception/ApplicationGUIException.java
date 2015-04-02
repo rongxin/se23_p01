@@ -2,6 +2,7 @@ package sg.edu.nus.iss.shop.exception;
 
 public class ApplicationGUIException extends Exception {
 	
+	private static final long serialVersionUID = 1L;
 	private String displayMessage;
 	
 	public ApplicationGUIException(String displayMessage){
@@ -10,6 +11,10 @@ public class ApplicationGUIException extends Exception {
 	}
 	
 	public String getDisplayMessage(){
+		return this.displayMessage;
+	}
+	
+	public String getMessage(){
 		return this.displayMessage;
 	}
 }
