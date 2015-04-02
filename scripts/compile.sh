@@ -10,3 +10,6 @@ rm files.txt
 echo "copying icon files"
 mkdir -p classes/sg/edu/nus/iss/shop/ui/icons/
 cp src/sg/edu/nus/iss/shop/ui/icons/*  classes/sg/edu/nus/iss/shop/ui/icons/
+
+echo "init data files"
+java -cp classes/  sg.edu.nus.iss.shop.dao.InitApplicationRepository

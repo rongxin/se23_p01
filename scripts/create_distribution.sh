@@ -19,11 +19,6 @@ mkdir -p $DIST_PATH/data
 mkdir -p $DIST_PATH/classes
 
 echo "copying scripts to distribution"
-cp $PROJECT_PATH/scripts/setenv.bat $DIST_PATH/
-cp $PROJECT_PATH/scripts/compile.bat $DIST_PATH/
-cp $PROJECT_PATH/scripts/run.bat $DIST_PATH/
-
 cp $PROJECT_PATH/scripts/setenv.sh $DIST_PATH/
 cp $PROJECT_PATH/scripts/compile.sh $DIST_PATH/
 cp $PROJECT_PATH/scripts/run.sh $DIST_PATH/
-cp $PROJECT_PATH/scripts/initdata.sh $DIST_PATH/
