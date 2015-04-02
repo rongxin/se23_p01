@@ -33,10 +33,15 @@ public class EditDiscountDialog extends OkCancelDialog {
 		super(shopApplication.getMainWindow().getMainPanel().getCategoryWindow(), "Edit  Discount");
 		this.shopApplication = shopApplication;
 		this.discount = discount;
+		setFormPanel(createNewFormPanel());
 	}
 
 	@Override
 	protected JPanel createFormPanel() {
+		return new JPanel();
+	}
+
+	private JPanel createNewFormPanel() {
 		JPanel mainPanel = new JPanel(new BorderLayout());
 
 		mainPanel.add(new JPanel(), BorderLayout.NORTH);
@@ -71,7 +76,7 @@ public class EditDiscountDialog extends OkCancelDialog {
 		discountCodeValueLabel = new JLabel(discount.getDiscountCode());
 		p.add(discountCodeValueLabel, gc);
 
-		gc = LayoutHelper.createCellConstraint(1, 2);
+		gc = LayoutHelper.createCellConstraint(1, 1);
 		percentageField = new JTextField(10);
 		percentageField.setText("" + discount.getDiscountPercentage());
 		percentageField.setToolTipText("Please input percentage.");

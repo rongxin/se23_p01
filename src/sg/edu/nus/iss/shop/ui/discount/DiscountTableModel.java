@@ -3,6 +3,7 @@ package sg.edu.nus.iss.shop.ui.discount;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.table.AbstractTableModel;
 
 import sg.edu.nus.iss.shop.model.domain.Discount;
@@ -10,14 +11,14 @@ import sg.edu.nus.iss.shop.model.domain.Discount;
 public class DiscountTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 	private String[] columnNames = { "Discount Code", "Description", "Discount Percentage", "Start Date", "Period",
-			"Applicable to Member" };
+			"Applicable to Member", "Edit" };
 
 	private List<Object[]> tableData = new ArrayList<>();
 
-	public void addDiscountToTable(Discount discount) {
-		String[] rowData = new String[] { discount.getDiscountCode(), discount.getDescription(),
+	public void addDiscountToTable(Discount discount, JButton editButton) {
+		Object[] rowData = new Object[] { discount.getDiscountCode(), discount.getDescription(),
 				"" + discount.getDiscountPercentage(), discount.getStartDate(), discount.getDiscountInDays(),
-				discount.getApplicableToMember() };
+				discount.getApplicableToMember(), editButton };
 		tableData.add(rowData);
 	}
 
