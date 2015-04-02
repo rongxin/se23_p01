@@ -1,5 +1,8 @@
 package sg.edu.nus.iss.shop.ui.discount;
 
+/**
+ * @author Xia Rongxin
+ */
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,11 +18,32 @@ public class DiscountTableModel extends AbstractTableModel {
 
 	private List<Object[]> tableData = new ArrayList<>();
 
+	/**
+	 * add row to current table data
+	 *
+	 * @param discount
+	 * @param editButton
+	 */
 	public void addDiscountToTable(Discount discount, JButton editButton) {
 		Object[] rowData = new Object[] { discount.getDiscountCode(), discount.getDescription(),
 				"" + discount.getDiscountPercentage(), discount.getStartDate(), discount.getDiscountInDays(),
 				discount.getApplicableToMember(), editButton };
 		tableData.add(rowData);
+	}
+
+	/**
+	 * update specific row
+	 *
+	 * @param discount
+	 */
+	public void updateEditedData(Discount discount) {
+		for (Object[] row : tableData) {
+			String discountCode = (String) row[0];
+			if (discountCode.equals(discount.getDiscountCode())) {
+				row[2] = discount.getDiscountPercentage();
+			}
+		}
+		fireTableDataChanged();
 	}
 
 	@Override
