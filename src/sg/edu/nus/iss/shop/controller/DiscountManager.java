@@ -85,7 +85,7 @@ public class DiscountManager {
 		if (discountPercentage <= 0) {
 			throw new ApplicationGUIException(DiscountManager.INVALID_DISCOUNT_PERCENTAGE_ERROR_MESSAGE);
 		}
-		if (startDate == null || (!startDate.equals(Discount.ALWAY_VALID_START_DATE) && LocalDate.parse(startDate).isBefore(LocalDate.now()) )) {
+		if (startDate == null) {
 			throw new ApplicationGUIException(DiscountManager.INVALID_STARTDATE_ERROR_MESSAGE);
 		}
 		if(!discountInDays .equals(Discount.ALWAY_VALID_DAYS) && (!isInteger(discountInDays) || Integer.parseInt(discountInDays) < 0)){
