@@ -9,8 +9,12 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import sg.edu.nus.iss.shop.controller.DiscountManager;
+import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
+import sg.edu.nus.iss.shop.model.domain.Discount;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 import sg.edu.nus.iss.shop.ui.util.IconHelper;
+import sg.edu.nus.iss.shop.ui.util.MessageHelper;
 
 
 public class DiscountWindow extends JFrame {
@@ -44,7 +48,6 @@ public class DiscountWindow extends JFrame {
 		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("  Actions  "),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
-
 		JButton addButton = new JButton("Add Discount");
 		addButton.addActionListener(new ActionListener() {
 			@Override
@@ -55,8 +58,8 @@ public class DiscountWindow extends JFrame {
 				addDialog.setVisible(true);
 			}
 		});
-
 		p.add(addButton, BorderLayout.WEST);
+		
 		return p;
 	}
 
