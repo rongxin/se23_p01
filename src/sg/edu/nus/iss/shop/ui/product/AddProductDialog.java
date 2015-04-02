@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -22,6 +23,7 @@ import sg.edu.nus.iss.shop.model.domain.Category;
 import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.ui.OkCancelDialog;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
+import sg.edu.nus.iss.shop.ui.util.IconHelper;
 import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
 import sg.edu.nus.iss.shop.ui.util.MessageHelper;
 import sg.edu.nus.iss.shop.ui.util.NumberHelper;
@@ -185,7 +187,9 @@ public class AddProductDialog extends OkCancelDialog {
 				availableQuantity, price, barcodeNumber, orderThreshold, orderQuantity);
 
 		if (product != null) {
-			listPanel.getTableModel().addToTable(product);
+			JButton printButton = new JButton(IconHelper.createImageIcon("print.png"));
+			printButton.addActionListener(new PrintProductLabelListener(shopApplication, listPanel, product));
+			listPanel.getTableModel().addToTable(product, printButton);
 			return true;
 		}
 		return false;

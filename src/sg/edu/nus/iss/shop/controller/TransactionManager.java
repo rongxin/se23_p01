@@ -181,7 +181,7 @@ public class TransactionManager {
 
 		// Print the transaction
 		PrinterManager pm = PrinterManager.getInstance();
-		pm.PrintTransaction(transaction);
+		pm.printTransaction(transaction);
 	}
 
 	/**
