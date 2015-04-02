@@ -63,8 +63,17 @@ public class ListLowStockProductPanel extends JPanel {
 		table.setName("Items");
 		table.setEnabled(true);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+		table.getColumnModel().getColumn(0).setPreferredWidth(100);
+		table.getColumnModel().getColumn(1).setPreferredWidth(150);
+		table.getColumnModel().getColumn(2).setPreferredWidth(150);
+		table.getColumnModel().getColumn(3).setPreferredWidth(50);
+		table.getColumnModel().getColumn(4).setPreferredWidth(50);
+		table.getColumnModel().getColumn(5).setPreferredWidth(100);
+		table.getColumnModel().getColumn(6).setPreferredWidth(50);
+		table.getColumnModel().getColumn(7).setPreferredWidth(50);
+		table.getColumnModel().getColumn(8).setPreferredWidth(100);
 		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setPreferredSize(new Dimension(750, 450));
+		scrollPane.setPreferredSize(new Dimension(800, 450));
 		p.add(scrollPane);
 		return p;
 	}

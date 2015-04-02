@@ -15,8 +15,8 @@ import sg.edu.nus.iss.shop.model.domain.Product;
  */
 public class LowStockProductTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
-	private String[] columnNames = { "Product ID", "Name", "Description", "Quantity", "Price", "Barcode",
-			"Reorder Threshold", "Order Quantity", "Order" };
+	private String[] columnNames = { "Product ID", "Name", "Description", "Qty", "Price", "Barcode",
+			"Reorder Threshold", "Order Qty", "Order" };
 
 	private List<Object[]> tableData = new ArrayList<>();
 
