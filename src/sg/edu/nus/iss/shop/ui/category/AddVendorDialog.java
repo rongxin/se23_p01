@@ -22,6 +22,9 @@ import sg.edu.nus.iss.shop.ui.OkCancelDialog;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
 
+/**
+ * @author Xia Rongxin
+ */
 public class AddVendorDialog extends OkCancelDialog {
 
 	private static final long serialVersionUID = 1L;

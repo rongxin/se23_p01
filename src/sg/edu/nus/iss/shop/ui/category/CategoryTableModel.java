@@ -8,6 +8,9 @@ import javax.swing.table.AbstractTableModel;
 
 import sg.edu.nus.iss.shop.model.domain.Category;
 
+/**
+ * @author Xia Rongxin
+ */
 public class CategoryTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 	private String[] columnNames = { "Category Code", "Category Name", "Action" };

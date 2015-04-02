@@ -1,5 +1,8 @@
 package sg.edu.nus.iss.shop.ui.category;
 
+/**
+ * @author Xia Rongxin
+ */
 import java.util.List;
 
 import javax.swing.JButton;

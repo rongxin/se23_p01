@@ -1,5 +1,8 @@
 package sg.edu.nus.iss.shop.ui.category;
 
+/**
+ * @author Xia Rongxin
+ */
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
