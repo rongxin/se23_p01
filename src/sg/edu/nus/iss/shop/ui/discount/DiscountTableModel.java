@@ -29,6 +29,7 @@ public class DiscountTableModel extends AbstractTableModel {
 				"" + discount.getDiscountPercentage(), discount.getStartDate(), discount.getDiscountInDays(),
 				discount.getApplicableToMember(), editButton };
 		tableData.add(rowData);
+		fireTableDataChanged();
 	}
 
 	/**
