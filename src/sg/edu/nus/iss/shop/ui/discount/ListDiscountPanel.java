@@ -3,24 +3,26 @@ package sg.edu.nus.iss.shop.ui.discount;
 import java.awt.Dimension;
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import sg.edu.nus.iss.shop.model.domain.Discount;
-import sg.edu.nus.iss.shop.model.domain.Product;
+import sg.edu.nus.iss.shop.ui.JTableButtonMouseListener;
+import sg.edu.nus.iss.shop.ui.JTableButtonRenderer;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
-import sg.edu.nus.iss.shop.ui.product.ProductTableModel;
 
 public class ListDiscountPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private ShopApplication shopApplication;
 	private DiscountTableModel tableModel;
-	
+
 	public ListDiscountPanel(ShopApplication shopApplication) {
 		super();
 		this.shopApplication = shopApplication;
 		createMainPanel();
+
 	}
 
 	private void createMainPanel() {
@@ -28,10 +30,14 @@ public class ListDiscountPanel extends JPanel {
 		tableModel = new DiscountTableModel();
 
 		for (Discount discount : discounts) {
-			tableModel.addDiscountToTable(discount);
+			JButton editButton = new JButton("Edit");
+			editButton.addActionListener(new EditDiscountListener(shopApplication, this, discount));
+			tableModel.addDiscountToTable(discount, editButton);
 		}
 
 		JTable table = new JTable(tableModel);
+		table.getColumn("Edit").setCellRenderer(new JTableButtonRenderer());
+		table.addMouseListener(new JTableButtonMouseListener(table));
 		table.setName("Items");
 		table.setEnabled(false);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
@@ -40,7 +46,10 @@ public class ListDiscountPanel extends JPanel {
 		this.add(scrollPane);
 	}
 
-	public DiscountTableModel getTableModel(){
+	public DiscountTableModel getTableModel() {
 		return tableModel;
 	}
+
+
+
 }

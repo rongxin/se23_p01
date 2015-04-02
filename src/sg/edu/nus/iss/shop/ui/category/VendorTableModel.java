@@ -7,6 +7,9 @@ import javax.swing.table.AbstractTableModel;
 
 import sg.edu.nus.iss.shop.model.domain.Vendor;
 
+/**
+ * @author Xia Rongxin
+ */
 public class VendorTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 	private String[] columnNames = { "Vendor Name", "Vendor Description" };

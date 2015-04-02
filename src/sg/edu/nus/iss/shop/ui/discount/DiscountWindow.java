@@ -22,7 +22,7 @@ public class DiscountWindow extends JFrame {
 	private ShopApplication shopApplication;
 	private AddDiscountDialog addDialog;
 	private ListDiscountPanel listPanel;
-	
+
 	public DiscountWindow(ShopApplication shopApplication) {
 		super("Discount");
 		setIconImage(IconHelper.createImageIcon("shop.png").getImage());
@@ -52,9 +52,11 @@ public class DiscountWindow extends JFrame {
 		addButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				addDialog = new AddDiscountDialog(shopApplication, listPanel);
-				addDialog.pack();
-				addDialog.setLocationByPlatform(true);
+				if (addDialog == null) {
+					addDialog = new AddDiscountDialog(shopApplication, listPanel);
+					addDialog.pack();
+					addDialog.setLocationByPlatform(true);
+				}
 				addDialog.setVisible(true);
 			}
 		});

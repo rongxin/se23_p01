@@ -11,6 +11,9 @@ import sg.edu.nus.iss.shop.model.domain.Category;
 import sg.edu.nus.iss.shop.model.domain.Vendor;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 
+/**
+ * @author Xia Rongxin
+ */
 public class ListVendorPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private ShopApplication shopApplication;

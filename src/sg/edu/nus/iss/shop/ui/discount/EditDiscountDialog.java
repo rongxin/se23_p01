@@ -1,5 +1,8 @@
 package sg.edu.nus.iss.shop.ui.discount;
 
+/**
+ * @author Xia Rongxin
+ */
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -28,15 +31,22 @@ public class EditDiscountDialog extends OkCancelDialog {
 	private JTextField percentageField;
 	private Discount discount;
 	private JLabel messageLabel;
+	private ListDiscountPanel listPanel;
 
 	public EditDiscountDialog(ShopApplication shopApplication, ListDiscountPanel listPanel, Discount discount) {
 		super(shopApplication.getMainWindow().getMainPanel().getCategoryWindow(), "Edit  Discount");
 		this.shopApplication = shopApplication;
+		this.listPanel = listPanel;
 		this.discount = discount;
+		setFormPanel(createNewFormPanel());
 	}
 
 	@Override
 	protected JPanel createFormPanel() {
+		return new JPanel();
+	}
+
+	private JPanel createNewFormPanel() {
 		JPanel mainPanel = new JPanel(new BorderLayout());
 
 		mainPanel.add(new JPanel(), BorderLayout.NORTH);
@@ -71,7 +81,7 @@ public class EditDiscountDialog extends OkCancelDialog {
 		discountCodeValueLabel = new JLabel(discount.getDiscountCode());
 		p.add(discountCodeValueLabel, gc);
 
-		gc = LayoutHelper.createCellConstraint(1, 2);
+		gc = LayoutHelper.createCellConstraint(1, 1);
 		percentageField = new JTextField(10);
 		percentageField.setText("" + discount.getDiscountPercentage());
 		percentageField.setToolTipText("Please input percentage.");
@@ -102,6 +112,7 @@ public class EditDiscountDialog extends OkCancelDialog {
 
 		Discount editedDiscount = shopApplication.editDiscount(discount.getDiscountCode(), discountPercentageValue);
 		if (editedDiscount != null) {
+			listPanel.getTableModel().updateEditedData(editedDiscount);
 			return true;
 		}
 

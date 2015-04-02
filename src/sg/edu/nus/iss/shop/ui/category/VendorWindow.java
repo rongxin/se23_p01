@@ -12,6 +12,9 @@ import javax.swing.JPanel;
 import sg.edu.nus.iss.shop.model.domain.Category;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 
+/**
+ * @author Xia Rongxin
+ */
 public class VendorWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private ShopApplication shopApplication;
