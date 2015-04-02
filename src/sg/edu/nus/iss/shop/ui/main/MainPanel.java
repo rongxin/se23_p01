@@ -120,7 +120,6 @@ public class MainPanel extends JPanel {
 		JPanel productPanel = new JPanel();
 		setTitledBorder(productPanel, "  Products ");
 		productPanel.add(addProductButton);
-		productPanel.setSize(850, 600);
 		p.add(productPanel);
 
 		JButton manageDiscountBtn = createImageButton("Manage Discounts", "bulb.png", "bulb_yellow.png");
