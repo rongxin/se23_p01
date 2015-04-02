@@ -75,6 +75,7 @@ public class DiscountManager {
 					throws ApplicationGUIException {
 
 		Discount newDiscount = null;
+		String errorMessage = "";
 		
 		if (discountCode == null){
 			throw new ApplicationGUIException(DiscountManager.INVALID_DISCOUNT_CODE_ERROR_MESSAGE);
@@ -98,37 +99,46 @@ public class DiscountManager {
 		if (applicableToMember.equals(Discount.APPLICABLETOALL)){
 			try {
 				if (startDate.equals(Discount.ALWAY_VALID_START_DATE)) {
+					errorMessage = DiscountManager.PUBLIC_DISCOUNT_START_DAY_ERROR;
 					throw new ApplicationGUIException(DiscountManager.PUBLIC_DISCOUNT_START_DAY_ERROR);
 				}
 				if (discountInDays.equals(Discount.ALWAY_VALID_DAYS)) {
+					errorMessage = DiscountManager.PUBLIC_DISCOUNT_IN_DAYS_ERROR;
 					throw new ApplicationGUIException(DiscountManager.PUBLIC_DISCOUNT_IN_DAYS_ERROR);
 				}
 				for(int i = 0; i < DiscountManager.getDiscountManager().getPublicDiscountList().size();i++){
 					if(discountCode.equals(DiscountManager.getDiscountManager().getPublicDiscountList().get(i).getDiscountCode())){
+						errorMessage = DiscountManager.DUPLICATE_DISCOUNTCODE_ERROR_MESSAGE;
 						throw new ApplicationGUIException(DiscountManager.DUPLICATE_DISCOUNTCODE_ERROR_MESSAGE);
 					}
 				}
 				newDiscount = new PublicDiscount(discountCode,description,discountPercentage,startDate,discountInDays);
 			} catch (Exception e) {
 				log.log("get public discount list in add discount method" + e.toString());
+				throw new ApplicationGUIException(errorMessage);
 			}
 		}else if(applicableToMember.equals(Discount.APPLICABLETOMEMBER)){
 			try {
 				if (discountCode.equals("MEMBER_FIRST") && DiscountManager.getDiscountManager().getFirstPurchaseDiscountList() == null){
 					newDiscount = new FirstPurchaseDiscount(discountCode,description,discountPercentage);
 				}else if (discountCode.equals("MEMBER_FIRST") && DiscountManager.getDiscountManager().getFirstPurchaseDiscountList() != null){
+					errorMessage = DiscountManager.MEMBER_FIRST_PURCHASE_DISCOUNT_EXIST;
 					throw new ApplicationGUIException(DiscountManager.MEMBER_FIRST_PURCHASE_DISCOUNT_EXIST);
 				}else if(discountCode.equals("MEMBER_SUBSEQ") && DiscountManager.getDiscountManager().getSubsequentDiscountList() == null){
 					newDiscount = new SubsequentDiscount(discountCode,description,discountPercentage);
 				}else if (discountCode.equals("MEMBER_SUBSEQ") && DiscountManager.getDiscountManager().getSubsequentDiscountList() != null){
+					errorMessage = DiscountManager.MEMBER_SUBSEQUENT_DISCOUNT_EXIST;
 					throw new ApplicationGUIException(DiscountManager.MEMBER_SUBSEQUENT_DISCOUNT_EXIST);
 				}else if (!discountCode.equals("MEMBER_FIRST") && !discountCode.equals("MEMBER_SUBSEQ")) {
+					errorMessage = DiscountManager.DISCOUNTCODE_NOT_MATCH_APPLICABLETOMEMBER;
 					throw new ApplicationGUIException(DiscountManager.DISCOUNTCODE_NOT_MATCH_APPLICABLETOMEMBER);
 				}else{
+					errorMessage = DiscountManager.INVALID_DISCOUNT_CODE_ERROR_MESSAGE;
 					throw new ApplicationGUIException(DiscountManager.INVALID_MEMBER_DISCOUNT_ERROR_MESSAGE);
 				}
 			} catch (Exception e) {
 				log.log("get first purchase discount in add discount method" + e.toString());
+				throw new ApplicationGUIException(errorMessage);
 			} 
 		}
 		
