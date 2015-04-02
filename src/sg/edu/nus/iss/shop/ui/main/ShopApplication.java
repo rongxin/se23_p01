@@ -13,6 +13,7 @@ import sg.edu.nus.iss.shop.controller.AdminManager;
 import sg.edu.nus.iss.shop.controller.CategoryManager;
 import sg.edu.nus.iss.shop.controller.DiscountManager;
 import sg.edu.nus.iss.shop.controller.MemberManager;
+import sg.edu.nus.iss.shop.controller.PrinterManager;
 import sg.edu.nus.iss.shop.controller.ProductManager;
 import sg.edu.nus.iss.shop.controller.ReportManager;
 import sg.edu.nus.iss.shop.controller.TransactionManager;
@@ -29,6 +30,11 @@ import sg.edu.nus.iss.shop.model.domain.Vendor;
 import sg.edu.nus.iss.shop.ui.util.MessageHelper;
 import sg.edu.nus.iss.shop.ui.util.ProductItemsHelper;
 
+/**
+ *
+ * @author Xia Rongxin
+ *
+ */
 public class ShopApplication {
 	private ShopMainWindow shopWindow;
 	private LoginDialog loginDialog;
@@ -40,6 +46,7 @@ public class ShopApplication {
 	private VendorManager vendorManager;
 	private ReportManager reportManager;
 	private AdminManager adminManager;
+	private PrinterManager printerManager;
 	private StoreKeeper loggedInUser;
 
 	public ShopApplication() {
@@ -60,6 +67,7 @@ public class ShopApplication {
 		transactionManager = TransactionManager.getInstance();
 		discountManager = DiscountManager.getDiscountManager();
 		reportManager = ReportManager.getReportManager();
+		printerManager = PrinterManager.getInstance();
 	}
 
 	public void start() {
@@ -102,7 +110,7 @@ public class ShopApplication {
 		} catch (ClassNotFoundException | InstantiationException
 				| IllegalAccessException | UnsupportedLookAndFeelException e) {
 			MessageHelper
-					.showErrorMessage(shop.getShopWindow(), e.getMessage());
+			.showErrorMessage(shop.getShopWindow(), e.getMessage());
 		}
 		shop.start();
 	}
@@ -195,6 +203,10 @@ public class ShopApplication {
 			MessageHelper.showErrorMessage(e.getMessage());
 		}
 		return product;
+	}
+
+	public void printProductLabel(Product product) {
+		printerManager.printProductBarCode(product);
 	}
 
 	public Member addMember(String memberId, String memberName) {
@@ -360,5 +372,6 @@ public class ShopApplication {
 	public void setLoggedInUser(StoreKeeper loggedInUser) {
 		this.loggedInUser = loggedInUser;
 	}
+
 
 }

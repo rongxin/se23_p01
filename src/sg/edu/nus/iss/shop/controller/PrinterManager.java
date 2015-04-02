@@ -19,7 +19,7 @@ public class PrinterManager {
 		return pm;
 	}
 
-	public void PrintTransaction(Transaction t) {
+	public void printTransaction(Transaction t) {
 		String text = "";
 		double cashFromPoints = TransactionManager.getInstance()
 				.convertPointsToCash(t.getLoyaltyPointsUsed());
@@ -102,9 +102,12 @@ public class PrinterManager {
 		}
 		return result;
 	}
-	
-	public void PrintProductBarCode(Product p){
+
+	public void printProductBarCode(Product p){
 		AdhesiveLabelPrinter alp = new AdhesiveLabelPrinter();
-		alp.print(p.getBarcodeNumber());
+		alp.print("==========================================");
+		alp.print("Product Name:" + p.getName());
+		alp.print("Barcode:" + p.getBarcodeNumber());
+		alp.print("==========================================");
 	}
 }

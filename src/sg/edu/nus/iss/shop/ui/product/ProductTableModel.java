@@ -3,21 +3,27 @@ package sg.edu.nus.iss.shop.ui.product;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.table.AbstractTableModel;
 
 import sg.edu.nus.iss.shop.model.domain.Product;
 
+/**
+ *
+ * @author Xia Rongxin
+ *
+ */
 public class ProductTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
-	private String[] columnNames = { "Product ID", "Name", "Description", "Quantity", "Price", "Barcode",
-			"Reorder Threshold", "Order Quantity" };
+	private String[] columnNames = { "Product ID", "Name", "Description", "Qty", "Price", "Barcode",
+			"Reorder Threshold", "Order Qty", "Print" };
 
 	private List<Object[]> tableData = new ArrayList<>();
 
-	public void addToTable(Product product) {
+	public void addToTable(Product product, JButton printButton) {
 		Object[] rowData = new Object[] { product.getProductId(), product.getName(), product.getDescription(),
 				product.getAvailableQuantity(), product.getPrice(), product.getBarcodeNumber(),
-				product.getOrderThreshold(), product.getOrderQuantity() };
+				product.getOrderThreshold(), product.getOrderQuantity(), printButton };
 		tableData.add(rowData);
 		fireTableDataChanged();
 	}

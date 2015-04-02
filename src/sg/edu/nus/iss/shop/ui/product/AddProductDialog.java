@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -185,7 +186,9 @@ public class AddProductDialog extends OkCancelDialog {
 				availableQuantity, price, barcodeNumber, orderThreshold, orderQuantity);
 
 		if (product != null) {
-			listPanel.getTableModel().addToTable(product);
+			JButton printButton = new JButton("Print");
+			printButton.addActionListener(new PrintProductLabelListener(shopApplication, listPanel, product));
+			listPanel.getTableModel().addToTable(product, printButton);
 			return true;
 		}
 		return false;

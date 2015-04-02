@@ -8,6 +8,6 @@ public class PrinterManagerTest {
 	
 	@Test
 	public void testPrintProduct() {
-		PrinterManager.getInstance().PrintProductBarCode(new Product(null, null, null, 0, 0, "6325135152", 0, 0));
+		PrinterManager.getInstance().printProductBarCode(new Product(null, null, null, 0, 0, "6325135152", 0, 0));
 	}
 }

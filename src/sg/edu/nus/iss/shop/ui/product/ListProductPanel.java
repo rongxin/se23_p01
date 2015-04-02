@@ -3,11 +3,14 @@ package sg.edu.nus.iss.shop.ui.product;
 import java.awt.Dimension;
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import sg.edu.nus.iss.shop.model.domain.Product;
+import sg.edu.nus.iss.shop.ui.JTableButtonMouseListener;
+import sg.edu.nus.iss.shop.ui.JTableButtonRenderer;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 
 public class ListProductPanel extends JPanel {
@@ -28,15 +31,19 @@ public class ListProductPanel extends JPanel {
 		tableModel = new ProductTableModel();
 
 		for (Product product : products) {
-			tableModel.addToTable(product);
+			JButton printButton = new JButton("Print");
+			printButton.addActionListener(new PrintProductLabelListener(shopApplication, this, product));
+			tableModel.addToTable(product, printButton);
 		}
 
 		JTable table = new JTable(tableModel);
+		table.getColumn("Print").setCellRenderer(new JTableButtonRenderer());
+		table.addMouseListener(new JTableButtonMouseListener(table));
 		table.setName("Items");
 		table.setEnabled(false);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
 		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setPreferredSize(new Dimension(750, 450));
+		scrollPane.setPreferredSize(new Dimension(800, 450));
 		p.add(scrollPane);
 		return p;
 	}
