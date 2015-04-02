@@ -174,7 +174,8 @@ public class AddDiscountDialog extends OkCancelDialog {
 		String discountPercentageValue = percentageField.getText().trim();
 		String discountPeriodValue = periodField.getText().trim();
 		String startDate = startDateField.getText().trim();
-
+		String reformattedStartDate = "";
+		
 		if (discountCode.length() == 0) {
 			MessageHelper.showErrorMessage("Please input discount code.");
 			return false;
@@ -191,7 +192,6 @@ public class AddDiscountDialog extends OkCancelDialog {
 		}
 
 		Integer discountPercentage = new Integer(discountPercentageValue);
-
 		// Integer discountPeriod= new Integer(discountPeriodValue);
 
 		String discountApplicableTo = "";
@@ -202,17 +202,21 @@ public class AddDiscountDialog extends OkCancelDialog {
 		}
 
 		// convert date format
-		SimpleDateFormat fromUI = new SimpleDateFormat("dd/MM/yyyy");
-		SimpleDateFormat discountStartDate = new SimpleDateFormat("yyyy-MM-dd");
-		String reformattedStartDate = "";
-		try {
-			reformattedStartDate = discountStartDate.format(fromUI
-					.parse(startDate));
-		} catch (ParseException e) {
-			MessageHelper.showErrorMessage("Reformat date error.");
-			return false;
+		if (!startDate.equals(Discount.ALWAY_VALID_START_DATE)) {
+			SimpleDateFormat fromUI = new SimpleDateFormat("dd/MM/yyyy");
+			SimpleDateFormat discountStartDate = new SimpleDateFormat("yyyy-MM-dd");
+			
+			try {
+				reformattedStartDate = discountStartDate.format(fromUI
+						.parse(startDate));
+			} catch (ParseException e) {
+				MessageHelper.showErrorMessage("Reformat date error.");
+				return false;
+			}
+		}else{
+			reformattedStartDate = startDate;
 		}
-
+		
 		Discount discount = shopApplication.addDiscount(discountCode,
 				discountDesc, discountPercentage, reformattedStartDate,
 				discountPeriodValue, discountApplicableTo);
