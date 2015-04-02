@@ -27,6 +27,7 @@ import javax.swing.UIManager;
 import sg.edu.nus.iss.shop.model.domain.Discount;
 import sg.edu.nus.iss.shop.ui.OkCancelDialog;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
+import sg.edu.nus.iss.shop.ui.util.IconHelper;
 import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
 import sg.edu.nus.iss.shop.ui.util.MessageHelper;
 import sg.edu.nus.iss.shop.ui.util.NumberHelper;
@@ -105,7 +106,7 @@ public class AddDiscountDialog extends OkCancelDialog {
 		gc.fill = GridBagConstraints.NONE;
 		discountCodeField = new JTextField(20);
 		discountCodeField
-				.setToolTipText("Please input three-letter code for the new category");
+		.setToolTipText("Please input three-letter code for the new category");
 		p.add(discountCodeField, gc);
 
 		gc = LayoutHelper.createCellConstraint(1, 1);
@@ -115,11 +116,11 @@ public class AddDiscountDialog extends OkCancelDialog {
 		discountDescriptionField.setBorder(BorderFactory
 				.createLineBorder(Color.lightGray));
 		discountDescriptionField
-				.setToolTipText("Please input discount description.");
+		.setToolTipText("Please input discount description.");
 		JScrollPane discountDescriptionFieldScroll = new JScrollPane(
 				discountDescriptionField);
 		discountDescriptionFieldScroll
-				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		p.add(discountDescriptionFieldScroll, gc);
 
 		gc = LayoutHelper.createCellConstraint(1, 2);
@@ -180,12 +181,12 @@ public class AddDiscountDialog extends OkCancelDialog {
 		} else if (!NumberHelper
 				.isValidPositiveInteger(discountPercentageValue)) {
 			MessageHelper
-					.showErrorMessage("Please input valid discount percentage.");
+			.showErrorMessage("Please input valid discount percentage.");
 			return false;
 		} else if (!NumberHelper.isValidPositiveInteger(discountPeriodValue)
 				&& !discountPeriodValue.equals(Discount.ALWAY_VALID_DAYS)) {
 			MessageHelper
-					.showErrorMessage("Please input valid discount period.");
+			.showErrorMessage("Please input valid discount period.");
 			return false;
 		}
 
@@ -217,7 +218,7 @@ public class AddDiscountDialog extends OkCancelDialog {
 				discountPeriodValue, discountApplicableTo);
 
 		if (discount != null) {
-			JButton editButton = new JButton("Edit");
+			JButton editButton = new JButton(IconHelper.createImageIcon("edit.png"));
 			editButton.addActionListener(new EditDiscountListener(
 					shopApplication, listPanel, discount));
 			listPanel.getTableModel().addDiscountToTable(discount, editButton);

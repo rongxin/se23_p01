@@ -16,6 +16,11 @@ import sg.edu.nus.iss.shop.ui.JTableButtonRenderer;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 import sg.edu.nus.iss.shop.ui.util.IconHelper;
 
+/**
+ *
+ * @author Xia Rongxin
+ *
+ */
 public class ListLowStockProductPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private ShopApplication shopApplication;
@@ -34,7 +39,7 @@ public class ListLowStockProductPanel extends JPanel {
 		tableModel = new LowStockProductTableModel();
 
 		for (Product product : products) {
-			JButton orderButton = new JButton("Order", IconHelper.createImageIcon("order_product.png"));
+			JButton orderButton = new JButton(IconHelper.createImageIcon("order_product.png"));
 			orderButton.setToolTipText("Order product");
 
 			orderButton.addActionListener(new ActionListener() {
@@ -52,7 +57,7 @@ public class ListLowStockProductPanel extends JPanel {
 		}
 
 		JTable table = new JTable(tableModel);
-		table.getColumn("Action").setCellRenderer(new JTableButtonRenderer());
+		table.getColumn("Order").setCellRenderer(new JTableButtonRenderer());
 		table.addMouseListener(new JTableButtonMouseListener(table));
 
 		table.setName("Items");

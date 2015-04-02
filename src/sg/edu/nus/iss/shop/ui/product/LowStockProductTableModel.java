@@ -8,10 +8,15 @@ import javax.swing.table.AbstractTableModel;
 
 import sg.edu.nus.iss.shop.model.domain.Product;
 
+/**
+ *
+ * @author XIa Rongxin
+ *
+ */
 public class LowStockProductTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 	private String[] columnNames = { "Product ID", "Name", "Description", "Quantity", "Price", "Barcode",
-			"Reorder Threshold", "Order Quantity", "Action" };
+			"Reorder Threshold", "Order Quantity", "Order" };
 
 	private List<Object[]> tableData = new ArrayList<>();
 

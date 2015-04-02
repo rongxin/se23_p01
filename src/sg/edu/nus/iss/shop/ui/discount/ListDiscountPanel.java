@@ -12,7 +12,13 @@ import sg.edu.nus.iss.shop.model.domain.Discount;
 import sg.edu.nus.iss.shop.ui.JTableButtonMouseListener;
 import sg.edu.nus.iss.shop.ui.JTableButtonRenderer;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
+import sg.edu.nus.iss.shop.ui.util.IconHelper;
 
+/**
+ *
+ * @author Xia Rongxin
+ *
+ */
 public class ListDiscountPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private ShopApplication shopApplication;
@@ -30,7 +36,7 @@ public class ListDiscountPanel extends JPanel {
 		tableModel = new DiscountTableModel();
 
 		for (Discount discount : discounts) {
-			JButton editButton = new JButton("Edit");
+			JButton editButton = new JButton(IconHelper.createImageIcon("edit.png"));
 			editButton.addActionListener(new EditDiscountListener(shopApplication, this, discount));
 			tableModel.addDiscountToTable(discount, editButton);
 		}

@@ -12,6 +12,7 @@ import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.ui.JTableButtonMouseListener;
 import sg.edu.nus.iss.shop.ui.JTableButtonRenderer;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
+import sg.edu.nus.iss.shop.ui.util.IconHelper;
 
 public class ListProductPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -31,7 +32,7 @@ public class ListProductPanel extends JPanel {
 		tableModel = new ProductTableModel();
 
 		for (Product product : products) {
-			JButton printButton = new JButton("Print");
+			JButton printButton = new JButton(IconHelper.createImageIcon("print.png"));
 			printButton.addActionListener(new PrintProductLabelListener(shopApplication, this, product));
 			tableModel.addToTable(product, printButton);
 		}
