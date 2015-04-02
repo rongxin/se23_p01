@@ -12,6 +12,11 @@ import javax.swing.JPanel;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 import sg.edu.nus.iss.shop.ui.util.IconHelper;
 
+/**
+ *
+ * @author Xia Rongxin
+ *
+ */
 public class MemberWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private ShopApplication shopApplication;
