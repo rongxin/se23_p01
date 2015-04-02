@@ -15,7 +15,7 @@ import sg.edu.nus.iss.shop.util.LoggerType;
 
 public class DataReader extends DataRespository
 {
-	private ILogger logger = Logger.getLog(LoggerType.ALL_OUTPUT);
+	private ILogger logger = Logger.getLog();
 	public List<DataRecord> read(String dataSetName)  
 	{
 		super.setupRepository();
