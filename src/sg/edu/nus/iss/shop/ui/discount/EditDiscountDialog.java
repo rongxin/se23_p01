@@ -22,6 +22,7 @@ import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
 import sg.edu.nus.iss.shop.ui.util.MessageHelper;
 import sg.edu.nus.iss.shop.ui.util.NumberHelper;
+import sg.edu.nus.iss.shop.ui.util.TextFieldLimit;
 
 public class EditDiscountDialog extends OkCancelDialog {
 
@@ -82,7 +83,10 @@ public class EditDiscountDialog extends OkCancelDialog {
 		p.add(discountCodeValueLabel, gc);
 
 		gc = LayoutHelper.createCellConstraint(1, 1);
-		percentageField = new JTextField(10);
+		gc.anchor = GridBagConstraints.LAST_LINE_START;
+		gc.fill = GridBagConstraints.NONE;
+		percentageField = new JTextField(2);
+		percentageField.setDocument(new TextFieldLimit(2));
 		percentageField.setText("" + discount.getDiscountPercentage());
 		percentageField.setToolTipText("Please input percentage.");
 		p.add(percentageField, gc);

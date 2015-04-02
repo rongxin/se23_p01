@@ -31,6 +31,7 @@ import sg.edu.nus.iss.shop.ui.util.IconHelper;
 import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
 import sg.edu.nus.iss.shop.ui.util.MessageHelper;
 import sg.edu.nus.iss.shop.ui.util.NumberHelper;
+import sg.edu.nus.iss.shop.ui.util.TextFieldLimit;
 
 public class AddDiscountDialog extends OkCancelDialog {
 
@@ -106,7 +107,7 @@ public class AddDiscountDialog extends OkCancelDialog {
 		gc.fill = GridBagConstraints.NONE;
 		discountCodeField = new JTextField(20);
 		discountCodeField
-		.setToolTipText("Please input three-letter code for the new category");
+		.setToolTipText("Please input discount code");
 		p.add(discountCodeField, gc);
 
 		gc = LayoutHelper.createCellConstraint(1, 1);
@@ -124,12 +125,18 @@ public class AddDiscountDialog extends OkCancelDialog {
 		p.add(discountDescriptionFieldScroll, gc);
 
 		gc = LayoutHelper.createCellConstraint(1, 2);
-		percentageField = new JTextField(20);
+		gc.anchor = GridBagConstraints.LAST_LINE_START;
+		gc.fill = GridBagConstraints.NONE;
+		percentageField = new JTextField(2);
+		percentageField.setDocument(new TextFieldLimit(2));
 		percentageField.setToolTipText("Please input percentage.");
 		p.add(percentageField, gc);
 
 		gc = LayoutHelper.createCellConstraint(1, 3);
+		gc.anchor = GridBagConstraints.LAST_LINE_START;
+		gc.fill = GridBagConstraints.NONE;
 		startDateField = new JTextField(10);
+		startDateField.setDocument(new TextFieldLimit(10));
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.DAY_OF_MONTH,
 				Calendar.getInstance().getActualMinimum(Calendar.DAY_OF_MONTH));
@@ -138,7 +145,10 @@ public class AddDiscountDialog extends OkCancelDialog {
 		p.add(startDateField, gc);
 
 		gc = LayoutHelper.createCellConstraint(1, 4);
-		periodField = new JTextField(20);
+		gc.anchor = GridBagConstraints.LAST_LINE_START;
+		gc.fill = GridBagConstraints.NONE;
+		periodField = new JTextField(10);
+		periodField.setDocument(new TextFieldLimit(10));
 		periodField.setToolTipText("Please input discount period.");
 		p.add(periodField, gc);
 
@@ -175,7 +185,7 @@ public class AddDiscountDialog extends OkCancelDialog {
 		String discountPeriodValue = periodField.getText().trim();
 		String startDate = startDateField.getText().trim();
 		String reformattedStartDate = "";
-		
+
 		if (discountCode.length() == 0) {
 			MessageHelper.showErrorMessage("Please input discount code.");
 			return false;
@@ -205,7 +215,7 @@ public class AddDiscountDialog extends OkCancelDialog {
 		if (!startDate.equals(Discount.ALWAY_VALID_START_DATE)) {
 			SimpleDateFormat fromUI = new SimpleDateFormat("dd/MM/yyyy");
 			SimpleDateFormat discountStartDate = new SimpleDateFormat("yyyy-MM-dd");
-			
+
 			try {
 				reformattedStartDate = discountStartDate.format(fromUI
 						.parse(startDate));
@@ -216,7 +226,7 @@ public class AddDiscountDialog extends OkCancelDialog {
 		}else{
 			reformattedStartDate = startDate;
 		}
-		
+
 		Discount discount = shopApplication.addDiscount(discountCode,
 				discountDesc, discountPercentage, reformattedStartDate,
 				discountPeriodValue, discountApplicableTo);
