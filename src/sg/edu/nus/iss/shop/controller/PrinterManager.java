@@ -107,6 +107,7 @@ public class PrinterManager {
 		AdhesiveLabelPrinter alp = new AdhesiveLabelPrinter();
 		alp.print("==========================================");
 		alp.print("Product Name:" + p.getName());
+		alp.print("Price: $" + PriceHelper.getPriceDisplay(p.getPrice()));
 		alp.print("Barcode:" + p.getBarcodeNumber());
 		alp.print("==========================================");
 	}
