@@ -25,6 +25,7 @@ import javax.swing.UIManager;
 import sg.edu.nus.iss.shop.model.domain.Discount;
 import sg.edu.nus.iss.shop.ui.OkCancelDialog;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
+import sg.edu.nus.iss.shop.ui.product.ListProductPanel;
 import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
 import sg.edu.nus.iss.shop.ui.util.PriceHelper;
 
@@ -41,10 +42,12 @@ public class AddDiscountDialog extends OkCancelDialog {
 	private JRadioButton radMember;
 	private JRadioButton radAll;
 	private JLabel messageLabel;
-
+	private ListDiscountPanel listPanel;
+	
 	public AddDiscountDialog(ShopApplication shopApplication,ListDiscountPanel listPanel) {
 		super(shopApplication.getMainWindow().getMainPanel().getCategoryWindow(), "Add Discount");
 		this.shopApplication = shopApplication;
+		this.listPanel = listPanel;
 	}
 
 	@Override
@@ -122,7 +125,8 @@ public class AddDiscountDialog extends OkCancelDialog {
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.DAY_OF_MONTH,
 				Calendar.getInstance().getActualMinimum(Calendar.DAY_OF_MONTH));
-		startDateField.setText(new SimpleDateFormat("dd/MM/yyyy").format(cal.getTime()));
+//		startDateField.setText(new SimpleDateFormat("dd/MM/yyyy").format(cal.getTime()));
+		startDateField.setText(new SimpleDateFormat("yyyy-MM-dd").format(cal.getTime()));
 		p.add(startDateField, gc);
 
 
@@ -180,20 +184,27 @@ public class AddDiscountDialog extends OkCancelDialog {
 			return false;
 		}
 
-		Double discountPercentageDouble = new Double(discountPercentage);
-		Integer discountPeriodInteger= new Integer(discountPeriod);
+		int discountPercentageInteger = new Integer(discountPercentage);
+//		Integer discountPeriodInteger= new Integer(discountPeriod);
 
 
-		Boolean applicableToMember = false;
+//		Boolean applicableToMember = false;
+//		if (radMember.isSelected()) {
+//			applicableToMember = true;
+//		}
+		String applicableToMember = "A";
 		if (radMember.isSelected()) {
-			applicableToMember = true;
+			applicableToMember = "M";
 		}
-
-		Discount discount = shopApplication.addDiscount(discountCode, discountDesc, discountPercentage, startDate,
+		
+		Discount discount = shopApplication.addDiscount(discountCode, discountDesc,discountPercentageInteger, startDate,
 				discountPeriod,
 				applicableToMember);
-
-		return true;
+		if (discount != null) {
+			listPanel.getTableModel().addDiscountToTable(discount);
+			return true;
+		}
+		return false;
 	}
 
 
