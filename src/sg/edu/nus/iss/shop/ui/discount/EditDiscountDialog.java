@@ -104,7 +104,7 @@ public class EditDiscountDialog extends OkCancelDialog {
 
 		if (!NumberHelper.isValidPositiveInteger(discountPercentage))
 		{
-			MessageHelper.showErrorMessage("Please input percentage.");
+			MessageHelper.showErrorMessage("Please input a positive integer value.");
 			return false;
 		}
 
