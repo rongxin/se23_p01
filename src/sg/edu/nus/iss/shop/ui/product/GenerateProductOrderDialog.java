@@ -122,8 +122,13 @@ public class GenerateProductOrderDialog extends OkCancelDialog {
 			MessageHelper.showErrorMessage("Please input valid quantity.");
 			return false;
 		}
-
 		Integer orderQuantity = Integer.valueOf(orderQuantityValueField.getText().trim());
+
+		if (orderQuantity == 0) {
+			MessageHelper.showErrorMessage("Order quantity should be greater that 0.");
+			return false;
+		}
+
 		OrderProductWindow window = new OrderProductWindow(product, vendor, orderQuantity);
 		window.pack();
 		window.setLocationByPlatform(true);
