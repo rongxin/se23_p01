@@ -15,6 +15,11 @@ import sg.edu.nus.iss.shop.ui.util.IconHelper;
 import sg.edu.nus.iss.shop.ui.util.MessageHelper;
 import sg.edu.nus.iss.shop.ui.util.PriceHelper;
 
+/**
+ *
+ * @author Xia Rongxin
+ *
+ */
 public class ActionButtonsPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private static final String CARD_MEMBER = "memberCard";
@@ -108,7 +113,7 @@ public class ActionButtonsPanel extends JPanel {
 						checkoutWindow.getTotalDiscountedPrice(), new Double(cashReceived));
 
 				checkoutWindow.getPurchaseSummaryPanel().updateAfterCheckout();
-				returnButton.setText("Return");
+				returnButton.setText("   Return");
 			}
 		});
 		add(checkoutButton);

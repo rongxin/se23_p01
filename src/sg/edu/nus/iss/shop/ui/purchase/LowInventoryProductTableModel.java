@@ -7,6 +7,11 @@ import javax.swing.table.AbstractTableModel;
 
 import sg.edu.nus.iss.shop.model.domain.Product;
 
+/**
+ *
+ * @author Xia Rongxin
+ *
+ */
 public class LowInventoryProductTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 	private String[] columnNames = { "Product ID", "Product Name", "Stock Number" };
@@ -15,7 +20,6 @@ public class LowInventoryProductTableModel extends AbstractTableModel {
 	public void addItem(Product item) {
 		Object[] rowData = new Object[] { item.getProductId(), item.getName(), item.getAvailableQuantity() };
 		tableData.add(rowData);
-
 		fireTableDataChanged();
 	}
 
