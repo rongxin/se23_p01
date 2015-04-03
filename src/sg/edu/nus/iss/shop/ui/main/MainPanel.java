@@ -21,6 +21,11 @@ import sg.edu.nus.iss.shop.ui.purchase.CheckoutWindow;
 import sg.edu.nus.iss.shop.ui.report.ReportWindow;
 import sg.edu.nus.iss.shop.ui.util.IconHelper;
 
+/**
+ *
+ * @author Xia Rongxin
+ *
+ */
 public class MainPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private ShopApplication shopApplication;
@@ -198,6 +203,10 @@ public class MainPanel extends JPanel {
 
 	public JLabel getShopKeeperInfoLabel() {
 		return shopKeeperInfoLabel;
+	}
+
+	public DiscountWindow getDiscountWindow() {
+		return discountWindow;
 	}
 
 }

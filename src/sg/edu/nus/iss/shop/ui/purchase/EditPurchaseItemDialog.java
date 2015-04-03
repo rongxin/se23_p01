@@ -1,4 +1,4 @@
-package sg.edu.nus.iss.shop.ui.discount;
+package sg.edu.nus.iss.shop.ui.purchase;
 
 /**
  * @author Xia Rongxin
@@ -17,7 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
-import sg.edu.nus.iss.shop.model.domain.Discount;
+import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.ui.OkCancelDialog;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
@@ -25,21 +25,24 @@ import sg.edu.nus.iss.shop.ui.util.MessageHelper;
 import sg.edu.nus.iss.shop.ui.util.NumberHelper;
 import sg.edu.nus.iss.shop.ui.util.TextFieldLimit;
 
-public class EditDiscountDialog extends OkCancelDialog {
+public class EditPurchaseItemDialog extends OkCancelDialog {
 
 	private static final long serialVersionUID = 1L;
 	private ShopApplication shopApplication;
-	private JLabel discountCodeValueLabel;
-	private JTextField percentageField;
-	private Discount discount;
+	private CheckoutWindow checkoutWindow;
+	private JLabel productNameValueLabel;
+	private JTextField quantityField;
+	private Product product;
+	private ItemTableModel itemModel;
 	private JLabel messageLabel;
-	private ListDiscountPanel listPanel;
 
-	public EditDiscountDialog(ShopApplication shopApplication, ListDiscountPanel listPanel, Discount discount) {
-		super(shopApplication.getMainWindow().getMainPanel().getDiscountWindow(), "Edit  Discount");
+	public EditPurchaseItemDialog(ShopApplication shopApplication, CheckoutWindow checkoutWindow, Product product,
+			ItemTableModel itemModel) {
+		super(shopApplication.getMainWindow().getMainPanel().getCheckoutWindow(), "Edit  Purchase Item");
 		this.shopApplication = shopApplication;
-		this.listPanel = listPanel;
-		this.discount = discount;
+		this.checkoutWindow = checkoutWindow;
+		this.product = product;
+		this.itemModel = itemModel;
 		setFormPanel(createNewFormPanel());
 		setPreferredSize(new Dimension(350, 200));
 	}
@@ -64,34 +67,36 @@ public class EditDiscountDialog extends OkCancelDialog {
 	private JPanel createInputFormPanel() {
 		JPanel p = new JPanel();
 		p.setLayout(new GridBagLayout());
-		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(" Edit Discount "),
+		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(" Edit Qty "),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		GridBagConstraints gc = new GridBagConstraints();
 
 		// column 1
 		gc = LayoutHelper.createCellConstraint(0, 0);
-		JLabel discountCodeLabel = new JLabel("Discount Code:");
-		p.add(discountCodeLabel, gc);
+		JLabel nameLabel = new JLabel("Product Name:");
+		p.add(nameLabel, gc);
 
 		gc = LayoutHelper.createCellConstraint(0, 1);
-		JLabel discountPercentageLabel = new JLabel("Discount Percentage:");
-		p.add(discountPercentageLabel, gc);
+		JLabel qtyLabel = new JLabel("Qty:");
+		p.add(qtyLabel, gc);
 
 		// column 2
 		gc = LayoutHelper.createCellConstraint(1, 0);
 		gc.anchor = GridBagConstraints.LAST_LINE_START;
 		gc.fill = GridBagConstraints.NONE;
-		discountCodeValueLabel = new JLabel(discount.getDiscountCode());
-		p.add(discountCodeValueLabel, gc);
+		productNameValueLabel = new JLabel(product.getName());
+		p.add(productNameValueLabel, gc);
 
 		gc = LayoutHelper.createCellConstraint(1, 1);
 		gc.anchor = GridBagConstraints.LAST_LINE_START;
 		gc.fill = GridBagConstraints.NONE;
-		percentageField = new JTextField(2);
-		percentageField.setDocument(new TextFieldLimit(2));
-		percentageField.setText("" + discount.getDiscountPercentage());
-		percentageField.setToolTipText("Please input percentage.");
-		p.add(percentageField, gc);
+		quantityField = new JTextField(5);
+		quantityField.setDocument(new TextFieldLimit(5));
+
+		Integer currentQty = itemModel.getItems().get(product.getProductId());
+		quantityField.setText("" + currentQty);
+		quantityField.setToolTipText("Please input quantity.");
+		p.add(quantityField, gc);
 
 		return p;
 	}
@@ -99,28 +104,30 @@ public class EditDiscountDialog extends OkCancelDialog {
 	private JPanel createFormMessagePanel() {
 		JPanel p = new JPanel(new GridLayout(0, 1));
 		messageLabel = new JLabel(" ", SwingConstants.CENTER);
-		messageLabel.setText("Please input discount percentage.");
+		messageLabel.setText("Edit purchase item qty.");
 		p.add(messageLabel);
 		return p;
 	}
 
 	@Override
 	protected boolean performOkAction() {
-		String discountPercentage= percentageField.getText().trim();
+		String quantityValue= quantityField.getText().trim();
 
-		if (!NumberHelper.isValidPositiveInteger(discountPercentage))
+		if (!NumberHelper.isValidPositiveInteger(quantityValue))
 		{
 			MessageHelper.showErrorMessage("Please input a positive integer value.");
 			return false;
 		}
 
-		Integer discountPercentageValue = new Integer(discountPercentage);
-
-		Discount editedDiscount = shopApplication.editDiscount(discount.getDiscountCode(), discountPercentageValue);
-		if (editedDiscount != null) {
-			listPanel.getTableModel().updateEditedData(editedDiscount);
-			return true;
-		}
+		// Integer discountPercentageValue = new Integer(discountPercentage);
+		//
+		// Discount editedDiscount =
+		// shopApplication.editDiscount(discount.getDiscountCode(),
+		// discountPercentageValue);
+		// if (editedDiscount != null) {
+		// // listPanel.getTableModel().updateEditedData(editedDiscount);
+		// return true;
+		// }
 
 		return false;
 	}

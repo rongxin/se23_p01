@@ -77,4 +77,8 @@ public class ItemTableModel extends AbstractTableModel {
 		tableData.get(row)[col] = value;
 		fireTableCellUpdated(row, col);
 	}
+
+	public Map<String, Integer> getItems() {
+		return items;
+	}
 }

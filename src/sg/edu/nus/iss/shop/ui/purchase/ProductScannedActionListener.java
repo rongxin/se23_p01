@@ -40,7 +40,7 @@ public class ProductScannedActionListener extends AbstractAction {
 		} else {
 			ItemTableModel model = (ItemTableModel) checkoutWindow.getListPurchaseItemPanel().getTable().getModel();
 			JButton editButton = new JButton(IconHelper.createImageIcon("edit.png"));
-			editButton.addActionListener(new EditPurchaseItemListener(shopApplication, checkoutWindow, product));
+			editButton.addActionListener(new EditPurchaseItemListener(shopApplication, checkoutWindow, product, model));
 			model.addItem(product, editButton);
 
 			List<Product> productsInCart = checkoutWindow.getProducts();
