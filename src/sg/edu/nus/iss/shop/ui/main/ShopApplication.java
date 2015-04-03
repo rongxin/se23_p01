@@ -13,6 +13,7 @@ import sg.edu.nus.iss.shop.controller.AdminManager;
 import sg.edu.nus.iss.shop.controller.CategoryManager;
 import sg.edu.nus.iss.shop.controller.DiscountManager;
 import sg.edu.nus.iss.shop.controller.MemberManager;
+import sg.edu.nus.iss.shop.controller.PrinterManager;
 import sg.edu.nus.iss.shop.controller.ProductManager;
 import sg.edu.nus.iss.shop.controller.ReportManager;
 import sg.edu.nus.iss.shop.controller.TransactionManager;
@@ -29,6 +30,11 @@ import sg.edu.nus.iss.shop.model.domain.Vendor;
 import sg.edu.nus.iss.shop.ui.util.MessageHelper;
 import sg.edu.nus.iss.shop.ui.util.ProductItemsHelper;
 
+/**
+ *
+ * @author Xia Rongxin
+ *
+ */
 public class ShopApplication {
 	private ShopMainWindow shopWindow;
 	private LoginDialog loginDialog;
@@ -40,14 +46,16 @@ public class ShopApplication {
 	private VendorManager vendorManager;
 	private ReportManager reportManager;
 	private AdminManager adminManager;
+	private PrinterManager printerManager;
 	private StoreKeeper loggedInUser;
 
 	public ShopApplication() {
 		loginDialog = new LoginDialog(this);
 		loginDialog.pack();
-		loginDialog.setLocationByPlatform(true);
+		loginDialog.setLocationByPlatform(false);		
 		loginDialog.setVisible(true);
-
+		  
+		
 		initManagers();
 	}
 
@@ -60,6 +68,7 @@ public class ShopApplication {
 		transactionManager = TransactionManager.getInstance();
 		discountManager = DiscountManager.getDiscountManager();
 		reportManager = ReportManager.getReportManager();
+		printerManager = PrinterManager.getInstance();
 	}
 
 	public void start() {
@@ -101,7 +110,8 @@ public class ShopApplication {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (ClassNotFoundException | InstantiationException
 				| IllegalAccessException | UnsupportedLookAndFeelException e) {
-			MessageHelper.showErrorMessage(shop.getShopWindow(), e.getMessage());
+			MessageHelper
+			.showErrorMessage(shop.getShopWindow(), e.getMessage());
 		}
 		shop.start();
 	}
@@ -196,6 +206,10 @@ public class ShopApplication {
 		return product;
 	}
 
+	public void printProductLabel(Product product) {
+		printerManager.printProductBarCode(product);
+	}
+
 	public Member addMember(String memberId, String memberName) {
 
 		try {
@@ -206,13 +220,13 @@ public class ShopApplication {
 		return null;
 	}
 
-	public Discount addDiscount(String discountCode, String description, Integer discountPercentage, String startDate,
-			Integer discountPeriod,
-			String discountApplicableTo) {
+	public Discount addDiscount(String discountCode, String description,
+			Integer discountPercentage, String startDate,
+			String discountPeriod, String discountApplicableTo) {
 
 		try {
-			return discountManager.addDiscount(discountCode, description, discountPercentage, startDate,
-					discountPeriod.toString(),
+			return discountManager.addDiscount(discountCode, description,
+					discountPercentage, startDate, discountPeriod,
 					discountApplicableTo);
 		} catch (ApplicationGUIException e) {
 			MessageHelper.showErrorMessage(e.getMessage());
@@ -222,7 +236,8 @@ public class ShopApplication {
 
 	public Discount editDiscount(String discountCode, Integer discountPercentage) {
 		try {
-			return discountManager.editDiscount(discountCode, discountPercentage);
+			return discountManager.editDiscount(discountCode,
+					discountPercentage);
 		} catch (ApplicationGUIException e) {
 			MessageHelper.showErrorMessage(e.getMessage());
 		}
@@ -295,7 +310,8 @@ public class ShopApplication {
 		}
 	}
 
-	public List<String[]> getTransactionReport(String startDate, String endDate) throws ParseException, ApplicationGUIException {
+	public List<String[]> getTransactionReport(String startDate, String endDate)
+			throws ParseException, ApplicationGUIException {
 		ReportManager rm = ReportManager.getReportManager();
 		return rm.getTransactionReport(startDate, endDate);
 	}

@@ -17,6 +17,7 @@ import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
 import sg.edu.nus.iss.shop.ui.util.MessageHelper;
 import sg.edu.nus.iss.shop.ui.util.NumberHelper;
 import sg.edu.nus.iss.shop.ui.util.PriceHelper;
+import sg.edu.nus.iss.shop.ui.util.TextFieldLimit;
 
 public class MakePaymentPanel extends JPanel {
 
@@ -77,10 +78,15 @@ public class MakePaymentPanel extends JPanel {
 
 		// column 2
 		gc = LayoutHelper.createCellConstraint(1, 0);
+		gc.anchor = GridBagConstraints.LAST_LINE_START;
+		gc.fill = GridBagConstraints.NONE;
 		loyaltyPointsField = new JTextField(10);
+		loyaltyPointsField.setDocument(new TextFieldLimit(10));
 		p.add(loyaltyPointsField, gc);
 
 		gc = LayoutHelper.createCellConstraint(1, 1);
+		gc.anchor = GridBagConstraints.LAST_LINE_START;
+		gc.fill = GridBagConstraints.NONE;
 		JButton redeemButton = new JButton("Redeem");
 		redeemButton.addActionListener(new ActionListener() {
 			@Override
@@ -151,7 +157,10 @@ public class MakePaymentPanel extends JPanel {
 		p.add(amountToBePaidValue, gc);
 
 		gc = LayoutHelper.createCellConstraint(1, 1);
+		gc.anchor = GridBagConstraints.LAST_LINE_START;
+		gc.fill = GridBagConstraints.NONE;
 		paidAmountField = new JTextField(10);
+		paidAmountField.setDocument(new TextFieldLimit(10));
 		paidAmountField.setToolTipText("Please input  amount paid");
 		p.add(paidAmountField, gc);
 		return p;

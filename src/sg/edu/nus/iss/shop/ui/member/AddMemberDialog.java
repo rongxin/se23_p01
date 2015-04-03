@@ -18,7 +18,13 @@ import sg.edu.nus.iss.shop.ui.OkCancelDialog;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
 import sg.edu.nus.iss.shop.ui.util.MessageHelper;
+import sg.edu.nus.iss.shop.ui.util.TextFieldLimit;
 
+/**
+ *
+ * @author Xia Rongxin
+ *
+ */
 public class AddMemberDialog extends OkCancelDialog {
 
 	private static final long serialVersionUID = 1L;
@@ -73,7 +79,10 @@ public class AddMemberDialog extends OkCancelDialog {
 
 
 		gc = LayoutHelper.createCellConstraint(1, 1);
-		cardNumberField = new JTextField(20);
+		gc.anchor = GridBagConstraints.LAST_LINE_START;
+		gc.fill = GridBagConstraints.NONE;
+		cardNumberField = new JTextField(15);
+		cardNumberField.setDocument(new TextFieldLimit(15));
 		cardNumberField.setToolTipText("Please input student or staff card number.");
 		p.add(cardNumberField, gc);
 
@@ -109,12 +118,12 @@ public class AddMemberDialog extends OkCancelDialog {
 
 	private boolean validateFields() {
 
-
-		if ("".equals(cardNumberField.getText().trim())) {
+		if ("".equals(nameField.getText().trim())) {
+			MessageHelper.showErrorMessage("Please input member name.");
+			return false;
+		} else if ("".equals(cardNumberField.getText().trim())) {
 			MessageHelper.showErrorMessage("Please input card number.");
 			return false;
-		} else if ("".equals(nameField.getText().trim())) {
-			MessageHelper.showErrorMessage("Please input member name.");
 		}
 
 		return true;

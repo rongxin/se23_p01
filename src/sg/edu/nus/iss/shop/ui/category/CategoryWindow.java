@@ -47,7 +47,7 @@ public class CategoryWindow extends JFrame {
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
 
-		JButton addCategoryButton = new JButton("Add Category");
+		JButton addCategoryButton = new JButton("Add Category", IconHelper.createImageIcon("add.png"));
 		addCategoryButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

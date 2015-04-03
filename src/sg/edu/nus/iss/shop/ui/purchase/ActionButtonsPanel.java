@@ -8,11 +8,18 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
+import sg.edu.nus.iss.shop.ui.util.IconHelper;
 import sg.edu.nus.iss.shop.ui.util.MessageHelper;
 import sg.edu.nus.iss.shop.ui.util.PriceHelper;
 
+/**
+ *
+ * @author Xia Rongxin
+ *
+ */
 public class ActionButtonsPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private static final String CARD_MEMBER = "memberCard";
@@ -43,7 +50,7 @@ public class ActionButtonsPanel extends JPanel {
 
 	private void initActionButtonsPanel() {
 
-		scanItemsButton = new JButton("Scan items");
+		scanItemsButton = new JButton("  Scan items", IconHelper.createImageIcon("scan.png"));
 		scanItemsButton.setEnabled(false);
 		scanItemsButton.addActionListener(new ActionListener() {
 			@Override
@@ -60,7 +67,7 @@ public class ActionButtonsPanel extends JPanel {
 		});
 		add(scanItemsButton);
 
-		proceedPaymentButton = new JButton(" Payment");
+		proceedPaymentButton = new JButton(" Payment   ", IconHelper.createImageIcon("dollar.png"));
 		proceedPaymentButton.setEnabled(false);
 		proceedPaymentButton.addActionListener(new ActionListener() {
 			@Override
@@ -74,7 +81,7 @@ public class ActionButtonsPanel extends JPanel {
 		});
 		add(proceedPaymentButton);
 
-		checkoutButton = new JButton("Checkout");
+		checkoutButton = new JButton("  Checkout", IconHelper.createImageIcon("checkout.png"));
 		checkoutButton.setEnabled(false);
 		checkoutButton.addActionListener(new ActionListener() {
 			@Override
@@ -106,12 +113,13 @@ public class ActionButtonsPanel extends JPanel {
 						checkoutWindow.getTotalDiscountedPrice(), new Double(cashReceived));
 
 				checkoutWindow.getPurchaseSummaryPanel().updateAfterCheckout();
-				returnButton.setText("Return");
+				returnButton.setText("   Return");
 			}
 		});
 		add(checkoutButton);
 
-		returnButton = new JButton("Cancel");
+		returnButton = new JButton("   Cancel     ", IconHelper.createImageIcon("home.png"));
+		returnButton.setHorizontalAlignment(SwingConstants.CENTER);
 		returnButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

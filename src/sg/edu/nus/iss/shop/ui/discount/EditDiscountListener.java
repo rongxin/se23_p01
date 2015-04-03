@@ -6,6 +6,11 @@ import java.awt.event.ActionListener;
 import sg.edu.nus.iss.shop.model.domain.Discount;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 
+/**
+ *
+ * @author Xia Rongxin
+ *
+ */
 public class EditDiscountListener implements ActionListener {
 	private ShopApplication shopApplication;
 	private Discount discount;

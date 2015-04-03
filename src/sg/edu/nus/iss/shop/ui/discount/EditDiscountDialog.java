@@ -4,6 +4,7 @@ package sg.edu.nus.iss.shop.ui.discount;
  * @author Xia Rongxin
  */
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -22,6 +23,7 @@ import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
 import sg.edu.nus.iss.shop.ui.util.MessageHelper;
 import sg.edu.nus.iss.shop.ui.util.NumberHelper;
+import sg.edu.nus.iss.shop.ui.util.TextFieldLimit;
 
 public class EditDiscountDialog extends OkCancelDialog {
 
@@ -34,11 +36,12 @@ public class EditDiscountDialog extends OkCancelDialog {
 	private ListDiscountPanel listPanel;
 
 	public EditDiscountDialog(ShopApplication shopApplication, ListDiscountPanel listPanel, Discount discount) {
-		super(shopApplication.getMainWindow().getMainPanel().getCategoryWindow(), "Edit  Discount");
+		super(shopApplication.getMainWindow().getMainPanel().getDiscountWindow(), "Edit  Discount");
 		this.shopApplication = shopApplication;
 		this.listPanel = listPanel;
 		this.discount = discount;
 		setFormPanel(createNewFormPanel());
+		setPreferredSize(new Dimension(350, 200));
 	}
 
 	@Override
@@ -61,7 +64,7 @@ public class EditDiscountDialog extends OkCancelDialog {
 	private JPanel createInputFormPanel() {
 		JPanel p = new JPanel();
 		p.setLayout(new GridBagLayout());
-		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(" Add Discount "),
+		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(" Edit Discount "),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		GridBagConstraints gc = new GridBagConstraints();
 
@@ -82,7 +85,10 @@ public class EditDiscountDialog extends OkCancelDialog {
 		p.add(discountCodeValueLabel, gc);
 
 		gc = LayoutHelper.createCellConstraint(1, 1);
-		percentageField = new JTextField(10);
+		gc.anchor = GridBagConstraints.LAST_LINE_START;
+		gc.fill = GridBagConstraints.NONE;
+		percentageField = new JTextField(2);
+		percentageField.setDocument(new TextFieldLimit(2));
 		percentageField.setText("" + discount.getDiscountPercentage());
 		percentageField.setToolTipText("Please input percentage.");
 		p.add(percentageField, gc);

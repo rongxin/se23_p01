@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -22,11 +23,18 @@ import sg.edu.nus.iss.shop.model.domain.Category;
 import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.ui.OkCancelDialog;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
+import sg.edu.nus.iss.shop.ui.util.IconHelper;
 import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
 import sg.edu.nus.iss.shop.ui.util.MessageHelper;
 import sg.edu.nus.iss.shop.ui.util.NumberHelper;
 import sg.edu.nus.iss.shop.ui.util.PriceHelper;
+import sg.edu.nus.iss.shop.ui.util.TextFieldLimit;
 
+/**
+ *
+ * @author Xia Rongxin
+ *
+ */
 public class AddProductDialog extends OkCancelDialog {
 
 	private static final long serialVersionUID = 1L;
@@ -139,27 +147,42 @@ public class AddProductDialog extends OkCancelDialog {
 		p.add(productDescriptionFieldScroll, gc);
 
 		gc = LayoutHelper.createCellConstraint(1, 3);
-		quantityField = new JTextField(20);
+		gc.anchor = GridBagConstraints.LAST_LINE_START;
+		gc.fill = GridBagConstraints.NONE;
+		quantityField = new JTextField(10);
+		quantityField.setDocument(new TextFieldLimit(10));
 		quantityField.setToolTipText("Please input available product quantity.");
 		p.add(quantityField, gc);
 
 		gc = LayoutHelper.createCellConstraint(1, 4);
-		priceField = new JTextField(20);
+		gc.anchor = GridBagConstraints.LAST_LINE_START;
+		gc.fill = GridBagConstraints.NONE;
+		priceField = new JTextField(12);
+		priceField.setDocument(new TextFieldLimit(12));
 		priceField.setToolTipText("Please input product price.");
 		p.add(priceField, gc);
 
 		gc = LayoutHelper.createCellConstraint(1, 5);
-		barCodeNumberField = new JTextField(20);
+		gc.anchor = GridBagConstraints.LAST_LINE_START;
+		gc.fill = GridBagConstraints.NONE;
+		barCodeNumberField = new JTextField(12);
+		barCodeNumberField.setDocument(new TextFieldLimit(12));
 		barCodeNumberField.setToolTipText("Please input the barcode number of product.");
 		p.add(barCodeNumberField, gc);
 
 		gc = LayoutHelper.createCellConstraint(1, 6);
-		reorderThresholdField = new JTextField(20);
+		gc.anchor = GridBagConstraints.LAST_LINE_START;
+		gc.fill = GridBagConstraints.NONE;
+		reorderThresholdField = new JTextField(10);
+		reorderThresholdField.setDocument(new TextFieldLimit(10));
 		reorderThresholdField.setToolTipText("Please input threshold for reorder.");
 		p.add(reorderThresholdField, gc);
 
 		gc = LayoutHelper.createCellConstraint(1, 7);
-		reorderQuantityField = new JTextField(20);
+		gc.anchor = GridBagConstraints.LAST_LINE_START;
+		gc.fill = GridBagConstraints.NONE;
+		reorderQuantityField = new JTextField(10);
+		quantityField.setDocument(new TextFieldLimit(10));
 		reorderQuantityField.setToolTipText("Please input quanity when reorder this product");
 		p.add(reorderQuantityField, gc);
 
@@ -185,7 +208,9 @@ public class AddProductDialog extends OkCancelDialog {
 				availableQuantity, price, barcodeNumber, orderThreshold, orderQuantity);
 
 		if (product != null) {
-			listPanel.getTableModel().addToTable(product);
+			JButton printButton = new JButton(IconHelper.createImageIcon("print.png"));
+			printButton.addActionListener(new PrintProductLabelListener(shopApplication, listPanel, product));
+			listPanel.getTableModel().addToTable(product, printButton);
 			return true;
 		}
 		return false;
@@ -198,8 +223,8 @@ public class AddProductDialog extends OkCancelDialog {
 		} else if (!NumberHelper.isValidPositiveInteger(quantityField.getText().trim())) {
 			MessageHelper.showErrorMessage("Please input valid quantity.");
 			return false;
-		} else if (!NumberHelper.isValidPositiveInteger(barCodeNumberField.getText().trim())) {
-			MessageHelper.showErrorMessage("Please input valid barcode number.");
+		} else if (!NumberHelper.isValidPositiveLong(barCodeNumberField.getText().trim())) {
+			MessageHelper.showErrorMessage("Please input valid  barcode number.");
 			return false;
 		} else if (!NumberHelper.isValidPositiveInteger(reorderThresholdField.getText().trim())) {
 			MessageHelper.showErrorMessage("Please input valid threshold number.");

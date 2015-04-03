@@ -20,6 +20,7 @@ import javax.swing.UIManager;
 import sg.edu.nus.iss.shop.model.domain.Category;
 import sg.edu.nus.iss.shop.ui.OkCancelDialog;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
+import sg.edu.nus.iss.shop.ui.util.IconHelper;
 import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
 import sg.edu.nus.iss.shop.ui.util.MessageHelper;
 import sg.edu.nus.iss.shop.ui.util.TextFieldLimit;
@@ -106,7 +107,7 @@ public class AddCategoryDialog extends OkCancelDialog {
 
 		Category category = shopApplication.addCategory(categoryCode, categoryName);
 
-		JButton vendorButton = new JButton("Vendors");
+		JButton vendorButton = new JButton(IconHelper.createImageIcon("vendor.png"));
 		vendorButton.addActionListener(new ViewCategoryVendorListener(shopApplication, category));
 		if (category != null) {
 			listPanel.getTableModel().addToTable(category, vendorButton);

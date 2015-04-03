@@ -1,6 +1,8 @@
 package sg.edu.nus.iss.shop.ui.discount;
 
 import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -9,12 +11,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import sg.edu.nus.iss.shop.controller.DiscountManager;
-import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
-import sg.edu.nus.iss.shop.model.domain.Discount;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 import sg.edu.nus.iss.shop.ui.util.IconHelper;
-import sg.edu.nus.iss.shop.ui.util.MessageHelper;
 
 
 public class DiscountWindow extends JFrame {
@@ -29,7 +27,7 @@ public class DiscountWindow extends JFrame {
 		this.shopApplication = shopApplication;
 		setLayout(new BorderLayout());
 		this.add("North", createTitlePanel());
-		this.add("South", createMainPanel());
+		this.add("Center", createMainPanel());
 	}
 
 	private JPanel createMainPanel() {
@@ -37,8 +35,22 @@ public class DiscountWindow extends JFrame {
 		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("  Discounts  "),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
+		GridBagLayout gbl_p = new GridBagLayout();
+		gbl_p.columnWidths = new int[] { 130, 0 };
+		gbl_p.rowHeights = new int[] { 121, 0 };
+		gbl_p.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
+		gbl_p.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
+		p.setLayout(gbl_p);
+		
+		GridBagConstraints gbc_lp = new GridBagConstraints();
+		gbc_lp.fill = GridBagConstraints.BOTH;
+		gbc_lp.anchor = GridBagConstraints.NORTHWEST;
+		gbc_lp.gridx = 0;
+		gbc_lp.gridy = 0;
+		
 		listPanel = new ListDiscountPanel(shopApplication);
-		p.add("Center", listPanel);
+		//p.add("Center", listPanel);
+		p.add(listPanel,gbc_lp);
 		return p;
 	}
 
@@ -48,7 +60,7 @@ public class DiscountWindow extends JFrame {
 		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("  Actions  "),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
-		JButton addButton = new JButton("Add Discount");
+		JButton addButton = new JButton("Add Discount", IconHelper.createImageIcon("add.png"));
 		addButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -61,7 +73,7 @@ public class DiscountWindow extends JFrame {
 			}
 		});
 		p.add(addButton, BorderLayout.WEST);
-		
+
 		return p;
 	}
 

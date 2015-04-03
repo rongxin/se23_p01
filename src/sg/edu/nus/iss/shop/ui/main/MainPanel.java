@@ -21,6 +21,11 @@ import sg.edu.nus.iss.shop.ui.purchase.CheckoutWindow;
 import sg.edu.nus.iss.shop.ui.report.ReportWindow;
 import sg.edu.nus.iss.shop.ui.util.IconHelper;
 
+/**
+ *
+ * @author Xia Rongxin
+ *
+ */
 public class MainPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private ShopApplication shopApplication;
@@ -76,6 +81,7 @@ public class MainPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				checkoutWindow = new CheckoutWindow(shopApplication);
 				initializeWindow(checkoutWindow);
+				checkoutWindow.setSize(850, 600);
 			}
 		});
 		JPanel checkoutPanel = new JPanel();
@@ -128,7 +134,7 @@ public class MainPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				discountWindow = new DiscountWindow(shopApplication);
 				initializeWindow(discountWindow);
-				discountWindow.setSize(700, 600);
+				discountWindow.setSize(750, 600);
 			}
 		});
 		JPanel discountsPanel = new JPanel();
@@ -197,6 +203,10 @@ public class MainPanel extends JPanel {
 
 	public JLabel getShopKeeperInfoLabel() {
 		return shopKeeperInfoLabel;
+	}
+
+	public DiscountWindow getDiscountWindow() {
+		return discountWindow;
 	}
 
 }

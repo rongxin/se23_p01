@@ -2,13 +2,16 @@ call setenv.bat
 
 echo "find  src files to be compiled"
 
-cd src
+cd src\
 dir /s /B *.java > ..\files.txt
 cd ..
 
+rd  classes\ /s /q
+mkdir classes\
+
 echo "start to compile"
 
-javac -d classes @files.txt
+javac -classpath lib\* -d classes @files.txt
 
 echo "compile finished"
 

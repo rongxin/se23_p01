@@ -1,10 +1,14 @@
 package sg.edu.nus.iss.shop.dao;
 
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.IOException;
+import java.util.Date;
 
 import sg.edu.nus.iss.shop.dao.exception.InvalidDataFormat;
 import sg.edu.nus.iss.shop.dao.exception.InvalidDomainObject;
+import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.Category;
 import sg.edu.nus.iss.shop.model.domain.Discount;
 import sg.edu.nus.iss.shop.model.domain.FirstPurchaseDiscount;
@@ -13,6 +17,7 @@ import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.model.domain.PublicDiscount;
 import sg.edu.nus.iss.shop.model.domain.StoreKeeper;
 import sg.edu.nus.iss.shop.model.domain.SubsequentDiscount;
+import sg.edu.nus.iss.shop.model.domain.Transaction;
 import sg.edu.nus.iss.shop.model.domain.Vendor;
 import sg.edu.nus.iss.shop.util.Logger;
  
@@ -140,55 +145,102 @@ public class InitApplicationRepository
 		}
 	}
 	
-	private void initProduct()
+	private void initProductAndTransaction()
 	{
 		try {
 			
 			Product prod = new Product("CLO/1", "Centenary Jumper",
 					"A releally nice momento", 315, 21.45, "1234", 10, 100);
+			
+			Product prod02 = new Product("CLO/2", "Centenary Jumper2",
+					"A releally nice momento", 315, 21.45, "12342", 10, 100);
+			
+			Product prod1 = new Product("MUG/1", "Centenary Mug",
+					"A releally nice mug this time", 525, 10.25, "9876", 25,
+					150);
+			
+			Product prod12 = new Product("MUG/2", "Centenary Mug2",
+					"A releally nice mug this time", 525, 10.25, "98762", 25,
+					150);
+			
+			Product prod2 = new Product("STA/1", "NUS Pen",
+					"A releally cute blue pen", 768, 5.75, "123456789", 50, 250);
+						
+			
+			Product prod22 = new Product("STA/2", "NUS Pen2",
+					"A releally cute blue pen", 768, 5.75, "1234567892", 50, 250);
+			
+			Product prod3 = new Product("STA/2", "NUS Notepad",
+					"Great notepad for those", 315, 21.45, "12345", 10, 100);
+			
+			Product prod32 = new Product("STA/2", "NUS Notepad2",
+					"Great notepad for those", 315, 21.45, "123452", 10, 100);
+			
 			if(service.retrieveObject(Product.class, prod.getName()) == null)
 			{
 				service.saveRecord(prod);
 				
-				Product prod02 = new Product("CLO/2", "Centenary Jumper2",
-						"A releally nice momento", 315, 21.45, "12342", 10, 100);
+				
 				service.saveRecord(prod02);
 				
-				Product prod1 = new Product("MUG/1", "Centenary Mug",
-						"A releally nice mug this time", 525, 10.25, "9876", 25,
-						150);
+				
 				service.saveRecord(prod1);				
-				Product prod12 = new Product("MUG/2", "Centenary Mug2",
-						"A releally nice mug this time", 525, 10.25, "98762", 25,
-						150);
+				
 				service.saveRecord(prod12);				
 				
 				
-				Product prod2 = new Product("STA/1", "NUS Pen",
-						"A releally cute blue pen", 768, 5.75, "123456789", 50, 250);
-				service.saveRecord(prod2);				
-				Product prod22 = new Product("STA/2", "NUS Pen2",
-						"A releally cute blue pen", 768, 5.75, "1234567892", 50, 250);
+				service.saveRecord(prod2);	
+				
 				service.saveRecord(prod22);
 				
 				
-				Product prod3 = new Product("STA/2", "NUS Notepad",
-						"Great notepad for those", 315, 21.45, "12345", 10, 100);
+				
 				service.saveRecord(prod3);				
-				Product prod32 = new Product("STA/2", "NUS Notepad2",
-						"Great notepad for those", 315, 21.45, "123452", 10, 100);
+				
 				service.saveRecord(prod32);
 			
 			}
 			
 			
+			
+			Transaction trans = new Transaction(1, new Member("F42563743156", "Yan Martel"), new Date());		
+			trans.changeProductQuantity(prod, 1); 
+			service.saveRecord(trans); 
+	
+			Transaction trans1 = new Transaction(2, new Member("X4242237431326", "Suraj Sharma"), new Date());
+			trans1.changeProductQuantity(prod, 1);
+			trans1.changeProductQuantity(prod1, 1);	 
+			service.saveRecord(trans1);
+			
+			Transaction trans2 = new Transaction(3, new Member("F42563743156", "Yan Martel"), new Date());
+			trans2.changeProductQuantity(prod, 1);
+			trans2.changeProductQuantity(prod1, 1);
+			trans2.changeProductQuantity(prod2, 1);
+			trans2.changeProductQuantity(prod3, 1);
+			service.saveRecord(trans2);
+			
+			
+			Transaction trans3 = new Transaction(4, new Member("X4242237431326", "Suraj Sharma"), new Date());
+			trans3.changeProductQuantity(prod2, 1);
+			trans3.changeProductQuantity(prod3, 1);
+			trans3.changeProductQuantity(prod22, 1);
+			service.saveRecord(trans3);
+			
+			
+			Transaction trans4 = new Transaction(5, new Member("X4242237431326", "Suraj Sharma"), new Date());
+			trans4.changeProductQuantity(prod, 1);
+			trans4.changeProductQuantity(prod1, 1);
+			trans4.changeProductQuantity(prod12, 1);
+			trans4.changeProductQuantity(prod22, 1);
+			service.saveRecord(trans4);
+			
+			
 		} catch (Exception e) {
-			Logger.getLog().log("initProduct:" +e.getMessage());
+			Logger.getLog().log("initProductAndTransaction:" +e.getMessage());
 		}
 		
 	}
-	
-	
+		
 	private void initDiscount()
 	{
 		
@@ -248,23 +300,23 @@ public class InitApplicationRepository
 			
 			Member member10 = new Member("A0006524R", "A0006524R", -1);
 			service.saveRecord(member10);
-			 
+		} catch (Exception e) {
+			Logger.getLog().log("initMember:" +e.getMessage());
 		}
-		catch(Exception e)
-		{
-			Logger.getLog().log("initDiscount:" +e.getMessage());
-		}
+	
 	}
+	 
 	
 	private void initRepository()
 	{		
 		
 		try {
 			 InitStoreKeeper();
-			 InitCategoryAndVendor();
-			 initProduct();
+			 InitCategoryAndVendor();			
 			 initDiscount();
 			 initMember();
+			 initProductAndTransaction();
+			 
 			
 		} catch (Exception e) {
 			Logger.getLog().log("initRepository:" +e.getMessage());

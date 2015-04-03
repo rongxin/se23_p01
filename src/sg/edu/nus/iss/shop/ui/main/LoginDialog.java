@@ -1,10 +1,13 @@
 package sg.edu.nus.iss.shop.ui.main;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GraphicsConfiguration;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Rectangle;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -118,6 +121,19 @@ public class LoginDialog extends OkCancelDialog {
 		shopApplication.getMainWindow().getMainPanel().getShopKeeperInfoLabel()
 				.setText("Hello " + loggedInUser.getName());
 		return true;
+	}
+	
+	@Override
+	public void pack() {
+		// TODO Auto-generated method stub
+		super.pack();
+		
+		GraphicsConfiguration gc = this.getGraphicsConfiguration();
+		Rectangle bounds = gc.getBounds();
+		Dimension size = this.getPreferredSize();
+		this.setLocation((int) ((bounds.width / 2) - (size.getWidth() / 2)),
+		                  (int) ((bounds.height / 2) - (size.getHeight() / 2))); 
+		this.setLocationRelativeTo(null);
 	}
 
 }

@@ -82,10 +82,12 @@ public class GenerateProductOrderDialog extends OkCancelDialog {
 		gc.fill = GridBagConstraints.NONE;
 		List<String> vendorNames = new ArrayList<String>();
 		Category category = product.getCategory();
-		List<Vendor> vendorList = category.getVendorList();
-		if (category != null && vendorList != null) {
-			for (Vendor vendor : vendorList) {
-				vendorNames.add(vendor.getName());
+		if (category != null) {
+			List<Vendor> vendorList = category.getVendorList();
+			if (category != null && vendorList != null) {
+				for (Vendor vendor : vendorList) {
+					vendorNames.add(vendor.getName());
+				}
 			}
 		}
 		vendorCombo = new JComboBox<>(vendorNames.toArray(new String[vendorNames.size()]));
@@ -122,8 +124,13 @@ public class GenerateProductOrderDialog extends OkCancelDialog {
 			MessageHelper.showErrorMessage("Please input valid quantity.");
 			return false;
 		}
-
 		Integer orderQuantity = Integer.valueOf(orderQuantityValueField.getText().trim());
+
+		if (orderQuantity == 0) {
+			MessageHelper.showErrorMessage("Order quantity should be greater that 0.");
+			return false;
+		}
+
 		OrderProductWindow window = new OrderProductWindow(product, vendor, orderQuantity);
 		window.pack();
 		window.setLocationByPlatform(true);

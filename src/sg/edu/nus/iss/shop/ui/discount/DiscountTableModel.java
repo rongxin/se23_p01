@@ -13,8 +13,8 @@ import sg.edu.nus.iss.shop.model.domain.Discount;
 
 public class DiscountTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
-	private String[] columnNames = { "Discount Code", "Description", "Discount Percentage", "Start Date", "Period",
-			"Applicable to Member", "Edit" };
+	private String[] columnNames = { "Discount Code", "Description", "Percentage", "Start Date", "Period",
+			"Applicable", "Edit" };
 
 	private List<Object[]> tableData = new ArrayList<>();
 

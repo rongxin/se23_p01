@@ -7,6 +7,11 @@ import javax.swing.table.AbstractTableModel;
 
 import sg.edu.nus.iss.shop.model.domain.Member;
 
+/**
+ *
+ * @author Xia Rongxin
+ *
+ */
 public class MemberTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 	private String[] columnNames = { "Member ID", "Member Name", "Loyalty Points" };

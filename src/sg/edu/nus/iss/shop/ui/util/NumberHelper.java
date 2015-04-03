@@ -29,6 +29,24 @@ public class NumberHelper {
 		return true;
 	}
 
+	public static boolean isValidPositiveLong(String strInput) {
+		if (strInput == null || strInput.trim().equals("")) {
+			return false;
+		}
+		Long d = null;
+		try {
+			d = Long.parseLong(strInput);
+		} catch (NumberFormatException nfe) {
+			return false;
+		}
+
+		if (d < 0) {
+			return false;
+		}
+
+		return true;
+	}
+
 	/**
 	 * check if the input string is a valid positive double value
 	 *

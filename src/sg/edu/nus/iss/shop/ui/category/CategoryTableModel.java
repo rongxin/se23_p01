@@ -13,7 +13,7 @@ import sg.edu.nus.iss.shop.model.domain.Category;
  */
 public class CategoryTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
-	private String[] columnNames = { "Category Code", "Category Name", "Action" };
+	private String[] columnNames = { "Category Code", "Category Name", "Vendor" };
 
 	private List<Object[]> tableData = new ArrayList<>();
 

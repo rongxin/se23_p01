@@ -1,5 +1,7 @@
 package sg.edu.nus.iss.shop.controller;
 
+import java.util.Random;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -8,7 +10,6 @@ import junit.framework.TestCase;
 import org.junit.Before;
 
 import sg.edu.nus.iss.shop.controller.DiscountManager;
-import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.Discount;
 
 public class DiscountManagerTest extends TestCase {
@@ -114,19 +115,18 @@ public class DiscountManagerTest extends TestCase {
 	
 	@Test
 	public void testAddDiscount(){
-		String discountCode = "CHRISTMAS_DAY";
+		String discountCode = "CHRISTMAS_DAY" + new Random().nextInt();
 		String description = "Christmas Day";
-		int discountPercentage = 5;
+		int discountPercentage = new Random().nextInt(20);
 		String startDate = "2015-05-01";
-		String discountInDays = "30";
-		String applicableToMember = "A";
+		String discountInDays = "" + new Random().nextInt(365);
+		String applicableToMember = "M";
 		
 		try {
 			DiscountManager.getDiscountManager().addDiscount(discountCode, description, discountPercentage, startDate, discountInDays, applicableToMember);
-//			assertEquals(description,DiscountManager.getDiscountManager().getDiscountByCode(discountCode).getDescription());
+			assertEquals(description,DiscountManager.getDiscountManager().getDiscountByCode(discountCode).getDescription());
 		} catch (Exception e) {
 			Assert.fail("Exception occured when adding new discount." + e.toString());
 		}
-		
 	}
 }
