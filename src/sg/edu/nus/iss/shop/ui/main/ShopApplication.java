@@ -52,9 +52,10 @@ public class ShopApplication {
 	public ShopApplication() {
 		loginDialog = new LoginDialog(this);
 		loginDialog.pack();
-		loginDialog.setLocationByPlatform(true);
+		loginDialog.setLocationByPlatform(false);		
 		loginDialog.setVisible(true);
-
+		  
+		
 		initManagers();
 	}
 
