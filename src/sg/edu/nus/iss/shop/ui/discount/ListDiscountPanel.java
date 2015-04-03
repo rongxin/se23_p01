@@ -1,6 +1,8 @@
 package sg.edu.nus.iss.shop.ui.discount;
 
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -57,7 +59,22 @@ public class ListDiscountPanel extends JPanel {
 
 		JScrollPane scrollPane = new JScrollPane(table);
 		scrollPane.setPreferredSize(new Dimension(720, 450));
-		this.add(scrollPane);
+		
+		GridBagLayout gbl_p = new GridBagLayout();
+		gbl_p.columnWidths = new int[] { 800, 0 };
+		gbl_p.rowHeights = new int[] { 450, 0 };
+		gbl_p.columnWeights = new double[] { 0.5, Double.MIN_VALUE };
+		gbl_p.rowWeights = new double[] { 0.5, Double.MIN_VALUE };
+		this.setLayout(gbl_p);
+		
+		GridBagConstraints gbc_p = new GridBagConstraints();
+		gbc_p.fill = GridBagConstraints.BOTH;
+		gbc_p.anchor = GridBagConstraints.NORTHWEST;
+		gbc_p.gridx = 0;
+		gbc_p.gridy = 0;
+
+		this.add(scrollPane, gbc_p);
+		//this.add(scrollPane);
 	}
 
 	public DiscountTableModel getTableModel() {

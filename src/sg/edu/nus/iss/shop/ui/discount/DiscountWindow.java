@@ -1,6 +1,8 @@
 package sg.edu.nus.iss.shop.ui.discount;
 
 import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -25,7 +27,7 @@ public class DiscountWindow extends JFrame {
 		this.shopApplication = shopApplication;
 		setLayout(new BorderLayout());
 		this.add("North", createTitlePanel());
-		this.add("South", createMainPanel());
+		this.add("Center", createMainPanel());
 	}
 
 	private JPanel createMainPanel() {
@@ -33,8 +35,22 @@ public class DiscountWindow extends JFrame {
 		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("  Discounts  "),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
+		GridBagLayout gbl_p = new GridBagLayout();
+		gbl_p.columnWidths = new int[] { 130, 0 };
+		gbl_p.rowHeights = new int[] { 121, 0 };
+		gbl_p.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
+		gbl_p.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
+		p.setLayout(gbl_p);
+		
+		GridBagConstraints gbc_lp = new GridBagConstraints();
+		gbc_lp.fill = GridBagConstraints.BOTH;
+		gbc_lp.anchor = GridBagConstraints.NORTHWEST;
+		gbc_lp.gridx = 0;
+		gbc_lp.gridy = 0;
+		
 		listPanel = new ListDiscountPanel(shopApplication);
-		p.add("Center", listPanel);
+		//p.add("Center", listPanel);
+		p.add(listPanel,gbc_lp);
 		return p;
 	}
 
