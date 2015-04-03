@@ -9,6 +9,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -17,12 +18,14 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
+import sg.edu.nus.iss.shop.model.domain.Discount;
 import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.ui.OkCancelDialog;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 import sg.edu.nus.iss.shop.ui.util.LayoutHelper;
 import sg.edu.nus.iss.shop.ui.util.MessageHelper;
 import sg.edu.nus.iss.shop.ui.util.NumberHelper;
+import sg.edu.nus.iss.shop.ui.util.PriceHelper;
 import sg.edu.nus.iss.shop.ui.util.TextFieldLimit;
 
 public class EditPurchaseItemDialog extends OkCancelDialog {
@@ -90,10 +93,10 @@ public class EditPurchaseItemDialog extends OkCancelDialog {
 		gc = LayoutHelper.createCellConstraint(1, 1);
 		gc.anchor = GridBagConstraints.LAST_LINE_START;
 		gc.fill = GridBagConstraints.NONE;
-		quantityField = new JTextField(5);
-		quantityField.setDocument(new TextFieldLimit(5));
+		quantityField = new JTextField(4);
+		quantityField.setDocument(new TextFieldLimit(4));
 
-		Integer currentQty = itemModel.getItems().get(product.getProductId());
+		Integer currentQty = itemModel.getItems().get(product);
 		quantityField.setText("" + currentQty);
 		quantityField.setToolTipText("Please input quantity.");
 		p.add(quantityField, gc);
@@ -119,17 +122,37 @@ public class EditPurchaseItemDialog extends OkCancelDialog {
 			return false;
 		}
 
-		// Integer discountPercentageValue = new Integer(discountPercentage);
-		//
-		// Discount editedDiscount =
-		// shopApplication.editDiscount(discount.getDiscountCode(),
-		// discountPercentageValue);
-		// if (editedDiscount != null) {
-		// // listPanel.getTableModel().updateEditedData(editedDiscount);
-		// return true;
-		// }
+		Integer qty = new Integer(quantityValue);
 
-		return false;
+		itemModel.editItem(product, qty);
+
+		updatePurchaseInfo();
+
+		return true;
+	}
+
+	private void updatePurchaseInfo() {
+		List<Product> productsInCart = checkoutWindow.getProducts();
+		productsInCart.clear();
+		for (Product product : itemModel.getItems().keySet()) {
+			for (int i = 0; i < itemModel.getItems().get(product); i++) {
+				productsInCart.add(product);
+			}
+		}
+		checkoutWindow.setProducts(productsInCart);
+
+		Double totalPrice = PriceHelper.getTotalPrice(productsInCart);
+
+		Discount discount = checkoutWindow.getCustomer().getMaxDiscount();
+		Double discountPrice = new Double(0);
+		if (discount != null) {
+			checkoutWindow.setDiscount(discount.getDiscountPercentage());
+			double discountPercentage = discount.getDiscountPercentage() / 100.00;
+			discountPrice = totalPrice * discountPercentage;
+		}
+
+		Double totalAmountAfterDiscount = totalPrice - discountPrice;
+		checkoutWindow.updatePurchaseInfo(totalPrice, discountPrice, totalAmountAfterDiscount);
 	}
 
 

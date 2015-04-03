@@ -134,6 +134,8 @@ public class CheckoutWindow extends JFrame {
 		// enable the payment button if more than one items
 		if (products.size() > 0) {
 			actionButtonsPanel.getProceedPaymentButton().setEnabled(true);
+		} else {
+			actionButtonsPanel.getProceedPaymentButton().setEnabled(false);
 		}
 
 	}
@@ -275,6 +277,10 @@ public class CheckoutWindow extends JFrame {
 
 	public void setTotalAmountAfterDiscount(Double totalAmountAfterDiscount) {
 		this.totalAmountAfterDiscount = totalAmountAfterDiscount;
+	}
+
+	public void setProducts(List<Product> products) {
+		this.products = products;
 	}
 
 }

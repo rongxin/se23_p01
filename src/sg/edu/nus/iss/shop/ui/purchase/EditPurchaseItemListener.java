@@ -6,6 +6,11 @@ import java.awt.event.ActionListener;
 import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 
+/**
+ *
+ * @author Xia Rongxin
+ *
+ */
 public class EditPurchaseItemListener implements ActionListener {
 	private EditPurchaseItemDialog editDialog;
 	private ShopApplication shopApplication;

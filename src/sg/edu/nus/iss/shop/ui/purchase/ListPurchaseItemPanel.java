@@ -10,6 +10,11 @@ import javax.swing.JTable;
 import sg.edu.nus.iss.shop.ui.JTableButtonMouseListener;
 import sg.edu.nus.iss.shop.ui.JTableButtonRenderer;
 
+/**
+ *
+ * @author Xia Rongxin
+ *
+ */
 public class ListPurchaseItemPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JTable table;
