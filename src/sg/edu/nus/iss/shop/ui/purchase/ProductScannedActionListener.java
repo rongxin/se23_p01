@@ -4,10 +4,12 @@ import java.awt.event.ActionEvent;
 import java.util.List;
 
 import javax.swing.AbstractAction;
+import javax.swing.JButton;
 
 import sg.edu.nus.iss.shop.model.domain.Discount;
 import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.ui.main.ShopApplication;
+import sg.edu.nus.iss.shop.ui.util.IconHelper;
 import sg.edu.nus.iss.shop.ui.util.MessageHelper;
 import sg.edu.nus.iss.shop.ui.util.PriceHelper;
 
@@ -37,7 +39,9 @@ public class ProductScannedActionListener extends AbstractAction {
 					+ barcodeNumber);
 		} else {
 			ItemTableModel model = (ItemTableModel) checkoutWindow.getListPurchaseItemPanel().getTable().getModel();
-			model.addItem(product);
+			JButton editButton = new JButton(IconHelper.createImageIcon("edit.png"));
+			editButton.addActionListener(new EditPurchaseItemListener(shopApplication, checkoutWindow, product));
+			model.addItem(product, editButton);
 
 			List<Product> productsInCart = checkoutWindow.getProducts();
 			productsInCart.add(product);

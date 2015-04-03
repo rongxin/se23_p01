@@ -5,13 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.JButton;
 import javax.swing.table.AbstractTableModel;
 
 import sg.edu.nus.iss.shop.model.domain.Product;
 
 public class ItemTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
-	private String[] columnNames = { "Product ID", "Product Name", "Price", "Quantity", "SubTotal" };
+	private String[] columnNames = { "Product ID", "Product Name", "Price", "Qty", "SubTotal", "Edit" };
 
 
 	private List<Object[]> tableData = new ArrayList<>();
@@ -23,12 +24,12 @@ public class ItemTableModel extends AbstractTableModel {
 	 *
 	 * @param item
 	 */
-	public void addItem(Product item) {
+	public void addItem(Product item, JButton editButton) {
 		if (items.get(item.getProductId()) == null) {
 			items.put(item.getProductId(), 1);
 			Integer itemCount = items.get(item.getProductId());
 			Object[] rowData = new Object[] { item.getProductId(), item.getName(), item.getPrice(), itemCount,
-					item.getPrice() * itemCount };
+					item.getPrice() * itemCount, editButton };
 			tableData.add(rowData);
 		} else {
 			Integer itemQty = items.get(item.getProductId());

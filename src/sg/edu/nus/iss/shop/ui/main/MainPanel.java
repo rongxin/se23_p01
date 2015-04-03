@@ -76,6 +76,7 @@ public class MainPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				checkoutWindow = new CheckoutWindow(shopApplication);
 				initializeWindow(checkoutWindow);
+				checkoutWindow.setSize(850, 600);
 			}
 		});
 		JPanel checkoutPanel = new JPanel();
