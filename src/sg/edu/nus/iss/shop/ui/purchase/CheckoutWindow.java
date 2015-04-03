@@ -17,6 +17,11 @@ import sg.edu.nus.iss.shop.ui.main.ShopApplication;
 import sg.edu.nus.iss.shop.ui.util.IconHelper;
 import sg.edu.nus.iss.shop.ui.util.PriceHelper;
 
+/**
+ *
+ * @author Xia Rongxin
+ *
+ */
 public class CheckoutWindow extends JFrame {
 
 	private static final String CARD_MEMBER = "memberCard";
@@ -85,6 +90,7 @@ public class CheckoutWindow extends JFrame {
 
 		actionButtonsPanel = new ActionButtonsPanel(shopApplication, this);
 		p.add(actionButtonsPanel);
+
 		return p;
 	}
 
@@ -106,6 +112,8 @@ public class CheckoutWindow extends JFrame {
 		purchaseSummaryPanel = new PurchaseSummaryPanel(this, shopApplication);
 
 		getPurchaseCardPanel().add(purchaseSummaryPanel, CARD_SUMMARY);
+		purchaseCardPanel.setSize(800, 550);
+
 		return getPurchaseCardPanel();
 	}
 
@@ -126,6 +134,8 @@ public class CheckoutWindow extends JFrame {
 		// enable the payment button if more than one items
 		if (products.size() > 0) {
 			actionButtonsPanel.getProceedPaymentButton().setEnabled(true);
+		} else {
+			actionButtonsPanel.getProceedPaymentButton().setEnabled(false);
 		}
 
 	}
@@ -267,6 +277,10 @@ public class CheckoutWindow extends JFrame {
 
 	public void setTotalAmountAfterDiscount(Double totalAmountAfterDiscount) {
 		this.totalAmountAfterDiscount = totalAmountAfterDiscount;
+	}
+
+	public void setProducts(List<Product> products) {
+		this.products = products;
 	}
 
 }

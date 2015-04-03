@@ -4,6 +4,7 @@ package sg.edu.nus.iss.shop.ui.discount;
  * @author Xia Rongxin
  */
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -35,11 +36,12 @@ public class EditDiscountDialog extends OkCancelDialog {
 	private ListDiscountPanel listPanel;
 
 	public EditDiscountDialog(ShopApplication shopApplication, ListDiscountPanel listPanel, Discount discount) {
-		super(shopApplication.getMainWindow().getMainPanel().getCategoryWindow(), "Edit  Discount");
+		super(shopApplication.getMainWindow().getMainPanel().getDiscountWindow(), "Edit  Discount");
 		this.shopApplication = shopApplication;
 		this.listPanel = listPanel;
 		this.discount = discount;
 		setFormPanel(createNewFormPanel());
+		setPreferredSize(new Dimension(350, 200));
 	}
 
 	@Override
@@ -62,7 +64,7 @@ public class EditDiscountDialog extends OkCancelDialog {
 	private JPanel createInputFormPanel() {
 		JPanel p = new JPanel();
 		p.setLayout(new GridBagLayout());
-		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(" Add Discount "),
+		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(" Edit Discount "),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		GridBagConstraints gc = new GridBagConstraints();
 

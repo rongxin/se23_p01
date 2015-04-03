@@ -50,7 +50,7 @@ public class AddDiscountDialog extends OkCancelDialog {
 	public AddDiscountDialog(ShopApplication shopApplication,
 			ListDiscountPanel listPanel) {
 		super(shopApplication.getMainWindow().getMainPanel()
-				.getCategoryWindow(), "Add Discount");
+.getDiscountWindow(), "Add Discount");
 		this.shopApplication = shopApplication;
 		this.listPanel = listPanel;
 	}
