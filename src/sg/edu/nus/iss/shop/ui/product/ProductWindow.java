@@ -15,11 +15,6 @@ import sg.edu.nus.iss.shop.ui.util.IconHelper;
 
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
-import java.awt.FlowLayout;
-
-import net.miginfocom.swing.MigLayout;
-import javax.swing.border.LineBorder;
-import java.awt.Color;
 
 public class ProductWindow extends JFrame {
 	private static final long serialVersionUID = 1L;

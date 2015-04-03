@@ -7,7 +7,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.ScrollPaneLayout;
 
 import sg.edu.nus.iss.shop.model.domain.Product;
 import sg.edu.nus.iss.shop.ui.JTableButtonMouseListener;
@@ -17,21 +16,9 @@ import sg.edu.nus.iss.shop.ui.util.IconHelper;
 
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
-import java.awt.FlowLayout;
-import java.awt.LayoutManager;
-
-import javax.swing.BoxLayout;
-
-import net.miginfocom.layout.Grid;
-
-import java.awt.BorderLayout;
-
 import javax.swing.border.LineBorder;
 
-import java.awt.Color;
-import java.awt.GridLayout;
-
-import javax.swing.border.MatteBorder;
+import java.awt.Color; 
 
 public class ListProductPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
