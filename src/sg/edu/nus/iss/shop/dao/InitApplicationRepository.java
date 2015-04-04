@@ -1,14 +1,11 @@
 package sg.edu.nus.iss.shop.dao;
 
 
-import static org.junit.Assert.assertTrue;
-
 import java.io.IOException;
 import java.util.Date;
 
 import sg.edu.nus.iss.shop.dao.exception.InvalidDataFormat;
 import sg.edu.nus.iss.shop.dao.exception.InvalidDomainObject;
-import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.Category;
 import sg.edu.nus.iss.shop.model.domain.Discount;
 import sg.edu.nus.iss.shop.model.domain.FirstPurchaseDiscount;
