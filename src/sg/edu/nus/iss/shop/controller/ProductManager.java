@@ -3,7 +3,6 @@
  */
 package sg.edu.nus.iss.shop.controller;
 
-import java.text.DecimalFormat;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -27,7 +26,6 @@ public class ProductManager {
 	private static final String INVALID_ORDER_THRESHOLD_ERROR_MESSAGE = "Invalid Order Threshold";
 	private static final String DUPLICATE_BARCODE_ERROR_MESSAGE = "Duplicated Barcode Number";
 	private ILogger log = Logger.getLog();
-	private DecimalFormat twoDForm = new DecimalFormat("#.##");
 	
 	private ProductManager() {
 
@@ -116,7 +114,7 @@ public class ProductManager {
 				}
 			}
 			newProduct = new Product(category.getCode()+"/"+(maxId+1),name,description,
-					availableQuantity,Double.valueOf(twoDForm.format(price)),barcodeNumber,orderThreshold,orderQuantity);
+					availableQuantity,(((int)(price*100)) / 100.0),barcodeNumber,orderThreshold,orderQuantity);
 		}
 		
 		//Save Product

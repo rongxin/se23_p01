@@ -1,14 +1,11 @@
 package sg.edu.nus.iss.shop.dao;
 
 
-import static org.junit.Assert.assertTrue;
-
 import java.io.IOException;
 import java.util.Date;
 
 import sg.edu.nus.iss.shop.dao.exception.InvalidDataFormat;
 import sg.edu.nus.iss.shop.dao.exception.InvalidDomainObject;
-import sg.edu.nus.iss.shop.exception.ApplicationGUIException;
 import sg.edu.nus.iss.shop.model.domain.Category;
 import sg.edu.nus.iss.shop.model.domain.Discount;
 import sg.edu.nus.iss.shop.model.domain.FirstPurchaseDiscount;
@@ -152,29 +149,29 @@ public class InitApplicationRepository
 			Product prod = new Product("CLO/1", "Centenary Jumper",
 					"A releally nice momento", 315, 21.45, "1234", 10, 100);
 			
-			Product prod02 = new Product("CLO/2", "Centenary Jumper2",
-					"A releally nice momento", 315, 21.45, "12342", 10, 100);
+			Product prod02 = new Product("CLO/2", "Men Cotton Knit Polo Tee",
+					"Comfy men cotton knit button front with NUS logo embroidered", 500, 17.91, "857473648", 50, 200);
 			
 			Product prod1 = new Product("MUG/1", "Centenary Mug",
 					"A releally nice mug this time", 525, 10.25, "9876", 25,
 					150);
 			
-			Product prod12 = new Product("MUG/2", "Centenary Mug2",
-					"A releally nice mug this time", 525, 10.25, "98762", 25,
-					150);
+			Product prod12 = new Product("MUG/2", "Fine Bone Straight Mug With Lion Print (16oz)",
+					"Start your day with this bone straight with lion print mug", 200, 17.01, "759384669", 25,
+					50);
 			
 			Product prod2 = new Product("STA/1", "NUS Pen",
-					"A releally cute blue pen", 768, 5.75, "123456789", 50, 250);
+					"A releally cute blue pen", 768, 5.75, "123459876", 50, 250);
 						
 			
-			Product prod22 = new Product("STA/2", "NUS Pen2",
-					"A releally cute blue pen", 768, 5.75, "1234567892", 50, 250);
+			Product prod22 = new Product("STA/3", "A4 Port Folio with 20 pockets",
+					"This A4 portfolio comes with 20 pockets - ideal to hold your interesting and inspiring design work", 1000, 9.90, "38647465001", 100, 500);
 			
-			Product prod3 = new Product("STA/2", "NUS Notepad",
-					"Great notepad for those", 315, 21.45, "12345", 10, 100);
+			Product prod3 = new Product("STA/4", "Laser Pointer",
+					"Pen size - Comes with an elegant clear casing for safe-keeping", 100, 13.90, "26985746002", 20, 100);
 			
 			Product prod32 = new Product("STA/2", "NUS Notepad2",
-					"Great notepad for those", 315, 21.45, "123452", 10, 100);
+					"Great notepad for those lectures", 1000, 3.15, "6789", 25, 75);
 			
 			if(service.retrieveObject(Product.class, prod.getName()) == null)
 			{
@@ -255,7 +252,7 @@ public class InitApplicationRepository
 	 
 
 		Discount disc2 = new PublicDiscount("CENTENARY",
-				"Centenary Celebration in 2015", 0, "2015-01-01", "365");
+				"Centenary Celebration in 2015", 15, "2015-01-01", "365");
 		service.saveRecord(disc2);
 		} catch (Exception e) {
 			Logger.getLog().log("initDiscount:" +e.getMessage());
@@ -271,7 +268,7 @@ public class InitApplicationRepository
 			Member member = new Member("F42563743156", "Yan Martel", 150);
 			service.saveRecord(member);			 
 
-			Member member1 = new Member("X4242237431326", "Suraj Sharma");
+			Member member1 = new Member("X4242237431326", "Suraj Sharma", 250);
 			service.saveRecord(member1);			 
 
 			Member member2 = new Member("R424232231326", "Ang Lee", -1);
