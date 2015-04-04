@@ -80,15 +80,13 @@ public class LoginDialog extends OkCancelDialog {
 		gc.anchor = GridBagConstraints.LAST_LINE_START;
 
 		userNameField = new JTextField(15);
-		// TODO remove later
 		userNameField.setText("Stacy");
 		userNameField.setToolTipText("Please input your username.");
 		p.add(userNameField, gc);
 
 		gc = LayoutHelper.createCellConstraint(1, 1);
 		passwordField = new JPasswordField(15);
-		// TODO remove later
-		passwordField.setText("Stacy");
+		passwordField.setText("");
 		passwordField.setToolTipText("Please input name for the category");
 		p.add(passwordField, gc);
 
@@ -119,21 +117,21 @@ public class LoginDialog extends OkCancelDialog {
 
 		shopApplication.setLoggedInUser(loggedInUser);
 		shopApplication.getMainWindow().getMainPanel().getShopKeeperInfoLabel()
-				.setText("Hello " + loggedInUser.getName());
+		.setText("Hello " + loggedInUser.getName());
 		return true;
 	}
-	
+
 	@Override
 	public void pack() {
 		// TODO Auto-generated method stub
 		super.pack();
-		
-		GraphicsConfiguration gc = this.getGraphicsConfiguration();
+
+		GraphicsConfiguration gc = getGraphicsConfiguration();
 		Rectangle bounds = gc.getBounds();
-		Dimension size = this.getPreferredSize();
+		Dimension size = getPreferredSize();
 		this.setLocation((int) ((bounds.width / 2) - (size.getWidth() / 2)),
-		                  (int) ((bounds.height / 2) - (size.getHeight() / 2))); 
-		this.setLocationRelativeTo(null);
+				(int) ((bounds.height / 2) - (size.getHeight() / 2)));
+		setLocationRelativeTo(null);
 	}
 
 }
